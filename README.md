@@ -1,16 +1,10 @@
 # shop/web.shop.leela.game
 
-
-
 ## Getting Started
 
 Download links:
-
 SSH clone URL: ssh://git@git.jetbrains.space/leela/shop/web.shop.leela.game.git
-
 HTTPS clone URL: https://git.jetbrains.space/leela/shop/web.shop.leela.game.git
-
-
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
