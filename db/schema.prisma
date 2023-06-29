@@ -10,19 +10,39 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator zod {
+  provider              = "zod-prisma"
+  output                = "./zod"
+  relationModel         = true
+  modelCase             = "PascalCase"
+  modelSuffix           = "Model"
+  useDecimalJs          = true
+  prismaJsonNullability = true
+}
+
 // --------------------------------------
 
 model User {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  name           String?
-  email          String   @unique
-  hashedPassword String?
-  role           String   @default("USER")
-
-  tokens   Token[]
-  sessions Session[]
+  id                Int               @id @default(autoincrement())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  username          String            @unique
+  email             String            @unique
+  emailConfirmed    Boolean           @default(false)
+  countryIsoCode    String            @default("ru")
+  phone             String?
+  firstName         String?
+  lastName          String?
+  hashedPassword    String?
+  role              UserRoleEnum      @default(USER)
+  timezone          String            @default("Etc/Greenwich")
+  locale            String            @default("en")
+  avatarUrl         String            @default("")
+  status            UserStatusEnum    @default(PENDING)
+  tokens            Token[]
+  sessions          Session[]
+  buyingInCountries CountryFilterEnum @default(NONE)
+  currency          CurrencyEnum      @default(EUR)
 }
 
 model Session {
@@ -35,26 +55,8 @@ model Session {
   antiCSRFToken      String?
   publicData         String?
   privateData        String?
-
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?
-}
-
-model Token {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  hashedToken String
-  type        String
-  // See note below about TokenType enum
-  // type        TokenType
-  expiresAt   DateTime
-  sentTo      String
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
-
-  @@unique([hashedToken, type])
+  user               User?     @relation(fields: [userId], references: [id])
+  userId             Int?
 }
 
 // NOTE: It's highly recommended to use an enum for the token type
@@ -63,3 +65,48 @@ model Token {
 // enum TokenType {
 //   RESET_PASSWORD
 // }
+
+enum UserRoleEnum {
+  ADMIN
+  MODERATOR
+  USER
+}
+
+enum UserStatusEnum {
+  PENDING
+  ACTIVE
+  BLOCKED
+}
+
+enum CountryFilterEnum {
+  NONE
+  RUSSIA
+  WORLD_EXPECT_RUSSIA
+  WORLD
+}
+
+enum CurrencyEnum {
+  RUB
+  USD
+  EUR
+}
+
+model Token {
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  hashedToken String
+  type        TokenTypeEnum
+  expiresAt   DateTime
+  sentTo      String
+  user        User          @relation(fields: [userId], references: [id])
+  userId      Int
+
+  @@unique([hashedToken, type])
+}
+
+enum TokenTypeEnum {
+  RESET_PASSWORD
+  CONFIRM_EMAIL
+  CONFIRM_EMAIL_LEELA_CERT
+}
