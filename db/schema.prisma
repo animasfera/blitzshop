@@ -44,6 +44,7 @@ model User {
   buyingInCountries CountryFilterEnum @default(NONE)
   currency          CurrencyEnum      @default(EUR)
   cardTokens        CardToken[]       @relation(name: "AllCardTokens")
+  Notification      Notification[]
 }
 
 model Session {
@@ -127,4 +128,27 @@ model CardToken {
   cardCountryIsoCode     String   @default("ru")
   owner                  User     @relation(name: "AllCardTokens", fields: [ownerId], references: [id])
   ownerId                Int
+}
+
+model Notification {
+  id        Int                  @id @default(autoincrement())
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+  viewed    Boolean              @default(false)
+  closable  Boolean              @default(true)
+  title     String?
+  message   String
+  isHtml    Boolean              @default(false)
+  jsonData  Json?
+  type      NotificationTypeEnum @default(INFO)
+  res       String?
+  user      User                 @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+enum NotificationTypeEnum {
+  INFO
+  ERROR
+  SUCCESS
+  WARNING
 }
