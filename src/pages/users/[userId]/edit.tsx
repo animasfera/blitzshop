@@ -43,7 +43,7 @@ export const EditUser = () => {
               try {
                 const updated = await updateUserMutation({
                   id: user.id,
-                  ...values,
+                  // ...values,
                 })
                 await setQueryData(updated)
                 await router.push(Routes.ShowUserPage({ userId: updated.id }))

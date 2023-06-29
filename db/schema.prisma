@@ -43,6 +43,7 @@ model User {
   sessions          Session[]
   buyingInCountries CountryFilterEnum @default(NONE)
   currency          CurrencyEnum      @default(EUR)
+  cardTokens        CardToken[]       @relation(name: "AllCardTokens")
 }
 
 model Session {
@@ -109,4 +110,21 @@ enum TokenTypeEnum {
   RESET_PASSWORD
   CONFIRM_EMAIL
   CONFIRM_EMAIL_LEELA_CERT
+}
+
+model CardToken {
+  id                     Int      @id @default(autoincrement())
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  valid                  Boolean  @default(true)
+  deleted                Boolean  @default(false)
+  invalidReason          String?
+  token                  String   @unique
+  cardLastFour           String
+  cardType               String
+  cardExpDate            String
+  feeCardTransactionCoef Float    @default(0)
+  cardCountryIsoCode     String   @default("ru")
+  owner                  User     @relation(name: "AllCardTokens", fields: [ownerId], references: [id])
+  ownerId                Int
 }

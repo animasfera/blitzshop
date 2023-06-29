@@ -1,6 +1,13 @@
 import * as z from "zod"
 import { UserRoleEnum, UserStatusEnum, CountryFilterEnum, CurrencyEnum } from "@prisma/client"
-import { CompleteToken, RelatedTokenModel, CompleteSession, RelatedSessionModel } from "./index"
+import {
+  CompleteToken,
+  RelatedTokenModel,
+  CompleteSession,
+  RelatedSessionModel,
+  CompleteCardToken,
+  RelatedCardTokenModel,
+} from "./index"
 
 export const UserModel = z.object({
   id: z.number().int(),
@@ -26,6 +33,7 @@ export const UserModel = z.object({
 export interface CompleteUser extends z.infer<typeof UserModel> {
   tokens: CompleteToken[]
   sessions: CompleteSession[]
+  cardTokens: CompleteCardToken[]
 }
 
 /**
@@ -37,5 +45,6 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
   UserModel.extend({
     tokens: RelatedTokenModel.array(),
     sessions: RelatedSessionModel.array(),
+    cardTokens: RelatedCardTokenModel.array(),
   })
 )
