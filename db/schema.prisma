@@ -39,12 +39,13 @@ model User {
   locale            String            @default("en")
   avatarUrl         String            @default("")
   status            UserStatusEnum    @default(PENDING)
-  tokens            Token[]
-  sessions          Session[]
   buyingInCountries CountryFilterEnum @default(NONE)
   currency          CurrencyEnum      @default(EUR)
+  tokens            Token[]
+  sessions          Session[]
   cardTokens        CardToken[]       @relation(name: "AllCardTokens")
-  notification      Notification[]
+  notifications     Notification[]
+  reviews           Review[]          @relation(name: "ReviewsSent")
 }
 
 model Session {
@@ -151,4 +152,25 @@ enum NotificationTypeEnum {
   ERROR
   SUCCESS
   WARNING
+}
+
+enum ReviewStatusEnum {
+  PENDING
+  APPROVED
+  REJECTED
+  ARCHIVED
+}
+
+model Review {
+  id        Int              @id @default(autoincrement())
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  message   String
+  status    ReviewStatusEnum @default(PENDING)
+  reply     String?
+  rating    Float            @default(0)
+  sender    User             @relation(name: "ReviewsSent", fields: [senderId], references: [id])
+  senderId  Int
+
+  @@unique([senderId])
 }
