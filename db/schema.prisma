@@ -47,6 +47,7 @@ model User {
   notifications     Notification[]
   reviews           Review[]          @relation(name: "ReviewsSent")
   items             Item[]
+  carts             Cart[]
 }
 
 model Session {
@@ -186,6 +187,7 @@ model Price {
   amount    Int          @default(0)
   currency  CurrencyEnum @default(RUB)
   items     Item[]
+  carts     Cart[]
 }
 
 model Image {
@@ -241,6 +243,22 @@ model Item {
   coverImageId Int
   user         User?          @relation(fields: [userId], references: [id])
   userId       Int?
+  cart         Cart?          @relation(fields: [cartId], references: [id])
+  cartId       Int?
   images       ImageToItem[]
   reviews      Review[]
+}
+
+model Cart {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  numItems     Int      @default(0)
+  sessionId    String?
+  amount       Price    @relation(fields: [priceId], references: [id])
+  priceId      Int
+  items        Item[]
+  user         User?    @relation(fields: [userId], references: [id])
+  userId       Int?
+  mergedCartId Int?
 }
