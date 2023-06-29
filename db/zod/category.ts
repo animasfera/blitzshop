@@ -1,4 +1,5 @@
 import * as z from "zod"
+import { CompleteItem, RelatedItemModel } from "./index"
 
 export const CategoryModel = z.object({
   id: z.number().int(),
@@ -6,3 +7,18 @@ export const CategoryModel = z.object({
   description: z.string(),
   numItems: z.number().int(),
 })
+
+export interface CompleteCategory extends z.infer<typeof CategoryModel> {
+  items: CompleteItem[]
+}
+
+/**
+ * RelatedCategoryModel contains all relations on your model in addition to the scalars
+ *
+ * NOTE: Lazy required in case of potential circular dependencies within schema
+ */
+export const RelatedCategoryModel: z.ZodSchema<CompleteCategory> = z.lazy(() =>
+  CategoryModel.extend({
+    items: RelatedItemModel.array(),
+  })
+)

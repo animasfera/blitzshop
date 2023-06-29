@@ -46,6 +46,7 @@ model User {
   cardTokens        CardToken[]       @relation(name: "AllCardTokens")
   notifications     Notification[]
   reviews           Review[]          @relation(name: "ReviewsSent")
+  items             Item[]
 }
 
 model Session {
@@ -164,8 +165,10 @@ model Review {
   rating    Float            @default(0)
   sender    User             @relation(name: "ReviewsSent", fields: [senderId], references: [id])
   senderId  Int
+  item      Item             @relation(fields: [itemId], references: [id])
+  itemId    Int
 
-  @@unique([senderId])
+  @@unique([senderId, itemId])
 }
 
 model Category {
@@ -173,6 +176,7 @@ model Category {
   title       String
   description String @default("")
   numItems    Int    @default(0)
+  items       Item[]
 }
 
 model Price {
@@ -181,20 +185,62 @@ model Price {
   updatedAt DateTime     @updatedAt
   amount    Int          @default(0)
   currency  CurrencyEnum @default(RUB)
+  items     Item[]
 }
 
 model Image {
-  id          Int           @id @default(autoincrement())
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  title       String?
-  description String?
-  url         String
-  ImageToItem ImageToItem[]
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  title        String?
+  description  String?
+  url          String
+  imageToItems ImageToItem[]
 }
 
 model ImageToItem {
-  id      Int   @id @default(autoincrement())
-  image   Image @relation(fields: [imageId], references: [id])
-  imageId Int
+  id         Int    @id @default(autoincrement())
+  image      Image  @relation(fields: [imageId], references: [id])
+  imageId    Int
+  itemCovers Item[] @relation(name: "CoverImageToItem")
+  item       Item?  @relation(fields: [itemId], references: [id])
+  itemId     Int?
+}
+
+enum ItemStatusEnum {
+  DRAFT
+  SALE
+  BLOCKED
+  HIDDEN
+  OUT_OF_STOCK
+}
+
+enum AccessTypeEnum {
+  PUBLIC
+  LINK
+  PRIVATE
+}
+
+model Item {
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  title        String
+  description  String         @default("")
+  qty          Int            @default(0)
+  weight       Int            @default(0)
+  rating       Float          @default(0)
+  isFeatured   Boolean        @default(false)
+  status       ItemStatusEnum
+  access       AccessTypeEnum
+  category     Category?      @relation(fields: [categoryId], references: [id])
+  categoryId   Int?
+  amount       Price?         @relation(fields: [priceId], references: [id])
+  priceId      Int?
+  coverImage   ImageToItem    @relation(name: "CoverImageToItem", fields: [coverImageId], references: [id])
+  coverImageId Int
+  user         User?          @relation(fields: [userId], references: [id])
+  userId       Int?
+  images       ImageToItem[]
+  reviews      Review[]
 }

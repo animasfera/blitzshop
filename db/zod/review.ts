@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { ReviewStatusEnum } from "@prisma/client"
-import { CompleteUser, RelatedUserModel } from "./index"
+import { CompleteUser, RelatedUserModel, CompleteItem, RelatedItemModel } from "./index"
 
 export const ReviewModel = z.object({
   id: z.number().int(),
@@ -11,10 +11,12 @@ export const ReviewModel = z.object({
   reply: z.string().nullish(),
   rating: z.number(),
   senderId: z.number().int(),
+  itemId: z.number().int(),
 })
 
 export interface CompleteReview extends z.infer<typeof ReviewModel> {
   sender: CompleteUser
+  item: CompleteItem
 }
 
 /**
@@ -25,5 +27,6 @@ export interface CompleteReview extends z.infer<typeof ReviewModel> {
 export const RelatedReviewModel: z.ZodSchema<CompleteReview> = z.lazy(() =>
   ReviewModel.extend({
     sender: RelatedUserModel,
+    item: RelatedItemModel,
   })
 )

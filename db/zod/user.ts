@@ -11,6 +11,8 @@ import {
   RelatedNotificationModel,
   CompleteReview,
   RelatedReviewModel,
+  CompleteItem,
+  RelatedItemModel,
 } from "./index"
 
 export const UserModel = z.object({
@@ -40,6 +42,7 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
   cardTokens: CompleteCardToken[]
   notifications: CompleteNotification[]
   reviews: CompleteReview[]
+  items: CompleteItem[]
 }
 
 /**
@@ -54,5 +57,6 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
     cardTokens: RelatedCardTokenModel.array(),
     notifications: RelatedNotificationModel.array(),
     reviews: RelatedReviewModel.array(),
+    items: RelatedItemModel.array(),
   })
 )

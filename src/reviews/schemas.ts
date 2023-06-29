@@ -7,6 +7,7 @@ export const CreateReviewSchema = ReviewModel.pick({
   reply: true,
   rating: true,
   senderId: true,
+  itemId: true,
 })
 
 export const UpdateReviewSchema = z.object({
