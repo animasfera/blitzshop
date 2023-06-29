@@ -44,7 +44,7 @@ model User {
   buyingInCountries CountryFilterEnum @default(NONE)
   currency          CurrencyEnum      @default(EUR)
   cardTokens        CardToken[]       @relation(name: "AllCardTokens")
-  Notification      Notification[]
+  notification      Notification[]
 }
 
 model Session {

@@ -36,7 +36,7 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
   tokens: CompleteToken[]
   sessions: CompleteSession[]
   cardTokens: CompleteCardToken[]
-  Notification: CompleteNotification[]
+  notification: CompleteNotification[]
 }
 
 /**
@@ -49,6 +49,6 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
     tokens: RelatedTokenModel.array(),
     sessions: RelatedSessionModel.array(),
     cardTokens: RelatedCardTokenModel.array(),
-    Notification: RelatedNotificationModel.array(),
+    notification: RelatedNotificationModel.array(),
   })
 )
