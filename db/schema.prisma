@@ -49,6 +49,7 @@ model User {
   items             Item[]
   carts             Cart[]
   orders            Order[]
+  shippingAddresses ShippingAddress[]
 }
 
 model Session {
@@ -308,27 +309,29 @@ enum ShippingFeeTypeEnum {
 }
 
 model Order {
-  id               Int             @id @default(autoincrement())
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  status           OrderStatusEnum @default(PENDING)
-  couponCode       String?
-  notes            String?
-  amount           Price           @relation(fields: [amountId], references: [id])
-  amountId         Int
-  orderLog         OrderLog        @relation(fields: [orderLogId], references: [id])
-  orderLogId       Int
-  shippingMethod   ShippingMethod? @relation(fields: [shippingMethodId], references: [id])
-  shippingMethodId Int?
-  user             User            @relation(fields: [userId], references: [id])
-  userId           Int
-  purchasedItems   PurchasedItem[]
+  id                Int               @id @default(autoincrement())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  status            OrderStatusEnum   @default(PENDING)
+  couponCode        String?
+  notes             String?
+  amount            Price             @relation(fields: [amountId], references: [id])
+  amountId          Int
+  orderLog          OrderLog          @relation(fields: [orderLogId], references: [id])
+  orderLogId        Int
+  shippingMethod    ShippingMethod?   @relation(fields: [shippingMethodId], references: [id])
+  shippingMethodId  Int?
+  user              User              @relation(fields: [userId], references: [id])
+  userId            Int
+  purchasedItems    PurchasedItem[]
+  shippingAddresses ShippingAddress[]
 }
 
 model Country {
-  id      String @unique @db.Char(2)
-  titleRu String
-  titleEn String
+  id                String            @unique @db.Char(2)
+  titleRu           String
+  titleEn           String
+  shippingAddresses ShippingAddress[]
 }
 
 model PurchasedItem {
@@ -348,4 +351,23 @@ model PurchasedItem {
   coverImageId Int
   Order        Order?    @relation(fields: [orderId], references: [id])
   orderId      Int?
+}
+
+model ShippingAddress {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  firstName    String
+  lastName     String
+  phone        String
+  instructions String?
+  address      String
+  city         String
+  postalCode   String
+  country      Country  @relation(fields: [countryId], references: [id])
+  countryId    String   @db.Char(2)
+  user         User     @relation(fields: [userId], references: [id])
+  userId       Int
+  order        Order    @relation(fields: [orderId], references: [id])
+  orderId      Int
 }
