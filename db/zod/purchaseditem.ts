@@ -10,6 +10,8 @@ import {
   RelatedImageModel,
   CompleteOrder,
   RelatedOrderModel,
+  CompleteItemToRefund,
+  RelatedItemToRefundModel,
 } from "./index"
 
 export const PurchasedItemModel = z.object({
@@ -32,6 +34,7 @@ export interface CompletePurchasedItem extends z.infer<typeof PurchasedItemModel
   category?: CompleteCategory | null
   coverImage: CompleteImage
   Order?: CompleteOrder | null
+  ItemToRefund: CompleteItemToRefund[]
 }
 
 /**
@@ -46,5 +49,6 @@ export const RelatedPurchasedItemModel: z.ZodSchema<CompletePurchasedItem> = z.l
     category: RelatedCategoryModel.nullish(),
     coverImage: RelatedImageModel,
     Order: RelatedOrderModel.nullish(),
+    ItemToRefund: RelatedItemToRefundModel.array(),
   })
 )

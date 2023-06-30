@@ -339,22 +339,23 @@ model Country {
 }
 
 model PurchasedItem {
-  id           Int       @id @default(autoincrement())
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  qty          Int       @default(0)
-  title        String
-  description  String
-  amount       Price     @relation(fields: [amountId], references: [id])
-  amountId     Int
-  item         Item      @relation(fields: [itemId], references: [id])
-  itemId       Int
-  category     Category? @relation(fields: [categoryId], references: [id])
-  categoryId   Int?
-  coverImage   Image     @relation(fields: [coverImageId], references: [id])
-  coverImageId Int
-  Order        Order?    @relation(fields: [orderId], references: [id])
-  orderId      Int?
+  id            Int            @id @default(autoincrement())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  qty           Int            @default(0)
+  title         String
+  description   String
+  amount        Price          @relation(fields: [amountId], references: [id])
+  amountId      Int
+  item          Item           @relation(fields: [itemId], references: [id])
+  itemId        Int
+  category      Category?      @relation(fields: [categoryId], references: [id])
+  categoryId    Int?
+  coverImage    Image          @relation(fields: [coverImageId], references: [id])
+  coverImageId  Int
+  Order         Order?         @relation(fields: [orderId], references: [id])
+  orderId       Int?
+  itemToRefunds ItemToRefund[]
 }
 
 model ShippingAddress {
@@ -384,16 +385,6 @@ model PaymentMethod {
   refunds     Refund[]
 }
 
-enum RefundStatusEnum {
-  PENDING // Ожидает обработки
-  PROCESSING // Обрабатывается
-  COMPLETED // Завершен
-  CANCELLED // Отменен
-  DECLINED // Отклонен
-  APPROVED // Одобрен
-  REJECTED // Отклонен
-}
-
 model Refund {
   id             Int              @id @default(autoincrement())
   createdAt      DateTime         @default(now())
@@ -411,4 +402,23 @@ model Refund {
   orderId        Int
   user           User             @relation(name: "RefundUser", fields: [userId], references: [id])
   userId         Int
+  ItemToRefund   ItemToRefund[]
+}
+
+enum RefundStatusEnum {
+  PENDING // Ожидает обработки
+  PROCESSING // Обрабатывается
+  COMPLETED // Завершен
+  CANCELLED // Отменен
+  DECLINED // Отклонен
+  APPROVED // Одобрен
+  REJECTED // Отклонен
+}
+
+model ItemToRefund {
+  id       Int           @id @default(autoincrement())
+  item     PurchasedItem @relation(fields: [itemId], references: [id])
+  itemId   Int
+  refund   Refund        @relation(fields: [refundId], references: [id])
+  refundId Int
 }

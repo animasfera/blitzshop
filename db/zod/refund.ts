@@ -9,6 +9,8 @@ import {
   RelatedUserModel,
   CompleteOrder,
   RelatedOrderModel,
+  CompleteItemToRefund,
+  RelatedItemToRefundModel,
 } from "./index"
 
 export const RefundModel = z.object({
@@ -31,6 +33,7 @@ export interface CompleteRefund extends z.infer<typeof RefundModel> {
   processedBy: CompleteUser
   order: CompleteOrder
   user: CompleteUser
+  ItemToRefund: CompleteItemToRefund[]
 }
 
 /**
@@ -45,5 +48,6 @@ export const RelatedRefundModel: z.ZodSchema<CompleteRefund> = z.lazy(() =>
     processedBy: RelatedUserModel,
     order: RelatedOrderModel,
     user: RelatedUserModel,
+    ItemToRefund: RelatedItemToRefundModel.array(),
   })
 )
