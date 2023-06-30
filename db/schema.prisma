@@ -195,7 +195,8 @@ model Price {
   carts          Cart[]
   orders         Order[]
   purchasedItems PurchasedItem[]
-  Refurefundsnd  Refund[]
+  refunds        Refund[]
+  invoices       Invoice[]
 }
 
 model Image {
@@ -257,6 +258,7 @@ model Item {
   images         ImageToItem[]
   reviews        Review[]
   purchasedItems PurchasedItem[]
+  invoices       Invoice[]
 }
 
 model Cart {
@@ -329,6 +331,7 @@ model Order {
   purchasedItems    PurchasedItem[]
   shippingAddresses ShippingAddress[]
   refunds           Refund[]
+  invoices          Invoice[]
 }
 
 model Country {
@@ -378,11 +381,12 @@ model ShippingAddress {
 }
 
 model PaymentMethod {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
   title       String
   description String?
   refunds     Refund[]
+  invoices    Invoice[]
 }
 
 model Refund {
@@ -421,4 +425,41 @@ model ItemToRefund {
   itemId   Int
   refund   Refund        @relation(fields: [refundId], references: [id])
   refundId Int
+}
+
+model Invoice {
+  id                Int               @id @default(autoincrement())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  paidAt            DateTime
+  status            InvoiceStatusEnum @default(PENDING)
+  error             String?
+  notes             String?
+  amount            Price             @relation(fields: [amountId], references: [id])
+  amountId          Int
+  paymentMethod     PaymentMethod     @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId   Int
+  order             Order             @relation(fields: [orderId], references: [id])
+  orderId           Int
+  parentItem        Item              @relation(fields: [parentItemId], references: [id])
+  parentItemId      Int
+  creditNotes       Invoice[]         @relation(name: "CreditNotes")
+  originalInvoice   Invoice?          @relation(name: "CreditNotes", fields: [originalInvoiceId], references: [id])
+  originalInvoiceId Int
+}
+
+enum InvoiceStatusEnum {
+  PENDING // ожидание оплаты
+  COMPLETED // оплачено
+  FAILED // не удалось оплатить
+  REFUNDED // возвращено
+  PROCESSING // Оплата обрабатывается или находится в процессе
+  AUTHORIZED // Оплата авторизована, но еще не завершена
+  DECLINED // Оплата отклонена
+  PARTIALLY_PAID // Заказ частично оплачен
+  AWAITING_CONFIRMATION // Ожидание подтверждения оплаты
+  VOIDED // Оплата аннулирована
+  ABANDONED // Оплата не завершена или прервана пользователем
+  DISPUTED // Оплата оспаривается или находится в процессе разрешения спора
+  EXPIRED // Время для оплаты истекло
 }

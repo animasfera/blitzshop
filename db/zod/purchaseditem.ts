@@ -34,7 +34,7 @@ export interface CompletePurchasedItem extends z.infer<typeof PurchasedItemModel
   category?: CompleteCategory | null
   coverImage: CompleteImage
   Order?: CompleteOrder | null
-  ItemToRefund: CompleteItemToRefund[]
+  itemToRefunds: CompleteItemToRefund[]
 }
 
 /**
@@ -49,6 +49,6 @@ export const RelatedPurchasedItemModel: z.ZodSchema<CompletePurchasedItem> = z.l
     category: RelatedCategoryModel.nullish(),
     coverImage: RelatedImageModel,
     Order: RelatedOrderModel.nullish(),
-    ItemToRefund: RelatedItemToRefundModel.array(),
+    itemToRefunds: RelatedItemToRefundModel.array(),
   })
 )

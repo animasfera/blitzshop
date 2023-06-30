@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { CompleteRefund, RelatedRefundModel } from "./index"
+import { CompleteRefund, RelatedRefundModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
 
 export const PaymentMethodModel = z.object({
   id: z.number().int(),
@@ -10,6 +10,7 @@ export const PaymentMethodModel = z.object({
 
 export interface CompletePaymentMethod extends z.infer<typeof PaymentMethodModel> {
   refunds: CompleteRefund[]
+  invoices: CompleteInvoice[]
 }
 
 /**
@@ -20,5 +21,6 @@ export interface CompletePaymentMethod extends z.infer<typeof PaymentMethodModel
 export const RelatedPaymentMethodModel: z.ZodSchema<CompletePaymentMethod> = z.lazy(() =>
   PaymentMethodModel.extend({
     refunds: RelatedRefundModel.array(),
+    invoices: RelatedInvoiceModel.array(),
   })
 )
