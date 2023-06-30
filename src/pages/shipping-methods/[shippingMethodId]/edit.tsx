@@ -43,7 +43,7 @@ export const EditShippingMethod = () => {
               try {
                 const updated = await updateShippingMethodMutation({
                   id: shippingMethod.id,
-                  ...values,
+                  // ...values,
                 })
                 await setQueryData(updated)
                 await router.push(

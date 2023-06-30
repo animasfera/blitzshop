@@ -48,6 +48,7 @@ model User {
   reviews           Review[]          @relation(name: "ReviewsSent")
   items             Item[]
   carts             Cart[]
+  orders            Order[]
 }
 
 model Session {
@@ -188,6 +189,7 @@ model Price {
   currency  CurrencyEnum @default(RUB)
   items     Item[]
   carts     Cart[]
+  orders    Order[]
 }
 
 model Image {
@@ -269,6 +271,7 @@ model OrderLog {
   updatedAt DateTime        @updatedAt
   status    OrderStatusEnum @default(PENDING)
   comment   String?
+  orders    Order[]
 }
 
 enum OrderStatusEnum {
@@ -292,9 +295,27 @@ model ShippingMethod {
   description String?
   fee         Int
   feeType     ShippingFeeTypeEnum @default(FIXED)
+  orders      Order[]
 }
 
 enum ShippingFeeTypeEnum {
   FIXED
   PER_KG
+}
+
+model Order {
+  id               Int             @id @default(autoincrement())
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  status           OrderStatusEnum @default(PENDING)
+  couponCode       String?
+  notes            String?
+  amount           Price           @relation(fields: [priceId], references: [id])
+  priceId          Int
+  orderLog         OrderLog        @relation(fields: [orderLogId], references: [id])
+  orderLogId       Int
+  shippingMethod   ShippingMethod? @relation(fields: [shippingMethodId], references: [id])
+  shippingMethodId Int?
+  user             User            @relation(fields: [userId], references: [id])
+  userId           Int
 }

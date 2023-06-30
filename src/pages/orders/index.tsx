@@ -5,14 +5,14 @@ import Link from "next/link"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import Layout from "src/core/layouts/Layout"
-import getShippingMethods from "src/shipping-methods/queries/getShippingMethods"
+import getOrders from "src/orders/queries/getOrders"
 
 const ITEMS_PER_PAGE = 100
 
-export const ShippingMethodsList = () => {
+export const OrdersList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
-  const [{ shippingMethods, hasMore }] = usePaginatedQuery(getShippingMethods, {
+  const [{ orders, hasMore }] = usePaginatedQuery(getOrders, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
@@ -24,15 +24,9 @@ export const ShippingMethodsList = () => {
   return (
     <div>
       <ul>
-        {shippingMethods.map((shippingMethod) => (
-          <li key={shippingMethod.id}>
-            <Link
-              href={Routes.ShowShippingMethodPage({
-                shippingMethodId: shippingMethod.id,
-              })}
-            >
-              {shippingMethod.title}
-            </Link>
+        {orders.map((order) => (
+          <li key={order.id}>
+            <Link href={Routes.ShowOrderPage({ orderId: order.id })}>{order.id}</Link>
           </li>
         ))}
       </ul>
@@ -47,24 +41,24 @@ export const ShippingMethodsList = () => {
   )
 }
 
-const ShippingMethodsPage = () => {
+const OrdersPage = () => {
   return (
     <Layout>
       <Head>
-        <title>ShippingMethods</title>
+        <title>Orders</title>
       </Head>
 
       <div>
         <p>
-          <Link href={Routes.NewShippingMethodPage()}>Create ShippingMethod</Link>
+          <Link href={Routes.NewOrderPage()}>Create Order</Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <ShippingMethodsList />
+          <OrdersList />
         </Suspense>
       </div>
     </Layout>
   )
 }
 
-export default ShippingMethodsPage
+export default OrdersPage

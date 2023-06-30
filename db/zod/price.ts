@@ -1,6 +1,13 @@
 import * as z from "zod"
 import { CurrencyEnum } from "@prisma/client"
-import { CompleteItem, RelatedItemModel, CompleteCart, RelatedCartModel } from "./index"
+import {
+  CompleteItem,
+  RelatedItemModel,
+  CompleteCart,
+  RelatedCartModel,
+  CompleteOrder,
+  RelatedOrderModel,
+} from "./index"
 
 export const PriceModel = z.object({
   id: z.number().int(),
@@ -13,6 +20,7 @@ export const PriceModel = z.object({
 export interface CompletePrice extends z.infer<typeof PriceModel> {
   items: CompleteItem[]
   carts: CompleteCart[]
+  orders: CompleteOrder[]
 }
 
 /**
@@ -24,5 +32,6 @@ export const RelatedPriceModel: z.ZodSchema<CompletePrice> = z.lazy(() =>
   PriceModel.extend({
     items: RelatedItemModel.array(),
     carts: RelatedCartModel.array(),
+    orders: RelatedOrderModel.array(),
   })
 )
