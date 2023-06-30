@@ -517,3 +517,12 @@ model Config {
   value String?
   user  User[]
 }
+
+model FxRate {
+  updatedAt DateTime @updatedAt
+  from      String
+  to        String
+  rate      Float
+
+  @@unique([from, to])
+}
