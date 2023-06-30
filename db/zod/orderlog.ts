@@ -6,8 +6,8 @@ export const OrderLogModel = z.object({
   id: z.number().int(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  status: z.nativeEnum(OrderStatusEnum),
   comment: z.string().nullish(),
+  status: z.nativeEnum(OrderStatusEnum),
 })
 
 export interface CompleteOrderLog extends z.infer<typeof OrderLogModel> {

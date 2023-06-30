@@ -9,6 +9,8 @@ import {
   RelatedOrderModel,
   CompleteItem,
   RelatedItemModel,
+  CompleteTransaction,
+  RelatedTransactionModel,
 } from "./index"
 
 export const InvoiceModel = z.object({
@@ -16,9 +18,9 @@ export const InvoiceModel = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   paidAt: z.date(),
-  status: z.nativeEnum(InvoiceStatusEnum),
   error: z.string().nullish(),
   notes: z.string().nullish(),
+  status: z.nativeEnum(InvoiceStatusEnum),
   amountId: z.number().int(),
   paymentMethodId: z.number().int(),
   orderId: z.number().int(),
@@ -31,8 +33,9 @@ export interface CompleteInvoice extends z.infer<typeof InvoiceModel> {
   paymentMethod: CompletePaymentMethod
   order: CompleteOrder
   parentItem: CompleteItem
-  creditNotes: CompleteInvoice[]
   originalInvoice?: CompleteInvoice | null
+  creditNotes: CompleteInvoice[]
+  transactions: CompleteTransaction[]
 }
 
 /**
@@ -46,7 +49,8 @@ export const RelatedInvoiceModel: z.ZodSchema<CompleteInvoice> = z.lazy(() =>
     paymentMethod: RelatedPaymentMethodModel,
     order: RelatedOrderModel,
     parentItem: RelatedItemModel,
-    creditNotes: RelatedInvoiceModel.array(),
     originalInvoice: RelatedInvoiceModel.nullish(),
+    creditNotes: RelatedInvoiceModel.array(),
+    transactions: RelatedTransactionModel.array(),
   })
 )

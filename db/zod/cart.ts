@@ -2,10 +2,10 @@ import * as z from "zod"
 import {
   CompletePrice,
   RelatedPriceModel,
-  CompleteItem,
-  RelatedItemModel,
   CompleteUser,
   RelatedUserModel,
+  CompleteItem,
+  RelatedItemModel,
 } from "./index"
 
 export const CartModel = z.object({
@@ -14,15 +14,15 @@ export const CartModel = z.object({
   updatedAt: z.date(),
   numItems: z.number().int(),
   sessionId: z.string().nullish(),
+  mergedCartId: z.number().int().nullish(),
   amountId: z.number().int(),
   userId: z.number().int().nullish(),
-  mergedCartId: z.number().int().nullish(),
 })
 
 export interface CompleteCart extends z.infer<typeof CartModel> {
   amount: CompletePrice
-  items: CompleteItem[]
   user?: CompleteUser | null
+  items: CompleteItem[]
 }
 
 /**
@@ -33,7 +33,7 @@ export interface CompleteCart extends z.infer<typeof CartModel> {
 export const RelatedCartModel: z.ZodSchema<CompleteCart> = z.lazy(() =>
   CartModel.extend({
     amount: RelatedPriceModel,
-    items: RelatedItemModel.array(),
     user: RelatedUserModel.nullish(),
+    items: RelatedItemModel.array(),
   })
 )

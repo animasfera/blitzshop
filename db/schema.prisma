@@ -34,10 +34,10 @@ model User {
   firstName             String?
   lastName              String?
   hashedPassword        String?
-  role                  UserRoleEnum      @default(USER)
   timezone              String            @default("Etc/Greenwich")
   locale                String            @default("en")
   avatarUrl             String            @default("")
+  role                  UserRoleEnum      @default(USER)
   status                UserStatusEnum    @default(PENDING)
   buyingInCountries     CountryFilterEnum @default(NONE)
   currency              CurrencyEnum      @default(EUR)
@@ -52,6 +52,7 @@ model User {
   shippingAddresses     ShippingAddress[]
   refundProcessedByUser Refund[]          @relation(name: "ProcessedByUser")
   refunds               Refund[]          @relation(name: "RefundUser")
+  transactions          Transaction[]
 }
 
 model Session {
@@ -98,9 +99,9 @@ model Token {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   hashedToken String
-  type        TokenTypeEnum
   expiresAt   DateTime
   sentTo      String
+  type        TokenTypeEnum
   user        User          @relation(fields: [userId], references: [id])
   userId      Int
 
@@ -140,8 +141,8 @@ model Notification {
   message   String
   isHtml    Boolean              @default(false)
   jsonData  Json?
-  type      NotificationTypeEnum @default(INFO)
   res       String?
+  type      NotificationTypeEnum @default(INFO)
   user      User                 @relation(fields: [userId], references: [id])
   userId    Int
 }
@@ -165,9 +166,9 @@ model Review {
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
   message   String
-  status    ReviewStatusEnum @default(PENDING)
   reply     String?
   rating    Float            @default(0)
+  status    ReviewStatusEnum @default(PENDING)
   sender    User             @relation(name: "ReviewsSent", fields: [senderId], references: [id])
   senderId  Int
   item      Item             @relation(fields: [itemId], references: [id])
@@ -186,17 +187,20 @@ model Category {
 }
 
 model Price {
-  id             Int             @id @default(autoincrement())
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  amount         Int             @default(0)
-  currency       CurrencyEnum    @default(RUB)
-  items          Item[]
-  carts          Cart[]
-  orders         Order[]
-  purchasedItems PurchasedItem[]
-  refunds        Refund[]
-  invoices       Invoice[]
+  id                   Int             @id @default(autoincrement())
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  amount               Int             @default(0)
+  currency             CurrencyEnum    @default(RUB)
+  items                Item[]
+  carts                Cart[]
+  orders               Order[]
+  purchasedItems       PurchasedItem[]
+  refunds              Refund[]
+  invoices             Invoice[]
+  amountTransactions   Transaction[]   @relation(name: "AmountTransaction")
+  feeTotalTransactions Transaction[]   @relation(name: "FeeTotalTransaction")
+  netTransactions      Transaction[]   @relation(name: "NetTransaction")
 }
 
 model Image {
@@ -214,9 +218,9 @@ model ImageToItem {
   id         Int    @id @default(autoincrement())
   image      Image  @relation(fields: [imageId], references: [id])
   imageId    Int
-  itemCovers Item[] @relation(name: "CoverImageToItem")
   item       Item?  @relation(fields: [itemId], references: [id])
   itemId     Int?
+  itemCovers Item[] @relation(name: "CoverImageToItem")
 }
 
 enum ItemStatusEnum {
@@ -267,20 +271,20 @@ model Cart {
   updatedAt    DateTime @updatedAt
   numItems     Int      @default(0)
   sessionId    String?
+  mergedCartId Int?
   amount       Price    @relation(fields: [amountId], references: [id])
   amountId     Int
-  items        Item[]
   user         User?    @relation(fields: [userId], references: [id])
   userId       Int?
-  mergedCartId Int?
+  items        Item[]
 }
 
 model OrderLog {
   id        Int             @id @default(autoincrement())
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
-  status    OrderStatusEnum @default(PENDING)
   comment   String?
+  status    OrderStatusEnum @default(PENDING)
   orders    Order[]
 }
 
@@ -317,9 +321,9 @@ model Order {
   id                Int               @id @default(autoincrement())
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
-  status            OrderStatusEnum   @default(PENDING)
   couponCode        String?
   notes             String?
+  status            OrderStatusEnum   @default(PENDING)
   amount            Price             @relation(fields: [amountId], references: [id])
   amountId          Int
   orderLog          OrderLog          @relation(fields: [orderLogId], references: [id])
@@ -381,21 +385,22 @@ model ShippingAddress {
 }
 
 model PaymentMethod {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
-  title       String
-  description String?
-  refunds     Refund[]
-  invoices    Invoice[]
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  title        String
+  description  String?
+  refunds      Refund[]
+  invoices     Invoice[]
+  transactions Transaction[]
 }
 
 model Refund {
   id             Int              @id @default(autoincrement())
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  status         RefundStatusEnum @default(PENDING)
   notes          String?
   refundedAt     DateTime?
+  status         RefundStatusEnum @default(PENDING)
   amount         Price            @relation(fields: [amountId], references: [id])
   amountId       Int
   refundMethod   PaymentMethod    @relation(fields: [refundMethodId], references: [id])
@@ -432,9 +437,9 @@ model Invoice {
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   paidAt            DateTime
-  status            InvoiceStatusEnum @default(PENDING)
   error             String?
   notes             String?
+  status            InvoiceStatusEnum @default(PENDING)
   amount            Price             @relation(fields: [amountId], references: [id])
   amountId          Int
   paymentMethod     PaymentMethod     @relation(fields: [paymentMethodId], references: [id])
@@ -443,9 +448,10 @@ model Invoice {
   orderId           Int
   parentItem        Item              @relation(fields: [parentItemId], references: [id])
   parentItemId      Int
-  creditNotes       Invoice[]         @relation(name: "CreditNotes")
   originalInvoice   Invoice?          @relation(name: "CreditNotes", fields: [originalInvoiceId], references: [id])
   originalInvoiceId Int
+  creditNotes       Invoice[]         @relation(name: "CreditNotes")
+  transactions      Transaction[]
 }
 
 enum InvoiceStatusEnum {
@@ -462,4 +468,44 @@ enum InvoiceStatusEnum {
   ABANDONED // Оплата не завершена или прервана пользователем
   DISPUTED // Оплата оспаривается или находится в процессе разрешения спора
   EXPIRED // Время для оплаты истекло
+}
+
+model Transaction {
+  id                  Int                   @id @default(autoincrement())
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  remoteTransactionId String?
+  description         String
+  failureReason       String?
+  failReasonCode      Int?
+  metadata            Json
+  receiptUrl          String?
+  status              TransactionStatusEnum @default(PENDING)
+  type                TransactionTypeEnum
+  amount              Price                 @relation(name: "AmountTransaction", fields: [amountId], references: [id])
+  amountId            Int
+  feeTotal            Price                 @relation(name: "FeeTotalTransaction", fields: [feeTotalId], references: [id])
+  feeTotalId          Int
+  net                 Price                 @relation(name: "NetTransaction", fields: [netId], references: [id])
+  netId               Int
+  paymentMethod       PaymentMethod         @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId     Int
+  invoice             Invoice               @relation(fields: [invoiceId], references: [id])
+  invoiceId           Int
+  user                User                  @relation(fields: [userId], references: [id])
+  userId              Int
+}
+
+enum TransactionStatusEnum {
+  PENDING
+  PAYING
+  FINISHED
+  CANCELED
+  FAILED
+}
+
+enum TransactionTypeEnum {
+  SALE
+  REFUND
+  MANUAL_ADJUSTMENT
 }

@@ -7,9 +7,9 @@ export const ReviewModel = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   message: z.string(),
-  status: z.nativeEnum(ReviewStatusEnum),
   reply: z.string().nullish(),
   rating: z.number(),
+  status: z.nativeEnum(ReviewStatusEnum),
   senderId: z.number().int(),
   itemId: z.number().int(),
 })

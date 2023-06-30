@@ -13,6 +13,8 @@ import {
   RelatedRefundModel,
   CompleteInvoice,
   RelatedInvoiceModel,
+  CompleteTransaction,
+  RelatedTransactionModel,
 } from "./index"
 
 export const PriceModel = z.object({
@@ -30,6 +32,9 @@ export interface CompletePrice extends z.infer<typeof PriceModel> {
   purchasedItems: CompletePurchasedItem[]
   refunds: CompleteRefund[]
   invoices: CompleteInvoice[]
+  amountTransactions: CompleteTransaction[]
+  feeTotalTransactions: CompleteTransaction[]
+  netTransactions: CompleteTransaction[]
 }
 
 /**
@@ -45,5 +50,8 @@ export const RelatedPriceModel: z.ZodSchema<CompletePrice> = z.lazy(() =>
     purchasedItems: RelatedPurchasedItemModel.array(),
     refunds: RelatedRefundModel.array(),
     invoices: RelatedInvoiceModel.array(),
+    amountTransactions: RelatedTransactionModel.array(),
+    feeTotalTransactions: RelatedTransactionModel.array(),
+    netTransactions: RelatedTransactionModel.array(),
   })
 )

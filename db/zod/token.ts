@@ -7,9 +7,9 @@ export const TokenModel = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   hashedToken: z.string(),
-  type: z.nativeEnum(TokenTypeEnum),
   expiresAt: z.date(),
   sentTo: z.string(),
+  type: z.nativeEnum(TokenTypeEnum),
   userId: z.number().int(),
 })
 
