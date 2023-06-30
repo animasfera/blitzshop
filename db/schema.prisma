@@ -23,33 +23,35 @@ generator zod {
 // --------------------------------------
 
 model User {
-  id                Int               @id @default(autoincrement())
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  username          String            @unique
-  email             String            @unique
-  emailConfirmed    Boolean           @default(false)
-  countryIsoCode    String            @default("ru")
-  phone             String?
-  firstName         String?
-  lastName          String?
-  hashedPassword    String?
-  role              UserRoleEnum      @default(USER)
-  timezone          String            @default("Etc/Greenwich")
-  locale            String            @default("en")
-  avatarUrl         String            @default("")
-  status            UserStatusEnum    @default(PENDING)
-  buyingInCountries CountryFilterEnum @default(NONE)
-  currency          CurrencyEnum      @default(EUR)
-  tokens            Token[]
-  sessions          Session[]
-  cardTokens        CardToken[]       @relation(name: "AllCardTokens")
-  notifications     Notification[]
-  reviews           Review[]          @relation(name: "ReviewsSent")
-  items             Item[]
-  carts             Cart[]
-  orders            Order[]
-  shippingAddresses ShippingAddress[]
+  id                    Int               @id @default(autoincrement())
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  username              String            @unique
+  email                 String            @unique
+  emailConfirmed        Boolean           @default(false)
+  countryIsoCode        String            @default("ru")
+  phone                 String?
+  firstName             String?
+  lastName              String?
+  hashedPassword        String?
+  role                  UserRoleEnum      @default(USER)
+  timezone              String            @default("Etc/Greenwich")
+  locale                String            @default("en")
+  avatarUrl             String            @default("")
+  status                UserStatusEnum    @default(PENDING)
+  buyingInCountries     CountryFilterEnum @default(NONE)
+  currency              CurrencyEnum      @default(EUR)
+  tokens                Token[]
+  sessions              Session[]
+  cardTokens            CardToken[]       @relation(name: "AllCardTokens")
+  notifications         Notification[]
+  reviews               Review[]          @relation(name: "ReviewsSent")
+  items                 Item[]
+  carts                 Cart[]
+  orders                Order[]
+  shippingAddresses     ShippingAddress[]
+  refundProcessedByUser Refund[]          @relation(name: "ProcessedByUser")
+  refunds               Refund[]          @relation(name: "RefundUser")
 }
 
 model Session {
@@ -193,6 +195,7 @@ model Price {
   carts          Cart[]
   orders         Order[]
   purchasedItems PurchasedItem[]
+  Refurefundsnd  Refund[]
 }
 
 model Image {
@@ -325,6 +328,7 @@ model Order {
   userId            Int
   purchasedItems    PurchasedItem[]
   shippingAddresses ShippingAddress[]
+  refunds           Refund[]
 }
 
 model Country {
@@ -373,8 +377,38 @@ model ShippingAddress {
 }
 
 model PaymentMethod {
-  id          Int     @id @default(autoincrement())
-  name        String  @unique
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
   title       String
   description String?
+  refunds     Refund[]
+}
+
+enum RefundStatusEnum {
+  PENDING // Ожидает обработки
+  PROCESSING // Обрабатывается
+  COMPLETED // Завершен
+  CANCELLED // Отменен
+  DECLINED // Отклонен
+  APPROVED // Одобрен
+  REJECTED // Отклонен
+}
+
+model Refund {
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  status         RefundStatusEnum @default(PENDING)
+  notes          String?
+  refundedAt     DateTime?
+  amount         Price            @relation(fields: [amountId], references: [id])
+  amountId       Int
+  refundMethod   PaymentMethod    @relation(fields: [refundMethodId], references: [id])
+  refundMethodId Int
+  processedBy    User             @relation(name: "ProcessedByUser", fields: [processedById], references: [id])
+  processedById  Int
+  order          Order            @relation(fields: [orderId], references: [id])
+  orderId        Int
+  user           User             @relation(name: "RefundUser", fields: [userId], references: [id])
+  userId         Int
 }

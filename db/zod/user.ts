@@ -19,6 +19,8 @@ import {
   RelatedOrderModel,
   CompleteShippingAddress,
   RelatedShippingAddressModel,
+  CompleteRefund,
+  RelatedRefundModel,
 } from "./index"
 
 export const UserModel = z.object({
@@ -52,6 +54,8 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
   carts: CompleteCart[]
   orders: CompleteOrder[]
   shippingAddresses: CompleteShippingAddress[]
+  refundProcessedByUser: CompleteRefund[]
+  refunds: CompleteRefund[]
 }
 
 /**
@@ -70,5 +74,7 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
     carts: RelatedCartModel.array(),
     orders: RelatedOrderModel.array(),
     shippingAddresses: RelatedShippingAddressModel.array(),
+    refundProcessedByUser: RelatedRefundModel.array(),
+    refunds: RelatedRefundModel.array(),
   })
 )
