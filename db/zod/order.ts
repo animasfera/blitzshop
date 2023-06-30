@@ -9,6 +9,8 @@ import {
   RelatedShippingMethodModel,
   CompleteUser,
   RelatedUserModel,
+  CompletePurchasedItem,
+  RelatedPurchasedItemModel,
 } from "./index"
 
 export const OrderModel = z.object({
@@ -18,7 +20,7 @@ export const OrderModel = z.object({
   status: z.nativeEnum(OrderStatusEnum),
   couponCode: z.string().nullish(),
   notes: z.string().nullish(),
-  priceId: z.number().int(),
+  amountId: z.number().int(),
   orderLogId: z.number().int(),
   shippingMethodId: z.number().int().nullish(),
   userId: z.number().int(),
@@ -29,6 +31,7 @@ export interface CompleteOrder extends z.infer<typeof OrderModel> {
   orderLog: CompleteOrderLog
   shippingMethod?: CompleteShippingMethod | null
   user: CompleteUser
+  purchasedItems: CompletePurchasedItem[]
 }
 
 /**
@@ -42,5 +45,6 @@ export const RelatedOrderModel: z.ZodSchema<CompleteOrder> = z.lazy(() =>
     orderLog: RelatedOrderLogModel,
     shippingMethod: RelatedShippingMethodModel.nullish(),
     user: RelatedUserModel,
+    purchasedItems: RelatedPurchasedItemModel.array(),
   })
 )

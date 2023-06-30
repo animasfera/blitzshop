@@ -174,32 +174,35 @@ model Review {
 }
 
 model Category {
-  id          Int    @id @default(autoincrement())
-  title       String
-  description String @default("")
-  numItems    Int    @default(0)
-  items       Item[]
+  id             Int             @id @default(autoincrement())
+  title          String
+  description    String          @default("")
+  numItems       Int             @default(0)
+  items          Item[]
+  purchasedItems PurchasedItem[]
 }
 
 model Price {
-  id        Int          @id @default(autoincrement())
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  amount    Int          @default(0)
-  currency  CurrencyEnum @default(RUB)
-  items     Item[]
-  carts     Cart[]
-  orders    Order[]
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  amount         Int             @default(0)
+  currency       CurrencyEnum    @default(RUB)
+  items          Item[]
+  carts          Cart[]
+  orders         Order[]
+  purchasedItems PurchasedItem[]
 }
 
 model Image {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  title        String?
-  description  String?
-  url          String
-  imageToItems ImageToItem[]
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  title          String?
+  description    String?
+  url            String
+  imageToItems   ImageToItem[]
+  purchasedItems PurchasedItem[]
 }
 
 model ImageToItem {
@@ -226,29 +229,30 @@ enum AccessTypeEnum {
 }
 
 model Item {
-  id           Int            @id @default(autoincrement())
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  title        String
-  description  String         @default("")
-  qty          Int            @default(0)
-  weight       Int            @default(0)
-  rating       Float          @default(0)
-  isFeatured   Boolean        @default(false)
-  status       ItemStatusEnum
-  access       AccessTypeEnum
-  category     Category?      @relation(fields: [categoryId], references: [id])
-  categoryId   Int?
-  amount       Price?         @relation(fields: [priceId], references: [id])
-  priceId      Int?
-  coverImage   ImageToItem    @relation(name: "CoverImageToItem", fields: [coverImageId], references: [id])
-  coverImageId Int
-  user         User?          @relation(fields: [userId], references: [id])
-  userId       Int?
-  cart         Cart?          @relation(fields: [cartId], references: [id])
-  cartId       Int?
-  images       ImageToItem[]
-  reviews      Review[]
+  id             Int             @id @default(autoincrement())
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  title          String
+  description    String          @default("")
+  qty            Int             @default(0)
+  weight         Int             @default(0)
+  rating         Float           @default(0)
+  isFeatured     Boolean         @default(false)
+  status         ItemStatusEnum
+  access         AccessTypeEnum
+  category       Category?       @relation(fields: [categoryId], references: [id])
+  categoryId     Int?
+  amount         Price?          @relation(fields: [amountId], references: [id])
+  amountId       Int?
+  coverImage     ImageToItem     @relation(name: "CoverImageToItem", fields: [coverImageId], references: [id])
+  coverImageId   Int
+  user           User?           @relation(fields: [userId], references: [id])
+  userId         Int?
+  cart           Cart?           @relation(fields: [cartId], references: [id])
+  cartId         Int?
+  images         ImageToItem[]
+  reviews        Review[]
+  purchasedItems PurchasedItem[]
 }
 
 model Cart {
@@ -257,8 +261,8 @@ model Cart {
   updatedAt    DateTime @updatedAt
   numItems     Int      @default(0)
   sessionId    String?
-  amount       Price    @relation(fields: [priceId], references: [id])
-  priceId      Int
+  amount       Price    @relation(fields: [amountId], references: [id])
+  amountId     Int
   items        Item[]
   user         User?    @relation(fields: [userId], references: [id])
   userId       Int?
@@ -310,18 +314,38 @@ model Order {
   status           OrderStatusEnum @default(PENDING)
   couponCode       String?
   notes            String?
-  amount           Price           @relation(fields: [priceId], references: [id])
-  priceId          Int
+  amount           Price           @relation(fields: [amountId], references: [id])
+  amountId         Int
   orderLog         OrderLog        @relation(fields: [orderLogId], references: [id])
   orderLogId       Int
   shippingMethod   ShippingMethod? @relation(fields: [shippingMethodId], references: [id])
   shippingMethodId Int?
   user             User            @relation(fields: [userId], references: [id])
   userId           Int
+  purchasedItems   PurchasedItem[]
 }
 
 model Country {
   id      String @unique @db.Char(2)
   titleRu String
   titleEn String
+}
+
+model PurchasedItem {
+  id           Int       @id @default(autoincrement())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  qty          Int       @default(0)
+  title        String
+  description  String
+  amount       Price     @relation(fields: [amountId], references: [id])
+  amountId     Int
+  item         Item      @relation(fields: [itemId], references: [id])
+  itemId       Int
+  category     Category? @relation(fields: [categoryId], references: [id])
+  categoryId   Int?
+  coverImage   Image     @relation(fields: [coverImageId], references: [id])
+  coverImageId Int
+  Order        Order?    @relation(fields: [orderId], references: [id])
+  orderId      Int?
 }

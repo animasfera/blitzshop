@@ -3,7 +3,10 @@ import { CartModel } from "db/zod"
 
 export const CreateCartSchema = CartModel.pick({
   numItems: true,
-  priceId: true,
+  sessionId: true,
+  amountId: true,
+  userId: true,
+  mergedCartId: true,
 })
 
 export const UpdateCartSchema = z.object({

@@ -13,6 +13,8 @@ import {
   RelatedCartModel,
   CompleteReview,
   RelatedReviewModel,
+  CompletePurchasedItem,
+  RelatedPurchasedItemModel,
 } from "./index"
 
 export const ItemModel = z.object({
@@ -28,7 +30,7 @@ export const ItemModel = z.object({
   status: z.nativeEnum(ItemStatusEnum),
   access: z.nativeEnum(AccessTypeEnum),
   categoryId: z.number().int().nullish(),
-  priceId: z.number().int().nullish(),
+  amountId: z.number().int().nullish(),
   coverImageId: z.number().int(),
   userId: z.number().int().nullish(),
   cartId: z.number().int().nullish(),
@@ -42,6 +44,7 @@ export interface CompleteItem extends z.infer<typeof ItemModel> {
   cart?: CompleteCart | null
   images: CompleteImageToItem[]
   reviews: CompleteReview[]
+  purchasedItems: CompletePurchasedItem[]
 }
 
 /**
@@ -58,5 +61,6 @@ export const RelatedItemModel: z.ZodSchema<CompleteItem> = z.lazy(() =>
     cart: RelatedCartModel.nullish(),
     images: RelatedImageToItemModel.array(),
     reviews: RelatedReviewModel.array(),
+    purchasedItems: RelatedPurchasedItemModel.array(),
   })
 )

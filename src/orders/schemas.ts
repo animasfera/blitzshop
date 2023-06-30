@@ -5,7 +5,7 @@ export const CreateOrderSchema = OrderModel.pick({
   status: true,
   couponCode: true,
   notes: true,
-  priceId: true,
+  amountId: true,
   orderLogId: true,
   shippingMethodId: true,
   userId: true,

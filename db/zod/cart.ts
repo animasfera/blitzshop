@@ -14,7 +14,7 @@ export const CartModel = z.object({
   updatedAt: z.date(),
   numItems: z.number().int(),
   sessionId: z.string().nullish(),
-  priceId: z.number().int(),
+  amountId: z.number().int(),
   userId: z.number().int().nullish(),
   mergedCartId: z.number().int().nullish(),
 })

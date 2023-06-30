@@ -1,5 +1,10 @@
 import * as z from "zod"
-import { CompleteImageToItem, RelatedImageToItemModel } from "./index"
+import {
+  CompleteImageToItem,
+  RelatedImageToItemModel,
+  CompletePurchasedItem,
+  RelatedPurchasedItemModel,
+} from "./index"
 
 export const ImageModel = z.object({
   id: z.number().int(),
@@ -12,6 +17,7 @@ export const ImageModel = z.object({
 
 export interface CompleteImage extends z.infer<typeof ImageModel> {
   imageToItems: CompleteImageToItem[]
+  purchasedItems: CompletePurchasedItem[]
 }
 
 /**
@@ -22,5 +28,6 @@ export interface CompleteImage extends z.infer<typeof ImageModel> {
 export const RelatedImageModel: z.ZodSchema<CompleteImage> = z.lazy(() =>
   ImageModel.extend({
     imageToItems: RelatedImageToItemModel.array(),
+    purchasedItems: RelatedPurchasedItemModel.array(),
   })
 )
