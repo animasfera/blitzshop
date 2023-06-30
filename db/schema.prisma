@@ -41,6 +41,8 @@ model User {
   status                UserStatusEnum    @default(PENDING)
   buyingInCountries     CountryFilterEnum @default(NONE)
   currency              CurrencyEnum      @default(EUR)
+  config                Config?           @relation(fields: [configKey], references: [key])
+  configKey             String?
   tokens                Token[]
   sessions              Session[]
   cardTokens            CardToken[]       @relation(name: "AllCardTokens")
@@ -508,4 +510,10 @@ enum TransactionTypeEnum {
   SALE
   REFUND
   MANUAL_ADJUSTMENT
+}
+
+model Config {
+  key   String  @id
+  value String?
+  user  User[]
 }
