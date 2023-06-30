@@ -285,3 +285,16 @@ enum OrderStatusEnum {
   REFUNDED // Заказ был возвращен, и клиенту был осуществлен возврат средств
   PARTIALLY_COMPLETED // Заказ частично выполнен, если в нем есть несколько товаров, и не все из них были доставлены или выполнены
 }
+
+model ShippingMethod {
+  id          Int                 @id @default(autoincrement())
+  title       String
+  description String?
+  fee         Int
+  feeType     ShippingFeeTypeEnum @default(FIXED)
+}
+
+enum ShippingFeeTypeEnum {
+  FIXED
+  PER_KG
+}
