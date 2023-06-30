@@ -8,10 +8,10 @@ export const CreateCountrySchema = CountryModel.pick({
 })
 
 export const UpdateCountrySchema = z.object({
-  id: z.number(),
+  id: z.string(),
   // template: __fieldName__: z.__zodType__(),
 })
 
 export const DeleteCountrySchema = z.object({
-  id: z.number(),
+  id: z.string(),
 })
