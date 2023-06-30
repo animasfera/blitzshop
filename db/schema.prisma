@@ -319,3 +319,9 @@ model Order {
   user             User            @relation(fields: [userId], references: [id])
   userId           Int
 }
+
+model Country {
+  id      String @unique @db.Char(2)
+  titleRu String
+  titleEn String
+}
