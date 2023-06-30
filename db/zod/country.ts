@@ -8,7 +8,7 @@ export const CountryModel = z.object({
 })
 
 export interface CompleteCountry extends z.infer<typeof CountryModel> {
-  ShippingAddress: CompleteShippingAddress[]
+  shippingAddresses: CompleteShippingAddress[]
 }
 
 /**
@@ -18,6 +18,6 @@ export interface CompleteCountry extends z.infer<typeof CountryModel> {
  */
 export const RelatedCountryModel: z.ZodSchema<CompleteCountry> = z.lazy(() =>
   CountryModel.extend({
-    ShippingAddress: RelatedShippingAddressModel.array(),
+    shippingAddresses: RelatedShippingAddressModel.array(),
   })
 )

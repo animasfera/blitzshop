@@ -34,7 +34,7 @@ export interface CompleteOrder extends z.infer<typeof OrderModel> {
   shippingMethod?: CompleteShippingMethod | null
   user: CompleteUser
   purchasedItems: CompletePurchasedItem[]
-  ShippingAddress: CompleteShippingAddress[]
+  shippingAddresses: CompleteShippingAddress[]
 }
 
 /**
@@ -49,6 +49,6 @@ export const RelatedOrderModel: z.ZodSchema<CompleteOrder> = z.lazy(() =>
     shippingMethod: RelatedShippingMethodModel.nullish(),
     user: RelatedUserModel,
     purchasedItems: RelatedPurchasedItemModel.array(),
-    ShippingAddress: RelatedShippingAddressModel.array(),
+    shippingAddresses: RelatedShippingAddressModel.array(),
   })
 )

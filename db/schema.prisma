@@ -371,3 +371,10 @@ model ShippingAddress {
   order        Order    @relation(fields: [orderId], references: [id])
   orderId      Int
 }
+
+model PaymentMethod {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  title       String
+  description String?
+}
