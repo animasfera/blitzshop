@@ -16,8 +16,6 @@ export interface CompleteCountry extends z.infer<typeof CountryModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedCountryModel: z.ZodSchema<CompleteCountry> = z.lazy(() =>
-  CountryModel.extend({
-    shippingAddresses: RelatedShippingAddressModel.array(),
-  })
-)
+export const RelatedCountryModel: z.ZodSchema<CompleteCountry> = z.lazy(() => CountryModel.extend({
+  shippingAddresses: RelatedShippingAddressModel.array(),
+}))

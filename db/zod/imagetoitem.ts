@@ -18,10 +18,8 @@ export interface CompleteImageToItem extends z.infer<typeof ImageToItemModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedImageToItemModel: z.ZodSchema<CompleteImageToItem> = z.lazy(() =>
-  ImageToItemModel.extend({
-    image: RelatedImageModel,
-    item: RelatedItemModel.nullish(),
-    itemCovers: RelatedItemModel.array(),
-  })
-)
+export const RelatedImageToItemModel: z.ZodSchema<CompleteImageToItem> = z.lazy(() => ImageToItemModel.extend({
+  image: RelatedImageModel,
+  item: RelatedItemModel.nullish(),
+  itemCovers: RelatedItemModel.array(),
+}))

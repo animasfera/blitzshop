@@ -6,9 +6,7 @@ import { CompleteUser, RelatedUserModel } from "./index"
 type Literal = boolean | number | string
 type Json = Literal | { [key: string]: Json } | Json[]
 const literalSchema = z.union([z.string(), z.number(), z.boolean()])
-const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
-  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
-)
+const jsonSchema: z.ZodSchema<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]))
 
 export const NotificationModel = z.object({
   id: z.number().int(),
@@ -34,8 +32,6 @@ export interface CompleteNotification extends z.infer<typeof NotificationModel> 
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedNotificationModel: z.ZodSchema<CompleteNotification> = z.lazy(() =>
-  NotificationModel.extend({
-    user: RelatedUserModel,
-  })
-)
+export const RelatedNotificationModel: z.ZodSchema<CompleteNotification> = z.lazy(() => NotificationModel.extend({
+  user: RelatedUserModel,
+}))

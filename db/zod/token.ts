@@ -22,8 +22,6 @@ export interface CompleteToken extends z.infer<typeof TokenModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedTokenModel: z.ZodSchema<CompleteToken> = z.lazy(() =>
-  TokenModel.extend({
-    user: RelatedUserModel,
-  })
-)
+export const RelatedTokenModel: z.ZodSchema<CompleteToken> = z.lazy(() => TokenModel.extend({
+  user: RelatedUserModel,
+}))

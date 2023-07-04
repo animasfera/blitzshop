@@ -1,21 +1,6 @@
 import * as z from "zod"
 import { CurrencyEnum } from "@prisma/client"
-import {
-  CompleteItem,
-  RelatedItemModel,
-  CompleteCart,
-  RelatedCartModel,
-  CompleteOrder,
-  RelatedOrderModel,
-  CompletePurchasedItem,
-  RelatedPurchasedItemModel,
-  CompleteRefund,
-  RelatedRefundModel,
-  CompleteInvoice,
-  RelatedInvoiceModel,
-  CompleteTransaction,
-  RelatedTransactionModel,
-} from "./index"
+import { CompleteItem, RelatedItemModel, CompleteCart, RelatedCartModel, CompleteOrder, RelatedOrderModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteRefund, RelatedRefundModel, CompleteInvoice, RelatedInvoiceModel, CompleteTransaction, RelatedTransactionModel } from "./index"
 
 export const PriceModel = z.object({
   id: z.number().int(),
@@ -42,16 +27,14 @@ export interface CompletePrice extends z.infer<typeof PriceModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedPriceModel: z.ZodSchema<CompletePrice> = z.lazy(() =>
-  PriceModel.extend({
-    items: RelatedItemModel.array(),
-    carts: RelatedCartModel.array(),
-    orders: RelatedOrderModel.array(),
-    purchasedItems: RelatedPurchasedItemModel.array(),
-    refunds: RelatedRefundModel.array(),
-    invoices: RelatedInvoiceModel.array(),
-    amountTransactions: RelatedTransactionModel.array(),
-    feeTotalTransactions: RelatedTransactionModel.array(),
-    netTransactions: RelatedTransactionModel.array(),
-  })
-)
+export const RelatedPriceModel: z.ZodSchema<CompletePrice> = z.lazy(() => PriceModel.extend({
+  items: RelatedItemModel.array(),
+  carts: RelatedCartModel.array(),
+  orders: RelatedOrderModel.array(),
+  purchasedItems: RelatedPurchasedItemModel.array(),
+  refunds: RelatedRefundModel.array(),
+  invoices: RelatedInvoiceModel.array(),
+  amountTransactions: RelatedTransactionModel.array(),
+  feeTotalTransactions: RelatedTransactionModel.array(),
+  netTransactions: RelatedTransactionModel.array(),
+}))

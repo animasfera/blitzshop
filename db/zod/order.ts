@@ -1,23 +1,6 @@
 import * as z from "zod"
 import { OrderStatusEnum } from "@prisma/client"
-import {
-  CompletePrice,
-  RelatedPriceModel,
-  CompleteOrderLog,
-  RelatedOrderLogModel,
-  CompleteShippingMethod,
-  RelatedShippingMethodModel,
-  CompleteUser,
-  RelatedUserModel,
-  CompletePurchasedItem,
-  RelatedPurchasedItemModel,
-  CompleteShippingAddress,
-  RelatedShippingAddressModel,
-  CompleteRefund,
-  RelatedRefundModel,
-  CompleteInvoice,
-  RelatedInvoiceModel,
-} from "./index"
+import { CompletePrice, RelatedPriceModel, CompleteOrderLog, RelatedOrderLogModel, CompleteShippingMethod, RelatedShippingMethodModel, CompleteUser, RelatedUserModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteShippingAddress, RelatedShippingAddressModel, CompleteRefund, RelatedRefundModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
 
 export const OrderModel = z.object({
   id: z.number().int(),
@@ -48,15 +31,13 @@ export interface CompleteOrder extends z.infer<typeof OrderModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedOrderModel: z.ZodSchema<CompleteOrder> = z.lazy(() =>
-  OrderModel.extend({
-    amount: RelatedPriceModel,
-    orderLog: RelatedOrderLogModel,
-    shippingMethod: RelatedShippingMethodModel.nullish(),
-    user: RelatedUserModel,
-    purchasedItems: RelatedPurchasedItemModel.array(),
-    shippingAddresses: RelatedShippingAddressModel.array(),
-    refunds: RelatedRefundModel.array(),
-    invoices: RelatedInvoiceModel.array(),
-  })
-)
+export const RelatedOrderModel: z.ZodSchema<CompleteOrder> = z.lazy(() => OrderModel.extend({
+  amount: RelatedPriceModel,
+  orderLog: RelatedOrderLogModel,
+  shippingMethod: RelatedShippingMethodModel.nullish(),
+  user: RelatedUserModel,
+  purchasedItems: RelatedPurchasedItemModel.array(),
+  shippingAddresses: RelatedShippingAddressModel.array(),
+  refunds: RelatedRefundModel.array(),
+  invoices: RelatedInvoiceModel.array(),
+}))

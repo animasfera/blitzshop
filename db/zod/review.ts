@@ -24,9 +24,7 @@ export interface CompleteReview extends z.infer<typeof ReviewModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedReviewModel: z.ZodSchema<CompleteReview> = z.lazy(() =>
-  ReviewModel.extend({
-    sender: RelatedUserModel,
-    item: RelatedItemModel,
-  })
-)
+export const RelatedReviewModel: z.ZodSchema<CompleteReview> = z.lazy(() => ReviewModel.extend({
+  sender: RelatedUserModel,
+  item: RelatedItemModel,
+}))

@@ -26,8 +26,6 @@ export interface CompleteCardToken extends z.infer<typeof CardTokenModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedCardTokenModel: z.ZodSchema<CompleteCardToken> = z.lazy(() =>
-  CardTokenModel.extend({
-    owner: RelatedUserModel,
-  })
-)
+export const RelatedCardTokenModel: z.ZodSchema<CompleteCardToken> = z.lazy(() => CardTokenModel.extend({
+  owner: RelatedUserModel,
+}))

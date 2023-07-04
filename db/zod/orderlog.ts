@@ -19,8 +19,6 @@ export interface CompleteOrderLog extends z.infer<typeof OrderLogModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedOrderLogModel: z.ZodSchema<CompleteOrderLog> = z.lazy(() =>
-  OrderLogModel.extend({
-    orders: RelatedOrderModel.array(),
-  })
-)
+export const RelatedOrderLogModel: z.ZodSchema<CompleteOrderLog> = z.lazy(() => OrderLogModel.extend({
+  orders: RelatedOrderModel.array(),
+}))

@@ -19,8 +19,6 @@ export interface CompleteShippingMethod extends z.infer<typeof ShippingMethodMod
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedShippingMethodModel: z.ZodSchema<CompleteShippingMethod> = z.lazy(() =>
-  ShippingMethodModel.extend({
-    orders: RelatedOrderModel.array(),
-  })
-)
+export const RelatedShippingMethodModel: z.ZodSchema<CompleteShippingMethod> = z.lazy(() => ShippingMethodModel.extend({
+  orders: RelatedOrderModel.array(),
+}))

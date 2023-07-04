@@ -1,23 +1,12 @@
 import * as z from "zod"
 import { TransactionStatusEnum, TransactionTypeEnum } from "@prisma/client"
-import {
-  CompletePrice,
-  RelatedPriceModel,
-  CompletePaymentMethod,
-  RelatedPaymentMethodModel,
-  CompleteInvoice,
-  RelatedInvoiceModel,
-  CompleteUser,
-  RelatedUserModel,
-} from "./index"
+import { CompletePrice, RelatedPriceModel, CompletePaymentMethod, RelatedPaymentMethodModel, CompleteInvoice, RelatedInvoiceModel, CompleteUser, RelatedUserModel } from "./index"
 
 // Helper schema for JSON fields
 type Literal = boolean | number | string
 type Json = Literal | { [key: string]: Json } | Json[]
 const literalSchema = z.union([z.string(), z.number(), z.boolean()])
-const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
-  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
-)
+const jsonSchema: z.ZodSchema<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]))
 
 export const TransactionModel = z.object({
   id: z.number().int(),
@@ -53,13 +42,11 @@ export interface CompleteTransaction extends z.infer<typeof TransactionModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedTransactionModel: z.ZodSchema<CompleteTransaction> = z.lazy(() =>
-  TransactionModel.extend({
-    amount: RelatedPriceModel,
-    feeTotal: RelatedPriceModel,
-    net: RelatedPriceModel,
-    paymentMethod: RelatedPaymentMethodModel,
-    invoice: RelatedInvoiceModel,
-    user: RelatedUserModel,
-  })
-)
+export const RelatedTransactionModel: z.ZodSchema<CompleteTransaction> = z.lazy(() => TransactionModel.extend({
+  amount: RelatedPriceModel,
+  feeTotal: RelatedPriceModel,
+  net: RelatedPriceModel,
+  paymentMethod: RelatedPaymentMethodModel,
+  invoice: RelatedInvoiceModel,
+  user: RelatedUserModel,
+}))
