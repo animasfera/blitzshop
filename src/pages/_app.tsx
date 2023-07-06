@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
 import { ChakraProvider, DarkMode, Box, extendTheme } from "@chakra-ui/react"
+import { CurrencyEnum } from "@prisma/client"
 
 import "@fontsource/montserrat/400.css"
 import "@fontsource/montserrat/200.css"
@@ -15,6 +16,7 @@ import { withBlitz } from "src/blitz-client"
 import "src/styles/styles.css"
 import { Theme } from "src/core/theme/Theme"
 import { LightModeContext } from "src/core/contexts/lightModeContext"
+import { Currency, CurrencyContext } from "src/core/contexts/currencyContext"
 import { ThemeEnum } from "src/core/enums/ThemeEnum"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
@@ -38,16 +40,42 @@ function RootErrorFallback({ error }: ErrorFallbackProps) {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [mode, setMode] = useState(ThemeEnum.light)
+  const [mode, setMode] = useState<ThemeEnum>(ThemeEnum.light)
+  const [currency, setCurrency] = useState<Currency>({ name: CurrencyEnum.EUR, rate: 1 })
+
   const theme = extendTheme(Theme)
 
   const getLayout = Component.getLayout || ((page) => page)
+
+  useEffect(() => {
+    if (localStorage.getItem("currency")) {
+      let data: any
+
+      try {
+        data = JSON.parse(localStorage.getItem("currency")!)
+
+        if (data.name === "SGD") data.name = "EUR"
+      } catch (e) {
+        data = {}
+      }
+      setCurrency(data)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (currency) {
+      localStorage && localStorage.setItem("currency", JSON.stringify(currency))
+    }
+  }, [currency])
+
   return (
     <ChakraProvider theme={theme}>
       <LightModeContext.Provider value={{ mode, setMode }}>
-        <ErrorBoundary FallbackComponent={RootErrorFallback}>
-          {getLayout(<Component {...pageProps} />)}
-        </ErrorBoundary>
+        <CurrencyContext.Provider value={{ currency, setCurrency }}>
+          <ErrorBoundary FallbackComponent={RootErrorFallback}>
+            {getLayout(<Component {...pageProps} />)}
+          </ErrorBoundary>
+        </CurrencyContext.Provider>
       </LightModeContext.Provider>
     </ChakraProvider>
   )
