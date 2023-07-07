@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, ReactElement, Suspense } from "react"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
+import { useSession } from "@blitzjs/auth"
 import { ChakraProvider, DarkMode, Box, extendTheme } from "@chakra-ui/react"
 import { CurrencyEnum } from "@prisma/client"
 
@@ -17,7 +18,10 @@ import "src/styles/styles.css"
 import { Theme } from "src/core/theme/Theme"
 import { LightModeContext } from "src/core/contexts/lightModeContext"
 import { Currency, CurrencyContext } from "src/core/contexts/currencyContext"
+import { TimezoneContext } from "src/core/contexts/timezoneContext"
 import { ThemeEnum } from "src/core/enums/ThemeEnum"
+import { Loading } from "src/core/components/Loading"
+import { useTimezone } from "src/core/hooks/useTimezone"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -42,6 +46,7 @@ function RootErrorFallback({ error }: ErrorFallbackProps) {
 function MyApp({ Component, pageProps }: AppProps) {
   const [mode, setMode] = useState<ThemeEnum>(ThemeEnum.light)
   const [currency, setCurrency] = useState<Currency>({ name: CurrencyEnum.EUR, rate: 1 })
+  const [timezone, setTimezone] = useState("Etc/Greenwich")
 
   const theme = extendTheme(Theme)
 
@@ -68,13 +73,37 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [currency])
 
+  const TimezoneWatch = (props): ReactElement => {
+    return (
+      <>
+        <Loading>
+          <TimezoneWatchController {...props} />
+        </Loading>
+      </>
+    )
+  }
+  const TimezoneWatchController = (props) => {
+    // const { timezone, setTimezone } = props
+    const session = useSession()
+    const timezoneCtx = useTimezone()
+    useEffect(() => {
+      timezoneCtx.setTimezone(session.timezone || "Etc/Greenwich")
+    }, [session.timezone])
+    return <></>
+  }
+
   return (
     <ChakraProvider theme={theme}>
       <LightModeContext.Provider value={{ mode, setMode }}>
         <CurrencyContext.Provider value={{ currency, setCurrency }}>
-          <ErrorBoundary FallbackComponent={RootErrorFallback}>
-            {getLayout(<Component {...pageProps} />)}
-          </ErrorBoundary>
+          <TimezoneContext.Provider value={{ timezone, setTimezone }}>
+            <Suspense fallback={<></>}>
+              <TimezoneWatch timezone={timezone} setTimezone={setTimezone} />
+            </Suspense>
+            <ErrorBoundary FallbackComponent={RootErrorFallback}>
+              {getLayout(<Component {...pageProps} />)}
+            </ErrorBoundary>
+          </TimezoneContext.Provider>
         </CurrencyContext.Provider>
       </LightModeContext.Provider>
     </ChakraProvider>
