@@ -9,7 +9,7 @@ export const TimezoneWatch = (): ReactElement => {
 
   useEffect(() => {
     timezoneCtx.setTimezone(session?.timezone ?? "Etc/Greenwich")
-  }, [session.timezone])
+  }, [session.timezone, timezoneCtx])
 
   return <></>
 }
