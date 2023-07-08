@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef, ReactElement, Suspense } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/router"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
-import { useSession } from "@blitzjs/auth"
-import { ChakraProvider, DarkMode, Box, extendTheme } from "@chakra-ui/react"
+import { ChakraProvider, extendTheme } from "@chakra-ui/react"
 import { CurrencyEnum } from "@prisma/client"
 import LoadingBar, { LoadingBarRef } from "react-top-loading-bar"
 import ReactGA from "react-ga4"
@@ -25,10 +24,12 @@ import { TimezoneContext } from "src/core/contexts/timezoneContext"
 import { ThemeEnum } from "src/core/enums/ThemeEnum"
 import { Loading } from "src/core/components/Loading"
 import { useTimezone } from "src/core/hooks/useTimezone"
+import { TimezoneWatch } from "src/core/components/TimezoneWatch"
 
 ReactGA.initialize("G-34Y9N908L5")
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
+  console.error("RootErrorFallback", error)
   if (error instanceof AuthenticationError) {
     return <div>Error: You are not authenticated</div>
   } else if (error instanceof AuthorizationError) {
@@ -58,27 +59,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   const theme = extendTheme(Theme)
 
   const getLayout = Component.getLayout || ((page) => page)
-
-  const TimezoneWatch = (props): ReactElement => {
-    return (
-      <>
-        <Loading>
-          <TimezoneWatchController {...props} />
-        </Loading>
-      </>
-    )
-  }
-
-  const TimezoneWatchController = (props) => {
-    // const { timezone, setTimezone } = props
-    const session = useSession()
-    const timezoneCtx = useTimezone()
-
-    useEffect(() => {
-      timezoneCtx.setTimezone(session.timezone || "Etc/Greenwich")
-    }, [session.timezone])
-    return <></>
-  }
 
   const handleRouteChange = (url) => {
     const loadingBar = ref.current! as LoadingBarRef
@@ -130,9 +110,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <LightModeContext.Provider value={{ mode, setMode }}>
         <CurrencyContext.Provider value={{ currency, setCurrency }}>
           <TimezoneContext.Provider value={{ timezone, setTimezone }}>
-            <Suspense fallback={<></>}>
-              <TimezoneWatch timezone={timezone} setTimezone={setTimezone} />
-            </Suspense>
+            <Loading fallback={<></>}>
+              <TimezoneWatch />
+            </Loading>
 
             <LoadingBar
               color={"rgba(85,60,154,.8)"}
