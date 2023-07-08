@@ -1,9 +1,12 @@
-import { useState, useEffect, ReactElement, Suspense } from "react"
+import { useState, useEffect, useRef, ReactElement, Suspense } from "react"
+import { useRouter } from "next/router"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
 import { useSession } from "@blitzjs/auth"
 import { ChakraProvider, DarkMode, Box, extendTheme } from "@chakra-ui/react"
 import { CurrencyEnum } from "@prisma/client"
+import LoadingBar, { LoadingBarRef } from "react-top-loading-bar"
+import ReactGA from "react-ga4"
 
 import "@fontsource/montserrat/400.css"
 import "@fontsource/montserrat/200.css"
@@ -22,6 +25,8 @@ import { TimezoneContext } from "src/core/contexts/timezoneContext"
 import { ThemeEnum } from "src/core/enums/ThemeEnum"
 import { Loading } from "src/core/components/Loading"
 import { useTimezone } from "src/core/hooks/useTimezone"
+
+ReactGA.initialize("G-34Y9N908L5")
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -47,10 +52,43 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [mode, setMode] = useState<ThemeEnum>(ThemeEnum.light)
   const [currency, setCurrency] = useState<Currency>({ name: CurrencyEnum.EUR, rate: 1 })
   const [timezone, setTimezone] = useState("Etc/Greenwich")
+  const ref = useRef(null)
+  const router = useRouter()
 
   const theme = extendTheme(Theme)
 
   const getLayout = Component.getLayout || ((page) => page)
+
+  const TimezoneWatch = (props): ReactElement => {
+    return (
+      <>
+        <Loading>
+          <TimezoneWatchController {...props} />
+        </Loading>
+      </>
+    )
+  }
+
+  const TimezoneWatchController = (props) => {
+    // const { timezone, setTimezone } = props
+    const session = useSession()
+    const timezoneCtx = useTimezone()
+
+    useEffect(() => {
+      timezoneCtx.setTimezone(session.timezone || "Etc/Greenwich")
+    }, [session.timezone])
+    return <></>
+  }
+
+  const handleRouteChange = (url) => {
+    const loadingBar = ref.current! as LoadingBarRef
+    loadingBar.complete()
+    ReactGA.send({ hitType: "pageview", page: url })
+  }
+  const handleRouteStart = (url) => {
+    const loadingBar = ref.current! as LoadingBarRef
+    loadingBar.continuousStart(10, 100)
+  }
 
   useEffect(() => {
     if (localStorage.getItem("currency")) {
@@ -73,24 +111,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [currency])
 
-  const TimezoneWatch = (props): ReactElement => {
-    return (
-      <>
-        <Loading>
-          <TimezoneWatchController {...props} />
-        </Loading>
-      </>
-    )
-  }
-  const TimezoneWatchController = (props) => {
-    // const { timezone, setTimezone } = props
-    const session = useSession()
-    const timezoneCtx = useTimezone()
-    useEffect(() => {
-      timezoneCtx.setTimezone(session.timezone || "Etc/Greenwich")
-    }, [session.timezone])
-    return <></>
-  }
+  useEffect(() => {
+    router.events.on("routeChangeStart", handleRouteStart)
+    router.events.on("routeChangeComplete", handleRouteChange)
+    router.events.on("hashChangeComplete", handleRouteChange)
+    router.events.on("routeChangeError", handleRouteChange)
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteStart)
+      router.events.off("routeChangeComplete", handleRouteChange)
+      router.events.off("hashChangeComplete", handleRouteChange)
+      router.events.off("routeChangeError", handleRouteChange)
+    }
+  }, [router.events])
 
   return (
     <ChakraProvider theme={theme}>
@@ -100,6 +133,15 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Suspense fallback={<></>}>
               <TimezoneWatch timezone={timezone} setTimezone={setTimezone} />
             </Suspense>
+
+            <LoadingBar
+              color={"rgba(85,60,154,.8)"}
+              // progress={progress}
+              // onLoaderFinished={() => setProgress(0)}
+              height={3}
+              ref={ref}
+            />
+
             <ErrorBoundary FallbackComponent={RootErrorFallback}>
               {getLayout(<Component {...pageProps} />)}
             </ErrorBoundary>
