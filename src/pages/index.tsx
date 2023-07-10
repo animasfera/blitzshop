@@ -1,12 +1,14 @@
-import { Suspense } from "react"
 import Link from "next/link"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
 import { Box, Button, Text } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
+import { Loading } from "src/core/components/Loading"
+import i18n from "src/core/i18n"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -43,13 +45,31 @@ const UserInfo = () => {
 }
 
 const Home: BlitzPage = () => {
+  const { t, i18n } = useTranslation(["pages.home"])
+
   return (
-    <Layout title="Home">
-      <Suspense fallback="Loading...">
+    <Layout title={t("title")}>
+      <Loading>
+        <Button
+          onClick={() => {
+            void i18n.changeLanguage("RU")
+          }}
+        >
+          RU
+        </Button>
+        <Button
+          onClick={() => {
+            void i18n.changeLanguage("EN")
+          }}
+        >
+          EN
+        </Button>
+
         <UserInfo />
-      </Suspense>
+      </Loading>
     </Layout>
   )
 }
 
+export { getServerSideProps } from "src/core/getServerSideProps"
 export default Home

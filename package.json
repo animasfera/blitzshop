@@ -80,6 +80,7 @@
     "shave": "5.0.2",
     "stripe": "12.9.0",
     "zod": "3.20.2",
+    "zod-i18n-map": "2.13.1",
     "zod-prisma": "0.5.4"
   },
   "devDependencies": {

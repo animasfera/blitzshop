@@ -1,16 +1,10 @@
 import { ReactElement, Suspense } from "react"
-// import { Box, Container } from "@chakra-ui/react"
-// import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next"
 
-export const Loading = (props: {
-  fallback?: ReactElement
-  children: any
-  // withContainer?: boolean
-  // size?: string
-}) => {
+export const Loading = (props: { fallback?: ReactElement; children: any }) => {
   const { fallback, children } = props
-  // const { t } = useTranslation(["translation"])
 
-  // t("loading")
-  return <Suspense fallback={fallback ?? <>Loading...</>}>{props.children}</Suspense>
+  const { t } = useTranslation(["translation"])
+
+  return <Suspense fallback={fallback ?? <>{t("loading")}</>}>{children}</Suspense>
 }
