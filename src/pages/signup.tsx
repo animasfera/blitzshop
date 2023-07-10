@@ -5,8 +5,6 @@ import { BlitzPage, Routes } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
 import { Loading } from "src/core/components/Loading"
-import { Button } from "@chakra-ui/react"
-import { LocaleEnum } from "@prisma/client"
 
 const SignupPage: BlitzPage = () => {
   const router = useRouter()

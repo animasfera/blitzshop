@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreateInvoiceSchema } from "src/invoices/schemas"
 import createInvoice from "src/invoices/mutations/createInvoice"
 import { InvoiceForm, FORM_ERROR } from "src/invoices/components/InvoiceForm"
-import { Suspense } from "react"
 
 const NewInvoicePage = () => {
   const router = useRouter()

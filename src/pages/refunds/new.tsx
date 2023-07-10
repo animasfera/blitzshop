@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreateRefundSchema } from "src/refunds/schemas"
 import createRefund from "src/refunds/mutations/createRefund"
 import { RefundForm, FORM_ERROR } from "src/refunds/components/RefundForm"
-import { Suspense } from "react"
 
 const NewRefundPage = () => {
   const router = useRouter()

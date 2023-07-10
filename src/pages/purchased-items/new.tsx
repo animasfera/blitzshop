@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreatePurchasedItemSchema } from "src/purchased-items/schemas"
 import createPurchasedItem from "src/purchased-items/mutations/createPurchasedItem"
 import { PurchasedItemForm, FORM_ERROR } from "src/purchased-items/components/PurchasedItemForm"
-import { Suspense } from "react"
 
 const NewPurchasedItemPage = () => {
   const router = useRouter()

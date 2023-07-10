@@ -4,16 +4,15 @@ import Head from "next/head"
 import Link from "next/link"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
-
 import Layout from "src/core/layouts/Layout"
-import getRefunds from "src/refunds/queries/getRefunds"
+import getItems from "src/items/queries/getItems"
 
 const ITEMS_PER_PAGE = 100
 
-export const RefundsList = () => {
+export const ItemsList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
-  const [{ refunds, hasMore }] = usePaginatedQuery(getRefunds, {
+  const [{ items, hasMore }] = usePaginatedQuery(getItems, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
@@ -25,9 +24,9 @@ export const RefundsList = () => {
   return (
     <div>
       <ul>
-        {refunds.map((refund) => (
-          <li key={refund.id}>
-            <Link href={Routes.ShowRefundPage({ refundId: refund.id })}>{refund.id}</Link>
+        {items.map((item) => (
+          <li key={item.id}>
+            <Link href={Routes.ShowItemPage({ itemId: item.id })}>{item.title}</Link>
           </li>
         ))}
       </ul>
@@ -42,24 +41,24 @@ export const RefundsList = () => {
   )
 }
 
-const RefundsPage = () => {
+const ItemsPage = () => {
   return (
     <Layout>
       <Head>
-        <title>Refunds</title>
+        <title>Items</title>
       </Head>
 
       <div>
         <p>
-          <Link href={Routes.NewRefundPage()}>Create Refund</Link>
+          <Link href={Routes.NewItemPage()}>Create Item</Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>
-          <RefundsList />
+          <ItemsList />
         </Suspense>
       </div>
     </Layout>
   )
 }
 
-export default RefundsPage
+export default ItemsPage

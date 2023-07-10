@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreateReviewSchema } from "src/reviews/schemas"
 import createReview from "src/reviews/mutations/createReview"
 import { ReviewForm, FORM_ERROR } from "src/reviews/components/ReviewForm"
-import { Suspense } from "react"
 
 const NewReviewPage = () => {
   const router = useRouter()

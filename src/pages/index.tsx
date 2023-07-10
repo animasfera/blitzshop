@@ -8,7 +8,6 @@ import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
 import { Loading } from "src/core/components/Loading"
-import i18n from "src/core/i18n"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()

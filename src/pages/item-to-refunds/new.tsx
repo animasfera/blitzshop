@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -6,7 +7,6 @@ import Layout from "src/core/layouts/Layout"
 import { CreateItemToRefundSchema } from "src/item-to-refunds/schemas"
 import createItemToRefund from "src/item-to-refunds/mutations/createItemToRefund"
 import { ItemToRefundForm, FORM_ERROR } from "src/item-to-refunds/components/ItemToRefundForm"
-import { Suspense } from "react"
 
 const NewItemToRefundPage = () => {
   const router = useRouter()

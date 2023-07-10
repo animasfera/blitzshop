@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreateTransactionSchema } from "src/transactions/schemas"
 import createTransaction from "src/transactions/mutations/createTransaction"
 import { TransactionForm, FORM_ERROR } from "src/transactions/components/TransactionForm"
-import { Suspense } from "react"
 
 const NewTransactionPage = () => {
   const router = useRouter()
