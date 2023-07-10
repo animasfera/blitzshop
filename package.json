@@ -36,6 +36,7 @@
     "@prisma/client": "4.6.1",
     "@types/luxon": "3.3.0",
     "array-move": "4.0.0",
+    "autoprefixer": "10.4.14",
     "aws-s3": "2.0.5",
     "aws-sdk": "2.1397.0",
     "axios": "1.4.0",
@@ -55,6 +56,7 @@
     "mailgun-js": "0.22.0",
     "mailgun.js": "9.0.1",
     "next": "13.3.4",
+    "postcss": "8.4.25",
     "prisma": "4.6.1",
     "raw-body": "2.5.2",
     "react": "18.2.0",
@@ -76,6 +78,7 @@
     "sharp": "0.32.1",
     "shave": "5.0.2",
     "stripe": "12.9.0",
+    "tailwindcss": "3.3.2",
     "zod": "3.20.2",
     "zod-prisma": "0.5.4"
   },
