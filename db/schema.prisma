@@ -531,3 +531,8 @@ model FxRate {
 
   @@unique([from, to])
 }
+
+model WaitingUser {
+  email    String  @id
+  notified Boolean @default(false)
+}

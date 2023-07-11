@@ -11,6 +11,9 @@ CREATE TYPE "CountryFilterEnum" AS ENUM ('NONE', 'RUSSIA', 'WORLD_EXPECT_RUSSIA'
 CREATE TYPE "CurrencyEnum" AS ENUM ('RUB', 'USD', 'EUR');
 
 -- CreateEnum
+CREATE TYPE "LocaleEnum" AS ENUM ('RU', 'EN');
+
+-- CreateEnum
 CREATE TYPE "TokenTypeEnum" AS ENUM ('RESET_PASSWORD', 'CONFIRM_EMAIL', 'CONFIRM_EMAIL_LEELA_CERT');
 
 -- CreateEnum
@@ -57,7 +60,7 @@ CREATE TABLE "User" (
     "lastName" TEXT,
     "hashedPassword" TEXT,
     "timezone" TEXT NOT NULL DEFAULT 'Etc/Greenwich',
-    "locale" TEXT NOT NULL DEFAULT 'en',
+    "locale" "LocaleEnum" NOT NULL DEFAULT 'EN',
     "avatarUrl" TEXT NOT NULL DEFAULT '',
     "role" "UserRoleEnum" NOT NULL DEFAULT 'USER',
     "status" "UserStatusEnum" NOT NULL DEFAULT 'PENDING',
@@ -400,6 +403,14 @@ CREATE TABLE "FxRate" (
     "from" TEXT NOT NULL,
     "to" TEXT NOT NULL,
     "rate" DOUBLE PRECISION NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "WaitingUser" (
+    "email" TEXT NOT NULL,
+    "notified" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "WaitingUser_pkey" PRIMARY KEY ("email")
 );
 
 -- CreateIndex
