@@ -10,7 +10,7 @@ export const Speaker = (props) => {
       textAlign={"center"}
     >
       <Box mb={4} textAlign={"center"}>
-        <Image src={src} />
+        <Image alt={title} src={src} />
       </Box>
       <Heading size={"sm"} color={"rgba(198, 163, 87, 0.5)"}>
         {title}

@@ -30,6 +30,7 @@ export const TopBanner = () => {
             <Box>
               <Image
                 top={[0, 0, 0, -300]}
+                alt={"fest"}
                 src={"/landing/fest.svg"}
                 position={"absolute"}
                 w={"100%"}
