@@ -68,6 +68,7 @@
     "react-final-form-listeners": "1.0.3",
     "react-ga4": "2.1.0",
     "react-geocode": "0.2.3",
+    "react-globe.gl": "2.24.1",
     "react-i18next": "13.0.0",
     "react-icons": "4.9.0",
     "react-photo-gallery": "8.0.0",
