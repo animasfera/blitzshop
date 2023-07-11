@@ -23,7 +23,6 @@ import { Currency, CurrencyContext } from "src/core/contexts/currencyContext"
 import { TimezoneContext } from "src/core/contexts/timezoneContext"
 import { ThemeEnum } from "src/core/enums/ThemeEnum"
 import { Loading } from "src/core/components/Loading"
-import { useTimezone } from "src/core/hooks/useTimezone"
 import { TimezoneWatch } from "src/core/components/TimezoneWatch"
 
 ReactGA.initialize("G-34Y9N908L5")
