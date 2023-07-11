@@ -55,6 +55,8 @@ model User {
   refundProcessedByUser Refund[]          @relation(name: "ProcessedByUser")
   refunds               Refund[]          @relation(name: "RefundUser")
   transactions          Transaction[]
+  location              Location?         @relation(fields: [locationId], references: [id])
+  locationId            Int?
 }
 
 model Session {
@@ -270,6 +272,8 @@ model Item {
   reviews        Review[]
   purchasedItems PurchasedItem[]
   invoices       Invoice[]
+  location       Location?       @relation(fields: [locationId], references: [id])
+  locationId     Int?
 }
 
 model Cart {
@@ -350,6 +354,7 @@ model Country {
   titleRu           String
   titleEn           String
   shippingAddresses ShippingAddress[]
+  location          Location[]
 }
 
 model PurchasedItem {
@@ -535,4 +540,20 @@ model FxRate {
 model WaitingUser {
   email    String  @id
   notified Boolean @default(false)
+}
+
+model Location {
+  id        Int     @id @default(autoincrement())
+  lat       Float
+  lng       Float
+  address   String  @default("")
+  addressRu String  @default("")
+  addressEn String  @default("")
+  city      String  @default("")
+  cityRu    String  @default("")
+  cityEn    String  @default("")
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String  @db.Char(2)
+  users     User[]
+  items     Item[]
 }

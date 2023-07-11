@@ -67,6 +67,7 @@ CREATE TABLE "User" (
     "buyingInCountries" "CountryFilterEnum" NOT NULL DEFAULT 'NONE',
     "currency" "CurrencyEnum" NOT NULL DEFAULT 'EUR',
     "configKey" TEXT,
+    "locationId" INTEGER,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -213,6 +214,7 @@ CREATE TABLE "Item" (
     "coverImageId" INTEGER NOT NULL,
     "userId" INTEGER,
     "cartId" INTEGER,
+    "locationId" INTEGER,
 
     CONSTRAINT "Item_pkey" PRIMARY KEY ("id")
 );
@@ -413,6 +415,22 @@ CREATE TABLE "WaitingUser" (
     CONSTRAINT "WaitingUser_pkey" PRIMARY KEY ("email")
 );
 
+-- CreateTable
+CREATE TABLE "Location" (
+    "id" SERIAL NOT NULL,
+    "lat" DOUBLE PRECISION NOT NULL,
+    "lng" DOUBLE PRECISION NOT NULL,
+    "address" TEXT NOT NULL DEFAULT '',
+    "addressRu" TEXT NOT NULL DEFAULT '',
+    "addressEn" TEXT NOT NULL DEFAULT '',
+    "city" TEXT NOT NULL DEFAULT '',
+    "cityRu" TEXT NOT NULL DEFAULT '',
+    "cityEn" TEXT NOT NULL DEFAULT '',
+    "countryId" CHAR(2) NOT NULL,
+
+    CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
@@ -442,6 +460,9 @@ CREATE UNIQUE INDEX "FxRate_from_to_key" ON "FxRate"("from", "to");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_configKey_fkey" FOREIGN KEY ("configKey") REFERENCES "Config"("key") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -481,6 +502,9 @@ ALTER TABLE "Item" ADD CONSTRAINT "Item_userId_fkey" FOREIGN KEY ("userId") REFE
 
 -- AddForeignKey
 ALTER TABLE "Item" ADD CONSTRAINT "Item_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Item" ADD CONSTRAINT "Item_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Cart" ADD CONSTRAINT "Cart_amountId_fkey" FOREIGN KEY ("amountId") REFERENCES "Price"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -577,3 +601,6 @@ ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_invoiceId_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Location" ADD CONSTRAINT "Location_countryId_fkey" FOREIGN KEY ("countryId") REFERENCES "Country"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

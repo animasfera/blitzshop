@@ -1,6 +1,25 @@
 import * as z from "zod"
 import { ItemStatusEnum, AccessTypeEnum } from "@prisma/client"
-import { CompleteCategory, RelatedCategoryModel, CompletePrice, RelatedPriceModel, CompleteImageToItem, RelatedImageToItemModel, CompleteUser, RelatedUserModel, CompleteCart, RelatedCartModel, CompleteReview, RelatedReviewModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
+import {
+  CompleteCategory,
+  RelatedCategoryModel,
+  CompletePrice,
+  RelatedPriceModel,
+  CompleteImageToItem,
+  RelatedImageToItemModel,
+  CompleteUser,
+  RelatedUserModel,
+  CompleteCart,
+  RelatedCartModel,
+  CompleteReview,
+  RelatedReviewModel,
+  CompletePurchasedItem,
+  RelatedPurchasedItemModel,
+  CompleteInvoice,
+  RelatedInvoiceModel,
+  CompleteLocation,
+  RelatedLocationModel,
+} from "./index"
 
 export const ItemModel = z.object({
   id: z.number().int(),
@@ -19,6 +38,7 @@ export const ItemModel = z.object({
   coverImageId: z.number().int(),
   userId: z.number().int().nullish(),
   cartId: z.number().int().nullish(),
+  locationId: z.number().int().nullish(),
 })
 
 export interface CompleteItem extends z.infer<typeof ItemModel> {
@@ -31,6 +51,7 @@ export interface CompleteItem extends z.infer<typeof ItemModel> {
   reviews: CompleteReview[]
   purchasedItems: CompletePurchasedItem[]
   invoices: CompleteInvoice[]
+  location?: CompleteLocation | null
 }
 
 /**
@@ -38,14 +59,17 @@ export interface CompleteItem extends z.infer<typeof ItemModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedItemModel: z.ZodSchema<CompleteItem> = z.lazy(() => ItemModel.extend({
-  category: RelatedCategoryModel.nullish(),
-  amount: RelatedPriceModel.nullish(),
-  coverImage: RelatedImageToItemModel,
-  user: RelatedUserModel.nullish(),
-  cart: RelatedCartModel.nullish(),
-  images: RelatedImageToItemModel.array(),
-  reviews: RelatedReviewModel.array(),
-  purchasedItems: RelatedPurchasedItemModel.array(),
-  invoices: RelatedInvoiceModel.array(),
-}))
+export const RelatedItemModel: z.ZodSchema<CompleteItem> = z.lazy(() =>
+  ItemModel.extend({
+    category: RelatedCategoryModel.nullish(),
+    amount: RelatedPriceModel.nullish(),
+    coverImage: RelatedImageToItemModel,
+    user: RelatedUserModel.nullish(),
+    cart: RelatedCartModel.nullish(),
+    images: RelatedImageToItemModel.array(),
+    reviews: RelatedReviewModel.array(),
+    purchasedItems: RelatedPurchasedItemModel.array(),
+    invoices: RelatedInvoiceModel.array(),
+    location: RelatedLocationModel.nullish(),
+  })
+)
