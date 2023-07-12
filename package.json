@@ -74,6 +74,7 @@
     "react-globe.gl": "2.24.1",
     "react-i18next": "13.0.0",
     "react-icons": "4.9.0",
+    "react-image-file-resizer": "0.4.8",
     "react-photo-gallery": "8.0.0",
     "react-photo-masonry": "8.0.0",
     "react-photoswipe": "1.3.0",
