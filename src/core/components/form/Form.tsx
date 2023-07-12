@@ -1,12 +1,12 @@
 import { ReactNode, PropsWithoutRef } from "react"
+import { formatZodError, validateZodSchema } from "blitz"
 import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form"
+export { FORM_ERROR } from "final-form"
+import arrayMutators from "final-form-arrays"
 import { z } from "zod"
 import { Button } from "@chakra-ui/react"
-import arrayMutators from "final-form-arrays"
-import { Dropzone } from "./Dropzone"
-import { formatZodError, validateZodSchema } from "blitz"
+
 import Autosave from "./Autosave"
-export { FORM_ERROR } from "final-form"
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
@@ -96,15 +96,6 @@ export function Form<S extends z.ZodType<any, any>>({
                 {submitText}
               </Button>
             )}
-
-            {/*<style global jsx>{`*/}
-            {/*  .form > * + * {*/}
-            {/*    margin-top: 1rem;*/}
-            {/*  }*/}
-            {/*  .form > *:first-child {*/}
-            {/*    margin-top: 0 !important;*/}
-            {/*  }*/}
-            {/*`}</style>*/}
 
             {debug && <pre>{JSON.stringify(values)}</pre>}
           </form>
