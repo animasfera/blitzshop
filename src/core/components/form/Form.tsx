@@ -1,10 +1,12 @@
 import { ReactNode, PropsWithoutRef } from "react"
 import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form"
 import { z } from "zod"
-import { validateZodSchema } from "blitz"
-export { FORM_ERROR } from "final-form"
-
 import { Button } from "@chakra-ui/react"
+import arrayMutators from "final-form-arrays"
+import { Dropzone } from "./Dropzone"
+import { formatZodError, validateZodSchema } from "blitz"
+import Autosave from "./Autosave"
+export { FORM_ERROR } from "final-form"
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
@@ -13,8 +15,24 @@ export interface FormProps<S extends z.ZodType<any, any>>
   /** Text to display in the submit button */
   submitText?: string
   schema?: S
+  getInstance?: any
   onSubmit: FinalFormProps<z.infer<S>>["onSubmit"]
   initialValues?: FinalFormProps<z.infer<S>>["initialValues"]
+  game?: any
+  mutators?: any
+  debug?: boolean
+  params?: any
+  showErrors?: boolean
+  _onChange?: any
+  enableReinitialize?: boolean
+  keepDirtyOnReinitialize?: boolean
+  _autoSave?: boolean
+  [key: string]: any
+}
+
+const validate = async (schema) => {
+  const res = validateZodSchema(schema)
+  return res
 }
 
 export function Form<S extends z.ZodType<any, any>>({
@@ -23,31 +41,75 @@ export function Form<S extends z.ZodType<any, any>>({
   schema,
   initialValues,
   onSubmit,
+  getInstance,
+  mutators,
+  debug,
+  showErrors,
+  enableReinitialize,
+  keepDirtyOnReinitialize,
+  _autoSave,
   ...props
 }: FormProps<S>) {
   return (
     <FinalForm
+      enableReinitialize={typeof enableReinitialize === "undefined" ? true : enableReinitialize}
+      keepDirtyOnReinitialize={
+        typeof keepDirtyOnReinitialize === "undefined" ? true : keepDirtyOnReinitialize
+      }
       initialValues={initialValues}
-      validate={validateZodSchema(schema)}
+      validate={(values) => {
+        try {
+          schema?.parse(values)
+        } catch (error) {
+          console.log(error)
+          console.log(formatZodError(error))
+          return formatZodError(error)
+        }
+      }}
       onSubmit={onSubmit}
-      render={({ handleSubmit, submitting, submitError }) => (
-        <form onSubmit={handleSubmit} className="form" {...props}>
-          {/* Form fields supplied as children are rendered here */}
-          {children}
+      mutators={{
+        ...mutators,
+        ...arrayMutators,
+      }}
+      render={({ form, handleSubmit, submitting, submitError, values }) => {
+        {
+          getInstance && getInstance(form)
+        }
+        return (
+          <form onSubmit={handleSubmit} className="form" {...props} style={{ width: "100%" }}>
+            {_autoSave && (
+              <Autosave setFieldData={form.mutators.setFieldData} save={form.submit()} />
+            )}
+            {/* form fields supplied as children are rendered here */}
+            {children}
 
-          {submitError && (
-            <div role="alert" style={{ color: "red" }}>
-              {submitError}
-            </div>
-          )}
+            {showErrors !== false && submitError && (
+              <div role="alert" style={{ color: "red" }}>
+                {typeof submitError === "object"
+                  ? JSON.stringify(submitError)
+                  : submitError.replace("Error: ", "")}
+              </div>
+            )}
 
-          {submitText && (
-            <Button type="submit" disabled={submitting}>
-              {submitText}
-            </Button>
-          )}
-        </form>
-      )}
+            {submitText && (
+              <Button type="submit" disabled={submitting}>
+                {submitText}
+              </Button>
+            )}
+
+            {/*<style global jsx>{`*/}
+            {/*  .form > * + * {*/}
+            {/*    margin-top: 1rem;*/}
+            {/*  }*/}
+            {/*  .form > *:first-child {*/}
+            {/*    margin-top: 0 !important;*/}
+            {/*  }*/}
+            {/*`}</style>*/}
+
+            {debug && <pre>{JSON.stringify(values)}</pre>}
+          </form>
+        )
+      }}
     />
   )
 }
