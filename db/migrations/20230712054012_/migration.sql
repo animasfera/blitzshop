@@ -46,6 +46,12 @@ CREATE TYPE "TransactionStatusEnum" AS ENUM ('PENDING', 'PAYING', 'FINISHED', 'C
 -- CreateEnum
 CREATE TYPE "TransactionTypeEnum" AS ENUM ('SALE', 'REFUND', 'MANUAL_ADJUSTMENT');
 
+-- CreateEnum
+CREATE TYPE "ChatRoomTypeEnum" AS ENUM ('PAIR', 'GROUP', 'REFUND');
+
+-- CreateEnum
+CREATE TYPE "ChatRoomAccessEnum" AS ENUM ('PUBLIC', 'PRIVATE');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -215,6 +221,7 @@ CREATE TABLE "Item" (
     "userId" INTEGER,
     "cartId" INTEGER,
     "locationId" INTEGER,
+    "chatRoomId" INTEGER,
 
     CONSTRAINT "Item_pkey" PRIMARY KEY ("id")
 );
@@ -336,6 +343,7 @@ CREATE TABLE "Refund" (
     "refundMethodId" INTEGER NOT NULL,
     "processedById" INTEGER NOT NULL,
     "orderId" INTEGER NOT NULL,
+    "chatRoomId" INTEGER,
     "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Refund_pkey" PRIMARY KEY ("id")
@@ -431,6 +439,40 @@ CREATE TABLE "Location" (
     CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "ChatRoom" (
+    "id" SERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "avatarUrl" TEXT,
+    "name" TEXT,
+    "type" "ChatRoomTypeEnum" NOT NULL DEFAULT 'PAIR',
+    "access" "ChatRoomAccessEnum" NOT NULL DEFAULT 'PRIVATE',
+
+    CONSTRAINT "ChatRoom_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" SERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "message" TEXT NOT NULL,
+    "senderId" INTEGER NOT NULL,
+    "roomId" INTEGER NOT NULL,
+
+    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserToChatRoom" (
+    "numUnread" INTEGER NOT NULL DEFAULT 0,
+    "role" "UserRoleEnum",
+    "userId" INTEGER NOT NULL,
+    "roomId" INTEGER NOT NULL,
+    "lastReadMessageId" INTEGER
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
@@ -450,13 +492,25 @@ CREATE UNIQUE INDEX "CardToken_token_key" ON "CardToken"("token");
 CREATE UNIQUE INDEX "Review_senderId_itemId_key" ON "Review"("senderId", "itemId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Item_chatRoomId_key" ON "Item"("chatRoomId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Country_id_key" ON "Country"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "PaymentMethod_name_key" ON "PaymentMethod"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Refund_chatRoomId_key" ON "Refund"("chatRoomId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "FxRate_from_to_key" ON "FxRate"("from", "to");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UserToChatRoom_lastReadMessageId_key" ON "UserToChatRoom"("lastReadMessageId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UserToChatRoom_userId_roomId_key" ON "UserToChatRoom"("userId", "roomId");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_configKey_fkey" FOREIGN KEY ("configKey") REFERENCES "Config"("key") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -505,6 +559,9 @@ ALTER TABLE "Item" ADD CONSTRAINT "Item_cartId_fkey" FOREIGN KEY ("cartId") REFE
 
 -- AddForeignKey
 ALTER TABLE "Item" ADD CONSTRAINT "Item_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Item" ADD CONSTRAINT "Item_chatRoomId_fkey" FOREIGN KEY ("chatRoomId") REFERENCES "ChatRoom"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Cart" ADD CONSTRAINT "Cart_amountId_fkey" FOREIGN KEY ("amountId") REFERENCES "Price"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -561,6 +618,9 @@ ALTER TABLE "Refund" ADD CONSTRAINT "Refund_processedById_fkey" FOREIGN KEY ("pr
 ALTER TABLE "Refund" ADD CONSTRAINT "Refund_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Refund" ADD CONSTRAINT "Refund_chatRoomId_fkey" FOREIGN KEY ("chatRoomId") REFERENCES "ChatRoom"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Refund" ADD CONSTRAINT "Refund_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -604,3 +664,18 @@ ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_userId_fkey" FOREIGN KEY (
 
 -- AddForeignKey
 ALTER TABLE "Location" ADD CONSTRAINT "Location_countryId_fkey" FOREIGN KEY ("countryId") REFERENCES "Country"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES "ChatRoom"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserToChatRoom" ADD CONSTRAINT "UserToChatRoom_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserToChatRoom" ADD CONSTRAINT "UserToChatRoom_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES "ChatRoom"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserToChatRoom" ADD CONSTRAINT "UserToChatRoom_lastReadMessageId_fkey" FOREIGN KEY ("lastReadMessageId") REFERENCES "Message"("id") ON DELETE SET NULL ON UPDATE CASCADE;

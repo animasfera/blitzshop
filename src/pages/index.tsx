@@ -44,26 +44,11 @@ const UserInfo = () => {
 }
 
 const Home: BlitzPage = () => {
-  const { t, i18n } = useTranslation(["pages.home"])
+  const { t } = useTranslation(["pages.home"])
 
   return (
     <Layout title={t("title")}>
       <Loading>
-        <Button
-          onClick={() => {
-            void i18n.changeLanguage("RU")
-          }}
-        >
-          RU
-        </Button>
-        <Button
-          onClick={() => {
-            void i18n.changeLanguage("EN")
-          }}
-        >
-          EN
-        </Button>
-
         <UserInfo />
       </Loading>
     </Layout>
