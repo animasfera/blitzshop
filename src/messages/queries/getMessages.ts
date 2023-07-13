@@ -1,6 +1,6 @@
-import { paginate } from "blitz"
 import { resolver } from "@blitzjs/rpc"
 import db, { Prisma } from "db"
+import { paginate } from "blitz"
 
 interface GetMessagesInput
   extends Pick<Prisma.MessageFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
@@ -8,7 +8,6 @@ interface GetMessagesInput
 export default resolver.pipe(
   resolver.authorize(),
   async ({ where, orderBy, skip = 0, take = 100 }: GetMessagesInput) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const {
       items: messages,
       hasMore,
@@ -18,8 +17,24 @@ export default resolver.pipe(
       skip,
       take,
       count: () => db.message.count({ where }),
-      query: (paginateArgs) => db.message.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) =>
+        db.message.findMany({
+          ...paginateArgs,
+          where,
+          orderBy,
+          include: {
+            sender: {
+              select: {
+                id: true,
+                username: true,
+                avatarUrl: true,
+              },
+            },
+          },
+        }),
     })
+
+    messages.reverse()
 
     return {
       messages,

@@ -26,7 +26,7 @@ export const MessagesList = () => {
       <ul>
         {messages.map((message) => (
           <li key={message.id}>
-            <Link href={Routes.ShowMessagePage({ messageId: message.id })}>{message.message}</Link>
+            <Link href={"#"}>{message.message}</Link>
           </li>
         ))}
       </ul>
@@ -48,15 +48,9 @@ const MessagesPage = () => {
         <title>Messages</title>
       </Head>
 
-      <div>
-        <p>
-          <Link href={Routes.NewMessagePage()}>Create Message</Link>
-        </p>
-
-        <Suspense fallback={<div>Loading...</div>}>
-          <MessagesList />
-        </Suspense>
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <MessagesList />
+      </Suspense>
     </Layout>
   )
 }
