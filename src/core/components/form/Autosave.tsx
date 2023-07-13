@@ -20,6 +20,8 @@ const AutoSave = (props) => {
   return null
 }
 
-export default (props) => (
+const FormAutoSave = (props) => (
   <FormSpy {...props} subscription={{ active: true, values: true }} component={AutoSave} />
 )
+
+export default FormAutoSave
