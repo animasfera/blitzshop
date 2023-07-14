@@ -1,4 +1,5 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
+import { Prisma, PrismaClient } from "@prisma/client"
 import {
   User,
   UserRoleEnum,
@@ -30,6 +31,17 @@ declare module "@blitzjs/auth" {
     }
   }
 }
+
+export type PrismaDbType =
+  | PrismaClient<Prisma.PrismaClientOptions, any, any>
+  | Omit<
+      PrismaClient<
+        Prisma.PrismaClientOptions,
+        never,
+        Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
+      >,
+      "$connect" | "$disconnect" | "$on" | "$transaction" | "$use"
+    >
 
 export type UserMain = Partial<User> & Pick<User, "username" | "avatarUrl" | "id">
 export type UserCardProps = UserMain & User
