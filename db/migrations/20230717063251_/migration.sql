@@ -52,6 +52,9 @@ CREATE TYPE "ChatRoomTypeEnum" AS ENUM ('PAIR', 'GROUP', 'REFUND');
 -- CreateEnum
 CREATE TYPE "ChatRoomAccessEnum" AS ENUM ('PUBLIC', 'PRIVATE');
 
+-- CreateEnum
+CREATE TYPE "MailStatusEnum" AS ENUM ('PENDING', 'SENT', 'ERROR');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -473,6 +476,32 @@ CREATE TABLE "UserToChatRoom" (
     "lastReadMessageId" INTEGER
 );
 
+-- CreateTable
+CREATE TABLE "MailReceiver" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "query" JSONB NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Mail" (
+    "id" SERIAL NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "subjectRu" TEXT NOT NULL,
+    "subjectEn" TEXT NOT NULL,
+    "bodyRu" JSONB NOT NULL,
+    "bodyEn" JSONB NOT NULL,
+    "status" "MailStatusEnum" NOT NULL DEFAULT 'PENDING',
+    "errorMessage" TEXT,
+    "sendScheduledAt" TIMESTAMP(3) NOT NULL,
+    "sentAt" TIMESTAMP(3),
+    "tags" JSONB NOT NULL,
+    "receiverTypeId" TEXT,
+
+    CONSTRAINT "Mail_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
@@ -511,6 +540,9 @@ CREATE UNIQUE INDEX "UserToChatRoom_lastReadMessageId_key" ON "UserToChatRoom"("
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UserToChatRoom_userId_roomId_key" ON "UserToChatRoom"("userId", "roomId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MailReceiver_id_key" ON "MailReceiver"("id");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_configKey_fkey" FOREIGN KEY ("configKey") REFERENCES "Config"("key") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -679,3 +711,6 @@ ALTER TABLE "UserToChatRoom" ADD CONSTRAINT "UserToChatRoom_roomId_fkey" FOREIGN
 
 -- AddForeignKey
 ALTER TABLE "UserToChatRoom" ADD CONSTRAINT "UserToChatRoom_lastReadMessageId_fkey" FOREIGN KEY ("lastReadMessageId") REFERENCES "Message"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Mail" ADD CONSTRAINT "Mail_receiverTypeId_fkey" FOREIGN KEY ("receiverTypeId") REFERENCES "MailReceiver"("id") ON DELETE SET NULL ON UPDATE CASCADE;

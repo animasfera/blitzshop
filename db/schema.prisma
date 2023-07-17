@@ -613,3 +613,33 @@ model UserToChatRoom {
 
   @@unique([userId, roomId])
 }
+
+model MailReceiver {
+  id    String @unique
+  title String
+  query Json
+  Mail  Mail[]
+}
+
+enum MailStatusEnum {
+  PENDING
+  SENT
+  ERROR
+}
+
+model Mail {
+  id              Int            @id @default(autoincrement())
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  subjectRu       String
+  subjectEn       String
+  bodyRu          Json
+  bodyEn          Json
+  status          MailStatusEnum @default(PENDING)
+  errorMessage    String?
+  sendScheduledAt DateTime
+  sentAt          DateTime?
+  tags            Json
+  receiverType    MailReceiver?  @relation(fields: [receiverTypeId], references: [id])
+  receiverTypeId  String?
+}
