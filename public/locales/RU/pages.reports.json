@@ -1,0 +1,12 @@
+{
+  "index": {
+    "headers": {
+      "main": "Отчеты"
+    }
+  },
+  "show": {
+    "headers": {
+      "main": "Отчет #{{id}}"
+    }
+  }
+}
