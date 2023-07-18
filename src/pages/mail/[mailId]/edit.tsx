@@ -43,7 +43,7 @@ export const EditMail = () => {
               try {
                 const updated = await updateMailMutation({
                   id: mail.id,
-                  ...values,
+                  // ...values,
                 })
                 await setQueryData(updated)
                 await router.push(Routes.ShowMailPage({ mailId: updated.id }))

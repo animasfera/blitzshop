@@ -5,14 +5,14 @@ import Link from "next/link"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import Layout from "src/core/layouts/Layout"
-import getMail from "src/mail/queries/getMail"
+import getMails from "src/mail/queries/getMails"
 
 const ITEMS_PER_PAGE = 100
 
 export const MailList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
-  const [{ mail, hasMore }] = usePaginatedQuery(getMail, {
+  const [{ mails, hasMore }] = usePaginatedQuery(getMails, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
@@ -24,9 +24,9 @@ export const MailList = () => {
   return (
     <div>
       <ul>
-        {mail.map((mail) => (
+        {mails.map((mail) => (
           <li key={mail.id}>
-            <Link href={Routes.ShowMailPage({ mailId: mail.id })}>{mail.name}</Link>
+            <Link href={Routes.ShowMailPage({ mailId: mail.id })}>{mail.subjectRu}</Link>
           </li>
         ))}
       </ul>

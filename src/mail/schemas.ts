@@ -1,8 +1,19 @@
 import { z } from "zod"
+import { MailModel } from "db/zod"
 
-export const CreateMailSchema = z.object({
-  // template: __fieldName__: z.__zodType__(),
+export const CreateMailSchema = MailModel.pick({
+  subjectRu: true,
+  subjectEn: true,
+  bodyRu: true,
+  bodyEn: true,
+  tags: true,
+  status: true,
+  errorMessage: true,
+  sentAt: true,
+  sendScheduledAt: true,
+  receiverTypeId: true,
 })
+
 export const UpdateMailSchema = z.object({
   id: z.number(),
   // template: __fieldName__: z.__zodType__(),
