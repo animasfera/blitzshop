@@ -1,0 +1,64 @@
+{
+  "loading": {
+    "text": "Загрузка..."
+  },
+  "header": {
+    "menus": {
+      "main": {
+        "games": "Опыт",
+        "people": "Люди",
+        "login": "Вход"
+      },
+      "user": {
+        "header": "Привет, {{username}}!",
+        "messages": "Сообщения",
+        "profile": "Профиль",
+        "games": "Мои события",
+        "settings": "Настройки"
+      },
+      "guide": {
+        "header": "Меню ведущего",
+        "myPage": "Моя страница",
+        "schedule": "Расписание",
+        "bookings": "Бронирования",
+        "transactions": "Транзакции",
+        "payouts": "Выплаты",
+        "refunds": "Возвраты",
+        "logout": "Выход"
+      }
+    }
+  },
+  "footer": {
+    "menus": {
+      "leela": {
+        "header": "Главное",
+        "games": "События",
+        "people": "Люди"
+      },
+      "docs": {
+        "header": "Документы",
+        "agentOffer": "Агентский договор (для организаторов)",
+        "userAgreement": "Пользовательское соглашение",
+        "privacyPolicy": "Политика обработки персональных данных"
+      },
+      "help": {
+        "help": "Помощь",
+        "header": "Помощь",
+        "contacts": "Контакты"
+      }
+    }
+  },
+  "status": {
+    "canceled": "Отменено",
+    "failed": "Неуспешно",
+    "pending": "Ожидание",
+    "suspended": "На паузе",
+    "rejected": "Отклонено",
+    "approved": "Подтверждено",
+    "paying": "Оплата",
+    "paid": "Оплачено",
+    "active": "Активно",
+    "finished": "Завершено",
+    "uploaded": "Загружено"
+  }
+}

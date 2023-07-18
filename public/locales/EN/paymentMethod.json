@@ -1,0 +1,10 @@
+{
+  "descriptions": {
+    "cloudpayments": "Card issued by a Russian bank",
+    "stripe": "Card issued by a non-Russian bank",
+    "bankRu": "Russian bank account",
+    "bankRuTinkoff": "Russian bank account at Tinkoff bank",
+    "swift": "SWIFT bank transfer",
+    "iban": "IBAN Transfer within European Union"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "list": {
+    "headers": {
+      "main": "Payouts"
+    },
+    "texts": {
+      "notFoundMessage": "No payouts yet."
+    }
+  }
+}

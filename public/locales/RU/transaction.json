@@ -1,0 +1,31 @@
+{
+  "title": "Транзакции",
+  "status": {
+    "failed": "Неуспешно",
+    "canceled": "Отменено",
+    "pending": "Ожидание",
+    "paying": "Идет оплата",
+    "finished": "Завершено"
+  },
+  "type": {
+    "sale": "Продажа",
+    "saleRefund": "Возврат",
+    "saleReversal": "Отмена продажи",
+    "saleFee": "Комиссия с продажи",
+    "saleFeeRefund": "Возврат комиссии с продажи",
+    "saleFeeReversal": "Отмена комиссии с продажи",
+    "refund": "Возврат",
+    "payout": "Выплата",
+    "purchase": "Покупка",
+    "payoutCancellation": "Отмена выплаты",
+    "payoutRejection": "Возврат выплаты",
+    "payoutFee": "Комиссия за выплату",
+    "manualAdjustment": "Ручная корректировка"
+  },
+  "list": {
+    "notFoundMessage": "Нет транзакций"
+  },
+  "errors": {
+    "remoteTransactionIdIncorrect": "Не совпадает ID удаленной транзакции"
+  }
+}
