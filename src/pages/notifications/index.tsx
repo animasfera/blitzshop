@@ -4,6 +4,7 @@ import Head from "next/head"
 import Link from "next/link"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
+
 import Layout from "src/core/layouts/Layout"
 import getNotifications from "src/notifications/queries/getNotifications"
 

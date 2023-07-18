@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreateNotificationSchema } from "src/notifications/schemas"
 import createNotification from "src/notifications/mutations/createNotification"
 import { NotificationForm, FORM_ERROR } from "src/notifications/components/NotificationForm"
-import { Suspense } from "react"
 
 const NewNotificationPage = () => {
   const router = useRouter()

@@ -35,7 +35,7 @@ model User {
   lastName              String?
   hashedPassword        String?
   timezone              String            @default("Etc/Greenwich")
-  locale                String            @default("en")
+  locale                LocaleEnum        @default(EN)
   avatarUrl             String            @default("")
   role                  UserRoleEnum      @default(USER)
   status                UserStatusEnum    @default(PENDING)
@@ -94,6 +94,11 @@ enum CurrencyEnum {
   RUB
   USD
   EUR
+}
+
+enum LocaleEnum {
+  RU
+  EN
 }
 
 model Token {

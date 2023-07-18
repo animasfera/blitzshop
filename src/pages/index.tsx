@@ -1,18 +1,13 @@
-import { Suspense } from "react"
 import Link from "next/link"
+import { useMutation } from "@blitzjs/rpc"
+import { Routes, BlitzPage } from "@blitzjs/next"
+import { Box, Button, Text } from "@chakra-ui/react"
+import { useTranslation } from "react-i18next"
+
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
-import { useMutation } from "@blitzjs/rpc"
-import { Routes, BlitzPage } from "@blitzjs/next"
-import styles from "src/styles/Home.module.css"
-
-import { Button } from "@chakra-ui/react"
-
-/*
- * This file is just for a pleasant getting started page for your new app.
- * You can delete everything in here and start from scratch if you like.
- */
+import { Loading } from "src/core/components/Loading"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -28,21 +23,20 @@ const UserInfo = () => {
         >
           Logout
         </Button>
-        <div>
-          User id: <code>{currentUser.id}</code>
-          <br />
-          User role: <code>{currentUser.role}</code>
-        </div>
+        <Box>
+          <Text>User id: {currentUser.id}</Text>
+          <Text>User role: {currentUser.role}</Text>
+        </Box>
       </>
     )
   } else {
     return (
       <>
         <Link href={Routes.SignupPage()}>
-          <strong>Sign Up</strong>
+          <Button>Sign Up</Button>
         </Link>
         <Link href={Routes.LoginPage()}>
-          <strong>Login</strong>
+          <Button>Login</Button>
         </Link>
       </>
     )
@@ -50,13 +44,31 @@ const UserInfo = () => {
 }
 
 const Home: BlitzPage = () => {
+  const { t, i18n } = useTranslation(["pages.home"])
+
   return (
-    <Layout title="Home">
-      <Suspense fallback="Loading...">
+    <Layout title={t("title")}>
+      <Loading>
+        <Button
+          onClick={() => {
+            void i18n.changeLanguage("RU")
+          }}
+        >
+          RU
+        </Button>
+        <Button
+          onClick={() => {
+            void i18n.changeLanguage("EN")
+          }}
+        >
+          EN
+        </Button>
+
         <UserInfo />
-      </Suspense>
+      </Loading>
     </Layout>
   )
 }
 
+export { getServerSideProps } from "src/core/getServerSideProps"
 export default Home

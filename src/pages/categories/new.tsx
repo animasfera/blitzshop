@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreateCategorySchema } from "src/categories/schemas"
 import createCategory from "src/categories/mutations/createCategory"
 import { CategoryForm, FORM_ERROR } from "src/categories/components/CategoryForm"
-import { Suspense } from "react"
 
 const NewCategoryPage = () => {
   const router = useRouter()

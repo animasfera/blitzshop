@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreatePaymentMethodSchema } from "src/payment-methods/schemas"
 import createPaymentMethod from "src/payment-methods/mutations/createPaymentMethod"
 import { PaymentMethodForm, FORM_ERROR } from "src/payment-methods/components/PaymentMethodForm"
-import { Suspense } from "react"
 
 const NewPaymentMethodPage = () => {
   const router = useRouter()

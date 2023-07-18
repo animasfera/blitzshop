@@ -1,4 +1,5 @@
 import Document, { Html, Main, NextScript, Head } from "next/document"
+import i18n from "src/core/i18n"
 
 class MyDocument extends Document {
   // Only uncomment if you need to customize this behaviour
@@ -8,7 +9,7 @@ class MyDocument extends Document {
   // }
   render() {
     return (
-      <Html lang="en">
+      <Html lang={i18n.resolvedLanguage?.toLowerCase() || "en"}>
         <Head />
         <body>
           <Main />

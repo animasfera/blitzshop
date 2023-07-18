@@ -1,7 +1,9 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreateShippingAddressSchema } from "src/shipping-addresses/schemas"
 import createShippingAddress from "src/shipping-addresses/mutations/createShippingAddress"
@@ -9,7 +11,6 @@ import {
   ShippingAddressForm,
   FORM_ERROR,
 } from "src/shipping-addresses/components/ShippingAddressForm"
-import { Suspense } from "react"
 
 const NewShippingAddressPage = () => {
   const router = useRouter()

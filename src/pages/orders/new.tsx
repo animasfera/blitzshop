@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreateOrderSchema } from "src/orders/schemas"
 import createOrder from "src/orders/mutations/createOrder"
 import { OrderForm, FORM_ERROR } from "src/orders/components/OrderForm"
-import { Suspense } from "react"
 
 const NewOrderPage = () => {
   const router = useRouter()

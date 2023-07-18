@@ -1,8 +1,12 @@
-import { LabeledTextField } from "src/core/components/LabeledTextField"
-import { Form, FORM_ERROR } from "src/core/components/Form"
+import { useMutation } from "@blitzjs/rpc"
+import { useTranslation } from "react-i18next"
+import { z } from "zod"
+import { makeZodI18nMap } from "zod-i18n-map"
+
+import { LabeledTextField } from "src/core/components/form/LabeledTextField"
+import { Form, FORM_ERROR } from "src/core/components/form/Form"
 import signup from "src/auth/mutations/signup"
 import { Signup } from "src/auth/schemas"
-import { useMutation } from "@blitzjs/rpc"
 
 type SignupFormProps = {
   onSuccess?: () => void
@@ -10,9 +14,13 @@ type SignupFormProps = {
 
 export const SignupForm = (props: SignupFormProps) => {
   const [signupMutation] = useMutation(signup)
+
+  const { t } = useTranslation(["pages.signup", "zod"])
+  z.setErrorMap(makeZodI18nMap({ t }))
+
   return (
     <div>
-      <h1>Create an Account</h1>
+      <h1>{t("title")}</h1>
 
       <Form
         submitText="Create Account"

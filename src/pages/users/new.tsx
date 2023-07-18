@@ -1,12 +1,13 @@
+import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
+
 import Layout from "src/core/layouts/Layout"
 import { CreateUserSchema } from "src/users/schemas"
 import createUser from "src/users/mutations/createUser"
 import { UserForm, FORM_ERROR } from "src/users/components/UserForm"
-import { Suspense } from "react"
 
 const NewUserPage = () => {
   const router = useRouter()
