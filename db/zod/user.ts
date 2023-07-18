@@ -9,6 +9,8 @@ import {
 import {
   CompleteConfig,
   RelatedConfigModel,
+  CompleteLocation,
+  RelatedLocationModel,
   CompleteToken,
   RelatedTokenModel,
   CompleteSession,
@@ -31,6 +33,10 @@ import {
   RelatedRefundModel,
   CompleteTransaction,
   RelatedTransactionModel,
+  CompleteMessage,
+  RelatedMessageModel,
+  CompleteUserToChatRoom,
+  RelatedUserToChatRoomModel,
 } from "./index"
 
 export const UserModel = z.object({
@@ -53,10 +59,12 @@ export const UserModel = z.object({
   buyingInCountries: z.nativeEnum(CountryFilterEnum),
   currency: z.nativeEnum(CurrencyEnum),
   configKey: z.string().nullish(),
+  locationId: z.number().int().nullish(),
 })
 
 export interface CompleteUser extends z.infer<typeof UserModel> {
   config?: CompleteConfig | null
+  location?: CompleteLocation | null
   tokens: CompleteToken[]
   sessions: CompleteSession[]
   cardTokens: CompleteCardToken[]
@@ -69,6 +77,8 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
   refundProcessedByUser: CompleteRefund[]
   refunds: CompleteRefund[]
   transactions: CompleteTransaction[]
+  messages: CompleteMessage[]
+  messageRooms: CompleteUserToChatRoom[]
 }
 
 /**
@@ -79,6 +89,7 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
 export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
   UserModel.extend({
     config: RelatedConfigModel.nullish(),
+    location: RelatedLocationModel.nullish(),
     tokens: RelatedTokenModel.array(),
     sessions: RelatedSessionModel.array(),
     cardTokens: RelatedCardTokenModel.array(),
@@ -91,5 +102,7 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
     refundProcessedByUser: RelatedRefundModel.array(),
     refunds: RelatedRefundModel.array(),
     transactions: RelatedTransactionModel.array(),
+    messages: RelatedMessageModel.array(),
+    messageRooms: RelatedUserToChatRoomModel.array(),
   })
 )

@@ -43,6 +43,8 @@ model User {
   currency              CurrencyEnum      @default(EUR)
   config                Config?           @relation(fields: [configKey], references: [key])
   configKey             String?
+  location              Location?         @relation(fields: [locationId], references: [id])
+  locationId            Int?
   tokens                Token[]
   sessions              Session[]
   cardTokens            CardToken[]       @relation(name: "AllCardTokens")
@@ -55,6 +57,8 @@ model User {
   refundProcessedByUser Refund[]          @relation(name: "ProcessedByUser")
   refunds               Refund[]          @relation(name: "RefundUser")
   transactions          Transaction[]
+  messages              Message[]
+  messageRooms          UserToChatRoom[]
 }
 
 model Session {
@@ -266,6 +270,10 @@ model Item {
   userId         Int?
   cart           Cart?           @relation(fields: [cartId], references: [id])
   cartId         Int?
+  location       Location?       @relation(fields: [locationId], references: [id])
+  locationId     Int?
+  chatRoom       ChatRoom?       @relation(fields: [chatRoomId], references: [id])
+  chatRoomId     Int?            @unique
   images         ImageToItem[]
   reviews        Review[]
   purchasedItems PurchasedItem[]
@@ -350,6 +358,7 @@ model Country {
   titleRu           String
   titleEn           String
   shippingAddresses ShippingAddress[]
+  location          Location[]
 }
 
 model PurchasedItem {
@@ -416,9 +425,11 @@ model Refund {
   processedById  Int
   order          Order            @relation(fields: [orderId], references: [id])
   orderId        Int
+  chatRoom       ChatRoom?        @relation(fields: [chatRoomId], references: [id])
+  chatRoomId     Int?             @unique
   user           User             @relation(name: "RefundUser", fields: [userId], references: [id])
   userId         Int
-  ItemToRefund   ItemToRefund[]
+  itemToRefund   ItemToRefund[]
 }
 
 enum RefundStatusEnum {
@@ -530,4 +541,105 @@ model FxRate {
   rate      Float
 
   @@unique([from, to])
+}
+
+model WaitingUser {
+  email    String  @id
+  notified Boolean @default(false)
+}
+
+model Location {
+  id        Int     @id @default(autoincrement())
+  lat       Float
+  lng       Float
+  address   String  @default("")
+  addressRu String  @default("")
+  addressEn String  @default("")
+  city      String  @default("")
+  cityRu    String  @default("")
+  cityEn    String  @default("")
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String  @db.Char(2)
+  users     User[]
+  items     Item[]
+}
+
+enum ChatRoomTypeEnum {
+  PAIR
+  GROUP
+  REFUND
+}
+
+enum ChatRoomAccessEnum {
+  PUBLIC
+  PRIVATE
+}
+
+model ChatRoom {
+  id        Int                @id @default(autoincrement())
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  avatarUrl String?
+  name      String?
+  type      ChatRoomTypeEnum   @default(PAIR)
+  access    ChatRoomAccessEnum @default(PRIVATE)
+  refund    Refund?
+  item      Item?
+  messages  Message[]
+  users     UserToChatRoom[]
+}
+
+model Message {
+  id                   Int             @id @default(autoincrement())
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  message              String
+  sender               User            @relation(fields: [senderId], references: [id])
+  senderId             Int
+  room                 ChatRoom        @relation(fields: [roomId], references: [id])
+  roomId               Int
+  lastInChatRoomToUser UserToChatRoom?
+}
+
+model UserToChatRoom {
+  numUnread         Int           @default(0)
+  role              UserRoleEnum?
+  user              User          @relation(fields: [userId], references: [id])
+  userId            Int
+  room              ChatRoom      @relation(fields: [roomId], references: [id])
+  roomId            Int
+  lastReadMessage   Message?      @relation(fields: [lastReadMessageId], references: [id])
+  lastReadMessageId Int?          @unique
+
+  @@unique([userId, roomId])
+}
+
+model MailReceiver {
+  id    String @unique
+  title String
+  query Json
+  Mail  Mail[]
+}
+
+enum MailStatusEnum {
+  PENDING
+  SENT
+  ERROR
+}
+
+model Mail {
+  id              Int            @id @default(autoincrement())
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  subjectRu       String
+  subjectEn       String
+  bodyRu          Json
+  bodyEn          Json
+  status          MailStatusEnum @default(PENDING)
+  errorMessage    String?
+  sendScheduledAt DateTime
+  sentAt          DateTime?
+  tags            Json
+  receiverType    MailReceiver?  @relation(fields: [receiverTypeId], references: [id])
+  receiverTypeId  String?
 }

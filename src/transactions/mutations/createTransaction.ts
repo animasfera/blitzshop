@@ -1,6 +1,18 @@
+import { Ctx } from "blitz"
 import { resolver } from "@blitzjs/rpc"
 import db from "db"
-import { CreateTransactionSchema } from "../schemas"
+import { PrismaDbType } from "types"
+
+import { CreateTransactionSchema, CreateTransactionType } from "../schemas"
+
+export const createTransactionDbQuery = async (
+  input: CreateTransactionType,
+  ctx: Ctx,
+  $db: PrismaDbType
+) => {
+  const transaction = await $db.transaction.create({ data: { ...input } })
+  return transaction
+}
 
 export default resolver.pipe(
   resolver.zod(CreateTransactionSchema),

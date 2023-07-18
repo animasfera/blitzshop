@@ -1,5 +1,15 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
-import { User, UserRoleEnum, LocaleEnum, CurrencyEnum, CountryFilterEnum } from "db"
+import { Prisma, PrismaClient } from "@prisma/client"
+import {
+  User,
+  UserRoleEnum,
+  LocaleEnum,
+  CurrencyEnum,
+  CountryFilterEnum,
+  ChatRoom,
+  Message,
+  UserToChatRoom,
+} from "db"
 
 declare module "@blitzjs/auth" {
   export interface Session {
@@ -20,4 +30,24 @@ declare module "@blitzjs/auth" {
       }
     }
   }
+}
+
+export type PrismaDbType =
+  | PrismaClient<Prisma.PrismaClientOptions, any, any>
+  | Omit<
+      PrismaClient<
+        Prisma.PrismaClientOptions,
+        never,
+        Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
+      >,
+      "$connect" | "$disconnect" | "$on" | "$transaction" | "$use"
+    >
+
+export type UserMain = Partial<User> & Pick<User, "username" | "avatarUrl" | "id">
+export type UserCardProps = UserMain & User
+export type UserMailProps = Partial<User> & Pick<User, "email" | "id" | "username" | "locale">
+
+export type ChatRoomWithFirstMessage = ChatRoom & {
+  users: (UserToChatRoom & { user: UserCardProps })[]
+  messages: (Message & { sender: UserMain })[]
 }

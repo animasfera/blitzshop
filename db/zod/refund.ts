@@ -1,6 +1,19 @@
 import * as z from "zod"
 import { RefundStatusEnum } from "@prisma/client"
-import { CompletePrice, RelatedPriceModel, CompletePaymentMethod, RelatedPaymentMethodModel, CompleteUser, RelatedUserModel, CompleteOrder, RelatedOrderModel, CompleteItemToRefund, RelatedItemToRefundModel } from "./index"
+import {
+  CompletePrice,
+  RelatedPriceModel,
+  CompletePaymentMethod,
+  RelatedPaymentMethodModel,
+  CompleteUser,
+  RelatedUserModel,
+  CompleteOrder,
+  RelatedOrderModel,
+  CompleteChatRoom,
+  RelatedChatRoomModel,
+  CompleteItemToRefund,
+  RelatedItemToRefundModel,
+} from "./index"
 
 export const RefundModel = z.object({
   id: z.number().int(),
@@ -13,6 +26,7 @@ export const RefundModel = z.object({
   refundMethodId: z.number().int(),
   processedById: z.number().int(),
   orderId: z.number().int(),
+  chatRoomId: z.number().int().nullish(),
   userId: z.number().int(),
 })
 
@@ -21,8 +35,9 @@ export interface CompleteRefund extends z.infer<typeof RefundModel> {
   refundMethod: CompletePaymentMethod
   processedBy: CompleteUser
   order: CompleteOrder
+  chatRoom?: CompleteChatRoom | null
   user: CompleteUser
-  ItemToRefund: CompleteItemToRefund[]
+  itemToRefund: CompleteItemToRefund[]
 }
 
 /**
@@ -30,11 +45,14 @@ export interface CompleteRefund extends z.infer<typeof RefundModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedRefundModel: z.ZodSchema<CompleteRefund> = z.lazy(() => RefundModel.extend({
-  amount: RelatedPriceModel,
-  refundMethod: RelatedPaymentMethodModel,
-  processedBy: RelatedUserModel,
-  order: RelatedOrderModel,
-  user: RelatedUserModel,
-  ItemToRefund: RelatedItemToRefundModel.array(),
-}))
+export const RelatedRefundModel: z.ZodSchema<CompleteRefund> = z.lazy(() =>
+  RefundModel.extend({
+    amount: RelatedPriceModel,
+    refundMethod: RelatedPaymentMethodModel,
+    processedBy: RelatedUserModel,
+    order: RelatedOrderModel,
+    chatRoom: RelatedChatRoomModel.nullish(),
+    user: RelatedUserModel,
+    itemToRefund: RelatedItemToRefundModel.array(),
+  })
+)

@@ -1,5 +1,10 @@
 import * as z from "zod"
-import { CompleteShippingAddress, RelatedShippingAddressModel } from "./index"
+import {
+  CompleteShippingAddress,
+  RelatedShippingAddressModel,
+  CompleteLocation,
+  RelatedLocationModel,
+} from "./index"
 
 export const CountryModel = z.object({
   id: z.string(),
@@ -9,6 +14,7 @@ export const CountryModel = z.object({
 
 export interface CompleteCountry extends z.infer<typeof CountryModel> {
   shippingAddresses: CompleteShippingAddress[]
+  location: CompleteLocation[]
 }
 
 /**
@@ -16,6 +22,9 @@ export interface CompleteCountry extends z.infer<typeof CountryModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedCountryModel: z.ZodSchema<CompleteCountry> = z.lazy(() => CountryModel.extend({
-  shippingAddresses: RelatedShippingAddressModel.array(),
-}))
+export const RelatedCountryModel: z.ZodSchema<CompleteCountry> = z.lazy(() =>
+  CountryModel.extend({
+    shippingAddresses: RelatedShippingAddressModel.array(),
+    location: RelatedLocationModel.array(),
+  })
+)

@@ -26,3 +26,5 @@ export const UpdateTransactionSchema = z.object({
 export const DeleteTransactionSchema = z.object({
   id: z.number(),
 })
+
+export type CreateTransactionType = z.infer<typeof CreateTransactionSchema>
