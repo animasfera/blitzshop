@@ -10,7 +10,18 @@ const GetInvoice = z.object({
 
 export default resolver.pipe(resolver.zod(GetInvoice), resolver.authorize(), async ({ id }) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const invoice = await db.invoice.findFirst({ where: { id } })
+  const invoice = await db.invoice.findFirst({
+    where: { id },
+    include: {
+      amount: true,
+      creditNotes: true,
+      order: { include: { user: true } },
+      originalInvoice: true,
+      parentItem: { include: { user: true } },
+      paymentMethod: true,
+      transactions: true,
+    },
+  })
 
   if (!invoice) throw new NotFoundError()
 
