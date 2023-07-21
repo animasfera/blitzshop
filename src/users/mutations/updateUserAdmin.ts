@@ -1,7 +1,6 @@
 import { resolver } from "@blitzjs/rpc"
 import db from "db"
-import { UserRoleEnum } from "@prisma/client"
-import { UserFull } from "types"
+import { User, UserRoleEnum, UserStatusEnum } from "@prisma/client"
 
 import { UpdateUserAdminSchema } from "../schemas"
 import getUser from "../queries/getUser"
@@ -16,18 +15,15 @@ export default resolver.pipe(
     if (ctx.session.role !== UserRoleEnum.ADMIN) {
       throw new Error("У вас нет прав на редактирование данного пользователя")
     }
-    let { ...user } = data as UserFull
+    let { ...user } = data as User
     const userOld = await getUser({ id: user.id }, ctx)
 
     const newUser = await db.user.update({ where: { id: user.id }, data: user })
 
     if (user.status !== userOld.status) {
-      if (user.status == "blocked") {
+      if (user.status === UserStatusEnum.BLOCKED) {
         await db.session.deleteMany({ where: { userId: user.id } })
-        await adminBlockUserMailer(
-          { user: userOld, blockReason: user.blockReason },
-          { lang: userOld.locale }
-        ).send()
+        await adminBlockUserMailer({ user: userOld }, { lang: userOld.locale }).send()
       }
     }
     return newUser

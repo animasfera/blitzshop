@@ -51,5 +51,3 @@ export type ChatRoomWithFirstMessage = ChatRoom & {
   users: (UserToChatRoom & { user: UserCardProps })[]
   messages: (Message & { sender: UserMain })[]
 }
-
-export type UserFull = UserCardProps & User
