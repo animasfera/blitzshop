@@ -28,8 +28,6 @@ export const failTransactionDbQuery = async (
 ) => {
   const { id, failReason, failReasonCode } = input
 
-  console.log("Failing transaction ID=" + id + ". Reason: " + failReason)
-
   let invalidateCard = false
 
   const transaction = await $db.transaction.findUnique({

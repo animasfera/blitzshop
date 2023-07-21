@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { InvoiceModel, TransactionModel } from "db/zod"
+import { withIdOfSchema } from "db/zod/zodCore"
 
 export const CreateInvoiceSchema = InvoiceModel.pick({
   paidAt: true,
@@ -15,7 +16,12 @@ export const CreateInvoiceSchema = InvoiceModel.pick({
 
 export const UpdateInvoiceSchema = z.object({
   id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
+  data: InvoiceModel.pick({
+    status: true,
+    amount: true,
+  })
+    .partial()
+    .merge(withIdOfSchema(InvoiceModel)),
 })
 
 export const DeleteInvoiceSchema = z.object({
@@ -32,3 +38,4 @@ export const StartRefundSchema = z.object({
 })
 
 export type StartRefundType = z.infer<typeof StartRefundSchema>
+export type UpdateInvoiceType = z.infer<typeof UpdateInvoiceSchema>

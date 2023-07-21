@@ -41,11 +41,14 @@ export const EditTransaction = () => {
             initialValues={transaction}
             onSubmit={async (values) => {
               try {
+                // @ts-ignore
                 const updated = await updateTransactionMutation({
                   id: transaction.id,
                   // ...values,
                 })
+                // @ts-ignore
                 await setQueryData(updated)
+                // @ts-ignore
                 await router.push(Routes.ShowTransactionPage({ transactionId: updated.id }))
               } catch (error: any) {
                 console.error(error)
