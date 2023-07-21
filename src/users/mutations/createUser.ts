@@ -1,14 +1,23 @@
+import { SecurePassword } from "@blitzjs/auth/secure-password"
 import { resolver } from "@blitzjs/rpc"
+import { UserRoleEnum } from "@prisma/client"
 import db from "db"
-import { CreateUserSchema } from "../schemas"
 
-export default resolver.pipe(
-  resolver.zod(CreateUserSchema),
-  resolver.authorize(),
-  async (input) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const user = await db.user.create({ data: input })
+import { Signup } from "src/auth/schemas"
 
-    return user
+const CreateUser = Signup
+
+export default resolver.pipe(resolver.zod(CreateUser), resolver.authorize(), async (input) => {
+  const hashedPassword = await SecurePassword.hash(input.password.trim())
+
+  const data = {
+    username: input.username,
+    email: input.email.toLowerCase().trim(),
+    hashedPassword,
+    role: UserRoleEnum.USER,
   }
-)
+
+  const user = await db.user.create({ data: data })
+
+  return user
+})
