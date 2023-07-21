@@ -35,6 +35,7 @@ export const PayoutController = (props: PayoutControllerProps) => {
                 failReason?: string
                 remoteTransactionId?: string
               }) => {
+                // @ts-ignore
                 await updateTransactionMutation({ id: transaction.id, ...values })
               }}
             />

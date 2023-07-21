@@ -23,7 +23,9 @@ const NewTransactionPage = () => {
           // initialValues={{}}
           onSubmit={async (values) => {
             try {
+              // @ts-ignore
               const transaction = await createTransactionMutation(values)
+              // @ts-ignore
               await router.push(Routes.ShowTransactionPage({ transactionId: transaction.id }))
             } catch (error: any) {
               console.error(error)

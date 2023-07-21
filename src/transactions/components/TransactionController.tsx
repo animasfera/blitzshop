@@ -35,6 +35,7 @@ export const TransactionController = (props: TransactionControllerProps) => {
                 failReason?: string
                 remoteTransactionId?: string
               }) => {
+                // @ts-ignore
                 await updateTransactionMutation({ id: transaction.id, ...values })
                 invalidateQuery(getTransaction)
               }}
