@@ -1,6 +1,7 @@
-import { paginate } from "blitz"
 import { resolver } from "@blitzjs/rpc"
 import db, { Prisma } from "db"
+import { TransactionTypeEnum } from "@prisma/client"
+import { paginate } from "blitz"
 
 interface GetTransactionsInput
   extends Pick<Prisma.TransactionFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
@@ -8,7 +9,6 @@ interface GetTransactionsInput
 export default resolver.pipe(
   resolver.authorize(),
   async ({ where, orderBy, skip = 0, take = 100 }: GetTransactionsInput) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const {
       items: transactions,
       hasMore,
@@ -21,7 +21,11 @@ export default resolver.pipe(
       query: (paginateArgs) =>
         db.transaction.findMany({
           ...paginateArgs,
-          where,
+          where: {
+            ...where,
+            // type: TransactionType.payout,
+            type: TransactionTypeEnum.MANUAL_ADJUSTMENT,
+          },
           orderBy,
           include: {
             amount: true,
@@ -30,6 +34,18 @@ export default resolver.pipe(
             net: true,
             paymentMethod: true,
             user: true,
+            /*
+            paymentMethodDetail: {
+              include: {
+                paymentMethod: true,
+                moneyAccount: {
+                  include: {
+                    businessEntity: true,
+                  },
+                },
+              },
+            },
+            */
           },
         }),
     })
