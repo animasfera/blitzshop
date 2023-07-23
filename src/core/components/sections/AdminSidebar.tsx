@@ -28,7 +28,7 @@ const LinkItems: Array<LinkItemProps> = [
     name: "overview",
     label: "Дэшбоард",
     icon: FiHome,
-    href: "",
+    href: "#",
   },
 ]
 
@@ -80,7 +80,6 @@ const SidebarContent = ({ onClose, onNavigate, ...rest }: SidebarProps) => {
       h={"calc(100vh - 74px)"}
       py={3}
       overflowY={"scroll"}
-      scrollBehavior={true}
       {...rest}
     >
       {LinkItems.map((link) => (

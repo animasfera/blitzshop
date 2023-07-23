@@ -1,0 +1,64 @@
+{
+  "loading": {
+    "text": "Loading..."
+  },
+  "header": {
+    "menus": {
+      "main": {
+        "games": "Experiences",
+        "people": "People",
+        "login": "Sign in"
+      },
+      "user": {
+        "header": "Hi, {{username}}!",
+        "messages": "Messages",
+        "profile": "Profile",
+        "games": "My events",
+        "settings": "Settings"
+      },
+      "guide": {
+        "header": "Organizer's menu",
+        "myPage": "My page",
+        "schedule": "Schedule",
+        "bookings": "Bookings",
+        "transactions": "Transactions",
+        "payouts": "Payouts",
+        "refunds": "Refunds",
+        "logout": "Logout"
+      }
+    }
+  },
+  "footer": {
+    "menus": {
+      "leela": {
+        "header": "Leela",
+        "games": "Events",
+        "people": "People"
+      },
+      "docs": {
+        "header": "Terms of use",
+        "agentOffer": "Merchant Agreement",
+        "userAgreement": "User agreement",
+        "privacyPolicy": "Privacy policy"
+      },
+      "help": {
+        "header": "Help",
+        "help": "Help",
+        "contacts": "Contacts"
+      }
+    }
+  },
+  "status": {
+    "canceled": "Canceled",
+    "failed": "Failed",
+    "pending": "Pending",
+    "suspended": "Suspended",
+    "rejected": "Rejected",
+    "approved": "Approved",
+    "paying": "Paying",
+    "paid": "Paid",
+    "active": "Active",
+    "finished": "Finished",
+    "uploaded": "Uploaded"
+  }
+}

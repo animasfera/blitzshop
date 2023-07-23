@@ -1,0 +1,82 @@
+{
+  "title": "Experience",
+  "buttons": {
+    "add": "Новый опыт"
+  },
+  "filter": {
+    "online": "Online",
+    "offline": "Offline",
+    "addressPlaceholder": "Enter a city, country or address",
+    "categoryPlaceholder": "All experiences"
+  },
+  "form": {
+    "headers": {
+      "main": "Create a new experience"
+    },
+    "texts": {
+      "shareContacts": "Also you can share your contacts with the people who booked your events. You can do that on your personal profile settings page."
+    },
+    "fields": {
+      "category": {
+        "label": "Category"
+      },
+      "save": {
+        "label": "Save"
+      },
+      "title": {
+        "label": "Title"
+      },
+      "description": {
+        "label": "Description"
+      },
+      "instructionsOffline": {
+        "label": "Instructions for OFFLINE events ",
+        "help": "Instructions on preparations for offline events. Don't write a guide on how to get to the location - you have to do that on the new event screen."
+      },
+      "instructionsOnline": {
+        "label": "Instructions for ONLINE events",
+        "help": "Instructions  on preparations for online events."
+      }
+    }
+  },
+  "list": {
+    "notFoundMessage": "Experiences are not found",
+    "buttons": {
+      "add": "Create a new experience"
+    }
+  },
+  "show": {
+    "sidebar": {
+      "header": "Schedule",
+      "editLink": "Edit",
+      "otherDates": "Other dates"
+    },
+    "links": {
+      "back": "All experiences"
+    },
+    "headers": {
+      "reviews": "Reviews"
+    },
+    "buttons": {
+      "edit": "Edit"
+    },
+    "texts": {
+      "noSlots": "Your experience is not showing up in the search because it has no events in the schedule.",
+      "noPhotos": "No photos"
+    }
+  },
+  "edit": {
+    "links": {
+      "back": "Experience"
+    },
+    "headers": {
+      "main": "Edit experience"
+    },
+    "texts": {
+      "upload5Photos": "You need to upload at least 5 photos to make your Experience page look good. It can be photos from your events, photos of you, photos of your belongings - anything, that will help to get know you better.",
+      "dragNDropPhotos": "Drag & drop photos into this container",
+      "or": "Or",
+      "chooseFiles": "Choose files on your local disk"
+    }
+  }
+}
