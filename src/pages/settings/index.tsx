@@ -1,4 +1,5 @@
 import React from "react"
+import { BlitzPage } from "@blitzjs/next"
 import { invalidateQuery, useMutation } from "@blitzjs/rpc"
 import Head from "next/head"
 import { Box, Heading } from "@chakra-ui/react"
@@ -15,7 +16,9 @@ import updateUser from "src/users/mutations/updateUser"
 import { UpdateUserSchema } from "src/users/schemas"
 import { useCurrentUser } from "src/core/hooks/useCurrentUser"
 
-const SettingsPage = () => {
+const SettingsPage: BlitzPage = () => {
+  return <>SettingsPage</>
+  /*
   const { t } = useTranslation(["pages.settings"])
   const currentUser = useCurrentUser()
   const [updateUserMutation] = useMutation(updateUser)
@@ -27,7 +30,6 @@ const SettingsPage = () => {
       </Head>
       <SettingsMenu>
         <Heading size={"md"}>{t("index.headers.main")}</Heading>
-        {/*<Container maxW={"container.sm"}>*/}
         <Box maxW={"600px"}>
           <Loading>
             <UserSettingsForm
@@ -36,11 +38,11 @@ const SettingsPage = () => {
               onSubmit={async (values) => {
                 await updateUserMutation(values)
                 void invalidateQuery(getCurrentUser)
-                /*
-                if (values.locale && values.locale !== i18n.resolvedLanguage) {
-                  void i18n.changeLanguage(values.locale)
-                }
-                */
+
+                // if (values.locale && values.locale !== i18n.resolvedLanguage) {
+                //   void i18n.changeLanguage(values.locale)
+                // }
+
               }}
             />
             <UserSettingsGuideForm
@@ -55,10 +57,10 @@ const SettingsPage = () => {
             />
           </Loading>
         </Box>
-        {/*</Container>*/}
       </SettingsMenu>
     </>
   )
+  */
 }
 
 // SettingsPage.authenticate = true
