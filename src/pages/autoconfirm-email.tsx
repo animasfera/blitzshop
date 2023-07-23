@@ -12,6 +12,8 @@ import confirmEmail from "src/auth/mutations/confirmEmail"
 let counter = 1
 
 const AutoConfirmEmailPage: BlitzPage = () => {
+  return <>AutoConfirmEmailPage</>
+  /*
   const session = useSession()
   const query = useRouter().query
   const [confirmEmailMutation, { isSuccess, isError, isLoading }] = useMutation(confirmEmail)
@@ -68,6 +70,8 @@ const AutoConfirmEmailPage: BlitzPage = () => {
       </Box>
     </Container>
   )
+
+  */
 }
 
 // AutoConfirmEmailPage.getLayout = (page) => <Layout title="Подтверждение E-mail">{page}</Layout>
