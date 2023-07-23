@@ -1,0 +1,36 @@
+import React from "react"
+import HelpLayout from "src/help/components/HelpLayout"
+
+# Host your online Leela games on Leela.Game platform
+
+[Demo 5 minutes with Leela field &rarr;](/meet/demo-leela)
+
+When you create on online event on Leela.Game platform, you get a choice of the video meeting location: Leela.Game platform or any 3rd-party service, such as Zoom, Skype, etc.
+
+If you choose Leela.Game for the video meeting, and if the event category is "Leela", then your комната [video meeting](/help/en/guides/video) page will contain virtual Leela field.
+
+Virtual Leela Game interface contains the following controls:
+
+- [video conference](/help/en/guides/video) with game participants
+- active player (name, avatar)
+- name and number of the cell with the active player
+- dice
+- active player status (roll dice / move / numbers rolled on dice)
+- list of the players
+- Leela field
+
+## How to host online Leela
+
+Game guide clicks on a player in the list of the players to give them the right to roll dice. The active player avatar and name changes to reflect the selected player.
+
+The player clicks on the dice. If number 6 rolled, player gets a chance to roll again, until they get a number different from 6. Once dice is rolled, player's status changes to "Move". Next to the status После того как сделан бросок, статус игрока сменяется на "Ход", и рядом со статусом отображается список всех выброшенных чисел кубика в данном ходе. После этого ведущий передвигает игрока на поле, нажав на нужную клетку. Можно передвигать игрока поэтапно: сдвинуть на одну клетку, рассказать что-то о ней, затем сдвинуть на следующую, и т.д. Ограничений на количество передвижений по полю нет.
+
+При желании, ведущий может предложить игроку бросить кубик повторно.
+
+После того как ход игрока завершен, ведущий передает право броска кубика следующему игроку, нажав на его имя в списке участников игры.
+
+При наведении указателя мыши на клетку поля (при игре на десктопе) отображается номер клетки.
+
+Смотрите также статью с описанием интерефейса [видео-конференции](/help/en/guides/video).
+
+export default ({ children }) => <HelpLayout>{children}</HelpLayout>

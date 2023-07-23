@@ -5,8 +5,8 @@ import { LocaleEnum } from "@prisma/client"
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/core/hooks/useCurrentUser"
 
-// mport DogovorRu from "src/legal/oferta-ru.md"
-// import DogovorEn from "src/legal/oferta-en.md"
+// import DogovorRu from "src/legal/RU/dogovor/oferta.md"
+// import DogovorEn from "src/legal/EN/dogovor/oferta.md"
 
 export const DogovorPage: BlitzPage = () => {
   const currentUser = useCurrentUser()

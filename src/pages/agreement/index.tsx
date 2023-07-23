@@ -5,8 +5,8 @@ import { LocaleEnum } from "@prisma/client"
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/core/hooks/useCurrentUser"
 
-// import AgreementRu from "src/legal/agreementRu.md"
-// import AgreementEn from "src/legal/agreementEn.md"
+// import AgreementRu from "src/legal/RU/agreement/agreement.md"
+// import AgreementEn from "src/legal/EN/agreement/agreement.md"
 
 export const AgreementPage: BlitzPage = () => {
   const currentUser = useCurrentUser()
