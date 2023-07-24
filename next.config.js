@@ -1,10 +1,41 @@
+// const withTM = require("next-transpile-modules")(["three"])
+
 // @ts-check
 const { withBlitz } = require("@blitzjs/next")
+
+/*
+const withMDX = require("@next/mdx")({
+  extension: /\.mdx?$/,
+})
+*/
 
 /**
  * @type {import('@blitzjs/next').BlitzConfig}
  **/
 
-const config = {}
+const config = {
+  // distDir: process.env.BUILD_DIR || ".next",
+  // pageExtensions: ["ts", "tsx", "md", "mdx"],
+  /*
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // Note: we provide webpack above so you should not `require` it
+    // Perform customizations to webpack config
+    // Important: return the modified config
+    // config.externals = [ nodeExternals() ]
+    return config
+  },
+  */
+}
 
 module.exports = withBlitz(config)
+
+/*
+module.exports = (phase) => {
+  if (phase.indexOf("build") === -1) {
+    // setTimeout(() => {
+    //   void axios.get(process.env.SITE_URL + "/api/queues/?secret=1ee1a")
+    // }, 5000)
+  }
+  return withTM(withBlitz(withMDX(config)))
+}
+*/
