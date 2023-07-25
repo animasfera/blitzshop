@@ -1,13 +1,30 @@
+import { AuthenticationError } from "blitz"
 import { SecurePassword } from "@blitzjs/auth/secure-password"
 import { resolver } from "@blitzjs/rpc"
-import { AuthenticationError } from "blitz"
-import db, { CountryFilterEnum, CurrencyEnum, LocaleEnum, UserRoleEnum } from "db"
+import db from "db"
+import { LocaleEnum, UserRoleEnum, UserStatusEnum } from "@prisma/client"
+
+import getConfigs from "src/configs/queries/getConfigs"
+import { LoginProhibitedError } from "src/core/errors/Errors"
 import { Login } from "../schemas"
 
-export const authenticateUser = async (rawEmail: string, rawPassword: string) => {
+export const authenticateUser = async (rawEmail: string, rawPassword: string, ctx) => {
   const { email, password } = Login.parse({ email: rawEmail, password: rawPassword })
-  const user = await db.user.findFirst({ where: { email } })
+  const user = await db.user.findFirst({
+    where: { email },
+    include: {
+      config: true,
+    },
+  })
+  const { configs } = await getConfigs({}, ctx)
+
   if (!user) throw new AuthenticationError()
+  if (user && !(user.status !== UserStatusEnum.BLOCKED))
+    throw new AuthenticationError("User Blocked")
+
+  if (!configs.allowLogin && user.role !== UserRoleEnum.ADMIN) {
+    throw new LoginProhibitedError()
+  }
 
   const result = await SecurePassword.verify(user.hashedPassword, password)
 
@@ -22,8 +39,7 @@ export const authenticateUser = async (rawEmail: string, rawPassword: string) =>
 }
 
 export default resolver.pipe(resolver.zod(Login), async ({ email, password }, ctx) => {
-  // This throws an error if credentials are invalid
-  const user = await authenticateUser(email, password)
+  const user = await authenticateUser(email, password, ctx)
 
   await ctx.session.$create({
     userId: user.id,
@@ -31,13 +47,13 @@ export default resolver.pipe(resolver.zod(Login), async ({ email, password }, ct
     timezone: user.timezone || "Etc/Greenwich",
     user: {
       id: user.id,
+      role: user.role,
       username: user.username,
       avatarUrl: user.avatarUrl || "",
-      role: user.role as UserRoleEnum,
       timezone: user.timezone || "Etc/Greenwich",
-      locale: user.locale || ("en" as LocaleEnum),
-      currency: user.currency as CurrencyEnum,
-      buyingInCountries: user.buyingInCountries as CountryFilterEnum,
+      locale: user.locale || LocaleEnum.EN,
+      currency: user.currency,
+      buyingInCountries: user.buyingInCountries,
     },
   })
 

@@ -5,7 +5,7 @@ import { Box, Button, Text } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
-import { useCurrentUser } from "src/users/hooks/useCurrentUser"
+import { useCurrentUser } from "src/core/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
 import { Loading } from "src/core/components/Loading"
 

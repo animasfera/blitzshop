@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { TransactionModel } from "db/zod"
+import { withIdOfSchema } from "db/zod/zodCore"
 
 export const CreateTransactionSchema = TransactionModel.pick({
   remoteTransactionId: true,
@@ -20,7 +21,7 @@ export const CreateTransactionSchema = TransactionModel.pick({
 
 export const UpdateTransactionSchema = z.object({
   id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
+  data: TransactionModel.partial().merge(withIdOfSchema(TransactionModel)),
 })
 
 export const DeleteTransactionSchema = z.object({
@@ -28,3 +29,4 @@ export const DeleteTransactionSchema = z.object({
 })
 
 export type CreateTransactionType = z.infer<typeof CreateTransactionSchema>
+export type UpdateTransactionType = z.infer<typeof UpdateTransactionSchema>

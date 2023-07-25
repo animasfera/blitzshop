@@ -43,9 +43,12 @@ export const EditInvoice = () => {
               try {
                 const updated = await updateInvoiceMutation({
                   id: invoice.id,
-                  // ...values,
+                  data: { ...values },
                 })
+
+                // @ts-ignore
                 await setQueryData(updated)
+                // @ts-ignore
                 await router.push(Routes.ShowInvoicePage({ invoiceId: updated.id }))
               } catch (error: any) {
                 console.error(error)
