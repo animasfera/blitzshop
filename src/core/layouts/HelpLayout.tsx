@@ -1,9 +1,9 @@
-import Head from "next/head"
-import { BlitzLayout } from "@blitzjs/next"
-import { Box, Container } from "@chakra-ui/react"
 import React from "react"
+import { BlitzLayout } from "@blitzjs/next"
+import Head from "next/head"
+import { Box, Container } from "@chakra-ui/react"
 
-import { HelpMenu } from "./HelpMenu"
+import { HelpMenu } from "src/help/components/HelpMenu"
 
 const HelpLayout: BlitzLayout<{
   title?: string
@@ -11,11 +11,10 @@ const HelpLayout: BlitzLayout<{
   size?: "sm" | "md" | "lg" | "xl" | "xxl" | "full"
 }> = ({ title, children, fullscreen, size }) => {
   const CertainContainer = fullscreen ? Box : Container
-  console.log("Render: Layout")
 
   return (
     <CertainContainer
-      maxW={!fullscreen ? "container." + (size || "lg") : ""}
+      maxWidth={!fullscreen ? "container." + (size || "lg") : ""}
       mt={fullscreen ? 0 : 4}
       mb={fullscreen ? 0 : 6}
     >

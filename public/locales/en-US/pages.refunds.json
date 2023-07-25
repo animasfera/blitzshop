@@ -1,0 +1,12 @@
+{
+  "index": {
+    "headers": {
+      "main": "Refunds"
+    }
+  },
+  "show": {
+    "headers": {
+      "main": "Refund #{{id}}"
+    }
+  }
+}

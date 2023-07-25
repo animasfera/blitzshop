@@ -1,0 +1,90 @@
+{
+  "title": "Refund",
+  "texts": {
+    "allRefunds": "All refund requests",
+    "allRefunded": "All tickets have been refunded or are in the process of refund",
+    "tickets": "Tickets"
+  },
+  "buttons": {
+    "cancelOrder": "Cancel the order"
+  },
+  "filter": {
+    "fields": {
+      "username": {
+        "label": "Username"
+      },
+      "status": {
+        "label": "Status"
+      }
+    }
+  },
+  "fields": {
+    "status": {
+      "label": "Status",
+      "options": {
+        "failed": "Failed",
+        "pending": "Pending",
+        "rejected": "Rejected",
+        "approved": "Approved",
+        "paying": "Paying",
+        "paid": "Refund complete"
+      }
+    }
+  },
+  "show": {
+    "headers": {
+      "main": "Refund request #{{id}}"
+    },
+    "errors": {
+      "noMoreTickets": "There are no active tickets in this booking that can be refunded."
+    },
+    "notifications": {
+      "pending": "Refund request has been sent. Please wait for the event organizer's response.",
+      "paid": "The money has been sent. It may take up to 14 days for the money to arrive at buyer's card.",
+      "approved": "The refund request has been approved. Soon we will send the money to the card that was used for the purchase. It may take up to 14 days for the money to arrive at buyer's card."
+    },
+    "texts": {
+      "noOwner": "no owner",
+      "approveConfirm": "Are you sure you want to approve the refund request?",
+      "rejectConfirm": "Are you sure you want to reject the refund request?"
+    }
+  },
+  "form": {
+    "fields": {
+      "send": {
+        "label": "Send"
+      },
+      "reason": {
+        "label": "The reason of the refund request",
+        "options": {
+          "noGame": "The event was cancelled",
+          "cantCome": "I can't come to the event",
+          "lowQuality": "I'm not satisfied with the quality of the service",
+          "other": "Other"
+        }
+      },
+      "tickets": {
+        "label": "Choose tickets that you want to refund"
+      },
+      "comment": {
+        "label": "Comment",
+        "placeholder": "Please explain in more detail why you want to return your money"
+      }
+    }
+  },
+  "list": {
+    "headers": {
+      "main": "Refunds"
+    },
+    "texts": {
+      "notFoundMessage": "No refunds. You're doing well!"
+    }
+  },
+  "new": {
+    "headers": {
+      "main": "New refund request",
+      "booking": "Booking",
+      "refund": "Refund request"
+    }
+  }
+}

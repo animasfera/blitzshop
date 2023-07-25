@@ -1,0 +1,56 @@
+{
+  "title": "Payout methods",
+  "list": {
+    "notFoundMessage": "No payment methods"
+  },
+  "form": {
+    "fields": {
+      "save": "Save",
+      "update": "Update",
+      "countryIsoCode": {
+        "label": "Country",
+        "help": "Select the country where you are registered as a taxpayer"
+      },
+      "type": {
+        "label": "Business entity type",
+        "options": {
+          "unregistered": "Individual",
+          "sp": "Sole proprietor",
+          "sz": "Self-employed",
+          "company": "Company"
+        }
+      },
+      "tin": {
+        "label": "Taxpayer Identification Number"
+      },
+      "ogrn": {
+        "label": "Business registration number"
+      },
+      "firstName": {
+        "label": "First name"
+      },
+      "lastName": {
+        "label": "Last name"
+      },
+      "middleName": {
+        "label": "Middle name"
+      },
+      "address": {
+        "label": "Address"
+      },
+      "idNumber": {
+        "label": "ID/Passport number"
+      },
+      "idType": {
+        "label": "ID type"
+      },
+      "passportImgUrl": {
+        "label": "ID/Passport scan of photo"
+      },
+      "selfieImgUrl": {
+        "label": "Selfie with the ID/passport",
+        "help": "Your face and passport details must be clearly visible"
+      }
+    }
+  }
+}

@@ -1,9 +1,9 @@
-import Link from "next/link"
+import React from "react"
 import { useSession } from "@blitzjs/auth"
 import { useRouter } from "next/router"
+import Link from "next/link"
 import { useTranslation } from "react-i18next"
 import { Stack, Link as ChakraLink, Heading } from "@chakra-ui/react"
-import React from "react"
 
 export const HelpMenuItems = () => {
   const router = useRouter()
@@ -11,7 +11,9 @@ export const HelpMenuItems = () => {
   const { t, i18n } = useTranslation(["pages.help"])
   const lang = (user && user.locale) || i18n.resolvedLanguage
 
-  const lngPref = "/help/" + lang + "/"
+  console.log("lang", lang)
+
+  const lngPref = "/help/" + lang?.toLowerCase() + "/"
 
   let menuItems = [
     {

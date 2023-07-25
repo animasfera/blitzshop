@@ -1,0 +1,28 @@
+{
+  "index": {
+    "headers": {
+      "main": "Users"
+    }
+  },
+  "show": {
+    "headers": {
+      "main": "{{username}}",
+      "about": "About",
+      "reviews": "Reviews"
+    },
+    "buttons": {
+      "edit": "Edit"
+    },
+    "texts": {
+      "noReviews": "No reviews yet."
+    }
+  },
+  "edit": {
+    "links": {
+      "back": "Profile"
+    },
+    "headers": {
+      "main": "Edit {{username}}'s profile"
+    }
+  }
+}
