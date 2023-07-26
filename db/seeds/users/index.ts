@@ -32,22 +32,24 @@ export const createUsers = async () => {
       })
     }
 
-    // create moderators
-    const isModerator = await db.user.findUnique({ where: { username: moderator.username } })
+    if (process.env.NODE_ENV !== "production") {
+      // create moderators
+      const isModerator = await db.user.findUnique({ where: { username: moderator.username } })
 
-    if (!isModerator) {
-      await db.user.create({
-        data: { ...moderator, hashedPassword },
-      })
-    }
+      if (!isModerator) {
+        await db.user.create({
+          data: { ...moderator, hashedPassword },
+        })
+      }
 
-    // create users
-    const isUser = await db.user.findUnique({ where: { username: user.username } })
+      // create users
+      const isUser = await db.user.findUnique({ where: { username: user.username } })
 
-    if (!isUser) {
-      await db.user.create({
-        data: { ...user, hashedPassword },
-      })
+      if (!isUser) {
+        await db.user.create({
+          data: { ...user, hashedPassword },
+        })
+      }
     }
   } catch (err) {
     console.error(err)
