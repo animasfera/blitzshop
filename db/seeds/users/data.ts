@@ -1,4 +1,4 @@
-import { LocaleEnum, Prisma, UserRoleEnum } from "db"
+import { Prisma, LocaleEnum, UserRoleEnum } from "db"
 
 export const password = process.env.PASS ?? "100uhfvv"
 export const users = {
