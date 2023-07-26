@@ -1,0 +1,41 @@
+{
+  "title": "Transaction",
+  "status": {
+    "failed": "Failed",
+    "canceled": "Canceled",
+    "pending": "Pending",
+    "paying": "Paying",
+    "finished": "Finished"
+  },
+  "type": {
+    "sale": "Sale",
+    "saleRefund": "Sale refund",
+    "saleReversal": "Sale reversal",
+    "saleFee": "Sale fee",
+    "saleFeeRefund": "Sale fee refund",
+    "saleFeeReversal": "Sale fee reversal",
+    "refund": "Refund",
+    "payout": "Payout",
+    "purchase": "Purchase",
+    "payoutCancellation": "Payout cancellation",
+    "payoutRejection": "Payout rejection",
+    "payoutFee": "Payout fee",
+    "manualAdjustment": "Manual Adjustment"
+  },
+  "transactionTitles": {
+    "videoMeeting": "Video meeting service"
+  },
+  "list": {
+    "notFoundMessage": "Transactions not found"
+  },
+  "errors": {
+    "remoteTransactionIdIncorrect": "Remote transaction ID is incorrect"
+  },
+  "units": {
+    "min": {
+      "one": "minute",
+      "two": "minutes",
+      "five": "minutes"
+    }
+  }
+}

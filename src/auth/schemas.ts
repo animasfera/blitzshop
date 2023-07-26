@@ -15,6 +15,9 @@ export const Signup = z.object({
   username: z.string(),
   email,
   password,
+  timezone: z.string().optional(),
+  countryIsoCode: z.string(),
+  locale: z.string(),
 })
 
 export const Login = z.object({
@@ -40,4 +43,8 @@ export const ResetPassword = z
 export const ChangePassword = z.object({
   currentPassword: z.string(),
   newPassword: password,
+})
+
+export const ConfirmEmail = z.object({
+  token: z.string(),
 })

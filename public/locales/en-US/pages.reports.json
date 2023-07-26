@@ -1,0 +1,12 @@
+{
+  "index": {
+    "headers": {
+      "main": "Reports"
+    }
+  },
+  "show": {
+    "headers": {
+      "main": "Report #{{id}}"
+    }
+  }
+}

@@ -23,7 +23,9 @@ const NewUserPage = () => {
           // initialValues={{}}
           onSubmit={async (values) => {
             try {
+              // @ts-ignore
               const user = await createUserMutation(values)
+              // @ts-ignore
               await router.push(Routes.ShowUserPage({ userId: user.id }))
             } catch (error: any) {
               console.error(error)

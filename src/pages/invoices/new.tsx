@@ -23,7 +23,9 @@ const NewInvoicePage = () => {
           // initialValues={{}}
           onSubmit={async (values) => {
             try {
+              // @ts-ignore
               const invoice = await createInvoiceMutation(values)
+              // @ts-ignore
               await router.push(Routes.ShowInvoicePage({ invoiceId: invoice.id }))
             } catch (error: any) {
               console.error(error)

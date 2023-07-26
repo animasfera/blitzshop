@@ -1,0 +1,17 @@
+{
+  "index": {
+    "headers": {
+      "main": "Отзывы"
+    }
+  },
+  "show": {
+    "headers": {
+      "main": "Отзыв"
+    }
+  },
+  "edit": {
+    "headers": {
+      "main": "Отзыв"
+    }
+  }
+}

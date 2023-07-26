@@ -1,5 +1,5 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
-import { Prisma, PrismaClient } from "@prisma/client"
+import { Invoice, PaymentMethod, Price, Prisma, PrismaClient } from "@prisma/client"
 import {
   User,
   UserRoleEnum,

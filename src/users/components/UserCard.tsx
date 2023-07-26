@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { Box, Flex, Link as ChakraLink } from "@chakra-ui/react"
-import { useTranslation } from "react-i18next"
 
 import { UserAvatar } from "./UserAvatar"
 import { UserCardProps, UserMailProps } from "types"

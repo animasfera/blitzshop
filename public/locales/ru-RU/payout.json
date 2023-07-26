@@ -1,0 +1,10 @@
+{
+  "list": {
+    "headers": {
+      "main": "Выплаты"
+    },
+    "texts": {
+      "notFoundMessage": "Выплат пока нет."
+    }
+  }
+}

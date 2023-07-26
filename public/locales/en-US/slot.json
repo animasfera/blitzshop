@@ -1,0 +1,332 @@
+{
+  "title": "Event",
+  "guide": "Organizer",
+  "errors": {
+    "novemberDates": "At the moment, you can add events not later than November 12.",
+    "decemberDates": "At the moment, you can add games for December 3 only, from 00:00 to 23:59 (GMT+0).",
+    "onlyFreeEvents": "At the moment, you can add free events only.",
+    "noMoneyAccount": "You can't add new events because you have no active money accounts.",
+    "notAllowedAdd": "Adding new games temporarily suspended.",
+    "noPastEvents": "You can't add events in the past dates",
+    "noStartBeforeEnd": "The event finishing time can't be earlier than starting time."
+  },
+  "texts": {
+    "meetWithYouStarted": "Online video meeting with your participation has started.",
+    "meetStarted": "Online event has started!",
+    "meetEnter": "Join the video meeting",
+    "finishEvent": "Finish the event",
+    "noVideoUrl": "The event organizer haven't added a link to video conference yet. The link will appear later on this page.",
+    "video": "A video meeting room is created for every online event. Participants will receive a link 24h before the event start. Also, the link will be available on the booked event page. You can test the video meeting functionality with other Leela.Game users <2>in the demo </2> (it has a 5 minutes limit).",
+    "slotIsBlocked": "The event is blocked"
+  },
+  "filter": {
+    "fields": {
+      "type": {
+        "label": "Type"
+      },
+      "status": {
+        "label": "Status"
+      }
+    }
+  },
+  "fields": {
+    "privacy": {
+      "label": "Access",
+      "options": {
+        "public": "Public",
+        "link": "By link"
+      }
+    },
+    "experience": {
+      "label": "Experience"
+    },
+    "title": {
+      "label": "Title"
+    },
+    "bookingLink": {
+      "label": "Booking link"
+    },
+    "language": {
+      "label": "Language of the event",
+      "labelShort": "Language"
+    },
+    "videoUrl": {
+      "label": "Video meeting",
+      "help": "Link to Zoom, Skype or other video conference. You can provide detailed instructions on how to connect to your conference in the Experience settings. You can provide the link during the event creation or any time later.",
+      "notProvided": "Not provided yet",
+      "willBeCreated": "will be created 24h before the beginning"
+    },
+    "startsAt": {
+      "flexible": "Flexible dates",
+      "flexibleTooltip": "This is recurrent event. Organizer will offer you time of the event after the booking.",
+      "label": "Starts at",
+      "help": "Your timezone offset: GMT{{offset}} (if it's incorrect - please change the timezone in your personal settings). You can enter your local time in the field above. Other users will see the time adjusted according to their own timezone."
+    },
+    "finishesAt": {
+      "label": "Finishes at"
+    },
+    "price": {
+      "label": "Price in EUR"
+    },
+    "priceRub": {
+      "label": "Price in RUB (Russian Rubles)"
+    },
+    "location": {
+      "label": "Location"
+    },
+    "directions": {
+      "label": "Directions"
+    },
+    "numTicketsSold": {
+      "label": "Number of sold tickets"
+    },
+    "numTicketsLeft": {
+      "label": "Number of tickets left"
+    },
+    "numTicketsRefunded": {
+      "label": "Number of tickets refunded"
+    },
+    "numTicketsMax": {
+      "label": "Max. number of tickets"
+    },
+    "salesAmountGross": {
+      "label": "Sales amount GROSS"
+    },
+    "salesAmountNet": {
+      "label": "Sales amount NET (sales minus platform fees and refunds)"
+    },
+    "feesAmount": {
+      "label": "Fees total amount"
+    },
+    "type": {
+      "label": "Type",
+      "options": {
+        "all": "All",
+        "online": "Online",
+        "offline": "Offline"
+      }
+    },
+    "status": {
+      "label": "Status",
+      "options": {
+        "all": "All",
+        "failed": "Failed",
+        "canceled": "Canceled",
+        "refunding": "Refunding",
+        "refunded": "Refunded",
+        "waitingForSales": "Waiting for sales",
+        "selling": "Sales",
+        "waitingForStart": "Waiting for start",
+        "startedWaitingForPeople": "Waiting for people",
+        "active": "Active",
+        "paused": "Paused",
+        "finished": "Event finished",
+        "finishedWithError": "Finished with error",
+        "reporting": "Reporting",
+        "paying": "Paying",
+        "paid": "Paid"
+      }
+    },
+    "tickets": {
+      "label": "Tickets"
+    }
+  },
+  "form": {
+    "headers": {
+      "main": "New event",
+      "edit": "Edit event"
+    },
+    "texts": {
+      "willOpenSoon": "Leela.Game will make all of the functionality available along with the opening of the online Leela Festival, which will take place at the end of September.\n\nA week before the festival, all registered organizers will become able to add events, and future participants will be able to see their schedule.\n\nWe will tell the festival dates very soon - please watch out for our announcements!⏰",
+      "onlyForRussians": "At the moment, new events can be added only by organizers located in Russia. We're working in removing this restriction. \uD83D\uDE4F",
+      "noGamePage": "First please create an Experience, and then add events for that Experience to your schedule.",
+      "noSgdPayments": "Payments in EUR are not launched yet. We will add this possibility in the nearest weeks.",
+      "video": "The cost of video meetings on Leela.Game is $0.004 per 1 minute per participant. The total amount is deducted from the payout after the end of the event. <2>Read more and see the demo</2>"
+    },
+    "buttons": {
+      "create": "Create event",
+      "update": "Update"
+    },
+    "fields": {
+      "privacy": {
+        "label": "Access",
+        "options": {
+          "public": "Public",
+          "link": "By link"
+        },
+        "help": "If you choose \"Link\" then event will be hidden in the search results. But anyone with the link to the booking page will be able to book the event."
+      },
+      "recurring": {
+        "label": "Event frequency",
+        "checkboxLabel": "Recurring event",
+        "help": "Single events: workshops, lectures, etc. Recurring events: usually, private consultations. You'll have to offer a date after a booking is made.",
+        "options": {
+          "single": "Single",
+          "recurring": "Recurring"
+        }
+      },
+      "experience": {
+        "label": "Experience"
+      },
+      "title": {
+        "label": "Title"
+      },
+      "description": {
+        "label": "Description"
+      },
+      "language": {
+        "label": "Language of the event"
+      },
+      "videoLocation": {
+        "options": {
+          "own": "Leela.Game",
+          "remote": "Other (Zoom / Skype / etc.)"
+        },
+        "label": "Location of the video meeting",
+        "help": "You can host your video meeting either on Leela.Game or on any other platform, such as Zoom, Skype, etc."
+      },
+      "videoUrl": {
+        "label": "Video meeting URL",
+        "help": "Link to Zoom, Skype or other video conference. You can provide detailed instructions on how to connect to your conference in the Experience settings. You can provide the link during the event creation or any time later."
+      },
+      "startsAt": {
+        "label": "Starts at",
+        "help": "Your timezone offset: GMT{{offset}} (if it's incorrect - please change the timezone in your personal settings). You can enter your local time in the field above. Other users will see the time adjusted according to their own timezone."
+      },
+      "finishesAt": {
+        "label": "Finishes at"
+      },
+      "type": {
+        "label": "Type"
+      },
+      "location": {
+        "label": "Location",
+        "help": "Even if it's an online event, location is useful to help participants see what time zone you are in.",
+        "placeholder": "Enter an address"
+      },
+      "directions": {
+        "label": "Directions",
+        "help": "If you think that an address is not enough, you can add a detailed instructions on how to get to the location"
+      },
+      "price": {
+        "label": "Price in EUR",
+        "help": "At the moment, you can add only free events",
+        "disabledValue": "Free"
+      },
+      "priceRub": {
+        "label": "Price in RUB (Russian Rubles)",
+        "help": "The price in RUB is not fixed and it is calculated automatically  at the moment of purchase from the base EUR price, by current EUR/RUB exchange rate. The amount is rounded. Current exchange rate, RUB to 1 EUR: {{fxRate}}",
+        "disabledValue": "Free"
+      },
+      "numTicketsMax": {
+        "label": "Max. number of people"
+      },
+      "save": {
+        "label": "Save"
+      },
+      "update": {
+        "label": "Update"
+      }
+    }
+  },
+  "list": {
+    "headers": {
+      "main": "Events schedule"
+    },
+    "buttons": {
+      "add": "Add new event"
+    },
+    "texts": {
+      "notFoundMessage": "Event not found"
+    }
+  },
+  "listItem": {
+    "links": {
+      "showDetails": "Show details"
+    }
+  },
+  "new": {
+    "headers": {
+      "main": "Create new event"
+    }
+  },
+  "edit": {
+    "headers": {
+      "main": "Edit event"
+    }
+  },
+  "show": {
+    "menu": {
+      "overview": "Overview",
+      "players": "People",
+      "tickets": "Tickets",
+      "bookings": "Bookings",
+      "refunds": "Refunds",
+      "transactions": "Transactions",
+      "payouts": "Payouts"
+    },
+    "headers": {
+      "tickets": "Tickets",
+      "money": "Statement",
+      "event": "Your event",
+      "orders": "Orders",
+      "instructions": "Instructions",
+      "contacts": "Contacts",
+      "directions": "Directions"
+    },
+    "links": {
+      "allEvents": "My events"
+    },
+    "buttons": {
+      "mail": "Message event participants",
+      "edit": "Edit",
+      "cancel": "Cancel event",
+      "block": "Block event",
+      "unblock": "Unblock event",
+      "showTickets": "Show tickets",
+      "review": "Leave review",
+      "cancelQuestion": "Cancel the \"{{title}}\" event? This action is not reversible!"
+    },
+    "texts": {
+      "noContacts": "The organizer hasn't provided any contacts"
+    }
+  },
+  "booking": {
+    "headers": {
+      "main": "New booking"
+    }
+  },
+  "mailForm": {
+    "headers": {
+      "main": "Send mail to event participants"
+    },
+    "texts": {
+      "description": "Here you can send a message to your event participants - the message will be delivered to their e-mail addresses. "
+    },
+    "buttons": {
+      "send": "Send"
+    },
+    "fields": {
+      "message": {
+        "label": "Message"
+      }
+    }
+  },
+  "bookingForm": {
+    "headers": {
+      "main": "New booking",
+      "price": "Price",
+      "total": "Total"
+    },
+    "buttons": {
+      "pay": "Pay",
+      "book": "Book"
+    },
+    "fields": {
+      "numPeople": {
+        "label": "Number of people",
+        "help": "Number of tickets left: {{numTicketsLeft}}"
+      }
+    }
+  }
+}

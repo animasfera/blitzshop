@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, startTransition } from "react"
 import { useRouter } from "next/router"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
@@ -16,7 +16,7 @@ import "@fontsource/raleway/600.css"
 import "@fontsource/open-sans/700.css"
 
 import { withBlitz } from "src/blitz-client"
-import "src/styles/styles.css"
+// import "src/styles/styles.css"
 import { Theme } from "src/core/theme/Theme"
 import { LightModeContext } from "src/core/contexts/lightModeContext"
 import { Currency, CurrencyContext } from "src/core/contexts/currencyContext"
@@ -70,18 +70,20 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   useEffect(() => {
-    if (localStorage.getItem("currency")) {
-      let data: any
+    startTransition(() => {
+      if (localStorage.getItem("currency")) {
+        let data: any
 
-      try {
-        data = JSON.parse(localStorage.getItem("currency")!)
+        try {
+          data = JSON.parse(localStorage.getItem("currency")!)
 
-        if (data.name === "SGD") data.name = "EUR"
-      } catch (e) {
-        data = {}
+          if (data.name === "SGD") data.name = "EUR"
+        } catch (e) {
+          data = {}
+        }
+        setCurrency(data)
       }
-      setCurrency(data)
-    }
+    })
   }, [])
 
   useEffect(() => {

@@ -1,0 +1,172 @@
+{
+  "title": "Money accounts",
+  "model": {
+    "number": "Account number",
+    "owner": "Owner",
+    "status": "Status",
+    "country": "Country",
+    "name": "Account holder name",
+    "company": "Company name",
+    "type": "Business entity type",
+    "idNumber": "ID/Passport number",
+    "address": "Address",
+    "tin": "TIN",
+    "ogrn": "Business registration number",
+    "passport": "Passport",
+    "selfie": "Selfie"
+  },
+  "texts": {
+    "accountNumber": "Account number"
+  },
+  "status": {
+    "pending": "Pending",
+    "active": "Active",
+    "blocked": "Blocked"
+  },
+  "headers": {
+    "main": "{{currency}} account",
+    "account": "account",
+    "salesRussia": "RUB account",
+    "salesWorldwide": "EUR account"
+  },
+  "form": {
+    "headers": {
+      "infoAccepted": "Thanks, we have received your information",
+      "main": "Information about RUB account holder"
+    },
+    "texts": {
+      "checking": "We need some time to verify the information that you've sent.",
+      "checking2": "We are checking the provided information. Once it's done and approved, you'll be able to add new events",
+      "fixIssues": "We have checked your Business Details and couldn't approve it because of the following reason: \"{{reason}}\". Please fix those issues.",
+      "fixIssues2": "The business account didn't pass the verification because of the following reason: \"{{reason}}\".",
+      "weNeedToKnowYou": "Before you start adding events, we need to get your Business Details.",
+      "negativeBalance": "You have negative account balance. You need to transfer money to Leela.Game to fix that before adding new events. Please contact us by email support@leela.game to get bank account credentials."
+    },
+    "fields": {
+      "save": "Send for the verification",
+      "update": "Send for the verification",
+      "countryIsoCode": {
+        "label": "Country",
+        "help": "Select the country where you have a citizenship or registered business."
+      },
+      "type": {
+        "label": "Business entity type",
+        "options": {
+          "unregistered": "Individual",
+          "sp": "Sole proprietor",
+          "sz": "Self-employed",
+          "company": "Company"
+        }
+      },
+      "tin": {
+        "label": "Taxpayer Identification Number"
+      },
+      "ogrn": {
+        "label": "Business registration number"
+      },
+      "firstName": {
+        "label": "First name"
+      },
+      "lastName": {
+        "label": "Last name"
+      },
+      "middleName": {
+        "label": "Middle name"
+      },
+      "address": {
+        "label": "Address"
+      },
+      "idNumber": {
+        "label": "ID/Passport number"
+      },
+      "idType": {
+        "label": "ID type"
+      },
+      "passportImgUrl": {
+        "label": "ID/Passport scan of photo"
+      },
+      "selfieImgUrl": {
+        "label": "Selfie with the ID/passport",
+        "help": "Your face and passport details must be clearly visible"
+      }
+    }
+  },
+
+  "intlForm": {
+    "headers": {
+      "infoAccepted": "Thanks, we have received your information",
+      "main": "Information about EUR account holder"
+    },
+    "texts": {
+      "checking": "We need some time to verify the information that you've sent.",
+      "checking2": "We are checking the provided information. Once it's done and approved, you'll be able to add new events",
+      "fixIssues": "We have checked your Business Details and couldn't approve it because of the following reason: \"{{reason}}\". Please fix those issues.",
+      "weNeedToKnowYou": "Before you start adding events, we need to get your Business Details."
+    },
+    "fields": {
+      "save": "Send for the verification",
+      "update": "Send for the verification",
+      "owner": {
+        "label": "Владелец"
+      },
+      "countryIsoCode": {
+        "label": "Country",
+        "help": "Select the country where you have a citizenship or registered business."
+      },
+      "type": {
+        "label": "Business entity type",
+        "options": {
+          "unregistered": "Individual",
+          "sp": "Sole proprietor",
+          "sz": "Self-employed",
+          "company": "Company"
+        }
+      },
+      "tin": {
+        "label": "Taxpayer Identification Number"
+      },
+      "ogrn": {
+        "label": "Business registration number"
+      },
+      "firstName": {
+        "label": "First name"
+      },
+      "lastName": {
+        "label": "Last name"
+      },
+      "middleName": {
+        "label": "Middle name"
+      },
+      "address": {
+        "label": "Address"
+      },
+      "idNumber": {
+        "label": "ID/Passport number"
+      },
+      "idType": {
+        "label": "ID type"
+      },
+      "passportImgUrl": {
+        "label": "ID/Passport scan of photo"
+      },
+      "selfieImgUrl": {
+        "label": "Selfie with the ID/passport",
+        "help": "Your face and passport details must be clearly visible"
+      }
+    }
+  },
+  "list": {
+    "headers": {
+      "main": "Money accounts"
+    },
+    "texts": {
+      "notFoundMessage": "No companies",
+      "howToEnableSalesInWorld": "The main currency on Leela.Game platform is EUR (Euro). If you want to accept payments from customers around the world, you need to create an EUR account on Leela.Game platform. You must have a citizenship or registered business, and a bank account in any country except North Korea and Russia.",
+      "howToEnableSalesInRussia": "If you want to be able to sell tickets to Russian customers, you need to create an account in RUB (Russian Ruble) currency on Leela.Game platform. You must have a Russian citizenship or have a registered business in Russia, and an account in Russian bank."
+    },
+    "buttons": {
+      "addRubAccount": "Create RUB account",
+      "addSgdAccount": "Create EUR account"
+    }
+  }
+}

@@ -1,31 +1,32 @@
-import { paginate } from "blitz"
 import { resolver } from "@blitzjs/rpc"
 import db, { Prisma } from "db"
+
+import { formatConfig } from "src/core/helpers/formatConfig"
 
 interface GetConfigsInput
   extends Pick<Prisma.ConfigFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
 
 export default resolver.pipe(
-  resolver.authorize(),
-  async ({ where, orderBy, skip = 0, take = 100 }: GetConfigsInput) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const {
-      items: configs,
-      hasMore,
-      nextPage,
-      count,
-    } = await paginate({
-      skip,
-      take,
-      count: () => db.config.count({ where }),
-      query: (paginateArgs) => db.config.findMany({ ...paginateArgs, where, orderBy }),
+  // resolver.authorize(),
+  async ({ where, orderBy, skip = 0, take = 999 }: GetConfigsInput) => {
+    const configs = await db.config.findMany({ where })
+
+    // TODO add types
+    let _configs = {} as {
+      allowLogin: boolean
+      allowAddSlots: boolean
+      allowPaidGames: boolean
+      allowPaymentsSgd: boolean
+      allowPaymentsRub: boolean
+      slotDateLimit: Date
+      [key: string]: any
+    }
+    configs.forEach((config) => {
+      _configs[config.key] = formatConfig(config)
     })
 
     return {
-      configs,
-      nextPage,
-      hasMore,
-      count,
+      configs: _configs,
     }
   }
 )
