@@ -2,6 +2,7 @@ import db from "db"
 
 import { createUsers } from "db/seeds/users"
 import { createCategories } from "db/seeds/categories"
+import { createItems } from "db/seeds/items"
 
 /*
  * This seed function is executed when you run `blitz db seed`.
@@ -14,10 +15,12 @@ const seed = async () => {
     await db.$reset()
   }
 
-  await db.$reset()
-
   await createUsers()
   await createCategories()
+
+  if (process.env.NODE_ENV !== "production") {
+    await createItems()
+  }
 }
 
 export default seed

@@ -36,7 +36,7 @@ export const ItemModel = z.object({
   status: z.nativeEnum(ItemStatusEnum),
   access: z.nativeEnum(AccessTypeEnum),
   categoryId: z.number().int().nullish(),
-  amountId: z.number().int().nullish(),
+  amountId: z.number().int(),
   coverImageId: z.number().int(),
   userId: z.number().int().nullish(),
   cartId: z.number().int().nullish(),
@@ -46,7 +46,7 @@ export const ItemModel = z.object({
 
 export interface CompleteItem extends z.infer<typeof ItemModel> {
   category?: CompleteCategory | null
-  amount?: CompletePrice | null
+  amount: CompletePrice
   coverImage: CompleteImageToItem
   user?: CompleteUser | null
   cart?: CompleteCart | null
@@ -66,7 +66,7 @@ export interface CompleteItem extends z.infer<typeof ItemModel> {
 export const RelatedItemModel: z.ZodSchema<CompleteItem> = z.lazy(() =>
   ItemModel.extend({
     category: RelatedCategoryModel.nullish(),
-    amount: RelatedPriceModel.nullish(),
+    amount: RelatedPriceModel,
     coverImage: RelatedImageToItemModel,
     user: RelatedUserModel.nullish(),
     cart: RelatedCartModel.nullish(),

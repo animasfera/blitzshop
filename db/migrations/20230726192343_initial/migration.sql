@@ -221,7 +221,7 @@ CREATE TABLE "Item" (
     "status" "ItemStatusEnum" NOT NULL,
     "access" "AccessTypeEnum" NOT NULL,
     "categoryId" INTEGER,
-    "amountId" INTEGER,
+    "amountId" INTEGER NOT NULL,
     "coverImageId" INTEGER NOT NULL,
     "userId" INTEGER,
     "cartId" INTEGER,
@@ -580,7 +580,7 @@ ALTER TABLE "ImageToItem" ADD CONSTRAINT "ImageToItem_itemId_fkey" FOREIGN KEY (
 ALTER TABLE "Item" ADD CONSTRAINT "Item_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Item" ADD CONSTRAINT "Item_amountId_fkey" FOREIGN KEY ("amountId") REFERENCES "Price"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Item" ADD CONSTRAINT "Item_amountId_fkey" FOREIGN KEY ("amountId") REFERENCES "Price"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Item" ADD CONSTRAINT "Item_coverImageId_fkey" FOREIGN KEY ("coverImageId") REFERENCES "ImageToItem"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

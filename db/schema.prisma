@@ -264,8 +264,8 @@ model Item {
   access         AccessTypeEnum
   category       Category?       @relation(fields: [categoryId], references: [id])
   categoryId     Int?
-  amount         Price?          @relation(fields: [amountId], references: [id])
-  amountId       Int?
+  amount         Price           @relation(fields: [amountId], references: [id])
+  amountId       Int
   coverImage     ImageToItem     @relation(name: "CoverImageToItem", fields: [coverImageId], references: [id])
   coverImageId   Int
   user           User?           @relation(fields: [userId], references: [id])
