@@ -166,8 +166,10 @@ CREATE TABLE "Review" (
 -- CreateTable
 CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
-    "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL DEFAULT '',
+    "titleRu" TEXT NOT NULL,
+    "titleEn" TEXT NOT NULL,
+    "descriptionRu" TEXT NOT NULL DEFAULT '',
+    "descriptionEn" TEXT NOT NULL DEFAULT '',
     "numItems" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")

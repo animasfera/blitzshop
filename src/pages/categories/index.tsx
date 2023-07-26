@@ -28,7 +28,7 @@ export const CategoriesList = () => {
         {categories.map((category) => (
           <li key={category.id}>
             <Link href={Routes.ShowCategoryPage({ categoryId: category.id })}>
-              {category.title}
+              {category.titleRu}
             </Link>
           </li>
         ))}

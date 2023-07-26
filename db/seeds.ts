@@ -14,6 +14,8 @@ const seed = async () => {
     await db.$reset()
   }
 
+  await db.$reset()
+
   await createUsers()
   await createCategories()
 }

@@ -2,12 +2,15 @@ import { Prisma } from "db"
 
 export const categories = {
   fields: {
-    title: "Поля",
+    titleRu: "Поля",
+    titleEn: "Fields",
   } as Prisma.CategoryCreateInput,
   cubes: {
-    title: "Кубики",
+    titleRu: "Кубики",
+    titleEn: "Cubes",
   } as Prisma.CategoryCreateInput,
   books: {
-    title: "Книги",
+    titleRu: "Книги",
+    titleEn: "Books",
   } as Prisma.CategoryCreateInput,
 }

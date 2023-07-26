@@ -2,8 +2,10 @@ import { z } from "zod"
 import { CategoryModel } from "db/zod"
 
 export const CreateCategorySchema = CategoryModel.pick({
-  title: true,
-  description: true,
+  titleRu: true,
+  titleEn: true,
+  descriptionRu: true,
+  descriptionEn: true,
   numItems: true,
 })
 

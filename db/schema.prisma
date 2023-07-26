@@ -190,8 +190,10 @@ model Review {
 
 model Category {
   id             Int             @id @default(autoincrement())
-  title          String
-  description    String          @default("")
+  titleRu        String
+  titleEn        String
+  descriptionRu  String          @default("")
+  descriptionEn  String          @default("")
   numItems       Int             @default(0)
   items          Item[]
   purchasedItems PurchasedItem[]

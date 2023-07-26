@@ -5,10 +5,12 @@ import { categories } from "./data"
 export const createCategories = async () => {
   const { fields, cubes, books } = categories
 
+  const where = { OR: { titleEn: fields.titleEn, titleRu: fields.titleRu } }
+
   try {
-    const isFields = await db.category.findFirst({ where: { title: fields.title } })
-    const isCubes = await db.category.findFirst({ where: { title: cubes.title } })
-    const isBooks = await db.category.findFirst({ where: { title: books.title } })
+    const isFields = await db.category.findFirst({ where })
+    const isCubes = await db.category.findFirst({ where })
+    const isBooks = await db.category.findFirst({ where })
 
     if (!isFields) await db.category.create({ data: fields })
     if (!isCubes) await db.category.create({ data: cubes })
