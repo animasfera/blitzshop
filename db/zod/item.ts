@@ -33,7 +33,7 @@ export const ItemModel = z.object({
   weight: z.number().int(),
   rating: z.number(),
   isFeatured: z.boolean(),
-  status: z.nativeEnum(ItemStatusEnum),
+  status: z.nativeEnum(ItemStatusEnum).nullish(),
   access: z.nativeEnum(AccessTypeEnum),
   categoryId: z.number().int().nullish(),
   amountId: z.number().int(),

@@ -260,8 +260,8 @@ model Item {
   weight         Int             @default(0)
   rating         Float           @default(0)
   isFeatured     Boolean         @default(false)
-  status         ItemStatusEnum
-  access         AccessTypeEnum
+  status         ItemStatusEnum?
+  access         AccessTypeEnum  @default(PUBLIC)
   category       Category?       @relation(fields: [categoryId], references: [id])
   categoryId     Int?
   amount         Price           @relation(fields: [amountId], references: [id])

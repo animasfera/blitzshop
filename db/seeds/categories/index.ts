@@ -3,16 +3,24 @@ import db from "db"
 import { categories } from "./data"
 
 export const createCategories = async () => {
-  const { fields, cubes, books } = categories
-
-  const where = { OR: { titleEn: fields.titleEn, titleRu: fields.titleRu } }
+  const { floorPlayingFields, tablePlayingFields, cubes, books } = categories
 
   try {
-    const isFields = await db.category.findFirst({ where })
-    const isCubes = await db.category.findFirst({ where })
-    const isBooks = await db.category.findFirst({ where })
+    const isFloorPlayingFields = await db.category.findFirst({
+      where: { OR: { titleEn: floorPlayingFields.titleEn, titleRu: floorPlayingFields.titleRu } },
+    })
+    const isTablePlayingFields = await db.category.findFirst({
+      where: { OR: { titleEn: tablePlayingFields.titleEn, titleRu: tablePlayingFields.titleRu } },
+    })
+    const isCubes = await db.category.findFirst({
+      where: { OR: { titleEn: cubes.titleEn, titleRu: cubes.titleRu } },
+    })
+    const isBooks = await db.category.findFirst({
+      where: { OR: { titleEn: books.titleEn, titleRu: books.titleRu } },
+    })
 
-    if (!isFields) await db.category.create({ data: fields })
+    if (!isFloorPlayingFields) await db.category.create({ data: floorPlayingFields })
+    if (!isTablePlayingFields) await db.category.create({ data: tablePlayingFields })
     if (!isCubes) await db.category.create({ data: cubes })
     if (!isBooks) await db.category.create({ data: books })
   } catch (err) {
