@@ -75,7 +75,6 @@ CREATE TABLE "User" (
     "status" "UserStatusEnum" NOT NULL DEFAULT 'PENDING',
     "buyingInCountries" "CountryFilterEnum" NOT NULL DEFAULT 'NONE',
     "currency" "CurrencyEnum" NOT NULL DEFAULT 'EUR',
-    "configKey" TEXT,
     "locationId" INTEGER,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -504,6 +503,12 @@ CREATE TABLE "Mail" (
     CONSTRAINT "Mail_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "_ConfigToUser" (
+    "A" TEXT NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
@@ -546,8 +551,11 @@ CREATE UNIQUE INDEX "UserToChatRoom_userId_roomId_key" ON "UserToChatRoom"("user
 -- CreateIndex
 CREATE UNIQUE INDEX "MailReceiver_id_key" ON "MailReceiver"("id");
 
--- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_configKey_fkey" FOREIGN KEY ("configKey") REFERENCES "Config"("key") ON DELETE SET NULL ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "_ConfigToUser_AB_unique" ON "_ConfigToUser"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_ConfigToUser_B_index" ON "_ConfigToUser"("B");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -716,3 +724,9 @@ ALTER TABLE "UserToChatRoom" ADD CONSTRAINT "UserToChatRoom_lastReadMessageId_fk
 
 -- AddForeignKey
 ALTER TABLE "Mail" ADD CONSTRAINT "Mail_receiverTypeId_fkey" FOREIGN KEY ("receiverTypeId") REFERENCES "MailReceiver"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ConfigToUser" ADD CONSTRAINT "_ConfigToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "Config"("key") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ConfigToUser" ADD CONSTRAINT "_ConfigToUser_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -12,9 +12,7 @@ export const authenticateUser = async (rawEmail: string, rawPassword: string, ct
   const { email, password } = Login.parse({ email: rawEmail, password: rawPassword })
   const user = await db.user.findFirst({
     where: { email },
-    include: {
-      config: true,
-    },
+    include: { configs: true },
   })
   const { configs } = await getConfigs({}, ctx)
 

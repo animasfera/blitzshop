@@ -88,3 +88,5 @@ export const createItems = async () => {
     console.error(err)
   }
 }
+
+export default createItems

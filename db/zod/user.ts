@@ -7,8 +7,6 @@ import {
   CurrencyEnum,
 } from "@prisma/client"
 import {
-  CompleteConfig,
-  RelatedConfigModel,
   CompleteLocation,
   RelatedLocationModel,
   CompleteToken,
@@ -37,6 +35,8 @@ import {
   RelatedMessageModel,
   CompleteUserToChatRoom,
   RelatedUserToChatRoomModel,
+  CompleteConfig,
+  RelatedConfigModel,
 } from "./index"
 
 export const UserModel = z.object({
@@ -58,12 +58,10 @@ export const UserModel = z.object({
   status: z.nativeEnum(UserStatusEnum),
   buyingInCountries: z.nativeEnum(CountryFilterEnum),
   currency: z.nativeEnum(CurrencyEnum),
-  configKey: z.string().nullish(),
   locationId: z.number().int().nullish(),
 })
 
 export interface CompleteUser extends z.infer<typeof UserModel> {
-  config?: CompleteConfig | null
   location?: CompleteLocation | null
   tokens: CompleteToken[]
   sessions: CompleteSession[]
@@ -79,6 +77,7 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
   transactions: CompleteTransaction[]
   messages: CompleteMessage[]
   messageRooms: CompleteUserToChatRoom[]
+  configs: CompleteConfig[]
 }
 
 /**
@@ -88,7 +87,6 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
  */
 export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
   UserModel.extend({
-    config: RelatedConfigModel.nullish(),
     location: RelatedLocationModel.nullish(),
     tokens: RelatedTokenModel.array(),
     sessions: RelatedSessionModel.array(),
@@ -104,5 +102,6 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
     transactions: RelatedTransactionModel.array(),
     messages: RelatedMessageModel.array(),
     messageRooms: RelatedUserToChatRoomModel.array(),
+    configs: RelatedConfigModel.array(),
   })
 )

@@ -41,8 +41,6 @@ model User {
   status                UserStatusEnum    @default(PENDING)
   buyingInCountries     CountryFilterEnum @default(NONE)
   currency              CurrencyEnum      @default(EUR)
-  config                Config?           @relation(fields: [configKey], references: [key])
-  configKey             String?
   location              Location?         @relation(fields: [locationId], references: [id])
   locationId            Int?
   tokens                Token[]
@@ -59,6 +57,9 @@ model User {
   transactions          Transaction[]
   messages              Message[]
   messageRooms          UserToChatRoom[]
+  configs               Config[]
+  // config             Config?           @relation(fields: [configKey], references: [key])
+  // configKey          String?
 }
 
 model Session {
@@ -533,7 +534,7 @@ enum TransactionTypeEnum {
 model Config {
   key   String  @id
   value String?
-  user  User[]
+  users User[]
 }
 
 model FxRate {

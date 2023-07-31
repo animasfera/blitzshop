@@ -27,3 +27,5 @@ export const createCategories = async () => {
     console.error(err)
   }
 }
+
+export default createCategories

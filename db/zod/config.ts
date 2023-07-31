@@ -7,7 +7,7 @@ export const ConfigModel = z.object({
 })
 
 export interface CompleteConfig extends z.infer<typeof ConfigModel> {
-  user: CompleteUser[]
+  users: CompleteUser[]
 }
 
 /**
@@ -15,6 +15,8 @@ export interface CompleteConfig extends z.infer<typeof ConfigModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedConfigModel: z.ZodSchema<CompleteConfig> = z.lazy(() => ConfigModel.extend({
-  user: RelatedUserModel.array(),
-}))
+export const RelatedConfigModel: z.ZodSchema<CompleteConfig> = z.lazy(() =>
+  ConfigModel.extend({
+    users: RelatedUserModel.array(),
+  })
+)

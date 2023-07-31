@@ -1,5 +1,6 @@
 import db from "db"
 
+import { createConfigs } from "db/seeds/configs"
 import { createUsers } from "db/seeds/users"
 import { createCategories } from "db/seeds/categories"
 import { createItems } from "db/seeds/items"
@@ -15,6 +16,7 @@ const seed = async () => {
     await db.$reset()
   }
 
+  await createConfigs()
   await createUsers()
   await createCategories()
 

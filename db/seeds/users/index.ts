@@ -55,3 +55,5 @@ export const createUsers = async () => {
     console.error(err)
   }
 }
+
+export default createUsers
