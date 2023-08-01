@@ -37,7 +37,7 @@ export const PayoutsListController = (props: ControllerProps) => {
     ? initialOrderBy
     : ({ id: "desc" } as Prisma.TransactionOrderByWithRelationInput)
 
-  const [{ transactions, hasMore }] = usePaginatedQuery(getPayouts, {
+  const [{ transactions, count, hasMore }] = usePaginatedQuery(getPayouts, {
     orderBy,
     where: {
       ...initialFilter,
@@ -67,7 +67,12 @@ export const PayoutsListController = (props: ControllerProps) => {
           </Box>
         )}
         <Box flexGrow={1} ml={withFilter ? [0, 10] : 0}>
-          <ListOrNotFoundMessage objects={transactions} pagination={pagination} hasMore={hasMore}>
+          <ListOrNotFoundMessage
+            countObjects={count ?? 0}
+            itemsPerPage={ITEMS_PER_PAGE}
+            pagination={pagination}
+            hasMore={hasMore}
+          >
             <PayoutsList
               transactions={transactions}
               onRowClick={(transaction) => {
