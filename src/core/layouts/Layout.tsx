@@ -6,7 +6,7 @@ import { Box, Container } from "@chakra-ui/react"
 import { Loading } from "src/core/components/Loading"
 import i18n from "../i18n"
 
-const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
+export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
   title,
   children,
 }) => {
