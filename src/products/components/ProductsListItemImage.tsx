@@ -1,7 +1,8 @@
-import { Image } from "db"
+import Image from "next/image"
+import { Image as ImageDb } from "db"
 
 interface ProductsListItemImageProps {
-  image: Image
+  image: ImageDb
 }
 
 export const ProductsListItemImage = (props: ProductsListItemImageProps) => {
@@ -9,9 +10,11 @@ export const ProductsListItemImage = (props: ProductsListItemImageProps) => {
 
   return (
     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-      <img
+      <Image
         src={image.url}
         alt={image.title || ""}
+        width={800}
+        height={500}
         className="h-full w-full object-cover object-center lg:h-full lg:w-full"
       />
     </div>
