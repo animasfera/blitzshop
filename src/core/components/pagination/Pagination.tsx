@@ -32,6 +32,7 @@ export const Pagination = (props: PaginationProps) => {
       <div className="md:-mt-px md:flex gap-2">
         {numPages.map((num, index) => {
           // TODO: show not all page numbers: "1 2 3 ... 8 9 10"
+          // https://tailwindui.com/components/application-ui/navigation/pagination
 
           return (
             <ButtonLink
