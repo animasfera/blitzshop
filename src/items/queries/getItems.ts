@@ -16,7 +16,18 @@ export default resolver.pipe(async ({ where, orderBy, skip = 0, take = 100 }: Ge
     skip,
     take,
     count: () => db.item.count({ where }),
-    query: (paginateArgs) => db.item.findMany({ ...paginateArgs, where, orderBy }),
+    query: (paginateArgs) =>
+      db.item.findMany({
+        ...paginateArgs,
+        where,
+        orderBy,
+        include: {
+          _count: true,
+          amount: {},
+          category: true,
+          coverImage: { include: { image: true } },
+        },
+      }),
   })
 
   return {
