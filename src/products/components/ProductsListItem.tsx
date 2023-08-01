@@ -3,6 +3,8 @@ import Link from "next/link"
 import { Category, ImageToItem, Image, Item, Price, Prisma } from "db"
 
 import { CurrenciesEnum } from "src/core/enums/CurrenciesEnum"
+import { ProductsListItemImage } from "src/products/components/ProductsListItemImage"
+import { ProductsListItemVariant } from "src/products/components/ProductsListItemVariant"
 
 interface ProductsListItemProps {
   item: Item & {
@@ -20,13 +22,11 @@ export const ProductsListItem = (props: ProductsListItemProps) => {
 
   return (
     <li className="group relative">
-      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-        <img
-          src={item.coverImage.image.url}
-          alt={item.coverImage.image.title || item.title || ""}
-          className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-        />
-      </div>
+      <ProductsListItemImage
+        src={item.coverImage.image.url}
+        alt={item.coverImage.image.title || item.title || ""}
+      />
+      <ProductsListItemVariant item={item} />
       <div className="mt-4 flex justify-between">
         <div>
           <h3 className="text-sm text-gray-700 m-0">
