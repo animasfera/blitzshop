@@ -1,4 +1,4 @@
-import { Category, ImageToItem, Image, Item, Price, Prisma } from "db"
+import { ImageToItem, Image, Item, Price } from "db"
 
 import { ProductsListItemImage } from "src/products/components/ProductsListItemImage"
 import { ProductsListItemVariant } from "src/products/components/ProductsListItemVariant"
@@ -6,11 +6,7 @@ import { ProductsListItemVariant } from "src/products/components/ProductsListIte
 interface ProductsListItemProps {
   item: Item & {
     amount: Price
-    category: Category | null
-    _count: Prisma.ItemCountOutputType
-    coverImage: ImageToItem & {
-      image: Image
-    }
+    coverImage: ImageToItem & { image: Image }
   }
 }
 
@@ -19,10 +15,7 @@ export const ProductsListItem = (props: ProductsListItemProps) => {
 
   return (
     <li className="group relative">
-      <ProductsListItemImage
-        src={item.coverImage.image.url}
-        alt={item.coverImage.image.title || item.title || ""}
-      />
+      <ProductsListItemImage image={item.coverImage.image} />
       <ProductsListItemVariant item={item} />
     </li>
   )
