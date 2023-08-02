@@ -13,7 +13,17 @@ export default resolver.pipe(
   // resolver.authorize(),
   async ({ id }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const item = await db.item.findFirst({ where: { id } })
+    const item = await db.item.findFirst({
+      where: { id },
+      include: {
+        _count: true,
+        amount: true,
+        category: true,
+        coverImage: { include: { image: true } },
+        images: { include: { image: true } },
+        reviews: { include: { sender: true } },
+      },
+    })
 
     if (!item) throw new NotFoundError()
 
