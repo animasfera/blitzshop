@@ -2,6 +2,7 @@ import { useQuery } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
 import { ProductImages } from "src/products/components/ProductImages"
+import { ProductVariant } from "src/products/components/ProductVariant"
 import { classNames } from "src/core/helpers/classNames"
 import getItem from "src/items/queries/getItem"
 
@@ -78,10 +79,7 @@ export const ProductController = () => {
         <div className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
             <div className="lg:col-span-5 lg:col-start-8">
-              <div className="flex justify-between">
-                <h1 className="text-xl font-medium text-gray-900">{product.name}</h1>
-                <p className="text-xl font-medium text-gray-900">{product.price}</p>
-              </div>
+              <ProductVariant item={item} />
               {/* Reviews */}
               <div className="mt-4">
                 <h2 className="sr-only">Reviews</h2>

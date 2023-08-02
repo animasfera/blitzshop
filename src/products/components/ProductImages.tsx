@@ -14,6 +14,7 @@ export const ProductImages = (props: ProductImagesProps) => {
       <h2 className="sr-only">Images</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-3 lg:gap-8">
+        {/* Cover image */}
         <Image
           src={coverImage.image.url}
           alt={coverImage.image.title || ""}
@@ -22,6 +23,7 @@ export const ProductImages = (props: ProductImagesProps) => {
           className={"lg:col-span-2 lg:row-span-2 rounded-lg"}
         />
 
+        {/* Other images */}
         {images &&
           images.length > 0 &&
           images?.map((image) => (
