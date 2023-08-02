@@ -1,4 +1,4 @@
-import { Item, Price } from "db"
+import { Category, Item, Price } from "db"
 
 import { ProductTitle } from "src/products/components/ProductTitle"
 
@@ -7,7 +7,7 @@ import { ProductsListItemPrice } from "src/products/components/ProductsListItemP
 */
 
 interface ProductVariantProps {
-  item: Item & { amount: Price }
+  item: Item & { amount: Price; category: Category | null }
 }
 
 export const ProductVariant = (props: ProductVariantProps) => {
