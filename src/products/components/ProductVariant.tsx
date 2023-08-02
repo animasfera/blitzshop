@@ -1,7 +1,8 @@
 import { Item, Price } from "db"
 
+import { ProductTitle } from "src/products/components/ProductTitle"
+
 /*
-import { ProductsListItemTitle } from "src/products/components/ProductsListItemTitle"
 import { ProductsListItemPrice } from "src/products/components/ProductsListItemPrice"
 */
 
@@ -14,7 +15,7 @@ export const ProductVariant = (props: ProductVariantProps) => {
 
   return (
     <div className="flex justify-between">
-      <h1 className="text-xl font-medium text-gray-900">{item.title}</h1>
+      <ProductTitle item={item} />
       <p className="text-xl font-medium text-gray-900">{item.amount.amount}</p>
     </div>
   )
