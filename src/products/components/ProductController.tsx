@@ -5,6 +5,7 @@ import { CurrencyDollarIcon, GlobeAmericasIcon } from "@heroicons/react/24/outli
 import { ProductImages } from "src/products/components/ProductImages"
 import { ProductVariant } from "src/products/components/ProductVariant"
 import { ProductReviews } from "src/products/components/ProductReviews"
+import { ProductDetails } from "src/products/components/ProductDetails"
 
 import { classNames } from "src/core/helpers/classNames"
 import getItem from "src/items/queries/getItem"
@@ -96,6 +97,9 @@ export const ProductController = () => {
 
             <div className="mt-8 lg:col-span-5">
               <form>
+                {
+                  // TODO: create in src/core/components/buttons/ButtonMain
+                }
                 <button
                   // type="submit"
                   type="button"
@@ -105,27 +109,7 @@ export const ProductController = () => {
                 </button>
               </form>
 
-              {/* Product details */}
-              <div className="mt-10">
-                <h2 className="text-sm font-medium text-gray-900">Description</h2>
-
-                <div
-                  className="prose prose-sm mt-4 text-gray-500"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
-                />
-              </div>
-
-              <div className="mt-8 border-t border-gray-200 pt-8">
-                <h2 className="text-sm font-medium text-gray-900">Fabric &amp; Care</h2>
-
-                <div className="prose prose-sm mt-4 text-gray-500">
-                  <ul role="list">
-                    {product.details.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+              <ProductDetails item={item} />
 
               {/* Policies */}
               <section aria-labelledby="policies-heading" className="mt-10">
