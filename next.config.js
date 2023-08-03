@@ -14,6 +14,28 @@ const withMDX = require("@next/mdx")({
  **/
 
 const config = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "fs-thb01.getcourse.ru",
+        port: "",
+        pathname: "/fileservice/file/thumbnail/h/**",
+      },
+      {
+        protocol: "https",
+        hostname: "fs-thb02.getcourse.ru",
+        port: "",
+        pathname: "/fileservice/file/thumbnail/h/**",
+      },
+      {
+        protocol: "https",
+        hostname: "fs-thb03.getcourse.ru",
+        port: "",
+        pathname: "/fileservice/file/thumbnail/h/**",
+      },
+    ],
+  },
   // distDir: process.env.BUILD_DIR || ".next",
   // pageExtensions: ["ts", "tsx", "md", "mdx"],
   /*
