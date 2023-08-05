@@ -775,3 +775,8 @@ body.fullscreen .vid-fixed {
 .description {
   @apply text-center;
 }
+
+input:focus-visible,
+button:focus-visible {
+  outline: none;
+}
