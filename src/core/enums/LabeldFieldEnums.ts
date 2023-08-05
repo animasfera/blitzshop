@@ -4,3 +4,8 @@ export enum LabeledTextFieldTypeEnum {
   email,
   number,
 }
+
+export enum LabeledСurrencyFieldTypeEnum {
+  text,
+  number,
+}
