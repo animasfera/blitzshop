@@ -74,6 +74,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             type={isShowPass ? "text" : type ?? "text"}
             name={name}
             placeholder={placeholder}
+            value={input.value}
             defaultValue={defaultValue}
             disabled={disabled || submitting}
             id={name}

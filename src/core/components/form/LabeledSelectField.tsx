@@ -47,20 +47,15 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
     } = props
 
     const [selected, setSelected] = useState<Option[] | Option | undefined>(
-      defaultValue ?? undefined
+      defaultValue || undefined
     )
 
     const {
       input,
       meta: { touched, error, submitError, submitting },
     } = useField(name, {
-      parse: (v) => {
-        return v
-        // (v = type === "number" ? Number(v) : v)
-      },
-      format: (v) => {
-        return v
-      },
+      parse: (v) => v,
+      format: (v) => v,
       ...fieldProps,
     })
 
