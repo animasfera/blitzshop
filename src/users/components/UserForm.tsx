@@ -19,7 +19,7 @@ export function UserForm<S extends z.ZodType<any, any>>(props: FormProps<S>) {
         <LabeledTextField
           name="firstName"
           label={t("form.fields.firstName.label")}
-          help={t("form.fields.firstName.help")}
+          helperText={t("form.fields.firstName.help")}
         />
         <LabeledTextField name="lastName" label={t("form.fields.lastName.label")} />
         <LabeledTextField

@@ -78,7 +78,7 @@ export const Welcome = () => {
                     Let me know about the launch!
                   </FormLabel>
                   <Flex flexDirection={"row"}>
-                    <LabeledTextField name="email" label="" placeholder="E-mail" mb={0} />
+                    <LabeledTextField name="email" label="" placeholder="E-mail" />
                     <Button ml={2} w={"200px"} type={"submit"}>
                       Send
                     </Button>

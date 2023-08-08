@@ -3,14 +3,13 @@ import { useField, UseFieldConfig } from "react-final-form"
 import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid"
 import { CurrencyEnum } from "db"
 
-import { LabeledСurrencyFieldTypeEnum } from "src/core/enums/LabeldFieldEnums"
 import { CurrenciesEnum } from "src/core/enums/CurrenciesEnum"
 
 export interface LabeledСurrencyFieldProps {
   name: string
   label: string
   // Field type. Doesn't include radio buttons and checkboxes
-  type?: LabeledСurrencyFieldTypeEnum
+  type?: "text" | "number"
   isSelect?: boolean
   currency?: CurrencyEnum
   placeholder?: string
@@ -48,7 +47,7 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
       meta: { touched, error, submitError, submitting },
     } = useField(name, {
       parse:
-        type === LabeledСurrencyFieldTypeEnum.number
+        type === "number"
           ? (Number as any)
           : // Converting `""` to `null` ensures empty values will be set to null in the DB
             (v) => (v === "" ? null : v),
@@ -58,14 +57,14 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
 
     return (
-      <div {...outerProps} className="relative mb-7">
+      <div className="relative mb-7" {...outerProps}>
         <label
           {...labelProps}
           htmlFor={name}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           {`${label}`}
-          <span className="text-red-600">{required && " *"}</span>
+          {required && <span className="text-red-600">{required && " *"}</span>}
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -77,7 +76,7 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
             {...props}
             {...input}
             ref={ref}
-            type={LabeledСurrencyFieldTypeEnum[`${type}`] ?? LabeledСurrencyFieldTypeEnum.text}
+            type={type ?? "text"}
             name={name}
             id={name}
             className={`
@@ -139,7 +138,7 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
             </div>
           ) : (
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-              <span className="text-gray-500 sm:text-sm" id={`${name}-price-currency`}>
+              <span className="text-gray-500" id={`${name}-price-currency`}>
                 {currencyValue}
               </span>
             </div>

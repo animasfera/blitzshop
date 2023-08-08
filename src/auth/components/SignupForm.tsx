@@ -5,7 +5,6 @@ import { makeZodI18nMap } from "zod-i18n-map"
 
 import { LabeledTextField, LabeledTextFieldProps } from "src/core/components/form/LabeledTextField"
 import { Form, FORM_ERROR } from "src/core/components/form/Form"
-import { LabeledTextFieldTypeEnum } from "src/core/enums/LabeldFieldEnums"
 import signup from "src/auth/mutations/signup"
 import { Signup } from "src/auth/schemas"
 
@@ -29,14 +28,14 @@ export const SignupForm = (props: SignupFormProps) => {
     {
       name: "email",
       label: "Email",
-      type: LabeledTextFieldTypeEnum.email,
+      type: "email",
       placeholder: "example@mail.com",
       required: true,
     },
     {
       name: "password",
       label: "Password",
-      type: LabeledTextFieldTypeEnum.password,
+      type: "password",
       placeholder: "Qwerty123",
       required: true,
     },

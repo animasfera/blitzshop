@@ -2,13 +2,11 @@ import { useState, useEffect, forwardRef, ComponentPropsWithoutRef, PropsWithout
 import { useField, UseFieldConfig } from "react-final-form"
 import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid"
 
-import { LabeledTextFieldTypeEnum } from "src/core/enums/LabeldFieldEnums"
-
 export interface LabeledTextFieldProps {
   name: string
   label: string
   // Field type. Doesn't include radio buttons and checkboxes
-  type?: LabeledTextFieldTypeEnum
+  type?: "text" | "password" | "email" | "number"
   placeholder?: string
   required?: boolean
   disabled?: boolean
@@ -42,7 +40,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
       meta: { touched, error, submitError, submitting },
     } = useField(name, {
       parse:
-        type === LabeledTextFieldTypeEnum.number
+        type === "number"
           ? (Number as any)
           : // Converting `""` to `null` ensures empty values will be set to null in the DB
             (v) => (v === "" ? null : v),
@@ -58,25 +56,21 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
     }, [disabled, submitting])
 
     return (
-      <div {...outerProps} className="relative mb-7">
+      <div className="relative mb-7" {...outerProps}>
         <label
           {...labelProps}
           htmlFor={name}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           {`${label}`}
-          <span className="text-red-600">{required && " *"}</span>
+          {required && <span className="text-red-600">{required && " *"}</span>}
         </label>
         <div className="mt-2 flex rounded-md shadow-sm relative mt-2 rounded-md shadow-sm">
           <input
             {...props}
             {...input}
             ref={ref}
-            type={
-              isShowPass
-                ? LabeledTextFieldTypeEnum.text
-                : LabeledTextFieldTypeEnum[`${type}`] ?? LabeledTextFieldTypeEnum.text
-            }
+            type={isShowPass ? "text" : type ?? "text"}
             name={name}
             placeholder={placeholder}
             defaultValue={defaultValue}
@@ -84,7 +78,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             id={name}
             className={`
             block w-full border-0 p-1.5 ring-1 ring-inset focus:ring-inset focus:ring-2
-            ${type === LabeledTextFieldTypeEnum.password ? "rounded-s-md" : "rounded-md"}
+            ${type === "password" ? "rounded-s-md" : "rounded-md"}
             ${
               touched && normalizedError
                 ? `text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500
@@ -101,12 +95,12 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             <div
               className={`
             pointer-events-none absolute inset-y-0  flex items-center pr-3
-            ${type === LabeledTextFieldTypeEnum.password ? "right-10" : "right-0"}`}
+            ${type === "password" ? "right-10" : "right-0"}`}
             >
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
             </div>
           )}
-          {type === LabeledTextFieldTypeEnum.password && (
+          {type === "password" && (
             <button
               type="button"
               className={`
