@@ -55,6 +55,7 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
     })
 
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
+    const showError = touched && normalizedError
 
     return (
       <div className="relative mb-7" {...outerProps}>
@@ -68,7 +69,7 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <span className={`${touched && normalizedError ? `text-red-400` : `text-gray-500`}`}>
+            <span className={`${showError ? `text-red-400` : `text-gray-500`}`}>
               {CurrenciesEnum[`${currencyValue}`].symbol}
             </span>
           </div>
@@ -83,7 +84,7 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
             block w-full border-0 p-1.5 ring-1 ring-inset focus:ring-inset focus:ring-2
             rounded-md py-1.5 pl-7 pr-20
             ${
-              touched && normalizedError
+              showError
                 ? `text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500
                 focus-visible:ring-red-500 focus-visible:ring-red-500:focus-visible pr-10`
                 : `text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600
@@ -97,7 +98,7 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
             aria-describedby={`${name}-error`}
             required={required}
           />
-          {touched && normalizedError && (
+          {showError && (
             <div className="pointer-events-none absolute inset-y-0  flex items-center pr-3 right-20">
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
             </div>
@@ -115,7 +116,7 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
               h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500
               focus:ring-2 focus:ring-inset focus:ring-indigo-600
               ${
-                touched && normalizedError
+                showError
                   ? `text-red-400 ring-red-300 focus:ring-red-500
                 focus-visible:ring-red-500 focus-visible:ring-red-500:focus-visible`
                   : `text-gray-500 ring-gray-300 focus:ring-indigo-600
@@ -149,7 +150,7 @@ export const LabeledСurrencyField = forwardRef<HTMLInputElement, LabeledСurren
             {helperText}
           </p>
         )}
-        {touched && normalizedError && (
+        {showError && (
           <p id={`${name}-error`} role="alert" className="absolute m-0 mt-1 text-sm text-red-600">
             {normalizedError}
           </p>

@@ -48,6 +48,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
     })
 
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
+    const showError = touched && normalizedError
 
     useEffect(() => {
       if (disabled || submitting) {
@@ -80,7 +81,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             block w-full border-0 p-1.5 ring-1 ring-inset focus:ring-inset focus:ring-2
             ${type === "password" ? "rounded-s-md" : "rounded-md"}
             ${
-              touched && normalizedError
+              showError
                 ? `text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500
                 focus-visible:ring-red-500 focus-visible:ring-red-500:focus-visible pr-10`
                 : `text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600
@@ -91,7 +92,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             aria-describedby={`${name}-error`}
             required={required}
           />
-          {touched && normalizedError && (
+          {showError && (
             <div
               className={`
             pointer-events-none absolute inset-y-0  flex items-center pr-3
@@ -109,8 +110,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
               ring-gray-300 hover:bg-gray-100 focus:ring-inset focus:ring-2
               focus-visible:ring-indigo-600
               ${
-                touched &&
-                normalizedError &&
+                showError &&
                 `text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500
                 focus-visible:ring-red-500 focus-visible:ring-red-500:focus-visible`
               }
@@ -121,13 +121,13 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
               {isShowPass ? (
                 <EyeIcon
                   className={`-ml-0.5 h-5 w-5 text-gray-400
-                ${touched && normalizedError && `text-red-500`}`}
+                ${showError && `text-red-500`}`}
                   aria-hidden="true"
                 />
               ) : (
                 <EyeSlashIcon
                   className={`-ml-0.5 h-5 w-5 text-gray-400
-                ${touched && normalizedError && `text-red-500`}`}
+                ${showError && `text-red-500`}`}
                   aria-hidden="true"
                 />
               )}
@@ -139,7 +139,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             {helperText}
           </p>
         )}
-        {touched && normalizedError && (
+        {showError && (
           <p id={`${name}-error`} role="alert" className="absolute m-0 mt-1 text-sm text-red-600">
             {normalizedError}
           </p>

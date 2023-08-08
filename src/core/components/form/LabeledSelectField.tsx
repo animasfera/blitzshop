@@ -65,8 +65,7 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
     })
 
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
-
-    console.log("input", input)
+    const showError = touched && normalizedError
 
     return (
       <div className="relative mb-7" {...outerProps}>
@@ -92,7 +91,7 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
                   relative w-full cursor-default rounded-md bg-white py-1.5 pl-3
                   pr-10 text-left shadow-sm ring-1 ring-inset focus:ring-2
                   ${
-                    touched && normalizedError
+                    showError
                       ? `text-red-900 ring-red-300 focus:ring-red-500 focus-visible:ring-red-500
                       focus-visible:ring-red-500:focus-visible pr-10`
                       : `text-gray-900 ring-gray-300 focus:ring-indigo-600
@@ -140,16 +139,12 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
                         </>
                       )
                     ) : (
-                      <span
-                        className={`truncate ${
-                          touched && normalizedError ? `text-red-300` : `text-gray-400`
-                        }`}
-                      >
+                      <span className={`truncate ${showError ? `text-red-300` : `text-gray-400`}`}>
                         {placeholder ?? "Выберите"}
                       </span>
                     )}
                   </span>
-                  {touched && normalizedError && (
+                  {showError && (
                     <div
                       className={`pointer-events-none absolute inset-y-0 flex items-center pr-3 right-5`}
                     >
@@ -158,9 +153,7 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
                   )}
                   <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                     <ChevronUpDownIcon
-                      className={`h-5 w-5 ${
-                        touched && normalizedError ? `text-red-500` : `text-gray-400`
-                      }`}
+                      className={`h-5 w-5 ${showError ? `text-red-500` : `text-gray-400`}`}
                       aria-hidden="true"
                     />
                   </span>
@@ -242,9 +235,9 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
             {helperText}
           </p>
         )}
-        {touched && normalizedError && (
+        {showError && (
           <p id={`${name}-error`} role="alert" className="absolute m-0 mt-1 text-sm text-red-600">
-            {normalizedError}normalizedError
+            {normalizedError}
           </p>
         )}
       </div>
