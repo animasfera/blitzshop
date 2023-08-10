@@ -8,6 +8,8 @@ import { Form, FORM_ERROR } from "src/core/components/form/Form"
 import signup from "src/auth/mutations/signup"
 import { Signup } from "src/auth/schemas"
 
+import { LabeledTextareaField } from "src/core/components/form/LabeledTextareaField"
+
 type SignupFormProps = {
   onSuccess?: () => void
 }
@@ -77,6 +79,8 @@ export const SignupForm = (props: SignupFormProps) => {
             required={required}
           />
         ))}
+
+        <LabeledTextareaField name="LabeledTextareaField" label="LabeledTextareaField" />
       </Form>
     </div>
   )
