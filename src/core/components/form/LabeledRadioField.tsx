@@ -2,7 +2,7 @@ import React, { useState, forwardRef, ComponentPropsWithoutRef, PropsWithoutRef 
 import { useField, UseFieldConfig } from "react-final-form"
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid"
 
-interface Option {
+interface OptionLabeledRadioField {
   label: string
   value: string | number
   description?: string | number
@@ -17,15 +17,14 @@ export interface LabeledRadioFieldProps {
   required?: boolean
   disabled?: boolean
   helperText?: string
-  defaultValue?: Option
-  options: Array<Option>
+  defaultValue?: OptionLabeledRadioField
+  options: Array<OptionLabeledRadioField>
 
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
 }
 
-// RadioButtonsField
 export const LabeledRadioField = forwardRef<HTMLInputElement, LabeledRadioFieldProps>(
   (props, ref) => {
     const {
@@ -86,7 +85,8 @@ export const LabeledRadioField = forwardRef<HTMLInputElement, LabeledRadioFieldP
                     <input
                       {...input}
                       id={`${name}-${option.value}`}
-                      name="notification-method"
+                      ref={ref}
+                      name={name}
                       type="radio"
                       defaultChecked={
                         input.value === option.value || defaultValue?.value === option.value
@@ -143,37 +143,3 @@ export const LabeledRadioField = forwardRef<HTMLInputElement, LabeledRadioFieldP
 )
 
 export default LabeledRadioField
-
-/*
-      <FormControl {...outerProps}>
-        <FormLabel {...labelProps}>{label}</FormLabel>
-
-        <Stack spacing={2} {...group}>
-          {options.map((value, index) => {
-            const radio = getRadioProps({ value: value.value })
-
-            return (
-              <Radio
-                key={value.value}
-                ref={ref}
-                {...radio}
-                isChecked={inputValue === value.value}
-                // first={index === 0}
-                // last={index === options.length - 1}
-              >
-                {value.label}
-              </Radio>
-            )
-          })}
-        </Stack>
-        <Box color={"grey"} fontSize={"13px"} mt={1}>
-          {help}
-        </Box>
-
-        {touched && normalizedError && (
-          <div role="alert" style={{ color: "red" }}>
-            {normalizedError}
-          </div>
-        )}
-      </FormControl>
-*/

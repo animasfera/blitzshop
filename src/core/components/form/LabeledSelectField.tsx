@@ -6,7 +6,7 @@ import { CheckIcon, ChevronUpDownIcon, ExclamationCircleIcon } from "@heroicons/
 
 import { classNames } from "src/core/helpers/classNames"
 
-interface Option {
+interface OptionLabeledSelectField {
   label: string
   value: string | number
   description?: string | number
@@ -19,8 +19,8 @@ export interface LabeledSelectFieldProps {
   required?: boolean
   disabled?: boolean
   helperText?: string
-  defaultValue?: Option
-  options: Array<Option>
+  defaultValue?: OptionLabeledSelectField
+  options: Array<OptionLabeledSelectField>
   multiple?: boolean
 
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
@@ -46,9 +46,9 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
       labelProps,
     } = props
 
-    const [selected, setSelected] = useState<Option[] | Option | undefined>(
-      defaultValue || undefined
-    )
+    const [selected, setSelected] = useState<
+      OptionLabeledSelectField[] | OptionLabeledSelectField | undefined
+    >(defaultValue || undefined)
 
     const {
       input,

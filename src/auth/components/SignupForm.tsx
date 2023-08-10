@@ -8,6 +8,30 @@ import { Form, FORM_ERROR } from "src/core/components/form/Form"
 import signup from "src/auth/mutations/signup"
 import { Signup } from "src/auth/schemas"
 
+import { RadioButtonsField } from "src/core/components/form/RadioButtonsField"
+import { RadioSelectedCardsField } from "src/core/components/form/RadioSelectedCardsField"
+
+const options = [
+  {
+    value: "Newsletter",
+    label: "Newsletter",
+    description: "Last message sent an hour ago",
+    footerText: "621 users",
+  },
+  {
+    value: "Existing Customers",
+    label: "Existing Customers",
+    description: "Last message sent 2 weeks ago",
+    footerText: "1200 users",
+  },
+  {
+    value: "Trial Users",
+    label: "Trial Users",
+    description: "Last message sent 4 days ago",
+    footerText: "2740 users",
+  },
+]
+
 type SignupFormProps = {
   onSuccess?: () => void
 }
@@ -52,6 +76,8 @@ export const SignupForm = (props: SignupFormProps) => {
           username: "",
           email: "",
           password: "",
+          // @ts-ignore
+          RadioButtonsCardField: options[1]?.value,
         }}
         onSubmit={async (values) => {
           try {
@@ -77,6 +103,17 @@ export const SignupForm = (props: SignupFormProps) => {
             required={required}
           />
         ))}
+
+        <RadioButtonsField
+          name={"isGuideString"}
+          label={""}
+          value={"all"}
+          options={[
+            { label: "all", value: "all" },
+            { label: "guides", value: "guide" },
+            { label: "players", value: "players" },
+          ]}
+        />
       </Form>
     </div>
   )
