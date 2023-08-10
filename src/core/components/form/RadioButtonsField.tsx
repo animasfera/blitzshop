@@ -1,101 +1,115 @@
-import React, { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
+import React, { useState, forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
-import { Input } from "@chakra-ui/input"
-import { Box, HStack, useRadioGroup } from "@chakra-ui/react"
-import { FormControl, FormLabel } from "@chakra-ui/form-control"
+import { RadioGroup } from "@headlessui/react"
+import { ExclamationCircleIcon } from "@heroicons/react/20/solid"
 
-import { RadioCard } from "./RadioCard"
+import { RadioButtonField } from "./RadioButtonField"
 
-export interface RadioButtonsFieldProps extends ComponentPropsWithoutRef<typeof Input> {
-  /** Field name. */
-  name: string
-  /** Field label. */
+export interface OptionRadioButtonField {
   label: string
-  help?: string
-  options: Array<{ label: string | number; value: string | number }>
+  value: string | number
+  disabled?: boolean
+}
+
+export interface RadioButtonsFieldProps {
+  name: string
+  label: string
+  required?: boolean
+  disabled?: boolean
+  helperText?: string
+  defaultValue?: OptionRadioButtonField
+  options: Array<OptionRadioButtonField>
+
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
-  boolean?: Boolean
 }
 
 export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldProps>(
-  ({ name, help, boolean, label, options, outerProps, fieldProps, labelProps, ...props }, ref) => {
+  (props, ref) => {
+    const {
+      name,
+      label,
+      required,
+      disabled,
+      helperText,
+      defaultValue,
+      options,
+
+      outerProps,
+      fieldProps,
+      labelProps,
+    } = props
+
+    const [selected, setSelected] = useState<OptionRadioButtonField | undefined>(
+      defaultValue || undefined
+    )
+
     const {
       input,
       meta: { touched, error, submitError, submitting },
     } = useField(name, {
+      /*
       parse: (v) => {
         return boolean ? !!Number(v) : v
       },
       format: (v) => {
         return boolean ? (typeof v === "string" ? v : v ? "1" : "0") : v
       },
+      */
+      parse: (v) => v,
+      format: (v) => v,
       ...fieldProps,
     })
 
-    options = options || []
-
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
-
-    const { getRootProps, getRadioProps } = useRadioGroup({
-      name: name,
-      // defaultValue: inputValue || input.value,
-      defaultValue: props.value,
-      onChange: (v) => {
-        // setInputValue(v)
-        input.onChange(v)
-      },
-    })
-
-    const group = getRootProps()
+    const showError = !normalizedError // touched && normalizedError
 
     return (
-      <FormControl {...outerProps} w={"100% !important"}>
-        <FormLabel {...labelProps}>{label}</FormLabel>
-
-        <HStack
-          spacing={0}
-          {...group}
-          display={"flex"}
-          justifyContent={["center", "left"]}
-          w={"fit-content"}
+      <div className="relative mb-7" {...outerProps}>
+        <RadioGroup
+          {...input}
+          ref={ref}
+          value={selected}
+          onChange={setSelected}
+          disabled={disabled || submitting}
         >
-          {options.map((value, index) => {
-            const radio = getRadioProps({ value: value.value })
-            console.log(input.value)
-            console.log(value.value)
-            return (
-              <RadioCard
-                flexGrow={1}
-                key={value.value}
-                ref={ref}
-                {...radio}
-                isChecked={
-                  typeof input.value !== "undefined"
-                    ? input.value == value.value
-                    : props.value == value.value
-                }
-                first={index === 0}
-                last={index === options.length - 1}
-              >
-                {value.label}
-              </RadioCard>
-            )
-          })}
-        </HStack>
-        {help && (
-          <Box color={"grey"} fontSize={"13px"} mt={1}>
-            {help}
-          </Box>
-        )}
+          <div className="relative">
+            <RadioGroup.Label
+              className="block text-sm font-medium leading-6 text-gray-900"
+              {...labelProps}
+            >
+              {label}
+              {required && <span className="text-red-600">{required && " *"}</span>}
+            </RadioGroup.Label>
 
-        {touched && normalizedError && (
-          <div role="alert" style={{ color: "red" }}>
-            {normalizedError}
+            {showError && (
+              <div
+                className={"pointer-events-none absolute inset-y-0  flex items-center pr-3 right-0"}
+              >
+                <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+              </div>
+            )}
           </div>
+
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+            {options.map((option) => (
+              <RadioButtonField key={option.value} option={option} />
+            ))}
+          </div>
+        </RadioGroup>
+
+        {helperText && (
+          <p className="m-0 mt-1 text-sm text-gray-500" id={`${name}-description`}>
+            {helperText}
+          </p>
         )}
-      </FormControl>
+        {showError && (
+          <p id={`${name}-error`} role="alert" className="absolute m-0 mt-1 text-sm text-red-600">
+            {normalizedError}
+          </p>
+        )}
+      </div>
     )
   }
 )

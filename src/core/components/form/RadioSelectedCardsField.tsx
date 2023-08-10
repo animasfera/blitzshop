@@ -42,9 +42,9 @@ export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelecte
       labelProps,
     } = props
 
-    const [selected, setSelected] = useState<
-      OptionRadioSelectedCard[] | OptionRadioSelectedCard | undefined
-    >(defaultValue || undefined)
+    const [selected, setSelected] = useState<OptionRadioSelectedCard | undefined>(
+      defaultValue || undefined
+    )
 
     const {
       input,
@@ -70,20 +70,21 @@ export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelecte
       <div className="relative mb-7" {...outerProps}>
         <RadioGroup
           {...input}
+          ref={ref}
           value={selected}
           onChange={setSelected}
           disabled={disabled || submitting}
         >
           <div className="relative">
             <RadioGroup.Label
-              className="text-base font-semibold leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-900"
               {...labelProps}
             >
               {label}
               {required && <span className="text-red-600">{required && " *"}</span>}
             </RadioGroup.Label>
 
-            {!showError && (
+            {showError && (
               <div
                 className={"pointer-events-none absolute inset-y-0  flex items-center pr-3 right-0"}
               >
