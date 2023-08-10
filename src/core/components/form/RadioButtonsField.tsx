@@ -63,7 +63,7 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
     })
 
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
-    const showError = !normalizedError // touched && normalizedError
+    const showError = touched && normalizedError
 
     return (
       <div className="relative mb-7" {...outerProps}>
@@ -92,7 +92,7 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+          <div className="mt-2 grid grid-cols-3 gap-3 sm:grid-cols-6">
             {options.map((option) => (
               <RadioButtonField key={option.value} option={option} />
             ))}
