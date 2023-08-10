@@ -17,25 +17,10 @@ export function MessageForm<S extends z.ZodType<any, any>>(props: FormProps<S>) 
     <Form<S> {...changedProps} style={{ position: "relative", width: "100%" }} showErrors={false}>
       <Box position={"relative"}>
         <LabeledTextareaField
-          flexGrow={1}
-          tabIndex={1}
           name="message"
           label=""
           placeholder={t("enterYourMessage")}
-          autoComplete={"off"}
-          pr={"15px"}
-          pb={"15px"}
-          w={"100%"}
           rows={props.rows || 1}
-          autoFocus
-          paddingRight={"50px"}
-          border={0}
-          borderTop={"1px solid #20143f"}
-          borderRadius={0}
-          _placeholder={{ color: "#423c69" }}
-          _hover={{ outline: "none", borderTop: "1px solid #20143f" }}
-          _active={{ outline: "none", borderTop: "1px solid #20143f" }}
-          _focus={{ outline: "none", borderTop: "1px solid #20143f" }}
         />
         <Button
           position={"absolute"}
