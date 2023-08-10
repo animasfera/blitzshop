@@ -31,6 +31,7 @@ export const LabeledTextareaField = forwardRef<HTMLTextAreaElement, LabeledTexta
       helperText,
       defaultValue,
       rows,
+
       outerProps,
       fieldProps,
       labelProps,
@@ -54,9 +55,9 @@ export const LabeledTextareaField = forwardRef<HTMLTextAreaElement, LabeledTexta
     return (
       <div className="relative mb-7" {...outerProps}>
         <label
-          {...labelProps}
           htmlFor={name}
           className="block text-sm font-medium leading-6 text-gray-900"
+          {...labelProps}
         >
           {label}
           {required && <span className="text-red-600">{required && " *"}</span>}
@@ -111,21 +112,3 @@ export const LabeledTextareaField = forwardRef<HTMLTextAreaElement, LabeledTexta
 )
 
 export default LabeledTextareaField
-
-/*
-<FormControl {...outerProps}>
-
-      <FormLabel {...labelProps}>{label}</FormLabel>
-        <Textarea {...input} disabled={submitting} {...props} ref={ref} rows={rows || 4} />
-        {help && (
-          <Box color={"grey"} fontSize={"13px"} mt={1}>
-            {help}
-          </Box>
-        )}
-        {touched && normalizedError && (
-          <div role="alert" style={{ color: "red" }}>
-            {normalizedError}
-          </div>
-        )}
-      </FormControl>
-*/

@@ -9,7 +9,7 @@ import { classNames } from "src/core/helpers/classNames"
 interface Option {
   label: string
   value: string | number
-  descriprion?: string | number
+  description?: string | number
   img?: string
 }
 export interface LabeledSelectFieldProps {
@@ -74,8 +74,8 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
           {({ open }) => (
             <>
               <Listbox.Label
-                {...labelProps}
                 className="block text-sm font-medium leading-6 text-gray-900"
+                {...labelProps}
               >
                 {label}
                 {required && <span className="text-red-600">{required && " *"}</span>}
@@ -108,9 +108,9 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
                                 />
                               )}
                               <span className="block truncate">{el?.label}</span>
-                              {el?.descriprion && (
+                              {el?.description && (
                                 <span className="ml-1 truncate text-gray-500">
-                                  {el?.descriprion}
+                                  {el?.description}
                                 </span>
                               )}
                             </div>
@@ -126,9 +126,9 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
                             />
                           )}
                           <span className="block truncate">{selected?.label}</span>
-                          {selected?.descriprion && (
+                          {selected?.description && (
                             <span className="ml-2 truncate text-gray-500">
-                              {selected?.descriprion}
+                              {selected?.description}
                             </span>
                           )}
                         </>
@@ -192,14 +192,14 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
                               >
                                 {option.label}
                               </span>
-                              {option.descriprion && (
+                              {option.description && (
                                 <span
                                   className={classNames(
                                     active ? "text-indigo-200" : "text-gray-500",
                                     "ml-2 truncate"
                                   )}
                                 >
-                                  {option.descriprion}
+                                  {option.description}
                                 </span>
                               )}
                             </div>

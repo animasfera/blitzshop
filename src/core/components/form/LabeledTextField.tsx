@@ -12,6 +12,7 @@ export interface LabeledTextFieldProps {
   disabled?: boolean
   helperText?: string
   defaultValue?: string | number
+
   fieldProps?: UseFieldConfig<string>
   labelProps?: ComponentPropsWithoutRef<"label">
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
@@ -28,6 +29,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
       disabled,
       helperText,
       defaultValue,
+
       fieldProps,
       labelProps,
       outerProps,
@@ -59,9 +61,9 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
     return (
       <div className="relative mb-7" {...outerProps}>
         <label
-          {...labelProps}
           htmlFor={name}
           className="block text-sm font-medium leading-6 text-gray-900"
+          {...labelProps}
         >
           {`${label}`}
           {required && <span className="text-red-600">{required && " *"}</span>}
