@@ -60,7 +60,7 @@ export function UserForm<S extends z.ZodType<any, any>>(props: FormProps<S>) {
             <LabeledGeocodingField
               name={"location"}
               label={t("form.fields.location.label")}
-              help={t("form.fields.location.help")}
+              helperText={t("form.fields.location.help")}
             />
           </>
         )}
