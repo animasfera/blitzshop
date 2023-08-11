@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
+import React, { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid"
 
@@ -77,8 +77,6 @@ export const LabeledRadioField = forwardRef<HTMLInputElement, LabeledRadioFieldP
           <legend className="sr-only">{label}</legend>
           <div className="space-y-2">
             {options.map((option) => {
-              console.log("option", option)
-
               return (
                 <div key={option.value} className="relative flex items-start">
                   <div className="flex h-6 items-center">
