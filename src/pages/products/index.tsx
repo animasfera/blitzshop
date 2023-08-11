@@ -5,7 +5,7 @@ import { ProductsListController } from "src/products/components/ProductsListCont
 export const ProductsPage = () => {
   return (
     <Layout title="Products">
-      <Loading fallback={<div>Loading...</div>}>
+      <Loading>
         <ProductsListController />
       </Loading>
     </Layout>
