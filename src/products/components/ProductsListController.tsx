@@ -18,7 +18,7 @@ export const ProductsListController = () => {
   // TODO: add sorts and filters
   return (
     <ListOrNotFoundMessage
-      countObjects={count ?? 0}
+      countObjects={count}
       itemsPerPage={ITEMS_PER_PAGE}
       pagination={pagination}
       hasMore={hasMore}
