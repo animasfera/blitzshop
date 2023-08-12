@@ -3,11 +3,10 @@ import { useTranslation } from "react-i18next"
 import { z } from "zod"
 import { makeZodI18nMap } from "zod-i18n-map"
 
-import { LabeledTextField, LabeledTextFieldProps } from "src/core/components/form/LabeledTextField"
 import { Form, FORM_ERROR } from "src/core/components/form/Form"
+import { LabeledTextField, LabeledTextFieldProps } from "src/core/components/form/LabeledTextField"
 import signup from "src/auth/mutations/signup"
 import { Signup } from "src/auth/schemas"
-import LabeledColorsField from "src/core/components/form/LabeledColorsField"
 
 type SignupFormProps = {
   onSuccess?: () => void
@@ -78,21 +77,6 @@ export const SignupForm = (props: SignupFormProps) => {
             required={required}
           />
         ))}
-
-        <LabeledColorsField
-          name="LabeledColorsField"
-          label="LabeledColorsField"
-          options={[
-            { value: "Pink", bgColor: "bg-pink-500", selectedColor: "ring-pink-500" },
-            { value: "Purple", bgColor: "bg-purple-500", selectedColor: "ring-purple-500" },
-            { value: "Blue", bgColor: "bg-blue-500", selectedColor: "ring-blue-500" },
-            { value: "Green", bgColor: "bg-green-500", selectedColor: "ring-green-500" },
-            { value: "Yellow", bgColor: "bg-yellow-500", selectedColor: "ring-yellow-500" },
-          ]}
-          required
-          disabled
-          helperText="helperText"
-        />
       </Form>
     </div>
   )
