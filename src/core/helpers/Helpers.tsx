@@ -6,7 +6,7 @@ export const currencyFormat = (num: number, currency = "EUR", skipDivision = fal
   const currencySymbols = {
     RUB: "₽",
     SGD: "SGD",
-    USD: "USD",
+    USD: "$",
     EUR: "€",
   }
   if (!skipDivision) {

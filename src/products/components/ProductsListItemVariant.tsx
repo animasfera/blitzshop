@@ -1,7 +1,7 @@
 import { Item, Price } from "db"
 
 import { ProductsListItemTitle } from "src/products/components/ProductsListItemTitle"
-import { ProductsListItemPrice } from "src/products/components/ProductsListItemPrice"
+import { Money } from "src/core/components/Money"
 
 interface ProductsListItemVariantProps {
   item: Item & { amount: Price }
@@ -13,7 +13,7 @@ export const ProductsListItemVariant = (props: ProductsListItemVariantProps) => 
   return (
     <div className="mt-4 flex justify-between">
       <ProductsListItemTitle item={item} />
-      <ProductsListItemPrice amount={item.amount} />
+      <Money amount={item.amount.amount} currency={item.amount.currency} />
     </div>
   )
 }
