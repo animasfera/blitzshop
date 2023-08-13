@@ -1,3 +1,4 @@
+"use client"
 import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"

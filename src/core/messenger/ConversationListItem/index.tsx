@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from "react"
 import shave from "shave"
 import { Avatar, Badge, Box, Heading, Text } from "@chakra-ui/react"

@@ -1,3 +1,4 @@
+"use client"
 import { AuthenticationError, PromiseReturnType } from "blitz"
 import Link from "next/link"
 import { useMutation } from "@blitzjs/rpc"

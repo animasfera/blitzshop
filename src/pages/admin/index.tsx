@@ -1,3 +1,4 @@
+"use client"
 import { BlitzPage } from "@blitzjs/next"
 import React from "react"
 

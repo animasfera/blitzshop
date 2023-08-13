@@ -1,3 +1,4 @@
+"use client"
 import previewEmail from "preview-email"
 import { renderToStaticMarkup } from "react-dom/server"
 import { Box, Image, Table, Tbody, Tr, Td, Heading, Link } from "@chakra-ui/react"
