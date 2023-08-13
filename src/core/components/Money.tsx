@@ -1,18 +1,17 @@
-import { Box, ChakraProps } from "@chakra-ui/react"
 import { currencyFormat } from "../helpers/Helpers"
 
-export const Money = (
-  props: ChakraProps & { amount: number; currency?: string; withPlus?: boolean }
-) => {
-  const { amount, currency = "EUR", withPlus = false, ...chakraProps } = props
+export const Money = (props: { amount: number; currency?: string; withPlus?: boolean }) => {
+  const { amount, currency = "EUR", withPlus = false } = props
   let plus = ""
+
   if (withPlus) {
     plus = amount > 0 ? "+" : ""
   }
+
   return (
-    <Box as={"span"} {...chakraProps} whiteSpace={"nowrap"}>
+    <span className="text-gray-900 whitespace-nowrap">
       {plus}
       {currencyFormat(amount, currency)}
-    </Box>
+    </span>
   )
 }
