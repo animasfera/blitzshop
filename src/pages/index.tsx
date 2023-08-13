@@ -1,13 +1,13 @@
 import Link from "next/link"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
-import { Box, Button, Text } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
+import { Loading } from "src/core/components/Loading"
+import { Button } from "src/core/components/buttons/Button"
 import { useCurrentUser } from "src/core/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
-import { Loading } from "src/core/components/Loading"
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -17,28 +17,27 @@ const UserInfo = () => {
     return (
       <>
         <Button
-          onClick={async () => {
+          buttonText="Logout"
+          handleClick={async () => {
             await logoutMutation()
           }}
-        >
-          Logout
-        </Button>
-        <Box>
-          <Text>User id: {currentUser.id}</Text>
-          <Text>User role: {currentUser.role}</Text>
-        </Box>
+        />
+        <div>
+          <p>User id: {currentUser.id}</p>
+          <p>User role: {currentUser.role}</p>
+        </div>
       </>
     )
   } else {
     return (
-      <>
+      <div className="flex gap-2">
         <Link href={Routes.SignupPage()}>
-          <Button>Sign Up</Button>
+          <Button buttonText="Sign Up" />
         </Link>
         <Link href={Routes.LoginPage()}>
-          <Button>Login</Button>
+          <Button buttonText="Login" />
         </Link>
-      </>
+      </div>
     )
   }
 }
