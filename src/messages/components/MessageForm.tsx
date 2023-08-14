@@ -1,3 +1,4 @@
+"use client"
 import { Box, Button, Icon } from "@chakra-ui/react"
 import { FiSend } from "react-icons/fi"
 import { useTranslation } from "react-i18next"

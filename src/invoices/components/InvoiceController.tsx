@@ -1,3 +1,4 @@
+"use client"
 import { useQuery } from "@blitzjs/rpc"
 import getInvoice from "../queries/getInvoice"
 import { InvoiceView } from "./InvoiceView"

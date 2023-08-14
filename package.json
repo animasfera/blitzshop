@@ -23,10 +23,27 @@
       "eslint --fix"
     ]
   },
+  "installConfig": {
+    "hoistingLimits": "workspaces"
+  },
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/blitz",
+      "**/@blitzjs/*",
+      "**/next"
+    ]
+  },
   "dependencies": {
+    "@blitzjs/cli": "0.45.5",
+    "@blitzjs/codemod": "2.0.0-beta.31",
+    "@blitzjs/next": "2.0.0-beta.31",
+    "@blitzjs/rpc": "2.0.0-beta.31",
     "@blitzjs/auth": "2.0.0-beta.28",
-    "@blitzjs/next": "2.0.0-beta.28",
-    "@blitzjs/rpc": "2.0.0-beta.28",
+    "@blitzjs/env": "0.45.5",
     "@chakra-ui/react": "1.8.9",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
@@ -46,7 +63,7 @@
     "aws-s3": "2.0.5",
     "aws-sdk": "2.1397.0",
     "axios": "1.4.0",
-    "blitz": "2.0.0-beta.28",
+    "blitz": "2.0.0-beta.31",
     "bull": "4.10.4",
     "downshift": "8.0.0",
     "final-form": "4.20.9",
@@ -63,7 +80,7 @@
     "mailgun-js": "0.22.0",
     "mailgun.js": "9.0.1",
     "moment": "2.29.4",
-    "next": "13.4.11",
+    "next": "13.4.5",
     "next-transpile-modules": "10.0.0",
     "node-cron": "3.0.2",
     "node-mocks-http": "1.12.2",
@@ -79,7 +96,7 @@
     "react-final-form-listeners": "1.0.3",
     "react-ga4": "2.1.0",
     "react-geocode": "0.2.3",
-    "react-globe.gl": "2.24.1",
+    "react-globe.gl": "2.24.3",
     "react-i18next": "13.0.0",
     "react-icons": "4.9.0",
     "react-image-file-resizer": "0.4.8",
@@ -112,7 +129,7 @@
     "@vitejs/plugin-react": "2.2.0",
     "autoprefixer": "10.4.14",
     "eslint": "8.27.0",
-    "eslint-config-next": "12.3.1",
+    "eslint-config-next": "13.1.1",
     "eslint-config-prettier": "8.5.0",
     "husky": "8.0.2",
     "jsdom": "20.0.3",

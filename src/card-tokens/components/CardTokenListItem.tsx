@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react"
 import { Box, Flex, Icon, IconButton, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import { FiCheck, FiMoreVertical, FiTrash2 } from "react-icons/fi"
