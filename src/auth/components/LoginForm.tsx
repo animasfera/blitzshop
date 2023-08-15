@@ -1,3 +1,4 @@
+"use client"
 import { AuthenticationError, PromiseReturnType } from "blitz"
 import Link from "next/link"
 import { useMutation } from "@blitzjs/rpc"
@@ -15,7 +16,7 @@ type LoginFormProps = {
 export const LoginForm = (props: LoginFormProps) => {
   const [loginMutation] = useMutation(login)
   return (
-    <div>
+    <>
       <h1>Login</h1>
 
       <Form
@@ -48,7 +49,7 @@ export const LoginForm = (props: LoginFormProps) => {
       <div style={{ marginTop: "1rem" }}>
         Or <Link href={Routes.SignupPage()}>Sign Up</Link>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -1,42 +1,15 @@
 {
-  "title": "Payout methods",
-  "list": {
-    "notFoundMessage": "No payment methods"
-  },
   "form": {
     "fields": {
-      "save": "Save",
-      "update": "Update",
+      "address": {
+        "label": "Address"
+      },
       "countryIsoCode": {
-        "label": "Country",
-        "help": "Select the country where you are registered as a taxpayer"
-      },
-      "type": {
-        "label": "Business entity type",
-        "options": {
-          "unregistered": "Individual",
-          "sp": "Sole proprietor",
-          "sz": "Self-employed",
-          "company": "Company"
-        }
-      },
-      "tin": {
-        "label": "Taxpayer Identification Number"
-      },
-      "ogrn": {
-        "label": "Business registration number"
+        "help": "Select the country where you are registered as a taxpayer",
+        "label": "Country"
       },
       "firstName": {
         "label": "First name"
-      },
-      "lastName": {
-        "label": "Last name"
-      },
-      "middleName": {
-        "label": "Middle name"
-      },
-      "address": {
-        "label": "Address"
       },
       "idNumber": {
         "label": "ID/Passport number"
@@ -44,13 +17,40 @@
       "idType": {
         "label": "ID type"
       },
+      "lastName": {
+        "label": "Last name"
+      },
+      "middleName": {
+        "label": "Middle name"
+      },
+      "ogrn": {
+        "label": "Business registration number"
+      },
       "passportImgUrl": {
         "label": "ID/Passport scan of photo"
       },
+      "save": "Save",
       "selfieImgUrl": {
-        "label": "Selfie with the ID/passport",
-        "help": "Your face and passport details must be clearly visible"
-      }
+        "help": "Your face and passport details must be clearly visible",
+        "label": "Selfie with the ID/passport"
+      },
+      "tin": {
+        "label": "Taxpayer Identification Number"
+      },
+      "type": {
+        "label": "Business entity type",
+        "options": {
+          "company": "Company",
+          "sp": "Sole proprietor",
+          "sz": "Self-employed",
+          "unregistered": "Individual"
+        }
+      },
+      "update": "Update"
     }
-  }
+  },
+  "list": {
+    "notFoundMessage": "No payment methods"
+  },
+  "title": "Payout methods"
 }

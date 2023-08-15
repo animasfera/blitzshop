@@ -1,15 +1,15 @@
 {
+  "edit": {
+    "headers": {
+      "main": "Review"
+    }
+  },
   "index": {
     "headers": {
       "main": "Reviews"
     }
   },
   "show": {
-    "headers": {
-      "main": "Review"
-    }
-  },
-  "edit": {
     "headers": {
       "main": "Review"
     }

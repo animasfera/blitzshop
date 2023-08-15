@@ -1,10 +1,10 @@
 {
   "index": {
-    "headers": {
-      "main": "Schedule"
-    },
     "buttons": {
       "add": "Add new event"
+    },
+    "headers": {
+      "main": "Schedule"
     }
   },
   "new": {

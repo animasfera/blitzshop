@@ -1,41 +1,41 @@
 {
-  "title": "Transaction",
-  "status": {
-    "failed": "Failed",
-    "canceled": "Canceled",
-    "pending": "Pending",
-    "paying": "Paying",
-    "finished": "Finished"
-  },
-  "type": {
-    "sale": "Sale",
-    "saleRefund": "Sale refund",
-    "saleReversal": "Sale reversal",
-    "saleFee": "Sale fee",
-    "saleFeeRefund": "Sale fee refund",
-    "saleFeeReversal": "Sale fee reversal",
-    "refund": "Refund",
-    "payout": "Payout",
-    "purchase": "Purchase",
-    "payoutCancellation": "Payout cancellation",
-    "payoutRejection": "Payout rejection",
-    "payoutFee": "Payout fee",
-    "manualAdjustment": "Manual Adjustment"
-  },
-  "transactionTitles": {
-    "videoMeeting": "Video meeting service"
+  "errors": {
+    "remoteTransactionIdIncorrect": "Remote transaction ID is incorrect"
   },
   "list": {
     "notFoundMessage": "Transactions not found"
   },
-  "errors": {
-    "remoteTransactionIdIncorrect": "Remote transaction ID is incorrect"
+  "status": {
+    "canceled": "Canceled",
+    "failed": "Failed",
+    "finished": "Finished",
+    "paying": "Paying",
+    "pending": "Pending"
+  },
+  "title": "Transaction",
+  "transactionTitles": {
+    "videoMeeting": "Video meeting service"
+  },
+  "type": {
+    "manualAdjustment": "Manual Adjustment",
+    "payout": "Payout",
+    "payoutCancellation": "Payout cancellation",
+    "payoutFee": "Payout fee",
+    "payoutRejection": "Payout rejection",
+    "purchase": "Purchase",
+    "refund": "Refund",
+    "sale": "Sale",
+    "saleFee": "Sale fee",
+    "saleFeeRefund": "Sale fee refund",
+    "saleFeeReversal": "Sale fee reversal",
+    "saleRefund": "Sale refund",
+    "saleReversal": "Sale reversal"
   },
   "units": {
     "min": {
+      "five": "minutes",
       "one": "minute",
-      "two": "minutes",
-      "five": "minutes"
+      "two": "minutes"
     }
   }
 }
