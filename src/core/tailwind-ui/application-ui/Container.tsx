@@ -1,10 +1,10 @@
-import { ReactElement } from "react"
+import { ReactElement, ReactNode } from "react"
 
 type ContainerProps = {
-  size: "lg" | "sm"
-  children: ReactElement[] | ReactElement
+  size?: "lg" | "sm"
+  children: ReactElement[] | ReactElement | ReactNode
 }
-export default function Container({ children, size }: ContainerProps) {
+export default function Container({ children, size = "lg" }: ContainerProps) {
   return (
     <>
       <div
