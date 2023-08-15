@@ -5,6 +5,7 @@ import { BlitzPage, Routes } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
 import { Loading } from "src/core/components/Loading"
+import Container from "../core/tailwind-ui/application-ui/Container"
 
 const SignupPage: BlitzPage = () => {
   const router = useRouter()
@@ -13,9 +14,9 @@ const SignupPage: BlitzPage = () => {
 
   return (
     <Layout title={t("title")}>
-      <Loading>
+      <Container size={"sm"}>
         <SignupForm onSuccess={() => router.push(Routes.Home())} />
-      </Loading>
+      </Container>
     </Layout>
   )
 }
