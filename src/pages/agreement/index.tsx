@@ -1,3 +1,4 @@
+"use client"
 import React from "react"
 import { BlitzPage } from "@blitzjs/auth"
 import { LocaleEnum } from "@prisma/client"

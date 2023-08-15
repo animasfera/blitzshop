@@ -1,3 +1,4 @@
+"use client"
 import React, { ReactElement, useEffect, useRef } from "react"
 import { FiChevronLeft } from "react-icons/fi"
 import { Message as MessagePrismaType } from "@prisma/client"

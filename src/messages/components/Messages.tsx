@@ -1,3 +1,4 @@
+"use client"
 import { MessagesList } from "src/messages/components/MessagesList"
 import { MessageFormWrapper } from "src/messages/components/MessageFormWrapper"
 import { useCurrentUser } from "src/core/hooks/useCurrentUser"
