@@ -1,10 +1,11 @@
 import Head from "next/head"
 import React, { useEffect, FC } from "react"
 import { BlitzLayout } from "@blitzjs/next"
-import { Box, Container } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 
 import { Loading } from "src/core/components/Loading"
 import i18n from "../i18n"
+import Container from "../tailwind-ui/application-ui/Container"
 
 export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
   title,
@@ -24,7 +25,9 @@ export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }>
         }
       </Head>
 
-      <Loading>{children}</Loading>
+      <div className={"pb-12"}>
+        <Container>{children}</Container>
+      </div>
     </Box>
   )
 }

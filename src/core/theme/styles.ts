@@ -12,7 +12,7 @@ export const styles = {
       position: "relative",
       minHeight: "-webkit-fill-available",
       height: "100%",
-      paddingTop: ["64px", "74px", 0],
+      // paddingTop: ["64px", "74px", 0],
     },
     "main-container": {
       flexGrow: 1,
