@@ -1,11 +1,11 @@
 import { useQuery } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
-import { ProductImages } from "src/products/components/ProductImages"
-import { ProductVariant } from "src/products/components/ProductVariant"
-import { ProductReviews } from "src/products/components/ProductReviews"
-import { ProductDetails } from "src/products/components/ProductDetails"
-import { ProductPolicies } from "src/products/components/ProductPolicies"
+import { ProductImages } from "src/items/components/ProductImages"
+import { ProductVariant } from "src/items/components/ProductVariant"
+import { ProductReviews } from "src/items/components/ProductReviews"
+import { ProductDetails } from "src/items/components/ProductDetails"
+import { ProductPolicies } from "src/items/components/ProductPolicies"
 import getItem from "src/items/queries/getItem"
 
 export const ProductController = () => {

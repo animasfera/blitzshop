@@ -1,6 +1,6 @@
 import { Category, Item, Price } from "db"
 
-import { ProductTitle } from "src/products/components/ProductTitle"
+import { ProductTitle } from "src/items/components/ProductTitle"
 import { Money } from "src/core/components/Money"
 
 interface ProductVariantProps {
