@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, startTransition } from "react"
+import { useState, useEffect, useRef, startTransition, Suspense } from "react"
 import { useRouter } from "next/router"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
@@ -25,6 +25,8 @@ import { TimezoneContext } from "src/core/contexts/timezoneContext"
 import { ThemeEnum } from "src/core/enums/ThemeEnum"
 import { Loading } from "src/core/components/Loading"
 import { TimezoneWatch } from "src/core/components/TimezoneWatch"
+import {useQueryErrorResetBoundary} from "@blitzjs/rpc";
+import Header from "src/core/components/sections/Header"
 
 ReactGA.initialize("G-34Y9N908L5")
 
@@ -107,6 +109,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [router.events])
 
+
   return (
     <ChakraProvider theme={theme}>
       <LightModeContext.Provider value={{ mode, setMode }}>
@@ -115,6 +118,15 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Loading fallback={<></>}>
               <TimezoneWatch />
             </Loading>
+
+            <ErrorBoundary
+              FallbackComponent={RootErrorFallback}
+              onReset={useQueryErrorResetBoundary().reset}
+            >
+              <Suspense>
+                <Header path={router.pathname} />
+              </Suspense>
+            </ErrorBoundary>
 
             <LoadingBar
               color={"rgba(85,60,154,.8)"}
