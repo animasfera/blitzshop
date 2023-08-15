@@ -24,7 +24,7 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
         }
       </Head>
 
-      <Loading>{children}</Loading>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
     </Box>
   )
 }
