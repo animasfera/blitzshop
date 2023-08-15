@@ -25,8 +25,9 @@ import { TimezoneContext } from "src/core/contexts/timezoneContext"
 import { ThemeEnum } from "src/core/enums/ThemeEnum"
 import { Loading } from "src/core/components/Loading"
 import { TimezoneWatch } from "src/core/components/TimezoneWatch"
-import {useQueryErrorResetBoundary} from "@blitzjs/rpc";
+import { useQueryErrorResetBoundary } from "@blitzjs/rpc"
 import Header from "src/core/components/sections/Header"
+import Footer from "../core/components/sections/Footer"
 
 ReactGA.initialize("G-34Y9N908L5")
 
@@ -109,7 +110,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [router.events])
 
-
   return (
     <ChakraProvider theme={theme}>
       <LightModeContext.Provider value={{ mode, setMode }}>
@@ -138,6 +138,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 
             <ErrorBoundary FallbackComponent={RootErrorFallback}>
               {getLayout(<Component {...pageProps} />)}
+            </ErrorBoundary>
+
+            <ErrorBoundary
+              FallbackComponent={RootErrorFallback}
+              onReset={useQueryErrorResetBoundary().reset}
+            >
+              <Suspense>
+                <Footer path={router.pathname} />
+              </Suspense>
             </ErrorBoundary>
           </TimezoneContext.Provider>
         </CurrencyContext.Provider>
