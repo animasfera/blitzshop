@@ -1,13 +1,14 @@
-import { Category, Image, ImageToItem, Item, Price, Prisma, Review, User } from "db"
+import { Category, Image, ImageToItem, Item as ItemDb, Price, Prisma, Review, User } from "db"
 
-import { ProductImages } from "src/items/components/ProductImages"
-import { ProductVariant } from "src/items/components/ProductVariant"
-import { ProductReviews } from "src/items/components/ProductReviews"
-import { ProductDetails } from "src/items/components/ProductDetails"
-import { ProductPolicies } from "src/items/components/ProductPolicies"
+import { Money } from "src/core/components/Money"
+import { ItemImages } from "src/items/components/ItemImages"
+import { ItemTitle } from "src/items/components/ItemTitle"
+// import { ItemReviews } from "src/items/components/ItemReviews"
+import { ItemDetails } from "src/items/components/ItemDetails"
+import { ItemPolicies } from "src/items/components/ItemPolicies"
 
-interface ProductProps {
-  item: Item & {
+interface ItemProps {
+  item: ItemDb & {
     amount: Price
     category: Category | null
     _count: Prisma.ItemCountOutputType
@@ -23,7 +24,7 @@ interface ProductProps {
   }
 }
 
-export const Product = (props: ProductProps) => {
+export const Item = (props: ItemProps) => {
   const { item } = props
 
   return (
@@ -32,11 +33,16 @@ export const Product = (props: ProductProps) => {
         <div className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
             <div className="lg:col-span-5 lg:col-start-8">
-              <ProductVariant item={item} />
-              <ProductReviews item={item} />
+              <div className="flex justify-between">
+                <ItemTitle item={item} />
+                <Money amount={item.amount.amount} currency={item.amount.currency} />
+              </div>
+              {
+                // <ItemReviews item={item} />
+              }
             </div>
 
-            <ProductImages
+            <ItemImages
               coverImage={item.coverImage}
               // TODO: add images in seed
               // images={item.images}
@@ -57,9 +63,9 @@ export const Product = (props: ProductProps) => {
                 </button>
               </form>
 
-              <ProductDetails item={item} />
+              <ItemDetails item={item} />
 
-              <ProductPolicies />
+              <ItemPolicies />
             </div>
           </div>
         </div>
@@ -68,4 +74,4 @@ export const Product = (props: ProductProps) => {
   )
 }
 
-export default Product
+export default Item

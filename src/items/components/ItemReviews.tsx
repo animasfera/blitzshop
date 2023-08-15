@@ -1,10 +1,10 @@
 import { Item, Review, User } from "db"
 
-interface ProductReviewsProps {
+interface ItemReviewsProps {
   item: Item & { reviews: (Review & { sender: User })[] }
 }
 
-export const ProductReviews = (props: ProductReviewsProps) => {
+export const ItemReviews = (props: ItemReviewsProps) => {
   const { item } = props
 
   return (
@@ -28,4 +28,4 @@ export const ProductReviews = (props: ProductReviewsProps) => {
   )
 }
 
-export default ProductReviews
+export default ItemReviews

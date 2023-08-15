@@ -9,9 +9,9 @@ const policies = [
   { name: "Loyalty rewards", icon: CurrencyDollarIcon, description: "Don't look at other tees" },
 ]
 
-interface ProductPoliciesProps {}
+interface ItemPoliciesProps {}
 
-export const ProductPolicies = (props: ProductPoliciesProps) => {
+export const ItemPolicies = (props: ItemPoliciesProps) => {
   const {} = props
 
   return (
@@ -40,3 +40,5 @@ export const ProductPolicies = (props: ProductPoliciesProps) => {
     </section>
   )
 }
+
+export default ItemPolicies

@@ -1,12 +1,12 @@
 import Image from "next/image"
 import { Image as ImageDb, ImageToItem } from "db"
 
-interface ProductImagesProps {
+interface ItemImagesProps {
   coverImage: ImageToItem & { image: ImageDb }
   images: (ImageToItem & { image: ImageDb })[]
 }
 
-export const ProductImages = (props: ProductImagesProps) => {
+export const ItemImages = (props: ItemImagesProps) => {
   const { coverImage, images } = props
 
   return (
@@ -41,4 +41,4 @@ export const ProductImages = (props: ProductImagesProps) => {
   )
 }
 
-export default ProductImages
+export default ItemImages

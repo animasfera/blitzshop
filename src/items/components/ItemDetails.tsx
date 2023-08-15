@@ -1,10 +1,10 @@
 import { Item } from "db"
 
-interface ProductDetailsProps {
+interface ItemDetailsProps {
   item: Item
 }
 
-export const ProductDetails = (props: ProductDetailsProps) => {
+export const ItemDetails = (props: ItemDetailsProps) => {
   const { item } = props
 
   return (
@@ -19,3 +19,5 @@ export const ProductDetails = (props: ProductDetailsProps) => {
     </>
   )
 }
+
+export default ItemDetails

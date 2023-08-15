@@ -1,10 +1,10 @@
 import { Category, Item } from "db"
 
-interface ProductTitleProps {
+interface ItemTitleProps {
   item: Item & { category: Category | null }
 }
 
-export const ProductTitle = (props: ProductTitleProps) => {
+export const ItemTitle = (props: ItemTitleProps) => {
   const { item } = props
 
   return (
@@ -14,3 +14,5 @@ export const ProductTitle = (props: ProductTitleProps) => {
     </div>
   )
 }
+
+export default ItemTitle
