@@ -1,17 +1,17 @@
 {
+  "amount": "Amount",
   "creditNote": "Credit Note",
-  "invoice": "Invoice",
-  "originalInvoice": "Original Invoice",
   "date": "Date",
+  "from": "From",
+  "invoice": "Invoice",
+  "itemDescription": "Item description",
   "order": "Order",
   "orderNumber": "Order #",
-  "to": "To",
-  "from": "From",
-  "itemDescription": "Item description",
+  "originalInvoice": "Original Invoice",
+  "paid": "PAID",
   "price": "Price",
   "qty": "Qty",
-  "amount": "Amount",
   "ticket": "Electronic ticket to event \"Leela Game\"",
-  "total": "Total",
-  "paid": "PAID"
+  "to": "To",
+  "total": "Total"
 }

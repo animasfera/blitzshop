@@ -1,17 +1,17 @@
 {
+  "amount": "Сумма",
   "creditNote": "Кредит нота",
-  "invoice": "Инвоис ",
-  "originalInvoice": "Исходный инвоис",
   "date": "Дата",
+  "from": "От кого",
+  "invoice": "Инвоис ",
+  "itemDescription": "Описание товара",
   "order": "Заказ",
   "orderNumber": "Номер заказа",
-  "to": "Кому",
-  "from": "От кого",
-  "itemDescription": "Описание товара",
+  "originalInvoice": "Исходный инвоис",
+  "paid": "ОПЛАЧЕНО",
   "price": "Цена",
   "qty": "Количество",
-  "amount": "Сумма",
   "ticket": "Электронный билет на событие на Leela.Game",
-  "total": "Итого (ОПЛАЧЕНО}",
-  "paid": "ОПЛАЧЕНО"
+  "to": "Кому",
+  "total": "Итого (ОПЛАЧЕНО}"
 }

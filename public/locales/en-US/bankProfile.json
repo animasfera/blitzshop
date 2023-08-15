@@ -1,65 +1,60 @@
 {
   "formBankRu": {
-    "headers": {
-      "main": "Bank account details in Russia"
-    },
     "fields": {
-      "userName": {
-        "label": "Account holder name"
-      },
-      "userAccount": {
-        "label": "Account number"
-      },
-      "name": {
-        "label": "Bank name"
-      },
       "address": {
         "label": "Address"
-      },
-      "inn": {
-        "label": "Bank INN"
       },
       "bik": {
         "label": "BIK"
       },
-      "kpp": {
-        "label": "KPP"
-      },
       "corrAccount": {
         "label": "Corresponding account number"
-      }
-    }
-  },
-  "formBankRuTinkoff": {
-    "headers": {
-      "main": "Bank account details at Tinkoff"
-    },
-    "fields": {
-      "userName": {
-        "label": "Account holder name"
       },
-      "userAccount": {
-        "label": "Account number"
-      }
-    }
-  },
-  "formSwift": {
-    "headers": {
-      "main": "SWIFT international transfer details"
-    },
-    "fields": {
-      "userName": {
-        "label": "Beneficiary name"
+      "inn": {
+        "label": "Bank INN"
       },
-      "userAccount": {
-        "label": "Beneficiary account number"
-      },
-      "swift": {
-        "label": "SWIFT code"
+      "kpp": {
+        "label": "KPP"
       },
       "name": {
         "label": "Bank name"
       },
+      "userAccount": {
+        "label": "Account number"
+      },
+      "userName": {
+        "label": "Account holder name"
+      }
+    },
+    "headers": {
+      "main": "Bank account details in Russia"
+    }
+  },
+  "formBankRuTinkoff": {
+    "fields": {
+      "userAccount": {
+        "label": "Account number"
+      },
+      "userName": {
+        "label": "Account holder name"
+      }
+    },
+    "headers": {
+      "main": "Bank account details at Tinkoff"
+    }
+  },
+  "formIban": {
+    "fields": {
+      "iban": {
+        "label": "IBAN"
+      }
+    },
+    "headers": {
+      "main": "IBAN account details"
+    }
+  },
+  "formSwift": {
+    "fields": {
       "address": {
         "label": "Bank address"
       },
@@ -68,17 +63,22 @@
       },
       "corrBankSwift": {
         "label": "Corresponding bank SWIFT code"
+      },
+      "name": {
+        "label": "Bank name"
+      },
+      "swift": {
+        "label": "SWIFT code"
+      },
+      "userAccount": {
+        "label": "Beneficiary account number"
+      },
+      "userName": {
+        "label": "Beneficiary name"
       }
-    }
-  },
-  "formIban": {
-    "headers": {
-      "main": "IBAN account details"
     },
-    "fields": {
-      "iban": {
-        "label": "IBAN"
-      }
+    "headers": {
+      "main": "SWIFT international transfer details"
     }
   }
 }

@@ -4,12 +4,12 @@
       "main": "Platform settings"
     },
     "menu": {
-      "settings": "Settings",
-      "profile": "Profile",
       "business": "Business details",
-      "tax": "Money accounts",
+      "paymentMethods": "Payment Methods",
       "payouts": "Payouts",
-      "paymentMethods": "Payment Methods"
+      "profile": "Profile",
+      "settings": "Settings",
+      "tax": "Money accounts"
     }
   },
   "paymentMethods": {
@@ -17,20 +17,12 @@
       "main": "Available payment Methods"
     }
   },
-  "profile": {
-    "headers": {
-      "main": "Personal profile",
-      "guide": "Change account type",
-      "guideBtn": "I want to be an organiser",
-      "confirm": "Are you sure you want to become an organiser? This action is irreversible."
-    }
-  },
-  "tax": {
-    "headers": {
-      "main": "Business details"
-    }
-  },
   "payouts": {
+    "buttons": {
+      "addPaymentMethodDetail": "Add a payout method",
+      "remove": "Remove",
+      "useForPayouts": "Set as the main payout method"
+    },
     "headers": {
       "main": "Payouts settings",
       "payoutsRussia": "Payouts for sales in Russia",
@@ -39,14 +31,22 @@
     "labels": {
       "currency": "Currency"
     },
-    "buttons": {
-      "useForPayouts": "Set as the main payout method",
-      "remove": "Remove",
-      "addPaymentMethodDetail": "Add a payout method"
-    },
     "texts": {
       "noMoneyAccount": "Please fill in your business details first in your settings.",
       "unavailable": "This payment method is unavailable in your country"
+    }
+  },
+  "profile": {
+    "headers": {
+      "confirm": "Are you sure you want to become an organiser? This action is irreversible.",
+      "guide": "Change account type",
+      "guideBtn": "I want to be an organiser",
+      "main": "Personal profile"
+    }
+  },
+  "tax": {
+    "headers": {
+      "main": "Business details"
     }
   }
 }
