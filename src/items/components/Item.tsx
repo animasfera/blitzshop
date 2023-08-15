@@ -1,8 +1,8 @@
 import { Category, Image, ImageToItem, Item as ItemDb, Price, Prisma, Review, User } from "db"
 
-import { Money } from "src/core/components/Money"
 import { ItemImages } from "src/items/components/ItemImages"
 import { ItemTitle } from "src/items/components/ItemTitle"
+import { ItemPrice } from "src/items/components/ItemPrice"
 // import { ItemReviews } from "src/items/components/ItemReviews"
 import { ItemDetails } from "src/items/components/ItemDetails"
 import { ItemPolicies } from "src/items/components/ItemPolicies"
@@ -35,7 +35,7 @@ export const Item = (props: ItemProps) => {
             <div className="lg:col-span-5 lg:col-start-8">
               <div className="flex justify-between">
                 <ItemTitle item={item} />
-                <Money amount={item.amount.amount} currency={item.amount.currency} />
+                <ItemPrice amount={item.amount} />
               </div>
               {
                 // <ItemReviews item={item} />

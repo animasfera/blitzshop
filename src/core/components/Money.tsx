@@ -1,4 +1,4 @@
-import { currencyFormat } from "../helpers/Helpers"
+import { currencyFormat } from "src/core/helpers/Helpers"
 
 export const Money = (props: { amount: number; currency?: string; withPlus?: boolean }) => {
   const { amount, currency = "EUR", withPlus = false } = props
@@ -9,7 +9,7 @@ export const Money = (props: { amount: number; currency?: string; withPlus?: boo
   }
 
   return (
-    <span className="text-gray-900 whitespace-nowrap">
+    <span className="whitespace-nowrap">
       {plus}
       {currencyFormat(amount, currency)}
     </span>
