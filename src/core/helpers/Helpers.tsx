@@ -1,11 +1,21 @@
 import { ReactElement, useEffect, useRef } from "react"
 import { Text } from "@chakra-ui/react"
 import { DateTime } from "luxon"
+import { CurrencyEnum } from "db"
 
-export const currencyFormat = (num: number, currency = "EUR", skipDivision = false) => {
+export const currencyFormat = ({
+  num,
+  currency = "EUR",
+  skipDivision = false,
+  ceil = false,
+}: {
+  num: number
+  currency?: CurrencyEnum
+  skipDivision?: boolean
+  ceil?: boolean
+}) => {
   const currencySymbols = {
     RUB: "₽",
-    SGD: "SGD",
     USD: "$",
     EUR: "€",
   }
@@ -13,12 +23,16 @@ export const currencyFormat = (num: number, currency = "EUR", skipDivision = fal
     num = num / 100 // cents
   }
 
+  if (ceil) {
+    return Math.ceil(num) + " " + currencySymbols[currency]
+  }
   return (
     num.toFixed(skipDivision ? 3 : 2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1 ") +
     " " +
     currencySymbols[currency]
   )
 }
+
 export const isLatLngLiteral = (obj: any) => {
   return obj.lat && obj.lng
 }

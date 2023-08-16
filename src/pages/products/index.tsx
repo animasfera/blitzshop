@@ -1,12 +1,12 @@
 import { Layout } from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
-import { ProductsListController } from "src/products/components/ProductsListController"
+import { ItemsListController } from "src/items/components/ItemsListController"
 
 export const ProductsPage = () => {
   return (
     <Layout title="Products">
       <Loading>
-        <ProductsListController />
+        <ItemsListController />
       </Loading>
     </Layout>
   )
