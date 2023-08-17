@@ -10,11 +10,7 @@ import HeadingBlock from "src/core/tailwind-ui/headings/HeadingBlock"
 
 import { nl2br } from "src/core/helpers/Helpers"
 
-interface ContactsPageProps {}
-
-export const ContactsPage: BlitzPage = (props: ContactsPageProps) => {
-  const {} = props
-
+export const ContactsPage: BlitzPage = () => {
   const { t, i18n } = useTranslation(["pages.contacts"])
 
   return (
