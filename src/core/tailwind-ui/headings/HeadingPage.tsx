@@ -12,7 +12,7 @@ export const HeadingPage = (props: HeadingPageProps) => {
   const { title, subtitles } = props
 
   return (
-    <div className="min-w-0 flex-1">
+    <div className="min-w-0 flex-1 pb-4">
       <h2 className="m-0 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
         {title}
       </h2>
