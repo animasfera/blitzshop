@@ -10,9 +10,7 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang={i18n.resolvedLanguage?.toLowerCase() || "en"}>
-        <Head>
-          <link href="/dist/output.css" rel="stylesheet"></link>
-        </Head>
+        <Head>{/*<link href="/dist/output.css" rel="stylesheet"></link>*/}</Head>
 
         <body>
           <Main />

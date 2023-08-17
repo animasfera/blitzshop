@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { Routes } from "@blitzjs/next"
 import React, { ReactElement, useState } from "react"

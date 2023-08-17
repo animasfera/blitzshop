@@ -1,59 +1,59 @@
 {
   "formBankRu": {
-    "headers": {
-      "main": "Реквизиты банковского счета в РФ"
-    },
     "fields": {
-      "userName": {
-        "label": "Наименование получателя"
-      },
-      "userAccount": {
-        "label": "Расчетный счет"
-      },
-      "name": {
-        "label": "Наименование банка"
-      },
       "address": {
         "label": "Адрес"
-      },
-      "inn": {
-        "label": "ИНН банка"
       },
       "bik": {
         "label": "БИК"
       },
+      "corrAccount": {
+        "label": "Корр. счет"
+      },
+      "inn": {
+        "label": "ИНН банка"
+      },
       "kpp": {
         "label": "КПП"
       },
-      "corrAccount": {
-        "label": "Корр. счет"
+      "name": {
+        "label": "Наименование банка"
+      },
+      "userAccount": {
+        "label": "Расчетный счет"
+      },
+      "userName": {
+        "label": "Наименование получателя"
       }
+    },
+    "headers": {
+      "main": "Реквизиты банковского счета в РФ"
     }
   },
   "formBankRuTinkoff": {
-    "headers": {
-      "main": "Реквизиты счета в Тинькофф"
-    },
     "fields": {
-      "userName": {
-        "label": "Наименование получателя"
-      },
       "userAccount": {
         "label": "Расчетный счет"
+      },
+      "userName": {
+        "label": "Наименование получателя"
       }
+    },
+    "headers": {
+      "main": "Реквизиты счета в Тинькофф"
     }
   },
   "formSwift": {
-    "headers": {
-      "main": "Реквизиты для международного перевода SWIFT"
-    },
     "fields": {
-      "userName": {
-        "label": "Наименование получателя"
-      },
       "userAccount": {
         "label": "Расчетный счет"
+      },
+      "userName": {
+        "label": "Наименование получателя"
       }
+    },
+    "headers": {
+      "main": "Реквизиты для международного перевода SWIFT"
     }
   }
 }

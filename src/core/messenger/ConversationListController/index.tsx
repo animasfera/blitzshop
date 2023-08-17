@@ -1,3 +1,4 @@
+"use client"
 import { useQuery } from "@blitzjs/rpc"
 import { ChatRoomTypeEnum } from "@prisma/client"
 import { useTranslation } from "react-i18next"

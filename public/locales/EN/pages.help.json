@@ -2,10 +2,6 @@
   "headers": {
     "main": "Help"
   },
-  "texts": {
-    "chooseQuestion": "Choose a question in the menu.",
-    "notFound": "If you can't find an answer to your question, or you have any problems - please contact us by email leela.event.info@gmail.com"
-  },
   "menu": {
     "common": {
       "header": "Common questions",
@@ -16,12 +12,12 @@
     "guides": {
       "header": "For Event Organizers",
       "items": {
-        "gettingVerified": "Getting verified",
-        "addingNewGame": "Adding new event",
-        "refund": "Refund requests",
-        "payouts": "Payouts",
         "accreditation": "Becoming an accredited Leela Guide",
+        "addingNewGame": "Adding new event",
+        "gettingVerified": "Getting verified",
         "leela": "Online Leela",
+        "payouts": "Payouts",
+        "refund": "Refund requests",
         "video": "Video meetings"
       }
     },
@@ -32,5 +28,9 @@
         "refund": "Sending a refund request"
       }
     }
+  },
+  "texts": {
+    "chooseQuestion": "Choose a question in the menu.",
+    "notFound": "If you can't find an answer to your question, or you have any problems - please contact us by email leela.event.info@gmail.com"
   }
 }

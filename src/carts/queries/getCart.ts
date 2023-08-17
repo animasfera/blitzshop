@@ -5,14 +5,26 @@ import { z } from "zod"
 
 const GetCart = z.object({
   // This accepts type of undefined, but is required at runtime
-  id: z.number().optional().refine(Boolean, "Required"),
+  userId: z.number().optional(),
+  sessionId: z.string().optional(),
 })
 
-export default resolver.pipe(resolver.zod(GetCart), resolver.authorize(), async ({ id }) => {
-  // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const cart = await db.cart.findFirst({ where: { id } })
+export default resolver.pipe(
+  resolver.zod(GetCart),
+  resolver.authorize(),
+  async ({ userId, sessionId }) => {
+    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+    let cart
+    if (userId) {
+      cart = await db.cart.findFirst({ where: { userId } })
+    } else if (sessionId) {
+      cart = await db.cart.findFirst({ where: { sessionId } })
+    } else {
+      throw new Error("Please provide either sessionId or userId to get a cart")
+    }
 
-  if (!cart) throw new NotFoundError()
+    if (!cart) return {}
 
-  return cart
-})
+    return cart
+  }
+)

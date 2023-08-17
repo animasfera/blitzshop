@@ -1,3 +1,4 @@
+"use client"
 import { useMutation } from "@blitzjs/rpc"
 import { Box, Button, Container, Flex, Heading, Image } from "@chakra-ui/react"
 import React, { useState } from "react"

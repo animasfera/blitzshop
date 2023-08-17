@@ -1,3 +1,4 @@
+"use client"
 import React from "react"
 import { DateTime } from "luxon"
 import { Message as MessagePrismaType } from "@prisma/client"
