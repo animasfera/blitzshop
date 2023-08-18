@@ -1,12 +1,3 @@
 {
-  "counters": {
-    "countries": "Countries",
-    "events": "Events",
-    "guides": "Guides",
-    "members": "Members"
-  },
-  "header": "Get a life-changing experience",
-  "join": "Join",
-  "registration": "Registration",
-  "subHeader": "Guides from all over the planet here provide knowledge for transformation of the soul, body and mind: Leela, yoga, chi-gong, astrology, psychology, and more."
+  "title": "Home"
 }
