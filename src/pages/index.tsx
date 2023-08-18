@@ -7,7 +7,7 @@ import React from "react"
 const Home: BlitzPage = () => {
   const { t } = useTranslation(["pages.home"])
 
-  return <></>
+  return <>Home</>
 }
 Home.getLayout = (page) => <Layout title={"Home"}>{page}</Layout>
 

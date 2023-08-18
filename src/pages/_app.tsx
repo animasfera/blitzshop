@@ -8,13 +8,6 @@ import LoadingBar, { LoadingBarRef } from "react-top-loading-bar"
 import ReactGA from "react-ga4"
 
 import "src/core/styles/index.css"
-import "@fontsource/montserrat/400.css"
-import "@fontsource/montserrat/200.css"
-import "@fontsource/nunito/500.css"
-import "@fontsource/nunito/200.css"
-import "@fontsource/raleway/400.css"
-import "@fontsource/raleway/600.css"
-import "@fontsource/open-sans/700.css"
 
 import { withBlitz } from "src/blitz-client"
 
