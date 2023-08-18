@@ -161,6 +161,7 @@ export const LabeledGeocodingField = forwardRef<HTMLInputElement, LabeledGeocodi
               >
                 {geocodeResults.slice(0, 5).map((item, index) => (
                   <div
+                    key={index}
                     {...getItemProps({ key: index, index, item })}
                     className={`dropdown-item px-[10px] py-2 cursor-pointer ${
                       highlightedIndex ? "bg-white" : "bg-gray-300"
