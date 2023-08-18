@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { Link as ChakraLink } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"

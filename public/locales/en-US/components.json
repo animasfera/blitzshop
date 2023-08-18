@@ -1,64 +1,64 @@
 {
-  "loading": {
-    "text": "Loading..."
+  "footer": {
+    "menus": {
+      "docs": {
+        "agentOffer": "Merchant Agreement",
+        "header": "Terms of use",
+        "privacyPolicy": "Privacy policy",
+        "userAgreement": "User agreement"
+      },
+      "help": {
+        "contacts": "Contacts",
+        "header": "Help",
+        "help": "Help"
+      },
+      "leela": {
+        "games": "Events",
+        "header": "Leela",
+        "people": "People"
+      }
+    }
   },
   "header": {
     "menus": {
+      "guide": {
+        "bookings": "Bookings",
+        "header": "Organizer's menu",
+        "logout": "Logout",
+        "myPage": "My page",
+        "payouts": "Payouts",
+        "refunds": "Refunds",
+        "schedule": "Schedule",
+        "transactions": "Transactions"
+      },
       "main": {
         "games": "Experiences",
-        "people": "People",
-        "login": "Sign in"
+        "login": "Sign in",
+        "people": "People"
       },
       "user": {
+        "games": "My events",
         "header": "Hi, {{username}}!",
         "messages": "Messages",
         "profile": "Profile",
-        "games": "My events",
         "settings": "Settings"
-      },
-      "guide": {
-        "header": "Organizer's menu",
-        "myPage": "My page",
-        "schedule": "Schedule",
-        "bookings": "Bookings",
-        "transactions": "Transactions",
-        "payouts": "Payouts",
-        "refunds": "Refunds",
-        "logout": "Logout"
       }
     }
   },
-  "footer": {
-    "menus": {
-      "leela": {
-        "header": "Leela",
-        "games": "Events",
-        "people": "People"
-      },
-      "docs": {
-        "header": "Terms of use",
-        "agentOffer": "Merchant Agreement",
-        "userAgreement": "User agreement",
-        "privacyPolicy": "Privacy policy"
-      },
-      "help": {
-        "header": "Help",
-        "help": "Help",
-        "contacts": "Contacts"
-      }
-    }
+  "loading": {
+    "text": "Loading..."
   },
   "status": {
+    "active": "Active",
+    "approved": "Approved",
     "canceled": "Canceled",
     "failed": "Failed",
-    "pending": "Pending",
-    "suspended": "Suspended",
-    "rejected": "Rejected",
-    "approved": "Approved",
-    "paying": "Paying",
-    "paid": "Paid",
-    "active": "Active",
     "finished": "Finished",
+    "paid": "Paid",
+    "paying": "Paying",
+    "pending": "Pending",
+    "rejected": "Rejected",
+    "suspended": "Suspended",
     "uploaded": "Uploaded"
   }
 }

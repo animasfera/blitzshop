@@ -1,28 +1,28 @@
 {
+  "edit": {
+    "headers": {
+      "main": "Редактирование профиля {{username}}"
+    },
+    "links": {
+      "back": "Профиль"
+    }
+  },
   "index": {
     "headers": {
       "main": "Пользователи"
     }
   },
   "show": {
-    "headers": {
-      "main": "{{username}}",
-      "about": "О себе",
-      "reviews": "Отзывы"
-    },
     "buttons": {
       "edit": "Редактировать"
     },
+    "headers": {
+      "about": "О себе",
+      "main": "{{username}}",
+      "reviews": "Отзывы"
+    },
     "texts": {
       "noReviews": "Пока нет отзывов."
-    }
-  },
-  "edit": {
-    "links": {
-      "back": "Профиль"
-    },
-    "headers": {
-      "main": "Редактирование профиля {{username}}"
     }
   }
 }

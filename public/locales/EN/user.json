@@ -1,91 +1,86 @@
 {
-  "title": "",
+  "cardCountryForm": {
+    "fields": {
+      "buyingInCountries": {
+        "label": "Country issued your debit/credit card"
+      }
+    },
+    "texts": {
+      "explanation": "The possibility of buying tickets to certain events depends on the country of the origin of your card. Please choose one of the options below."
+    }
+  },
   "certificateLevel": "Leela certificate level",
   "filter": {
     "all": "All",
     "guides": "Organizers",
     "players": "Users"
   },
-  "type": {
-    "guide": "Organizer",
-    "player": "Users"
-  },
   "form": {
-    "texts": {
-      "shareContacts": "Your email, phone, telegram - can be shown to the people who have booked your events. Your contacts will remain invisible for other users."
-    },
     "fields": {
+      "about": {
+        "label": "About"
+      },
       "avatar": {
         "label": "Upload new photo"
       },
-      "firstName": {
-        "label": "Name",
-        "help": "Not required. Fill only if you want other people to see your real name."
-      },
-      "lastName": {
-        "label": "Last name"
-      },
-      "username": {
-        "label": "Username"
+      "countryIsoCode": {
+        "label": "Страна"
       },
       "email": {
         "label": "E-mail"
       },
       "emailLeelaCertificate": {
-        "label": "E-mail for loading Leela Guide Certificate",
-        "help": "If you have received a Leela Guide Certificate with an e-mail address that is different from the e-mail used on Leela.Game, you can provide that e-email address in the field above. After that, you will receive a confirmation link to the provided e-mail. When you click that link, the information about your certificate will be loaded into your profile."
+        "help": "If you have received a Leela Guide Certificate with an e-mail address that is different from the e-mail used on Leela.Game, you can provide that e-email address in the field above. After that, you will receive a confirmation link to the provided e-mail. When you click that link, the information about your certificate will be loaded into your profile.",
+        "label": "E-mail for loading Leela Guide Certificate"
       },
-      "share_email": {
-        "label": "Show email to my events members"
+      "firstName": {
+        "help": "Not required. Fill only if you want other people to see your real name.",
+        "label": "Name"
+      },
+      "lastName": {
+        "label": "Last name"
+      },
+      "location": {
+        "help": "To help people find a nearest Event Organizer by address",
+        "label": "You current location"
       },
       "phone": {
         "label": "Phone number"
       },
+      "share_email": {
+        "label": "Show email to my events members"
+      },
       "share_phone": {
         "label": "Show phone number to my events members"
-      },
-      "telegram": {
-        "label": "Telegram username"
       },
       "share_telegram": {
         "label": "Show Telegram contact to my events members"
       },
-      "location": {
-        "label": "You current location",
-        "help": "To help people find a nearest Event Organizer by address"
-      },
-      "timezone": {
-        "label": "Your timezone",
-        "help": "For correct time displaying on the platform"
-      },
-      "about": {
-        "label": "About"
-      },
       "submit": {
         "label": "Save"
       },
-      "countryIsoCode": {
-        "label": "Страна"
+      "telegram": {
+        "label": "Telegram username"
+      },
+      "timezone": {
+        "help": "For correct time displaying on the platform",
+        "label": "Your timezone"
+      },
+      "username": {
+        "label": "Username"
       }
+    },
+    "texts": {
+      "shareContacts": "Your email, phone, telegram - can be shown to the people who have booked your events. Your contacts will remain invisible for other users."
     }
   },
   "loginForm": {
-    "headers": {
-      "main": "Sign in"
-    },
-    "texts": {
-      "forgotPassword": "Forgot password?",
-      "noAccount": "No account yet?"
-    },
-    "links": {
-      "register": "Register"
-    },
     "buttons": {
       "enter": "Sign in"
     },
     "errors": {
-      "wrongPassword": "Incorrect email or password",
-      "unknown": "Unknown error"
+      "unknown": "Unknown error",
+      "wrongPassword": "Incorrect email or password"
     },
     "fields": {
       "email": {
@@ -94,45 +89,31 @@
       "password": {
         "label": "Password"
       }
-    }
-  },
-  "signupForm": {
-    "headers": {
-      "main": "Register"
     },
-    "texts": {
-      "haveAccount": "Already have an account?",
-      "aboutGuides": "Organizer's account has all the features of the User's account, plus the possibility of selling tickets to Organizer's events."
+    "headers": {
+      "main": "Sign in"
     },
     "links": {
-      "enter": "Sign in"
+      "register": "Register"
     },
-    "buttons": {
-      "enter": "Sign in",
-      "createAccount": "Create an account"
-    },
+    "texts": {
+      "forgotPassword": "Forgot password?",
+      "noAccount": "No account yet?"
+    }
+  },
+  "russianSellerForm": {
     "fields": {
-      "email": {
-        "label": "E-mail"
-      },
-      "username": {
-        "label": "Username"
-      },
-      "password": {
-        "label": "Password"
-      },
-      "isGuide": {
-        "label": "I want to register as an Event Organizer"
-      },
-      "agreeDogovor": {
-        "label": "I've read and accept the <2>Merchant agreement</2>"
-      },
-      "agreeAgreement": {
-        "label": "I've read and accept the <2>User agreement</2>"
-      },
-      "countryIsoCode": {
-        "label": "Country"
+      "buyingInCountries": {
+        "label": "Please choose what payment methods are available to you",
+        "options": {
+          "world": "🙂 I have a card issued by a Russian bank",
+          "worldExceptRussia": "☹️ I don't have a card issued by Russian bank. Don't show me events from Russian organizers."
+        }
       }
+    },
+    "texts": {
+      "explanation": "The event organizer is located in Russia. Tickets to this event can be purchased only using a card issued by a Russian bank.",
+      "explanation2": "Some of the event organizers are located in Russia. Tickets to their events can be purchased only using a card, issued by a Russian bank."
     }
   },
   "settingsForm": {
@@ -140,58 +121,72 @@
       "save": "Save"
     },
     "fields": {
-      "timezone": {
-        "label": "Your timezone",
-        "help": "For correct time displaying on the platform"
-      },
       "locale": {
         "label": "Leela.Game's interface language"
+      },
+      "timezone": {
+        "help": "For correct time displaying on the platform",
+        "label": "Your timezone"
       }
     }
   },
-  "cardCountryForm": {
-    "texts": {
-      "explanation": "The possibility of buying tickets to certain events depends on the country of the origin of your card. Please choose one of the options below."
+  "signupForm": {
+    "buttons": {
+      "createAccount": "Create an account",
+      "enter": "Sign in"
     },
     "fields": {
-      "buyingInCountries": {
-        "label": "Country issued your debit/credit card",
-        "options": {
-          "russia": "I have a card issued by Russian bank",
-          "worldExceptRussia": "I don't have a card issued by Russian bank",
-          "world": "I have both options - a card issued by Russian bank, and a card issued outside of Russia"
-        }
+      "agreeAgreement": {
+        "label": "I've read and accept the <2>User agreement</2>"
+      },
+      "agreeDogovor": {
+        "label": "I've read and accept the <2>Merchant agreement</2>"
+      },
+      "countryIsoCode": {
+        "label": "Country"
+      },
+      "email": {
+        "label": "E-mail"
+      },
+      "isGuide": {
+        "label": "I want to register as an Event Organizer"
+      },
+      "password": {
+        "label": "Password"
+      },
+      "username": {
+        "label": "Username"
       }
+    },
+    "headers": {
+      "main": "Register"
+    },
+    "links": {
+      "enter": "Sign in"
+    },
+    "texts": {
+      "aboutGuides": "Organizer's account has all the features of the User's account, plus the possibility of selling tickets to Organizer's events.",
+      "haveAccount": "Already have an account?"
     }
   },
-  "russianSellerForm": {
-    "texts": {
-      "explanation": "The event organizer is located in Russia. Tickets to this event can be purchased only using a card issued by a Russian bank.",
-      "explanation2": "Some of the event organizers are located in Russia. Tickets to their events can be purchased only using a card, issued by a Russian bank."
-    },
+  "title": "",
+  "type": {
+    "guide": "Organizer",
+    "player": "Users"
+  },
+  "westernSellerForm": {
     "fields": {
       "buyingInCountries": {
         "label": "Please choose what payment methods are available to you",
         "options": {
-          "world": "\uD83D\uDE42 I have a card issued by a Russian bank",
-          "worldExceptRussia": "☹️ I don't have a card issued by Russian bank. Don't show me events from Russian organizers."
+          "russia": "☹️ I don't have a card issued outside of Russia. Don't show me events from non-Russian organizers.",
+          "world": "🙂 I have a card issued outside of Russia"
         }
       }
-    }
-  },
-  "westernSellerForm": {
+    },
     "texts": {
       "explanation": "The event organizer is located outside of Russia. Tickets to this event can be purchased only using a card issued outside of Russia.",
       "explanation2": "Some of the event organizers are located outside of Russia. Tickets to their events can be purchased only using a card, issued by a non-Russian bank."
-    },
-    "fields": {
-      "buyingInCountries": {
-        "label": "Please choose what payment methods are available to you",
-        "options": {
-          "world": "\uD83D\uDE42 I have a card issued outside of Russia",
-          "russia": "☹️ I don't have a card issued outside of Russia. Don't show me events from non-Russian organizers."
-        }
-      }
     }
   }
 }

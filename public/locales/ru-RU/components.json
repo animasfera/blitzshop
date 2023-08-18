@@ -1,64 +1,64 @@
 {
-  "loading": {
-    "text": "Загрузка..."
+  "footer": {
+    "menus": {
+      "docs": {
+        "agentOffer": "Агентский договор (для организаторов)",
+        "header": "Документы",
+        "privacyPolicy": "Политика обработки персональных данных",
+        "userAgreement": "Пользовательское соглашение"
+      },
+      "help": {
+        "contacts": "Контакты",
+        "header": "Помощь",
+        "help": "Помощь"
+      },
+      "leela": {
+        "games": "События",
+        "header": "Главное",
+        "people": "Люди"
+      }
+    }
   },
   "header": {
     "menus": {
+      "guide": {
+        "bookings": "Бронирования",
+        "header": "Меню ведущего",
+        "logout": "Выход",
+        "myPage": "Моя страница",
+        "payouts": "Выплаты",
+        "refunds": "Возвраты",
+        "schedule": "Расписание",
+        "transactions": "Транзакции"
+      },
       "main": {
         "games": "Опыт",
-        "people": "Люди",
-        "login": "Вход"
+        "login": "Вход",
+        "people": "Люди"
       },
       "user": {
+        "games": "Мои события",
         "header": "Привет, {{username}}!",
         "messages": "Сообщения",
         "profile": "Профиль",
-        "games": "Мои события",
         "settings": "Настройки"
-      },
-      "guide": {
-        "header": "Меню ведущего",
-        "myPage": "Моя страница",
-        "schedule": "Расписание",
-        "bookings": "Бронирования",
-        "transactions": "Транзакции",
-        "payouts": "Выплаты",
-        "refunds": "Возвраты",
-        "logout": "Выход"
       }
     }
   },
-  "footer": {
-    "menus": {
-      "leela": {
-        "header": "Главное",
-        "games": "События",
-        "people": "Люди"
-      },
-      "docs": {
-        "header": "Документы",
-        "agentOffer": "Агентский договор (для организаторов)",
-        "userAgreement": "Пользовательское соглашение",
-        "privacyPolicy": "Политика обработки персональных данных"
-      },
-      "help": {
-        "help": "Помощь",
-        "header": "Помощь",
-        "contacts": "Контакты"
-      }
-    }
+  "loading": {
+    "text": "Загрузка..."
   },
   "status": {
+    "active": "Активно",
+    "approved": "Подтверждено",
     "canceled": "Отменено",
     "failed": "Неуспешно",
-    "pending": "Ожидание",
-    "suspended": "На паузе",
-    "rejected": "Отклонено",
-    "approved": "Подтверждено",
-    "paying": "Оплата",
-    "paid": "Оплачено",
-    "active": "Активно",
     "finished": "Завершено",
+    "paid": "Оплачено",
+    "paying": "Оплата",
+    "pending": "Ожидание",
+    "rejected": "Отклонено",
+    "suspended": "На паузе",
     "uploaded": "Загружено"
   }
 }

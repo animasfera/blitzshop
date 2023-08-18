@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from "react"
 import { invalidateQuery, useMutation } from "@blitzjs/rpc"
 import { useToast } from "@chakra-ui/react"

@@ -1,3 +1,4 @@
+"use client"
 import { useMutation } from "@blitzjs/rpc"
 import { useTranslation } from "react-i18next"
 import { z } from "zod"

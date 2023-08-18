@@ -1,3 +1,4 @@
+"use client"
 import React from "react"
 import { BlitzPage } from "@blitzjs/next"
 import { invalidateQuery, useMutation } from "@blitzjs/rpc"

@@ -1,3 +1,4 @@
+"use client"
 import { ChatRoom } from "@prisma/client"
 
 import { MessagesList } from "src/messages/components/MessagesList"
