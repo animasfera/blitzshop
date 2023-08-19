@@ -1,6 +1,6 @@
 import React from "react"
 
-interface DataStats {
+export interface DataStats {
   name: string | number
   value?: string | number
   href?: string

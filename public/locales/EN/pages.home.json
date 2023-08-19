@@ -1,3 +1,17 @@
 {
-  "title": "Home"
+  "title": "Home",
+  "offers": {
+    "download": {
+      "name": "Download the app",
+      "value": "Get an exclusive $5 off code"
+    },
+    "return": {
+      "name": "Return when you're ready",
+      "value": "60 days of free returns"
+    },
+    "newsletter": {
+      "name": "Sign up for our newsletter",
+      "value": "15% off your first order"
+    }
+  }
 }
