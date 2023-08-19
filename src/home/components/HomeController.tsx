@@ -1,7 +1,7 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
-import { Loading } from "src/core/components/Loading"
 
+import { Loading } from "src/core/components/Loading"
 import { Home } from "src/home/components/Home"
 
 const trendingProducts = [

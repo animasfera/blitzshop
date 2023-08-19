@@ -1,5 +1,10 @@
 {
   "title": "Home",
+  "hero": {
+    "title": "Focus on what matters",
+    "subtitle": "All the charts, datepickers, and notifications in the world can't beat checking off some items on a paper card.",
+    "button": "Go to shop"
+  },
   "offers": {
     "download": {
       "name": "Download the app",

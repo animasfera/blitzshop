@@ -17,7 +17,7 @@ interface StatsProps {
   theme?: "dark"
 }
 
-const Stats = (props: StatsProps) => {
+export const StatsSimple = (props: StatsProps) => {
   const { title, subtitle, data, numColsLg = 3, numColsSm = 1, theme } = props
 
   return (
@@ -88,4 +88,4 @@ const Stats = (props: StatsProps) => {
   )
 }
 
-export default Stats
+export default StatsSimple
