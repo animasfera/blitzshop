@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import Image from "next/image"
 
 interface HeroSplitWithImageProps {
@@ -12,7 +13,7 @@ export const HeroSplitWithImage = (props: HeroSplitWithImageProps) => {
   const { title, subtitle, button, image } = props
 
   return (
-    <div className="relative">
+    <section aria-labelledby={title} className="relative">
       <div aria-hidden="true" className="absolute hidden h-full w-1/2 bg-gray-100 lg:block" />
       <div className="relative bg-gray-100 lg:bg-transparent">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:grid lg:grid-cols-2 lg:px-8">
@@ -28,12 +29,12 @@ export const HeroSplitWithImage = (props: HeroSplitWithImageProps) => {
               }
               {button && (
                 <div className="mt-6">
-                  <a
+                  <Link
                     href={button.href}
                     className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700"
                   >
                     {button.text}
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>
@@ -49,7 +50,7 @@ export const HeroSplitWithImage = (props: HeroSplitWithImageProps) => {
           className="h-full w-full object-cover object-center"
         />
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -4,6 +4,7 @@ import { BlitzPage } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
+import { Loading } from "src/core/components/Loading"
 import { HomeController } from "src/home/components/HomeController"
 
 const Home: BlitzPage = () => {
@@ -11,7 +12,9 @@ const Home: BlitzPage = () => {
 
   return (
     <Layout title={t("title")}>
-      <HomeController />
+      <Loading>
+        <HomeController />
+      </Loading>
     </Layout>
   )
 }

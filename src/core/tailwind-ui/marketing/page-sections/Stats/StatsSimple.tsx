@@ -21,7 +21,7 @@ export const StatsSimple = (props: StatsProps) => {
   const { title, subtitle, data, numColsLg = 3, numColsSm = 1, theme } = props
 
   return (
-    <section>
+    <section aria-labelledby={title}>
       {title && (
         <div className="text-center my-4">
           <h2

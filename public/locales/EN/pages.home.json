@@ -18,5 +18,9 @@
       "name": "Sign up for our newsletter",
       "value": "15% off your first order"
     }
+  },
+  "products": {
+    "title": "Products",
+    "link": "See everything"
   }
 }
