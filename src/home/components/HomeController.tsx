@@ -2,7 +2,6 @@ import React from "react"
 import { useQuery } from "@blitzjs/rpc"
 import { useTranslation } from "react-i18next"
 
-import { Loading } from "src/core/components/Loading"
 import { Home } from "src/home/components/Home"
 import getItems from "src/items/queries/getItems"
 

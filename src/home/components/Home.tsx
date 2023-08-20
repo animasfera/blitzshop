@@ -1,26 +1,17 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
-import { Category, Image, ImageToItem, Item, Price, Prisma } from "db"
+import { ItemFull } from "types"
 
 import {
   StatsSimple,
   DataStats,
 } from "src/core/tailwind-ui/marketing/page-sections/stats/StatsSimple"
 import { HeroSplitWithImage } from "src/core/tailwind-ui/marketing/page-sections/hero-sections/HeroSplitWithImage"
-import { ProductListHorizontalScrolling } from "src/core/tailwind-ui/ecommerce/components/product-lists/ProductListHorizontalScrolling"
+import { ProductListHorizontalScroll } from "src/core/tailwind-ui/ecommerce/components/product-lists/ProductListHorizontalScroll/ProductListHorizontalScroll"
 
 interface HomeProps {
   offers: Array<DataStats>
-  items: Array<
-    Item & {
-      amount: Price
-      category: Category | null
-      _count: Prisma.ItemCountOutputType
-      coverImage: ImageToItem & {
-        image: Image
-      }
-    }
-  >
+  items: Array<ItemFull>
 }
 
 export const Home = (props: HomeProps) => {
@@ -44,7 +35,7 @@ export const Home = (props: HomeProps) => {
       </div>
 
       <section aria-labelledby={t("products.title")}>
-        <ProductListHorizontalScrolling
+        <ProductListHorizontalScroll
           title={t("products.title")}
           // TODO: Router
           link={{ text: t("products.link"), url: "/products" }}
