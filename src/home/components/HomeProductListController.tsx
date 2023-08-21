@@ -7,8 +7,6 @@ import { ProductListHorizontalScroll } from "src/core/tailwind-ui/ecommerce/comp
 import getItems from "src/items/queries/getItems"
 import getCategory from "src/categories/queries/getCategory"
 
-const ITEMS_PER_PAGE = 4
-
 interface HomeProductListControllerProps {
   categoryTitle: string
   classSection?: string
@@ -21,11 +19,11 @@ export const HomeProductListController = (props: HomeProductListControllerProps)
   const [category] = useQuery(getCategory, { title: categoryTitle })
 
   const [{ items }] = useQuery(getItems, {
-    take: ITEMS_PER_PAGE,
+    take: 4,
     where: { category: { id: category.id } },
   })
 
-  const { t, i18n } = useTranslation(["pages.home"])
+  const { i18n } = useTranslation(["pages.home"])
 
   if (items.length > 0)
     return (

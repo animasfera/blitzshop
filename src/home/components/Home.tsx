@@ -1,25 +1,19 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
-import { ItemFull } from "types"
 
+import { HomeProductListController } from "src/home/components/HomeProductListController"
 import {
   StatsSimple,
   DataStats,
 } from "src/core/tailwind-ui/marketing/page-sections/stats/StatsSimple"
 import { HeroSplitWithImage } from "src/core/tailwind-ui/marketing/page-sections/hero-sections/HeroSplitWithImage"
-import { ProductListHorizontalScroll } from "src/core/tailwind-ui/ecommerce/components/product-lists/ProductListHorizontalScroll/ProductListHorizontalScroll"
-import HomeProductListController from "./HomeProductListController"
 
 interface HomeProps {
   offers: DataStats[]
-  // items: ItemFull[]
 }
 
 export const Home = (props: HomeProps) => {
-  const {
-    offers,
-    // items
-  } = props
+  const { offers } = props
 
   const { t } = useTranslation(["pages.home"])
 
