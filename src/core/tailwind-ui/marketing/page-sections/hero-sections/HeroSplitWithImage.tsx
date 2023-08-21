@@ -13,7 +13,7 @@ export const HeroSplitWithImage = (props: HeroSplitWithImageProps) => {
   const { title, subtitle, button, image } = props
 
   return (
-    <section aria-labelledby={title} className="relative">
+    <div className="relative">
       <div aria-hidden="true" className="absolute hidden h-full w-1/2 bg-gray-100 lg:block" />
       <div className="relative bg-gray-100 lg:bg-transparent">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:grid lg:grid-cols-2 lg:px-8">
@@ -50,7 +50,7 @@ export const HeroSplitWithImage = (props: HeroSplitWithImageProps) => {
           className="h-full w-full object-cover object-center"
         />
       </div>
-    </section>
+    </div>
   )
 }
 

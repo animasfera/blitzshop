@@ -25,9 +25,9 @@ export const ProductHorizontalScroll = (props: ProductProps) => {
             className="w-full h-[230px] object-cover object-center group-hover:opacity-75"
           />
         </div>
-        <div className="mt-6">
-          {color && <p className="text-sm text-gray-500">{color}</p>}
-          <h3 className="mt-1 font-semibold text-gray-900">
+        <div className="mt-4">
+          {color && <p className="mb-1 text-sm text-gray-500">{color}</p>}
+          <h3 className="font-semibold text-gray-900">
             <Link
               // TODO: Router
               href={`/product/${id}`}
@@ -37,7 +37,7 @@ export const ProductHorizontalScroll = (props: ProductProps) => {
             </Link>
           </h3>
 
-          <p className="mt-1 text-gray-900">
+          <p className="mt-1 text-sm text-gray-500">
             <Money amount={amount.amount} currency={amount.currency} />
           </p>
         </div>
