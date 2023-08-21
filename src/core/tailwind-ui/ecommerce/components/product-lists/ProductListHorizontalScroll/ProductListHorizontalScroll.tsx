@@ -6,8 +6,8 @@ import ProductHorizontalScroll from "./ProductHorizontalScroll"
 
 interface ProductListProps {
   title: string
-  link: { text: string; url: string }
-  items: Array<ItemFull>
+  link?: { text: string; url: string }
+  items: ItemFull[]
 }
 
 export const ProductListHorizontalScroll = (props: ProductListProps) => {
@@ -19,13 +19,15 @@ export const ProductListHorizontalScroll = (props: ProductListProps) => {
         <h2 id="trending-heading" className="text-2xl font-bold tracking-tight text-gray-900">
           {title}
         </h2>
-        <Link
-          href={link.url}
-          className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
-        >
-          {link.text}
-          <span aria-hidden="true"> &rarr;</span>
-        </Link>
+        {link && (
+          <Link
+            href={link.url}
+            className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
+          >
+            {link.text}
+            <span aria-hidden="true"> &rarr;</span>
+          </Link>
+        )}
       </div>
 
       <div className="relative mt-8">
@@ -41,15 +43,17 @@ export const ProductListHorizontalScroll = (props: ProductListProps) => {
         </div>
       </div>
 
-      <div className="mt-4 px-4 sm:hidden">
-        <Link
-          href={link.url}
-          className="text-sm font-semibold text-indigo-600 hover:text-indigo-500"
-        >
-          {link.text}
-          <span aria-hidden="true"> &rarr;</span>
-        </Link>
-      </div>
+      {link && (
+        <div className="mt-4 px-4 sm:hidden">
+          <Link
+            href={link.url}
+            className="text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+          >
+            {link.text}
+            <span aria-hidden="true"> &rarr;</span>
+          </Link>
+        </div>
+      )}
     </div>
   )
 }

@@ -10,6 +10,7 @@ import {
   Invoice,
   Item,
   LocaleEnum,
+  Location,
   Message,
   PaymentMethod,
   Price,
@@ -59,9 +60,9 @@ export type UserCardProps = UserMain & User
 export type UserMailProps = Partial<User> & Pick<User, "email" | "id" | "username" | "locale">
 
 export type ItemFull = Item & {
+  _count: Prisma.ItemCountOutputType
   amount: Price
   category: Category | null
-  _count: Prisma.ItemCountOutputType
   coverImage: ImageToItem & { image: Image }
   cart: Cart | null
   chatRoom: ChatRoom | null

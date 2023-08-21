@@ -8,14 +8,18 @@ import {
 } from "src/core/tailwind-ui/marketing/page-sections/stats/StatsSimple"
 import { HeroSplitWithImage } from "src/core/tailwind-ui/marketing/page-sections/hero-sections/HeroSplitWithImage"
 import { ProductListHorizontalScroll } from "src/core/tailwind-ui/ecommerce/components/product-lists/ProductListHorizontalScroll/ProductListHorizontalScroll"
+import HomeProductListController from "./HomeProductListController"
 
 interface HomeProps {
-  offers: Array<DataStats>
-  items: Array<ItemFull>
+  offers: DataStats[]
+  // items: ItemFull[]
 }
 
 export const Home = (props: HomeProps) => {
-  const { offers, items } = props
+  const {
+    offers,
+    // items
+  } = props
 
   const { t } = useTranslation(["pages.home"])
 
@@ -34,45 +38,31 @@ export const Home = (props: HomeProps) => {
         />
       </div>
 
-      <section aria-labelledby={t("products.title")}>
-        <ProductListHorizontalScroll
-          title={t("products.title")}
-          // TODO: Router
-          link={{ text: t("products.link"), url: "/products" }}
-          items={items}
-        />
-      </section>
+      <HomeProductListController
+        categoryTitle={"Playing fields on the floor"}
+        link={{ text: t("products.link"), url: "/products" }}
+      />
+
+      <HomeProductListController categoryTitle={"Cubes"} classSection={"bg-gray-100"} />
     </>
   )
 }
 
 export default Home
 
-const collections = [
-  {
-    name: "Desk and Office",
-    description: "Work from home accessories",
-    imageSrc: "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
-    imageAlt:
-      "Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.",
-    href: "#",
-  },
-  {
-    name: "Self-Improvement",
-    description: "Journals and note-taking",
-    imageSrc: "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg",
-    imageAlt:
-      "Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.",
-    href: "#",
-  },
-  {
-    name: "Travel",
-    description: "Daily commute essentials",
-    imageSrc: "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg",
-    imageAlt: "Collection of four insulated travel bottles on wooden shelf.",
-    href: "#",
-  },
-]
+/*
+\
+        items.length > 0 && (
+
+          <ProductListHorizontalScroll
+            title={t("products.title")}
+            // TODO: Router
+            link={{ text: t("products.link"), url: "/products" }}
+            items={items}
+          />
+        </section>
+        )*/
+
 const testimonials = [
   {
     id: 1,

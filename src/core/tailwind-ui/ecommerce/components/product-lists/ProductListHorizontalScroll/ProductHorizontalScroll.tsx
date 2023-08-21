@@ -19,9 +19,9 @@ export const ProductHorizontalScroll = (props: ProductProps) => {
           <Image
             src={coverImage.image.url}
             alt={coverImage.image.title ?? ""}
-            width={500}
-            height={500}
-            className="h-full w-full object-cover object-center group-hover:opacity-75"
+            width={200}
+            height={200}
+            className="w-[200px] h-[200px] object-cover object-center group-hover:opacity-75"
           />
         </div>
         <div className="mt-6">

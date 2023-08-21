@@ -23,7 +23,7 @@ export default resolver.pipe(async ({ where, orderBy, skip = 0, take = 100 }: Ge
         orderBy,
         include: {
           _count: true,
-          amount: {},
+          amount: true,
           category: true,
           coverImage: { include: { image: true } },
           cart: true,
