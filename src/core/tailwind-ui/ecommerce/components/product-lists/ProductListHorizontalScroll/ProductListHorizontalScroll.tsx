@@ -10,8 +10,6 @@ interface ProductListProps {
   items: ItemFull[]
 }
 
-// With tall images and CTA link
-
 export const ProductListHorizontalScroll = (props: ProductListProps) => {
   const { title, link, items } = props
 

@@ -18,7 +18,7 @@ export const PromoWithOffersAndImage = (props: PromoWithOffersAndImageProps) => 
   const { title, subtitle, button, image, offers } = props
 
   return (
-    <section aria-labelledby={title}>
+    <section>
       <div className="flex flex-col">
         <div className="order-last lg:order-first">
           <StatsSimple data={offers} />

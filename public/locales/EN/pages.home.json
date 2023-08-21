@@ -21,5 +21,13 @@
   },
   "products": {
     "link": "See everything"
+  },
+  "sales": {
+    "title": "Get 25% off during our one-time sale",
+    "subtitle": "Most of our products are limited releases that won't come back. Get your favorite items while they're in stock.",
+    "button": "Get access to our one-time sale"
+  },
+  "testimonials": {
+    "title": "What are people saying?"
   }
 }

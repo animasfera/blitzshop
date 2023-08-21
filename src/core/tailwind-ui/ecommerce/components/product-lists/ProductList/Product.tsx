@@ -14,7 +14,7 @@ export const Product = (props: ProductProps) => {
   const { id, coverImage, color, title, amount } = item
 
   return (
-    <li className="group relative inline-flex w-64 flex-col text-center lg:w-auto">
+    <li className="group relative inline-flex w-full sm:w-64 flex-col text-center lg:w-auto">
       <div className="w-full overflow-hidden rounded-lg sm:aspect-h-3 sm:aspect-w-2 group-hover:opacity-75 sm:h-auto">
         <Image
           src={coverImage.image.url}

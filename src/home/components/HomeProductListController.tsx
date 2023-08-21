@@ -30,12 +30,7 @@ export const HomeProductListController = (props: HomeProductListControllerProps)
 
   if (items.length > 0)
     return (
-      <section
-        className={classSection}
-        aria-labelledby={
-          i18n.resolvedLanguage === LocaleEnum.RU ? category.titleRu : category.titleEn
-        }
-      >
+      <section className={classSection}>
         {scroll ? (
           <ProductListHorizontalScroll
             title={i18n.resolvedLanguage === LocaleEnum.RU ? category.titleRu : category.titleEn}
