@@ -1,5 +1,6 @@
 import React from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { ItemFull } from "types"
 
 import { Money } from "src/core/components/Money"
@@ -21,19 +22,19 @@ export const ProductHorizontalScroll = (props: ProductProps) => {
             alt={coverImage.image.title ?? ""}
             width={200}
             height={200}
-            className="w-[200px] h-[200px] object-cover object-center group-hover:opacity-75"
+            className="w-full h-[230px] object-cover object-center group-hover:opacity-75"
           />
         </div>
         <div className="mt-6">
           {color && <p className="text-sm text-gray-500">{color}</p>}
           <h3 className="mt-1 font-semibold text-gray-900">
-            <a
+            <Link
               // TODO: Router
               href={`/product/${id}`}
             >
               <span className="absolute inset-0" />
               {title}
-            </a>
+            </Link>
           </h3>
 
           <p className="mt-1 text-gray-900">

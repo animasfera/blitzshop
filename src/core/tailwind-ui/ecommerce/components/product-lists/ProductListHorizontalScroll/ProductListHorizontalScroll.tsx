@@ -10,15 +10,15 @@ interface ProductListProps {
   items: ItemFull[]
 }
 
+// With tall images and CTA link
+
 export const ProductListHorizontalScroll = (props: ProductListProps) => {
   const { title, link, items } = props
 
   return (
     <div className="py-16 sm:py-24 lg:mx-auto lg:max-w-7xl lg:px-8 lg:py-32">
       <div className="flex items-center justify-between px-4 sm:px-6 lg:px-0">
-        <h2 id="trending-heading" className="text-2xl font-bold tracking-tight text-gray-900">
-          {title}
-        </h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">{title}</h2>
         {link && (
           <Link
             href={link.url}

@@ -35,6 +35,7 @@ export const Home = (props: HomeProps) => {
       <HomeProductListController
         categoryTitle={"Playing fields on the floor"}
         link={{ text: t("products.link"), url: "/products" }}
+        scroll
       />
 
       <HomeProductListController categoryTitle={"Cubes"} classSection={"bg-gray-100"} />
