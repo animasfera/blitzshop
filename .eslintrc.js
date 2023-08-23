@@ -9,5 +9,6 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/no-floating-promises": "off",
+    "react/no-unescaped-entities": 0,
   },
 }

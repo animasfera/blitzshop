@@ -60,7 +60,7 @@ const ShowItemPage = () => {
   )
 }
 
-ShowItemPage.authenticate = true
+// ShowItemPage.authenticate = true
 ShowItemPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default ShowItemPage

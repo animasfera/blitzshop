@@ -1,15 +1,15 @@
 {
   "menu": {
-      "login": "Sign in",
-      "products": "Products",
-      "contacts": "Contacts",
-      "shipping": "Shipping and payment"
+    "login": "Sign in",
+    "products": "Products",
+    "contacts": "Contacts",
+    "shipping": "Shipping and payment"
   },
   "userMenu": {
-      "header": "Hi, {{username}}!",
-      "logout": "Logout",
-      "orders": "Orders",
-      "settings": "Settings"
+    "header": "Hi, {{username}}!",
+    "logout": "Logout",
+    "orders": "Orders",
+    "settings": "Settings"
   },
   "loading": {
     "text": "Loading..."
