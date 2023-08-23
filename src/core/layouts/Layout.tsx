@@ -7,7 +7,7 @@ import { Loading } from "src/core/components/Loading"
 import i18n from "../i18n"
 import Container from "../tailwind-ui/application-ui/Container"
 
-const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
+export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
   title,
   children,
 }) => {
