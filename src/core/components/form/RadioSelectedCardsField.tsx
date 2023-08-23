@@ -3,29 +3,30 @@ import { useField, UseFieldConfig } from "react-final-form"
 import { RadioGroup } from "@headlessui/react"
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid"
 
-import { RadioButtonField } from "./RadioButtonField"
+import { RadioSelectedCard } from "./RadioSelectedCard"
 
-export interface OptionRadioButtonField {
+export interface OptionRadioSelectedCard {
   label: string
   value: string | number
-  disabled?: boolean
+  description?: string
+  footerText?: string
 }
 
-export interface RadioButtonsFieldProps {
+export interface RadioSelectedCardsFieldProps {
   name: string
   label: string
   required?: boolean
   disabled?: boolean
   helperText?: string
-  defaultValue?: OptionRadioButtonField
-  options: Array<OptionRadioButtonField>
+  defaultValue?: OptionRadioSelectedCard
+  options: Array<OptionRadioSelectedCard>
 
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
 }
 
-export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldProps>(
+export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelectedCardsFieldProps>(
   (props, ref) => {
     const {
       name,
@@ -41,7 +42,7 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
       labelProps,
     } = props
 
-    const [selected, setSelected] = useState<OptionRadioButtonField | undefined>(
+    const [selected, setSelected] = useState<OptionRadioSelectedCard | undefined>(
       defaultValue || undefined
     )
 
@@ -92,9 +93,9 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
             )}
           </div>
 
-          <div className="mt-2 grid grid-cols-3 gap-3 sm:grid-cols-6">
+          <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
             {options.map((option) => (
-              <RadioButtonField key={option.value} option={option} />
+              <RadioSelectedCard key={option.value} option={option} disabled={disabled} />
             ))}
           </div>
         </RadioGroup>
@@ -114,4 +115,4 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
   }
 )
 
-export default RadioButtonsField
+export default RadioSelectedCardsField

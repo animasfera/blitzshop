@@ -3,29 +3,29 @@ import { useField, UseFieldConfig } from "react-final-form"
 import { RadioGroup } from "@headlessui/react"
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid"
 
-import { RadioButtonField } from "./RadioButtonField"
+import { classNames } from "src/core/helpers/classNames"
 
-export interface OptionRadioButtonField {
-  label: string
-  value: string | number
-  disabled?: boolean
+export interface OptionLabeledColorsField {
+  value: string
+  bgColor: string
+  selectedColor: string
 }
 
-export interface RadioButtonsFieldProps {
+export interface LabeledColorsFieldProps {
   name: string
   label: string
   required?: boolean
   disabled?: boolean
   helperText?: string
-  defaultValue?: OptionRadioButtonField
-  options: Array<OptionRadioButtonField>
+  defaultValue?: OptionLabeledColorsField
+  options: Array<OptionLabeledColorsField>
 
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
 }
 
-export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldProps>(
+export const LabeledColorsField = forwardRef<HTMLInputElement, LabeledColorsFieldProps>(
   (props, ref) => {
     const {
       name,
@@ -41,7 +41,7 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
       labelProps,
     } = props
 
-    const [selected, setSelected] = useState<OptionRadioButtonField | undefined>(
+    const [selected, setSelected] = useState<OptionLabeledColorsField | undefined>(
       defaultValue || undefined
     )
 
@@ -85,22 +85,45 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
 
             {showError && (
               <div
-                className={"pointer-events-none absolute inset-y-0  flex items-center pr-3 right-0"}
+                className={"pointer-events-none absolute inset-y-0 flex items-center pr-3 right-0"}
               >
                 <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
               </div>
             )}
           </div>
 
-          <div className="mt-2 grid grid-cols-3 gap-3 sm:grid-cols-6">
-            {options.map((option) => (
-              <RadioButtonField key={option.value} option={option} />
+          <div className="mt-4 flex items-center space-x-3">
+            {options.map((color) => (
+              <RadioGroup.Option
+                key={color.value}
+                value={color}
+                className={({ active, checked }) =>
+                  classNames(
+                    color.selectedColor,
+                    active && checked ? "ring ring-offset-1" : "",
+                    !active && checked ? "ring-2" : "",
+                    disabled || submitting ? "cursor-not-allowed" : "cursor-pointer",
+                    "relative -m-0.5 flex items-center justify-center rounded-full p-0.5 focus:outline-none"
+                  )
+                }
+              >
+                <RadioGroup.Label as="span" className="sr-only">
+                  {color.value}
+                </RadioGroup.Label>
+                <span
+                  aria-hidden="true"
+                  className={classNames(
+                    color.bgColor,
+                    "h-8 w-8 rounded-full border border-black border-opacity-10"
+                  )}
+                />
+              </RadioGroup.Option>
             ))}
           </div>
         </RadioGroup>
 
         {helperText && (
-          <p className="m-0 mt-1 text-sm text-gray-500" id={`${name}-description`}>
+          <p className="m-0 mt-2 text-sm text-gray-500" id={`${name}-description`}>
             {helperText}
           </p>
         )}
@@ -114,4 +137,4 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
   }
 )
 
-export default RadioButtonsField
+export default LabeledColorsField

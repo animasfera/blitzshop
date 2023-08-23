@@ -1,14 +1,16 @@
+import { CurrencyEnum } from "db"
+
 export const CurrenciesEnum = {
   RUB: {
-    name: "RUB",
+    name: CurrencyEnum.RUB,
     symbol: "₽",
   },
   USD: {
-    name: "USD",
+    name: CurrencyEnum.USD,
     symbol: "$",
   },
   EUR: {
-    name: "EUR",
+    name: CurrencyEnum.EUR,
     symbol: "€",
   },
 }

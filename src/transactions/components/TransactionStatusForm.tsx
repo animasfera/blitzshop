@@ -9,7 +9,7 @@ import LabeledRadioField from "src/core/components/form/LabeledRadioField"
 
 type TransactionStatusFormProps = {
   status: string
-  options: { label: string; value: string | number | boolean | null | undefined }[]
+  options: { label: string; value: string }[]
   onSubmit?: Function
   onCancel?: Function
 }

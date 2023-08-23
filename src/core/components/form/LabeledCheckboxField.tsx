@@ -1,24 +1,32 @@
-import React, { ComponentPropsWithoutRef, ReactElement } from "react"
+import React, { ComponentPropsWithoutRef, ReactElement, useEffect } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
-import { Box, Checkbox } from "@chakra-ui/react"
 
-export interface LabeledCheckboxFieldProps extends ComponentPropsWithoutRef<"input"> {
-  /** Field name. */
+export interface LabeledCheckboxFieldProps {
   name: string
-  /** Field label. */
   label: string | ReactElement
-  value?: string
-  help?: string
+  description?: string
+  helperText?: string
+  required?: boolean
+  disabled?: boolean
+
   outerProps?: ComponentPropsWithoutRef<"div">
   fieldProps?: UseFieldConfig<string>
   labelProps?: ComponentPropsWithoutRef<"label">
 }
 
 export const LabeledCheckboxField = React.forwardRef<HTMLInputElement, LabeledCheckboxFieldProps>(
-  (
-    { name, help, value, checked, label, outerProps, fieldProps, labelProps, className, ...props },
-    ref
-  ) => {
+  (props, ref) => {
+    const {
+      name,
+      label,
+      helperText,
+      required,
+      disabled,
+
+      outerProps,
+      fieldProps,
+      labelProps,
+    } = props
     const {
       input,
       meta: { touched, error, submitError, submitting },
@@ -31,31 +39,48 @@ export const LabeledCheckboxField = React.forwardRef<HTMLInputElement, LabeledCh
     const showError = touched && normalizedError
 
     return (
-      <Box {...outerProps}>
-        <Box>
-          <Checkbox
-            isChecked={input.checked}
-            type={"checkbox"}
-            disabled={submitting}
+      <div className="relative flex items-start" {...outerProps}>
+        <div className="relative flex h-6 items-center">
+          <input
             ref={ref}
+            id={name}
+            aria-describedby={`${name}-description`}
+            name={name}
+            type="checkbox"
+            checked={input.checked}
             onChange={input.onChange}
-            style={{ marginRight: "5px" }}
+            disabled={disabled || submitting}
+            className={`h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600 ${
+              disabled || submitting ? "cursor-not-allowed" : "cursor-pointer"
+            }`}
+            required={required}
+          />
+        </div>
+        <div className="ml-3 text-sm leading-6">
+          <label
+            htmlFor={name}
+            className={`font-medium text-gray-900 ${
+              disabled || submitting ? "cursor-not-allowed" : "cursor-pointer"
+            }`}
+            {...labelProps}
           >
             {label}
-          </Checkbox>
+            {required && <span className="text-red-600">{required && " *"}</span>}
+          </label>
 
-          {help && (
-            <Box color={"grey"} fontSize={"13px"} mt={1}>
-              {help}
-            </Box>
+          {helperText && (
+            <p id={`${name}-description`} className="m-0 mt-1 text-gray-500">
+              {helperText}
+            </p>
           )}
-          {touched && normalizedError && (
-            <div role="alert" style={{ color: "red" }}>
+
+          {showError && (
+            <p id={`${name}-error`} role="alert" className="m-0 mt-1 text-sm text-red-600">
               {normalizedError}
-            </div>
+            </p>
           )}
-        </Box>
-      </Box>
+        </div>
+      </div>
     )
   }
 )

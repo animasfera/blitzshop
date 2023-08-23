@@ -1,29 +1,47 @@
 import { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
 
-import { Input } from "@chakra-ui/input"
-import { FormControl, FormLabel } from "@chakra-ui/form-control"
+import { Input } from "src/core/tailwind-ui/application-ui/forms/Input"
 
-export interface LabeledTextFieldProps extends ComponentPropsWithoutRef<typeof Input> {
-  /** Field name. */
+export interface LabeledTextFieldProps {
   name: string
-  /** Field label. */
   label: string
-  /** Field type. Doesn't include radio buttons and checkboxes */
+  // Field type. Doesn't include radio buttons and checkboxes
   type?: "text" | "password" | "email" | "number"
-  outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
-  labelProps?: ComponentPropsWithoutRef<"label">
+  placeholder?: string
+  required?: boolean
+  disabled?: boolean
+  helperText?: string
+  defaultValue?: string | number
+
   fieldProps?: UseFieldConfig<string>
+  labelProps?: ComponentPropsWithoutRef<"label">
+  outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
 }
 
 export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(
-  ({ name, label, outerProps, fieldProps, labelProps, ...props }, ref) => {
+  (props, ref) => {
+    const {
+      name,
+      label,
+      type,
+      placeholder,
+      required,
+      disabled,
+      helperText,
+      defaultValue,
+
+      fieldProps,
+      labelProps,
+      outerProps,
+    } = props
+
     const {
       input,
       meta: { touched, error, submitError, submitting },
     } = useField(name, {
       parse:
-        props.type === "number"
+        type === "number"
           ? (Number as any)
           : // Converting `""` to `null` ensures empty values will be set to null in the DB
             (v) => (v === "" ? null : v),
@@ -31,19 +49,24 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
     })
 
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
+    const showError = touched && normalizedError
 
     return (
-      <FormControl {...outerProps}>
-        <FormLabel {...labelProps}>
-          {label}
-          <Input {...input} disabled={submitting} {...props} ref={ref} />
-        </FormLabel>
-        {touched && normalizedError && (
-          <div role="alert" style={{ color: "red" }}>
-            {normalizedError}
-          </div>
-        )}
-      </FormControl>
+      <Input
+        name={name}
+        label={label}
+        input={input}
+        type={type}
+        placeholder={placeholder}
+        defaultValue={defaultValue}
+        required={required}
+        disabled={disabled || submitting}
+        helperText={helperText}
+        error={normalizedError}
+        showError={showError}
+        outerProps={outerProps}
+        labelProps={labelProps}
+      />
     )
   }
 )
