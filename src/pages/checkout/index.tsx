@@ -3,9 +3,9 @@ import React from "react"
 import { BlitzPage } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
-import { CheckoutController } from "src/core/checkout/components/CheckoutController"
 import { Layout } from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
+import { CheckoutController } from "src/checkout/components/CheckoutController"
 
 export const CheckoutPage: BlitzPage = () => {
   const { t } = useTranslation(["pages.checkout"])
