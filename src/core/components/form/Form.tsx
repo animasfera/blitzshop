@@ -4,9 +4,9 @@ import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form
 export { FORM_ERROR } from "final-form"
 import arrayMutators from "final-form-arrays"
 import { z } from "zod"
-import { Button } from "@chakra-ui/react"
 
-import Autosave from "./Autosave"
+import Autosave from "src/core/components/form/Autosave"
+import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
@@ -14,9 +14,9 @@ export interface FormProps<S extends z.ZodType<any, any>>
   children?: ReactNode
   /** Text to display in the submit button */
   submitText?: string
+  styles?: string
   schema?: S
   getInstance?: any
-  onSubmit: FinalFormProps<z.infer<S>>["onSubmit"]
   initialValues?: FinalFormProps<z.infer<S>>["initialValues"]
   game?: any
   mutators?: any
@@ -28,6 +28,8 @@ export interface FormProps<S extends z.ZodType<any, any>>
   keepDirtyOnReinitialize?: boolean
   _autoSave?: boolean
   [key: string]: any
+
+  onSubmit: FinalFormProps<z.infer<S>>["onSubmit"]
 }
 
 const validate = async (schema) => {
@@ -38,9 +40,9 @@ const validate = async (schema) => {
 export function Form<S extends z.ZodType<any, any>>({
   children,
   submitText,
+  styles,
   schema,
   initialValues,
-  onSubmit,
   getInstance,
   mutators,
   debug,
@@ -48,6 +50,9 @@ export function Form<S extends z.ZodType<any, any>>({
   enableReinitialize,
   keepDirtyOnReinitialize,
   _autoSave,
+
+  onSubmit,
+
   ...props
 }: FormProps<S>) {
   return (
@@ -61,8 +66,8 @@ export function Form<S extends z.ZodType<any, any>>({
         try {
           schema?.parse(values)
         } catch (error) {
-          console.log(error)
-          console.log(formatZodError(error))
+          console.error(error)
+          console.error(formatZodError(error))
           return formatZodError(error)
         }
       }}
@@ -76,7 +81,7 @@ export function Form<S extends z.ZodType<any, any>>({
           getInstance && getInstance(form)
         }
         return (
-          <form onSubmit={handleSubmit} className="form" {...props} style={{ width: "100%" }}>
+          <form onSubmit={handleSubmit} className={`form w-full ${styles}`} {...props}>
             {_autoSave && (
               <Autosave setFieldData={form.mutators.setFieldData} save={form.submit()} />
             )}
@@ -92,12 +97,12 @@ export function Form<S extends z.ZodType<any, any>>({
             )}
 
             {submitText && (
-              <Button type="submit" disabled={submitting}>
-                {submitText}
-              </Button>
+              <div className="flex justify-end border-t border-gray-200 pt-6">
+                <Button type={"submit"} buttonText={submitText} disabled={submitting} />
+              </div>
             )}
 
-            {debug && <pre>{JSON.stringify(values)}</pre>}
+            {debug && <pre>{`JSON.stringify(values)`}</pre>}
           </form>
         )
       }}

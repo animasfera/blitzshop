@@ -11,6 +11,7 @@ export interface LabeledTextFieldProps {
   placeholder?: string
   required?: boolean
   disabled?: boolean
+  autoComplete?: string
   helperText?: string
   defaultValue?: string | number
 
@@ -28,6 +29,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
       placeholder,
       required,
       disabled,
+      autoComplete,
       helperText,
       defaultValue,
 
@@ -61,6 +63,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
         defaultValue={defaultValue}
         required={required}
         disabled={disabled || submitting}
+        autoComplete={autoComplete}
         helperText={helperText}
         error={normalizedError}
         showError={showError}
