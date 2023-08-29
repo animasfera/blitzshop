@@ -1,34 +1,34 @@
 import Head from "next/head"
-import React, { useEffect, FC } from "react"
+import React, { useEffect } from "react"
 import { BlitzLayout } from "@blitzjs/next"
-import { Box } from "@chakra-ui/react"
 
-import { Loading } from "src/core/components/Loading"
-import i18n from "../i18n"
-import Container from "../tailwind-ui/application-ui/Container"
+import i18n from "src/core/i18n"
+import Container from "src/core/tailwind-ui/application-ui/Container"
 
-export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
-  title,
-  children,
-}) => {
+interface LayoutProps {
+  title?: string
+  styles?: string
+  children?: React.ReactNode
+}
+
+export const Layout: BlitzLayout<LayoutProps> = (props) => {
+  const { title, styles, children } = props
+
   useEffect(() => {
     // @ts-ignore
     document.documentElement.lang = i18n.resolvedLanguage?.toUpperCase()
   }, [])
 
   return (
-    <Box>
+    <div>
       <Head>
         <title>{title || "shop"}</title>
-        {
-          // <link rel="icon" href="/favicon.ico" />
-        }
       </Head>
 
-      <div className={"pb-12"}>
-        <Container>{children}</Container>
-      </div>
-    </Box>
+      <main>
+        <Container styles={styles}>{children}</Container>
+      </main>
+    </div>
   )
 }
 
