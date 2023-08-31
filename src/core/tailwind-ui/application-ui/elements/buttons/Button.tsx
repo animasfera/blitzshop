@@ -20,7 +20,7 @@ export const Button = (props: ButtonProps) => {
     type = "button",
     variant = "primary",
     theme,
-    size = "md",
+    size = "xl",
     startIcon,
     endIcon,
     rounded = false,
