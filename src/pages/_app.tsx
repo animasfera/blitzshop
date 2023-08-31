@@ -11,7 +11,6 @@ import "src/core/styles/index.css"
 
 import { withBlitz } from "src/blitz-client"
 
-import { Theme } from "src/core/theme/Theme"
 import { LightModeContext } from "src/core/contexts/lightModeContext"
 import { Currency, CurrencyContext } from "src/core/contexts/currencyContext"
 import { TimezoneContext } from "src/core/contexts/timezoneContext"
@@ -105,7 +104,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <LightModeContext.Provider value={{ mode, setMode }}>
-      {/* <ChakraProvider theme={theme}> */}
       <CurrencyContext.Provider value={{ currency, setCurrency }}>
         <TimezoneContext.Provider value={{ timezone, setTimezone }}>
           <Loading fallback={<></>}>

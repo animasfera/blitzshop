@@ -25,9 +25,9 @@ export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }>
         }
       </Head>
 
-      <div className={"pb-12"}>
+      <main className={"pb-12"}>
         <Container>{children}</Container>
-      </div>
+      </main>
     </Box>
   )
 }

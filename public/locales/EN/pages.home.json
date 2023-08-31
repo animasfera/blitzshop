@@ -1,12 +1,33 @@
 {
-  "counters": {
-    "countries": "Countries",
-    "events": "Events",
-    "guides": "Guides",
-    "members": "Members"
+  "title": "Home",
+  "hero": {
+    "title": "Focus on what matters",
+    "subtitle": "All the charts, datepickers, and notifications in the world can't beat checking off some items on a paper card.",
+    "button": "Go to shop"
   },
-  "header": "Get a life-changing experience",
-  "join": "Join",
-  "registration": "Registration",
-  "subHeader": "Guides from all over the planet here provide knowledge for transformation of the soul, body and mind: Leela, yoga, chi-gong, astrology, psychology, and more."
+  "offers": {
+    "download": {
+      "name": "Download the app",
+      "value": "Get an exclusive $5 off code"
+    },
+    "return": {
+      "name": "Return when you're ready",
+      "value": "60 days of free returns"
+    },
+    "newsletter": {
+      "name": "Sign up for our newsletter",
+      "value": "15% off your first order"
+    }
+  },
+  "products": {
+    "link": "See everything"
+  },
+  "sales": {
+    "title": "Get 25% off during our one-time sale",
+    "subtitle": "Most of our products are limited releases that won't come back. Get your favorite items while they're in stock.",
+    "button": "Get access to our one-time sale"
+  },
+  "testimonials": {
+    "title": "What are people saying?"
+  }
 }
