@@ -2,8 +2,10 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
 
+import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage"
 import { OrdersList } from "src/orders/components/OrdersList"
 import getOrders from "src/orders/queries/getOrders"
+import { usePagination } from "src/core/hooks/usePagination"
 
 const ORDERS_PER_PAGE = 100
 
@@ -32,11 +34,11 @@ const orders = [
 ]
 
 export const OrdersListController = () => {
+  const pagination = usePagination()
   const router = useRouter()
-  const page = Number(router.query.page) || 0
-  const [{ orders: data, hasMore }] = usePaginatedQuery(getOrders, {
+  const [{ orders: data, hasMore, count }] = usePaginatedQuery(getOrders, {
     orderBy: { id: "asc" },
-    skip: ORDERS_PER_PAGE * page,
+    skip: ORDERS_PER_PAGE * pagination.page,
     take: ORDERS_PER_PAGE,
   })
 
@@ -49,7 +51,14 @@ export const OrdersListController = () => {
         <p className="mt-2 text-sm text-gray-500">{t("index.description")}</p>
       </section>
 
-      <OrdersList orders={orders} />
+      <ListOrNotFoundMessage
+        countObjects={count}
+        itemsPerPage={ORDERS_PER_PAGE}
+        pagination={pagination}
+        hasMore={hasMore}
+      >
+        <OrdersList orders={orders} />
+      </ListOrNotFoundMessage>
     </>
   )
 }
