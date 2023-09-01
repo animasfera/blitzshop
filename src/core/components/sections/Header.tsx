@@ -88,7 +88,7 @@ export default function Header(props) {
           <img
             className="h-8 w-auto"
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt=""
+            alt="logo"
           />
         </a>
         <div className="flex lg:hidden">
@@ -123,7 +123,7 @@ export default function Header(props) {
               <img
                 className="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
+                alt="logo"
               />
             </a>
             <button

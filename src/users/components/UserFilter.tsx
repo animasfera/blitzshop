@@ -11,6 +11,12 @@ export { FORM_ERROR } from "src/core/components/form/Form"
 export function UserFilter<S extends z.ZodType<any, any>>(props: FormProps<S>) {
   const { t } = useTranslation(["user"])
 
+  const options = [
+    { label: t("filter.all"), value: "all" },
+    { label: t("filter.guides"), value: "guide" },
+    { label: t("filter.players"), value: "players" },
+  ]
+
   return (
     <Form<S> {...props}>
       <FormSpy subscription={{ values: true }} onChange={props._onChange} />
@@ -19,12 +25,8 @@ export function UserFilter<S extends z.ZodType<any, any>>(props: FormProps<S>) {
           <RadioButtonsField
             name={"isGuideString"}
             label={""}
-            value={"all"}
-            options={[
-              { label: t("filter.all"), value: "all" },
-              { label: t("filter.guides"), value: "guide" },
-              { label: t("filter.players"), value: "players" },
-            ]}
+            options={options}
+            defaultValue={options[0]}
           />
         </Box>
       </Flex>

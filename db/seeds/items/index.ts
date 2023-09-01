@@ -1,4 +1,4 @@
-import db, { ItemStatusEnum, AccessTypeEnum } from "db"
+import db from "db"
 
 import { items } from "./data"
 import { ItemSeed } from "./types"
@@ -11,9 +11,9 @@ const createDataItems = async (obj: ItemSeed) => {
     select: { id: true, title: true, description: true, url: true },
   })
 
-  let imageToItem = await db.imageToItem.findFirst({
-    where: coverImage?.id ? { imageId: coverImage?.id } : {},
-  })
+  let imageToItem = coverImage
+    ? await db.imageToItem.findFirst({ where: { imageId: coverImage?.id } })
+    : null
 
   let amount = await db.price.findFirst({
     where: {

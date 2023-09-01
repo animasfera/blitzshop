@@ -2,23 +2,15 @@ import { useState, useEffect, useRef, startTransition, Suspense } from "react"
 import { useRouter } from "next/router"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
-import { ChakraProvider, extendTheme } from "@chakra-ui/react"
+// import { ChakraProvider, extendTheme } from "@chakra-ui/react"
 import { CurrencyEnum } from "@prisma/client"
 import LoadingBar, { LoadingBarRef } from "react-top-loading-bar"
 import ReactGA from "react-ga4"
 
 import "src/core/styles/index.css"
-import "@fontsource/montserrat/400.css"
-import "@fontsource/montserrat/200.css"
-import "@fontsource/nunito/500.css"
-import "@fontsource/nunito/200.css"
-import "@fontsource/raleway/400.css"
-import "@fontsource/raleway/600.css"
-import "@fontsource/open-sans/700.css"
 
 import { withBlitz } from "src/blitz-client"
 
-import { Theme } from "src/core/theme/Theme"
 import { LightModeContext } from "src/core/contexts/lightModeContext"
 import { Currency, CurrencyContext } from "src/core/contexts/currencyContext"
 import { TimezoneContext } from "src/core/contexts/timezoneContext"
@@ -59,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const ref = useRef(null)
   const router = useRouter()
 
-  const theme = extendTheme(Theme)
+  // const theme = extendTheme(Theme)
 
   const getLayout = Component.getLayout || ((page) => page)
 
@@ -111,47 +103,46 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [router.events])
 
   return (
-    <ChakraProvider theme={theme}>
-      <LightModeContext.Provider value={{ mode, setMode }}>
-        <CurrencyContext.Provider value={{ currency, setCurrency }}>
-          <TimezoneContext.Provider value={{ timezone, setTimezone }}>
-            <Loading fallback={<></>}>
-              <TimezoneWatch />
-            </Loading>
+    <LightModeContext.Provider value={{ mode, setMode }}>
+      <CurrencyContext.Provider value={{ currency, setCurrency }}>
+        <TimezoneContext.Provider value={{ timezone, setTimezone }}>
+          <Loading fallback={<></>}>
+            <TimezoneWatch />
+          </Loading>
 
-            <ErrorBoundary
-              FallbackComponent={RootErrorFallback}
-              onReset={useQueryErrorResetBoundary().reset}
-            >
-              <Suspense>
-                <Header path={router.pathname} />
-              </Suspense>
-            </ErrorBoundary>
+          <ErrorBoundary
+            FallbackComponent={RootErrorFallback}
+            onReset={useQueryErrorResetBoundary().reset}
+          >
+            <Suspense>
+              <Header path={router.pathname} />
+            </Suspense>
+          </ErrorBoundary>
 
-            <LoadingBar
-              color={"rgba(85,60,154,.8)"}
-              // progress={progress}
-              // onLoaderFinished={() => setProgress(0)}
-              height={3}
-              ref={ref}
-            />
+          <LoadingBar
+            color={"rgba(85,60,154,.8)"}
+            // progress={progress}
+            // onLoaderFinished={() => setProgress(0)}
+            height={3}
+            ref={ref}
+          />
 
-            <ErrorBoundary FallbackComponent={RootErrorFallback}>
-              {getLayout(<Component {...pageProps} />)}
-            </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={RootErrorFallback}>
+            {getLayout(<Component {...pageProps} />)}
+          </ErrorBoundary>
 
-            <ErrorBoundary
-              FallbackComponent={RootErrorFallback}
-              onReset={useQueryErrorResetBoundary().reset}
-            >
-              <Suspense>
-                <Footer path={router.pathname} />
-              </Suspense>
-            </ErrorBoundary>
-          </TimezoneContext.Provider>
-        </CurrencyContext.Provider>
-      </LightModeContext.Provider>
-    </ChakraProvider>
+          <ErrorBoundary
+            FallbackComponent={RootErrorFallback}
+            onReset={useQueryErrorResetBoundary().reset}
+          >
+            <Suspense>
+              <Footer path={router.pathname} />
+            </Suspense>
+          </ErrorBoundary>
+        </TimezoneContext.Provider>
+      </CurrencyContext.Provider>
+      {/* </ChakraProvider> */}
+    </LightModeContext.Provider>
   )
 }
 

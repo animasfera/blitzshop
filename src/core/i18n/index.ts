@@ -27,6 +27,7 @@ i18n
   .init({
     debug: false,
     fallbackLng: "EN",
+    react: { useSuspense: false },
     /*
     resources: {
       EN: { zod: zodEn },

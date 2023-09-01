@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("../../../public/fonts/fonts.css");
+
 body {
   display: flex;
   flex-direction: column;
@@ -774,4 +776,10 @@ body.fullscreen .vid-fixed {
 .title,
 .description {
   @apply text-center;
+}
+
+input:focus-visible,
+button:focus-visible,
+textarea:focus-visible {
+  outline: none;
 }

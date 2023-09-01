@@ -58,6 +58,7 @@ export const TransactionStatusField = (props: TransactionStatusFieldProps) => {
         <Box mt={2}>
           <TransactionStatusForm
             status={status}
+            // @ts-ignore
             options={statusArray}
             onCancel={() => {
               setShowForm(false)

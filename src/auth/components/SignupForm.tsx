@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next"
 import { z } from "zod"
 import { makeZodI18nMap } from "zod-i18n-map"
 
-import { LabeledTextField } from "src/core/components/form/LabeledTextField"
 import { Form, FORM_ERROR } from "src/core/components/form/Form"
+import { LabeledTextField, LabeledTextFieldProps } from "src/core/components/form/LabeledTextField"
 import signup from "src/auth/mutations/signup"
 import { Signup } from "src/auth/schemas"
 
@@ -19,6 +19,29 @@ export const SignupForm = (props: SignupFormProps) => {
   const { t } = useTranslation(["pages.signup", "zod"])
   z.setErrorMap(makeZodI18nMap({ t }))
 
+  const signupLabeleds: LabeledTextFieldProps[] = [
+    {
+      name: "username",
+      label: "Username",
+      placeholder: "Username",
+      required: true,
+    },
+    {
+      name: "email",
+      label: "Email",
+      type: "email",
+      placeholder: "example@mail.com",
+      required: true,
+    },
+    {
+      name: "password",
+      label: "Password",
+      type: "password",
+      placeholder: "Qwerty123",
+      required: true,
+    },
+  ]
+
   return (
     <div>
       <h1>{t("title")}</h1>
@@ -26,7 +49,11 @@ export const SignupForm = (props: SignupFormProps) => {
       <Form
         submitText="Create Account"
         schema={Signup}
-        initialValues={{ username: "", email: "", password: "" }}
+        initialValues={{
+          username: "",
+          email: "",
+          password: "",
+        }}
         onSubmit={async (values) => {
           try {
             await signupMutation(values)
@@ -41,9 +68,16 @@ export const SignupForm = (props: SignupFormProps) => {
           }
         }}
       >
-        <LabeledTextField name="username" label="Username" placeholder="Username" />
-        <LabeledTextField name="email" label="Email" placeholder="Email" />
-        <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
+        {signupLabeleds.map(({ name, label, type, placeholder, required }) => (
+          <LabeledTextField
+            key={`${type}-${name}`}
+            name={name}
+            label={label}
+            type={type}
+            placeholder={placeholder}
+            required={required}
+          />
+        ))}
       </Form>
     </div>
   )
