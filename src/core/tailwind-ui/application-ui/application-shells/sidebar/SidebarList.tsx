@@ -1,7 +1,6 @@
 import React from "react"
 
 import { SidebarListItem } from "src/core/tailwind-ui/application-ui/application-shells/sidebar/SidebarListItem"
-import { classNames } from "src/core/helpers/classNames"
 
 interface SidebarListProps {
   // TODO: убрать current когда будет настройка навигации

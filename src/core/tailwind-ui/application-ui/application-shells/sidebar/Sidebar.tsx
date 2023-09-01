@@ -21,13 +21,13 @@ export const Sidebar = (props: SidebarProps) => {
 
   return (
     <div className="lg:flex lg:gap-x-6">
-      <aside className="flex overflow-x-auto border-b border-gray-900/5 py-2 mb-6 lg:mb-0 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-8 lg:border-r lg:border-gray-900/5 pr-4">
+      <aside className="flex overflow-x-auto border-b border-gray-900/5 py-2 mb-6 lg:mb-0 lg:block lg:w-52 xl:w-64 lg:flex-none lg:border-0 lg:py-8 lg:border-r lg:border-gray-900/5 pr-4">
         <nav className="flex-none">
           <SidebarList list={navigation} />
         </nav>
       </aside>
 
-      {children}
+      <div className="flex flex-col w-full py-2 mb-6 lg:mb-0 lg:py-8">{children}</div>
     </div>
   )
 }
