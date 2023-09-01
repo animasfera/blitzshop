@@ -10,7 +10,6 @@ interface StatsProps {
   title?: string
   subtitle?: string
   data: Array<DataStats>
-
   numColsLg?: number
   numColsSm?: number
 
