@@ -12,6 +12,7 @@ export interface InputProps {
   defaultValue?: string | number
   required?: boolean
   disabled?: boolean
+  autoComplete?: string
   helperText?: string
   error?: string
   showError?: boolean
@@ -25,11 +26,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     name,
     label,
     input,
-    type,
+    type = "text",
     placeholder,
     defaultValue,
     required,
     disabled,
+    autoComplete,
     helperText,
     error,
     showError,
@@ -50,7 +52,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     <div className="relative mb-7" {...outerProps}>
       <label
         htmlFor={name}
-        className="block text-sm font-medium leading-6 text-gray-900"
+        className="block text-sm font-medium leading-6 text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis"
         {...labelProps}
       >
         {`${label}`}
@@ -61,7 +63,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           {...props}
           {...input}
           ref={ref}
-          type={isShowPass ? "text" : type ?? "text"}
+          type={isShowPass ? "text" : type}
           name={name}
           placeholder={placeholder}
           value={input.value}
@@ -79,6 +81,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 focus-visible:ring-indigo-600 focus-visible:ring-indigo-600:focus-visible`
             }
             `}
+          autoComplete={autoComplete}
           aria-invalid="true"
           aria-describedby={`${name}-error`}
           required={required}

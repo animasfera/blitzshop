@@ -1,13 +1,25 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
-import { Invoice, PaymentMethod, Price, Prisma, PrismaClient } from "@prisma/client"
 import {
+  Cart,
+  Category,
+  ChatRoom,
+  CountryFilterEnum,
+  CurrencyEnum,
+  Image,
+  ImageToItem,
+  Invoice,
+  Item,
+  LocaleEnum,
+  Location,
+  Message,
+  PaymentMethod,
+  Price,
+  Prisma,
+  PrismaClient,
+  PurchasedItem,
+  Review,
   User,
   UserRoleEnum,
-  LocaleEnum,
-  CurrencyEnum,
-  CountryFilterEnum,
-  ChatRoom,
-  Message,
   UserToChatRoom,
 } from "db"
 
@@ -46,6 +58,21 @@ export type PrismaDbType =
 export type UserMain = Partial<User> & Pick<User, "username" | "avatarUrl" | "id">
 export type UserCardProps = UserMain & User
 export type UserMailProps = Partial<User> & Pick<User, "email" | "id" | "username" | "locale">
+
+export type ItemFull = Item & {
+  _count: Prisma.ItemCountOutputType
+  amount: Price
+  category: Category | null
+  coverImage: ImageToItem & { image: Image }
+  cart: Cart | null
+  chatRoom: ChatRoom | null
+  images: ImageToItem[]
+  invoices: Invoice[]
+  location: Location | null
+  user: User | null
+  purchasedItems: PurchasedItem[]
+  reviews: Review[]
+}
 
 export type ChatRoomWithFirstMessage = ChatRoom & {
   users: (UserToChatRoom & { user: UserCardProps })[]

@@ -1,19 +1,23 @@
+"use client"
+import React from "react"
 import { BlitzPage } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
-import React from "react"
+import { Loading } from "src/core/components/Loading"
+import { HomeController } from "src/home/components/HomeController"
 
 const Home: BlitzPage = () => {
   const { t } = useTranslation(["pages.home"])
 
   return (
-    <>
-      <h2 className="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2>
-    </>
+    <Layout title={t("title")}>
+      <Loading>
+        <HomeController />
+      </Loading>
+    </Layout>
   )
 }
-Home.getLayout = (page) => <Layout title={"Home"}>{page}</Layout>
 
 export { getServerSideProps } from "src/core/getServerSideProps"
 export default Home

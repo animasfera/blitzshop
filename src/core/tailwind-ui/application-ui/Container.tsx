@@ -13,8 +13,7 @@ export const Container = (props: ContainerProps) => {
     <div
       className={`container mx-auto max-w-screen-xxl px-4 ${
         size === "sm" ? "max-w-3xl" : "sm:px-6 lg:px-8"
-      }
-      ${styles ?? ""}`}
+      } ${styles ?? ""}`}
     >
       {children}
     </div>
