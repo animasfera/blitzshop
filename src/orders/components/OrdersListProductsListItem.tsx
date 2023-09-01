@@ -5,7 +5,7 @@ interface OrderListProductsListItemProps {
   item: any
 }
 
-export const OrderListProductsListItem = (props: OrderListProductsListItemProps) => {
+export const OrdersListProductsListItem = (props: OrderListProductsListItemProps) => {
   const { item } = props
 
   const { t } = useTranslation(["pages.orders"])
@@ -52,4 +52,4 @@ export const OrderListProductsListItem = (props: OrderListProductsListItemProps)
   )
 }
 
-export default OrderListProductsListItem
+export default OrdersListProductsListItem

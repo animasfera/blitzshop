@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
-import { OrderListController } from "src/orders/components/OrderListController"
+import { OrdersListController } from "src/orders/components/OrdersListController"
 
 export const OrdersPage: BlitzPage = () => {
   const { t } = useTranslation(["pages.orders"])
@@ -13,7 +13,7 @@ export const OrdersPage: BlitzPage = () => {
   return (
     <Layout title={t("index.title")}>
       <Loading>
-        <OrderListController />
+        <OrdersListController />
       </Loading>
     </Layout>
   )

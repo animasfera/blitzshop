@@ -2,7 +2,7 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
 
-import { OrderList } from "src/orders/components/OrderList"
+import { OrdersList } from "src/orders/components/OrdersList"
 import getOrders from "src/orders/queries/getOrders"
 
 const ORDERS_PER_PAGE = 100
@@ -31,7 +31,7 @@ const orders = [
   // More orders...
 ]
 
-export const OrderListController = () => {
+export const OrdersListController = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
   const [{ orders: data, hasMore }] = usePaginatedQuery(getOrders, {
@@ -49,9 +49,9 @@ export const OrderListController = () => {
         <p className="mt-2 text-sm text-gray-500">{t("index.description")}</p>
       </section>
 
-      <OrderList orders={orders} />
+      <OrdersList orders={orders} />
     </>
   )
 }
 
-export default OrderListController
+export default OrdersListController
