@@ -49,6 +49,7 @@ const SignInButton = () => {
     </>
   )
 }
+
 const SignInMobileButton = () => {
   const { t } = useTranslation(["translation"])
   return (
@@ -111,6 +112,7 @@ export default function Header(props) {
               {item.name}
             </a>
           ))}
+
           <UserButtonComponent />
         </div>
       </nav>

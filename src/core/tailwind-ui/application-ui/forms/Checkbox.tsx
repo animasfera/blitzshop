@@ -98,7 +98,6 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>((props
         {!showError && (
           <p id={`${name}-error`} role="alert" className="m-0 mt-1 text-sm text-red-600">
             {error}
-            error
           </p>
         )}
       </div>
