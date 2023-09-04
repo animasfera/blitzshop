@@ -40,6 +40,14 @@ const config = {
         port: "",
         pathname: "/img/**",
       },
+      {
+        protocol: "https",
+        hostname: "flagcdn.com",
+        port: "",
+        pathname: "/**",
+      },
+
+      // https://flagcdn.com/h20/ua.png
     ],
   },
   // distDir: process.env.BUILD_DIR || ".next",
