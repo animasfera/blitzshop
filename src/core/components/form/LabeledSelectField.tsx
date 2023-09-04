@@ -78,3 +78,5 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
     )
   }
 )
+
+export default LabeledSelectField

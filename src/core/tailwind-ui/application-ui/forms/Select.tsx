@@ -60,6 +60,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
       <Listbox
         {...input}
         ref={ref}
+        name={name}
         value={selected}
         defaultValue={defaultValue}
         onChange={handleChange}
@@ -233,3 +234,5 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
     </div>
   )
 })
+
+export default Select
