@@ -18,14 +18,14 @@ export const HeadingPage = (props: HeadingPageProps) => {
       </h2>
 
       {!!subtitles && subtitles.length > 0 && (
-        <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
+        <ul className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
           {subtitles.map(({ icon, text }, index) => (
-            <div key={`${index}-${text}`} className="mt-2 flex items-center text-sm text-gray-500">
+            <li key={`${index}-${text}`} className="mt-2 flex items-center text-sm text-gray-500">
               {icon && icon}
               {text}
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   )
