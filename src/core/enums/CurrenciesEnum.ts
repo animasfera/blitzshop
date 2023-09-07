@@ -21,3 +21,5 @@ export const CurrenciesEnum = {
     flag: getUrlСountryFlag({ country: "eu" }),
   },
 }
+
+export const CurrenciesArray = Object.values(CurrenciesEnum).map((currency) => currency)
