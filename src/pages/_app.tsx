@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
 // import { ChakraProvider, extendTheme } from "@chakra-ui/react"
-import { CurrencyEnum } from "@prisma/client"
+import { CurrencyEnum } from "db"
 import LoadingBar, { LoadingBarRef } from "react-top-loading-bar"
 import ReactGA from "react-ga4"
 
@@ -18,7 +18,7 @@ import { ThemeEnum } from "src/core/enums/ThemeEnum"
 import { Loading } from "src/core/components/Loading"
 import { TimezoneWatch } from "src/core/components/TimezoneWatch"
 import { useQueryErrorResetBoundary } from "@blitzjs/rpc"
-import Header from "src/core/components/sections/Header"
+import { HeaderController } from "src/core/components/sections/Header/HeaderController"
 import Footer from "../core/components/sections/Footer"
 
 ReactGA.initialize("G-34Y9N908L5")
@@ -115,7 +115,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             onReset={useQueryErrorResetBoundary().reset}
           >
             <Suspense>
-              <Header path={router.pathname} />
+              <HeaderController />
             </Suspense>
           </ErrorBoundary>
 
