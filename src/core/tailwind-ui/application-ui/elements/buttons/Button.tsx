@@ -57,9 +57,10 @@ export const Button = (props: ButtonProps) => {
     <button
       type={type}
       className={`
-        inline-flex items-center gap-x-1.5 font-semibold shadow-sm
-        ${variantBtn[variant]} ${sizeBtn[size]} ${className}
+        inline-flex items-center gap-x-1.5 font-semibold
+        ${variantBtn[variant]} ${sizeBtn[size]}
         ${disabled ? "cursor-not-allowed" : "cursor-pointer"}
+        ${className}
       `}
       onClick={handleClick}
       disabled={disabled}
