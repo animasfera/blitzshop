@@ -72,11 +72,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
         try {
           data = JSON.parse(localStorage.getItem("currency")!)
-
-          if (data.name === "SGD") data.name = "EUR"
         } catch (e) {
           data = {}
         }
+
         setCurrency(data)
       }
     })

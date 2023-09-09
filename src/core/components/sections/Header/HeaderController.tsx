@@ -47,18 +47,16 @@ export const HeaderController = () => {
 
   return (
     <Loading>
-      <>
-        <HeaderMobileMenu open={openMenu} navigation={navigation} handleOpen={handleOpenMenu} />
+      <HeaderMobileMenu open={openMenu} navigation={navigation} handleOpen={handleOpenMenu} />
 
-        <Header
-          openMenu={openMenu}
-          navigation={navigation}
-          currency={selectedCurrency}
-          currencies={currencies}
-          handleOpenMenu={handleOpenMenu}
-          handleChangeCurrency={handleChangeCurrency}
-        />
-      </>
+      <Header
+        openMenu={openMenu}
+        navigation={navigation}
+        currency={selectedCurrency}
+        currencies={currencies}
+        handleOpenMenu={handleOpenMenu}
+        handleChangeCurrency={handleChangeCurrency}
+      />
     </Loading>
   )
 }

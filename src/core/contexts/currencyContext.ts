@@ -2,7 +2,7 @@ import React from "react"
 import { CurrencyEnum } from "@prisma/client"
 
 export interface Currency {
-  name: string
+  name: CurrencyEnum
   rate: number
 }
 
@@ -11,8 +11,9 @@ let CurrencyContext: React.Context<{
   setCurrency: (value: { name: CurrencyEnum; rate: number }) => void
 }>
 
+// @ts-ignore
 CurrencyContext = React.createContext({
-  currency: { name: "EUR", rate: 1 },
+  currency: { name: CurrencyEnum.EUR, rate: 1 },
   setCurrency: (value) => {},
 })
 
