@@ -17,7 +17,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 15000,
+      amount: 1500000,
       currency: CurrencyEnum.RUB,
     },
     category: floorPlayingFields,
@@ -34,7 +34,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 200,
+      amount: 20000,
       currency: CurrencyEnum.USD,
     },
     category: floorPlayingFields,
@@ -51,7 +51,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 115,
+      amount: 11500,
       currency: CurrencyEnum.EUR,
     },
     category: floorPlayingFields,
@@ -68,7 +68,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 15000,
+      amount: 1500000,
       currency: CurrencyEnum.RUB,
     },
     category: floorPlayingFields,
@@ -84,7 +84,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 50,
+      amount: 5000,
       currency: CurrencyEnum.USD,
     },
     category: tablePlayingFields,
@@ -101,7 +101,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 65,
+      amount: 6500,
       currency: CurrencyEnum.EUR,
     },
     category: tablePlayingFields,
@@ -117,7 +117,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 40,
+      amount: 4000,
       currency: CurrencyEnum.USD,
     },
     category: tablePlayingFields,
@@ -134,7 +134,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 50,
+      amount: 5000,
       currency: CurrencyEnum.EUR,
     },
     category: tablePlayingFields,
@@ -150,7 +150,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 3800,
+      amount: 380000,
       currency: CurrencyEnum.RUB,
     },
     category: tablePlayingFields,
@@ -167,7 +167,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 4,
+      amount: 400,
       currency: CurrencyEnum.USD,
     },
     category: cubes,
@@ -184,7 +184,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 45,
+      amount: 4500,
       currency: CurrencyEnum.EUR,
     },
     category: cubes,
@@ -200,7 +200,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 5000,
+      amount: 500000,
       currency: CurrencyEnum.RUB,
     },
     category: cubes,
@@ -217,7 +217,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 50,
+      amount: 5000,
       currency: CurrencyEnum.USD,
     },
     category: cubes,
@@ -234,7 +234,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 100,
+      amount: 10000,
       currency: CurrencyEnum.EUR,
     },
     category: cubes,
@@ -250,7 +250,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 9500,
+      amount: 950000,
       currency: CurrencyEnum.RUB,
     },
     category: cubes,
@@ -265,7 +265,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 95,
+      amount: 9500,
       currency: CurrencyEnum.USD,
     },
     category: cubes,
@@ -282,7 +282,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 1800,
+      amount: 180000,
       currency: CurrencyEnum.RUB,
     },
     category: books,
@@ -299,7 +299,7 @@ export const items = {
       },
     },
     amount: {
-      amount: 50,
+      amount: 5000,
       currency: CurrencyEnum.USD,
     },
     category: books,
