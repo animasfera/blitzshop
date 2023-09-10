@@ -16,7 +16,13 @@ export interface CurrencyOption {
   img?: string
 }
 
-export const HeaderController = () => {
+interface HeaderControllerProps {
+  path: string
+}
+
+export const HeaderController = (props: HeaderControllerProps) => {
+  const { path } = props
+
   const currencies: CurrencyOption[] = CurrenciesArray.map(({ name, flag }) => ({
     label: name,
     value: name,
@@ -47,13 +53,19 @@ export const HeaderController = () => {
 
   return (
     <Loading>
-      <HeaderMobileMenu open={openMenu} navigation={navigation} handleOpen={handleOpenMenu} />
+      <HeaderMobileMenu
+        open={openMenu}
+        navigation={navigation}
+        path={path}
+        handleOpen={handleOpenMenu}
+      />
 
       <Header
         openMenu={openMenu}
         navigation={navigation}
         currency={selectedCurrency}
         currencies={currencies}
+        path={path}
         handleOpenMenu={handleOpenMenu}
         handleChangeCurrency={handleChangeCurrency}
       />

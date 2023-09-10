@@ -1,6 +1,5 @@
 import { Fragment } from "react"
 import { Dialog, Transition } from "@headlessui/react"
-import {} from "@heroicons/react/24/outline"
 
 import { HeaderLogo } from "src/core/components/sections/Header/HeaderLogo"
 import { HeaderAuth } from "src/core/components/sections/Header/HeaderAuth"
@@ -9,12 +8,13 @@ import { HeaderMobileMenuNavigation } from "src/core/components/sections/Header/
 interface HeaderMobileMenuProps {
   open: boolean
   navigation: { name: string; href: string }[]
+  path: string
 
   handleOpen: (value: boolean) => void
 }
 
 export const HeaderMobileMenu = (props: HeaderMobileMenuProps) => {
-  const { open, navigation, handleOpen } = props
+  const { open, navigation, path, handleOpen } = props
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -46,11 +46,11 @@ export const HeaderMobileMenu = (props: HeaderMobileMenuProps) => {
                 <HeaderLogo />
               </div>
 
-              <HeaderMobileMenuNavigation navigation={navigation} />
+              <HeaderMobileMenuNavigation navigation={navigation} path={path} />
 
               <div className="border-t border-gray-200 mx-4" />
 
-              <HeaderAuth isMenu />
+              <HeaderAuth path={path} isMenu />
             </Dialog.Panel>
           </Transition.Child>
         </div>

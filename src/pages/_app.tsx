@@ -114,7 +114,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             onReset={useQueryErrorResetBoundary().reset}
           >
             <Suspense>
-              <HeaderController />
+              <HeaderController path={router.pathname} />
             </Suspense>
           </ErrorBoundary>
 

@@ -1,17 +1,15 @@
 import Link from "next/link"
-import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
 
 import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 
 interface HeaderAuthProps {
+  path: string
   isMenu?: boolean
 }
 
 export const HeaderAuth = (props: HeaderAuthProps) => {
-  const { isMenu = false } = props
-
-  const router = useRouter()
+  const { path, isMenu = false } = props
 
   const { t } = useTranslation(["translation"])
 
@@ -23,7 +21,7 @@ export const HeaderAuth = (props: HeaderAuthProps) => {
           : "hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-4"
       }`}
     >
-      {router.pathname !== "/login" && (
+      {path !== "/login" && (
         <Link href={"/login"}>
           <Button
             variant={"secondary"}
@@ -33,11 +31,11 @@ export const HeaderAuth = (props: HeaderAuthProps) => {
         </Link>
       )}
 
-      {!(router.pathname === "/login" || router.pathname === "/signup") && (
+      {!(path === "/login" || path === "/signup") && (
         <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
       )}
 
-      {router.pathname !== "/signup" && (
+      {path !== "/signup" && (
         <Link href={"/signup"}>
           <Button
             variant={"soft"}

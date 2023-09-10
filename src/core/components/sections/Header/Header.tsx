@@ -13,13 +13,14 @@ interface HeaderProps {
   navigation: { name: string; href: string }[]
   currency: CurrencyOption | undefined
   currencies: CurrencyOption[]
+  path: string
 
   handleOpenMenu: (value: boolean) => void
   handleChangeCurrency?: (values: OptionSelectField) => void
 }
 
 export const Header = (props: HeaderProps) => {
-  const { openMenu, navigation, currency, currencies, handleOpenMenu, handleChangeCurrency } = props
+  const { openMenu, navigation, currency, currencies, path, handleOpenMenu, handleChangeCurrency } = props
 
   return (
     <header className="relative bg-white">
@@ -36,7 +37,7 @@ export const Header = (props: HeaderProps) => {
 
               <HeaderLogo />
 
-              <HeaderNavigation navigation={navigation} />
+              <HeaderNavigation navigation={navigation} path={path} />
             </div>
 
             <div className="ml-auto flex items-center gap-x-4">
@@ -48,7 +49,7 @@ export const Header = (props: HeaderProps) => {
                 outerProps={{ className: "m-0" }}
               />
 
-              <HeaderAuth />
+              <HeaderAuth path={path} />
 
               {
                 // Cart
