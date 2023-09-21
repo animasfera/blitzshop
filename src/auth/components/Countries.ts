@@ -144,6 +144,7 @@ export const Countries = [
   { name: "Moldova, Republic of", code: "MD" },
   { name: "Monaco", code: "MC" },
   { name: "Mongolia", code: "MN" },
+  { name: "Montenegro", code: "ME" },
   { name: "Montserrat", code: "MS" },
   { name: "Morocco", code: "MA" },
   { name: "Mozambique", code: "MZ" },
@@ -190,7 +191,7 @@ export const Countries = [
   { name: "Sao Tome and Principe", code: "ST" },
   { name: "Saudi Arabia", code: "SA" },
   { name: "Senegal", code: "SN" },
-  { name: "Serbia and Montenegro", code: "CS" },
+  { name: "Serbia", code: "RS" }, //"CS"
   { name: "Seychelles", code: "SC" },
   { name: "Sierra Leone", code: "SL" },
   { name: "Singapore", code: "SG" },

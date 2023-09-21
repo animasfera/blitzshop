@@ -15,8 +15,6 @@ const converter = async ({ from, to, amount }: Converter) => {
 
   const data = res.data
 
-  console.log(data)
-
   if (data && data.result) {
     return Math.ceil(data.result)
   } else {

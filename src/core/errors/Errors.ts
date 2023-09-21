@@ -11,6 +11,15 @@ export class LoginProhibitedError extends Error {
   message = "Ведутся технические работы, вход временно закрыт"
 }
 
+export class ConflictError extends Error {
+  statusCode: number
+
+  constructor(message) {
+    super(message)
+    this.statusCode = 409
+  }
+}
+
 export class ErrorWithCode extends Error {
   code: string | undefined
   constructor(msg?: string, code?: string) {

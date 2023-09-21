@@ -561,7 +561,7 @@ button[role="tab"]:focus {
 }
 
 .container {
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 .scrollable {
