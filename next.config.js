@@ -46,8 +46,6 @@ const config = {
         port: "",
         pathname: "/**",
       },
-
-      // https://flagcdn.com/h20/ua.png
     ],
   },
   // distDir: process.env.BUILD_DIR || ".next",
