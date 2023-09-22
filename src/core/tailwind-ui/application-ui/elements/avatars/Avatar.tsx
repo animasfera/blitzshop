@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import { BadjeNotification } from "src/core/tailwind-ui/application-ui/elements/badges/BadjeNotification"
+import { BadgeNotification } from "src/core/tailwind-ui/application-ui/elements/badges/BadgeNotification"
 
 interface AvatarProps {
   avatarUrl?: string
@@ -83,7 +83,7 @@ export const Avatar = (props: AvatarProps) => {
         )}
 
         {notification && (
-          <BadjeNotification count={notification.count} color={notification.color} size={size} />
+          <BadgeNotification count={notification.count} color={notification.color} size={size} />
         )}
       </div>
 
