@@ -13,7 +13,7 @@ export const ItemsListItemInfo = (props: ItemsListItemInfoProps) => {
   const { item } = props
 
   return (
-    <div className="mt-4 flex justify-between gap-1">
+    <div className="flex justify-between gap-1">
       <div>
         <ItemsListItemTitle item={item} />
         <ItemsListItemColor item={item} />

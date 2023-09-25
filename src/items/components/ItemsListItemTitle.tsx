@@ -11,7 +11,7 @@ export const ItemsListItemTitle = (props: ProductsListItemTitleProps) => {
 
   return (
     <h3 className="text-sm text-gray-700 m-0">
-      <Link href={Routes.ShowItemPage({ itemId: item.id })}>
+      <Link href={Routes.ProductPage({ itemId: item.id })}>
         <span aria-hidden="true" className="absolute inset-0" />
         {item.title}
       </Link>
