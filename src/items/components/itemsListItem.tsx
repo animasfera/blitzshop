@@ -1,3 +1,5 @@
+import { Routes } from "@blitzjs/next"
+import Link from "next/link"
 import { useTranslation } from "react-i18next"
 import { ImageToItem, Image, Item, Price } from "db"
 
@@ -18,11 +20,15 @@ export const ItemsListItem = (props: ItemsListItemProps) => {
   const { t } = useTranslation(["pages.products"])
 
   return (
-    <li className="group relative space-y-4">
-      <ItemsListItemImage image={item.coverImage.image} />
-      <ItemsListItemInfo item={item} />
+    <li className="relative flex flex-col gap-2 justify-between">
+      <Link href={Routes.ProductPage({ itemId: item.id })} className={"flex flex-col gap-2"}>
+        <ItemsListItemImage image={item.coverImage.image} />
+        <ItemsListItemInfo item={item} />
+      </Link>
 
-      <Button buttonText={t("buttons.add")} variant={"secondary"} />
+      <Button buttonText={t("buttons.add")} styles={"w-full justify-center"} />
     </li>
   )
 }
+
+export default ItemsListItem

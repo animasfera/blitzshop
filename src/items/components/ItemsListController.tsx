@@ -27,3 +27,5 @@ export const ItemsListController = () => {
     </ListOrNotFoundMessage>
   )
 }
+
+export default ItemsListController
