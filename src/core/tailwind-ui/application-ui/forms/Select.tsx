@@ -1,5 +1,6 @@
 import React, { useState, Fragment, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import Image from "next/image"
+import { useTranslation } from "react-i18next"
 import { FieldInputProps } from "react-final-form"
 import { Listbox, Transition } from "@headlessui/react"
 import { CheckIcon, ChevronUpDownIcon, ExclamationCircleIcon } from "@heroicons/react/20/solid"
@@ -55,15 +56,19 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
     handleChange,
   } = props
 
+  console.log("props", props)
+
+  const { t } = useTranslation(["translation"])
+
   return (
     <div className="relative mb-7" {...outerProps}>
       <Listbox
         {...input}
         ref={ref}
-        name={name}
-        value={selected}
+        name={name ?? input?.name}
+        value={selected ?? input?.value}
         defaultValue={defaultValue}
-        onChange={handleChange}
+        onChange={handleChange ?? input?.onChange}
         multiple={multiple}
         disabled={disabled}
       >
@@ -81,7 +86,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
             <div className="relative mt-2">
               <Listbox.Button
                 className={`
-                  relative w-full cursor-default rounded-md bg-white py-1.5 pl-3
+                  relative w-full cursor-pointer rounded-md bg-white py-1.5 pl-3
                   pr-10 text-left shadow-sm ring-1 ring-inset focus:ring-2
                   ${
                     showError
@@ -97,9 +102,11 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                     Array.isArray(selected) ? (
                       <ul className="flex gap-4">
                         {selected.map((el) => (
-                          <li key={el.value} className="flex items-center">
+                          <li key={el.value} className="flex items-center cursor-pointer">
                             {el?.img && (
                               <Image
+                                width={200}
+                                height={200}
                                 src={el?.img}
                                 alt={el?.label ?? ""}
                                 className="h-4 w-4 mr-1 flex-shrink-0 rounded-full"
@@ -116,6 +123,8 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                       <>
                         {selected?.img && (
                           <Image
+                            width={200}
+                            height={200}
                             src={selected?.img}
                             alt={selected?.label ?? ""}
                             className="h-5 w-5 mr-3 flex-shrink-0 rounded-full"
@@ -131,7 +140,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                     )
                   ) : (
                     <span className={`truncate ${showError ? `text-red-300` : `text-gray-400`}`}>
-                      {placeholder ?? "Выберите"}
+                      {placeholder ?? t("select")}
                     </span>
                   )}
                 </span>
@@ -159,61 +168,71 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                 ref={ref}
               >
                 <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  {options.map((option) => (
-                    <Listbox.Option
-                      key={option.value}
-                      className={({ active }) =>
-                        classNames(
-                          active ? "bg-indigo-600 text-white" : "text-gray-900",
-                          "relative cursor-default select-none py-2 pl-3 pr-9"
-                        )
-                      }
-                      value={option}
-                    >
-                      {({ selected, active }) => (
-                        <>
-                          <div className="flex items-center">
-                            {option.img && (
-                              <Image
-                                src={option.img}
-                                alt={option.label ?? ""}
-                                className="h-5 w-5 mr-3 flex-shrink-0 rounded-full"
-                              />
-                            )}
-                            <span
-                              className={classNames(
-                                selected ? "font-semibold" : "font-normal",
-                                "block truncate"
+                  {options.map((option) => {
+                    const isCheck = Array.isArray(selected)
+                      ? selected.some((el) => el.value === option.value)
+                      : option.value === selected?.value
+
+                    return (
+                      <Listbox.Option
+                        key={option.value}
+                        className={() =>
+                          classNames(
+                            isCheck
+                              ? "bg-indigo-600 text-white hover:bg-indigo-400"
+                              : "text-gray-900 hover:text-indigo-600 hover:bg-gray-200",
+                            "relative cursor-default select-none py-2 pl-3 pr-9 cursor-pointer"
+                          )
+                        }
+                        value={option}
+                      >
+                        {() => (
+                          <>
+                            <div className="flex items-center">
+                              {option.img && (
+                                <Image
+                                  width={200}
+                                  height={200}
+                                  src={option.img}
+                                  alt={option.label ?? ""}
+                                  className="h-5 w-5 mr-3 flex-shrink-0 rounded-full"
+                                />
                               )}
-                            >
-                              {option.label}
-                            </span>
-                            {option.description && (
                               <span
                                 className={classNames(
-                                  active ? "text-indigo-200" : "text-gray-500",
-                                  "ml-2 truncate"
+                                  isCheck ? "font-semibold" : "font-normal",
+                                  "block truncate"
                                 )}
                               >
-                                {option.description}
+                                {option.label}
                               </span>
-                            )}
-                          </div>
-
-                          {selected ? (
-                            <span
-                              className={classNames(
-                                active ? "text-white" : "text-indigo-600",
-                                "absolute inset-y-0 right-0 flex items-center pr-4"
+                              {option.description && (
+                                <span
+                                  className={classNames(
+                                    isCheck ? "text-indigo-200" : "text-gray-500",
+                                    "ml-2 truncate"
+                                  )}
+                                >
+                                  {option.description}
+                                </span>
                               )}
-                            >
-                              <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                            </span>
-                          ) : null}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
+                            </div>
+
+                            {isCheck ? (
+                              <span
+                                className={classNames(
+                                  isCheck ? "text-white" : "text-indigo-600",
+                                  "absolute inset-y-0 right-0 flex items-center pr-4"
+                                )}
+                              >
+                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                              </span>
+                            ) : null}
+                          </>
+                        )}
+                      </Listbox.Option>
+                    )
+                  })}
                 </Listbox.Options>
               </Transition>
             </div>

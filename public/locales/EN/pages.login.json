@@ -1,1 +1,29 @@
-{}
+{
+  "title": "Sign in",
+  "loginForm": {
+    "buttons": {
+      "enter": "Sign in"
+    },
+    "errors": {
+      "unknown": "Sorry, we had an unexpected error. Please try again.",
+      "authErr": "Sorry, those credentials are invalid",
+      "wrongPassword": "Incorrect email or password",
+      "prohibitedErr": "Renovations are underway and the entrance is temporarily closed."
+    },
+    "fields": {
+      "email": {
+        "label": "E-mail address"
+      },
+      "password": {
+        "label": "Password"
+      }
+    },
+    "links": {
+      "register": "Register"
+    },
+    "texts": {
+      "forgotPassword": "Forgot password?",
+      "noAccount": "No account yet?"
+    }
+  }
+}

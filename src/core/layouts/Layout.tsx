@@ -26,7 +26,7 @@ export const Layout: BlitzLayout<LayoutProps> = (props) => {
         <link rel="icon" href="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" />
       </Head>
 
-      <main className={"pb-12"}>
+      <main>
         <Container styles={styles}>{children}</Container>
       </main>
     </div>

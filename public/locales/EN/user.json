@@ -74,33 +74,6 @@
       "shareContacts": "Your email, phone, telegram - can be shown to the people who have booked your events. Your contacts will remain invisible for other users."
     }
   },
-  "loginForm": {
-    "buttons": {
-      "enter": "Sign in"
-    },
-    "errors": {
-      "unknown": "Unknown error",
-      "wrongPassword": "Incorrect email or password"
-    },
-    "fields": {
-      "email": {
-        "label": "E-mail"
-      },
-      "password": {
-        "label": "Password"
-      }
-    },
-    "headers": {
-      "main": "Sign in"
-    },
-    "links": {
-      "register": "Register"
-    },
-    "texts": {
-      "forgotPassword": "Forgot password?",
-      "noAccount": "No account yet?"
-    }
-  },
   "russianSellerForm": {
     "fields": {
       "buyingInCountries": {
@@ -128,45 +101,6 @@
         "help": "For correct time displaying on the platform",
         "label": "Your timezone"
       }
-    }
-  },
-  "signupForm": {
-    "buttons": {
-      "createAccount": "Create an account",
-      "enter": "Sign in"
-    },
-    "fields": {
-      "agreeAgreement": {
-        "label": "I've read and accept the <2>User agreement</2>"
-      },
-      "agreeDogovor": {
-        "label": "I've read and accept the <2>Merchant agreement</2>"
-      },
-      "countryIsoCode": {
-        "label": "Country"
-      },
-      "email": {
-        "label": "E-mail"
-      },
-      "isGuide": {
-        "label": "I want to register as an Event Organizer"
-      },
-      "password": {
-        "label": "Password"
-      },
-      "username": {
-        "label": "Username"
-      }
-    },
-    "headers": {
-      "main": "Register"
-    },
-    "links": {
-      "enter": "Sign in"
-    },
-    "texts": {
-      "aboutGuides": "Organizer's account has all the features of the User's account, plus the possibility of selling tickets to Organizer's events.",
-      "haveAccount": "Already have an account?"
     }
   },
   "title": "",

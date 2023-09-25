@@ -32,13 +32,15 @@ declare module "@blitzjs/auth" {
       timezone: string
       user: {
         id: User["id"]
-        username: string
-        avatarUrl: string
-        role: UserRoleEnum
-        timezone: string
-        locale?: LocaleEnum
-        currency: CurrencyEnum
-        buyingInCountries?: CountryFilterEnum
+        username: User["username"]
+        firstName: User["firstName"]
+        lastName: User["lastName"]
+        avatarUrl: User["avatarUrl"]
+        role: User["username"]
+        timezone: User["timezone"]
+        locale?: User["locale"]
+        currency: User["currency"]
+        buyingInCountries?: User["buyingInCountries"]
       }
     }
   }

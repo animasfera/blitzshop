@@ -1,5 +1,8 @@
-"use client"
 import { useState } from "react"
+import { useSession } from "@blitzjs/auth"
+import { useMutation } from "@blitzjs/rpc"
+import { Routes } from "@blitzjs/next"
+import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
 import { CurrencyEnum } from "db"
 
@@ -7,8 +10,8 @@ import { Loading } from "src/core/components/Loading"
 import { Header } from "src/core/components/sections/Header/Header"
 import { HeaderMobileMenu } from "src/core/components/sections/Header/HeaderMobileMenu"
 import { CurrenciesArray } from "src/core/enums/CurrenciesEnum"
-import { useCurrentUser } from "src/core/hooks/useCurrentUser"
 import { useCurrency } from "src/core/hooks/useCurrency"
+import logout from "src/auth/mutations/logout"
 
 export interface CurrencyOption {
   label: CurrencyEnum
@@ -29,8 +32,11 @@ export const HeaderController = (props: HeaderControllerProps) => {
     img: flag,
   }))
 
+  const [logoutMutation] = useMutation(logout)
   const { t } = useTranslation(["translation"])
-  const currentUser = useCurrentUser()
+  const router = useRouter()
+  const session = useSession()
+
   const { currency, setCurrency } = useCurrency()
   const [selectedCurrency, setSelectedCurrency] = useState<CurrencyOption | undefined>(
     currencies.find(({ value }) => currency.name === value)
@@ -45,29 +51,46 @@ export const HeaderController = (props: HeaderControllerProps) => {
     setSelectedCurrency(value)
   }
 
+  const handleLogout = async () => {
+    await logoutMutation()
+
+    void router.push(Routes.ProductsPage())
+  }
+
   const navigation = [
-    { name: t("translation:menu.products"), href: "/products" },
+    { name: t("translation:menu.products"), href: Routes.ProductsPage().href },
     { name: t("translation:menu.shipping"), href: "/shipping" },
-    { name: t("translation:menu.contacts"), href: "/contacts" },
+    { name: t("translation:menu.contacts"), href: Routes.ContactsPage().href },
+  ]
+
+  const userMenu = [
+    { name: t("translation:userMenu.orders"), href: Routes.OrdersPage().href },
+    { name: t("translation:userMenu.settings"), href: Routes.SettingsPage().href },
   ]
 
   return (
     <Loading>
       <HeaderMobileMenu
         open={openMenu}
+        session={session}
         navigation={navigation}
+        userMenu={userMenu}
         path={path}
         handleOpen={handleOpenMenu}
+        logout={handleLogout}
       />
 
       <Header
         openMenu={openMenu}
+        session={session}
         navigation={navigation}
+        userMenu={userMenu}
         currency={selectedCurrency}
         currencies={currencies}
         path={path}
         handleOpenMenu={handleOpenMenu}
         handleChangeCurrency={handleChangeCurrency}
+        logout={handleLogout}
       />
     </Loading>
   )

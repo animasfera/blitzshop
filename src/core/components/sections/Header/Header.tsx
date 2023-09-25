@@ -1,3 +1,4 @@
+import { ClientSession } from "@blitzjs/auth"
 import { Bars3Icon, ShoppingBagIcon } from "@heroicons/react/24/outline"
 
 import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
@@ -6,21 +7,37 @@ import { SelectSubmit } from "src/core/tailwind-ui/application-ui/forms/SelectSu
 import { HeaderNavigation } from "src/core/components/sections/Header/HeaderNavigation"
 import { HeaderLogo } from "src/core/components/sections/Header/HeaderLogo"
 import { HeaderAuth } from "src/core/components/sections/Header/HeaderAuth"
+import { HeaderAvatar } from "src/core/components/sections/Header/HeaderAvatar"
 import { CurrencyOption } from "src/core/components/sections/Header/HeaderController"
 
 interface HeaderProps {
   openMenu: boolean
+  session: ClientSession
   navigation: { name: string; href: string }[]
+  userMenu: { name: string; href: string }[]
   currency: CurrencyOption | undefined
   currencies: CurrencyOption[]
   path: string
 
   handleOpenMenu: (value: boolean) => void
   handleChangeCurrency?: (values: OptionSelectField) => void
+  logout: () => Promise<void>
 }
 
 export const Header = (props: HeaderProps) => {
-  const { openMenu, navigation, currency, currencies, path, handleOpenMenu, handleChangeCurrency } = props
+  const {
+    openMenu,
+    session,
+    navigation,
+    userMenu,
+    currency,
+    currencies,
+    path,
+
+    handleOpenMenu,
+    handleChangeCurrency,
+    logout,
+  } = props
 
   return (
     <header className="relative bg-white">
@@ -35,12 +52,15 @@ export const Header = (props: HeaderProps) => {
                 className={"bg-white xl:hidden"}
               />
 
-              <HeaderLogo />
+              <div className="flex">
+                <HeaderLogo />
+              </div>
 
               <HeaderNavigation navigation={navigation} path={path} />
             </div>
 
             <div className="ml-auto flex items-center gap-x-4">
+              {/* <div className="hidden md:block">СМЕНА ЯЗЫКА</div> */}
               <SelectSubmit
                 name="currency"
                 options={currencies}
@@ -48,8 +68,6 @@ export const Header = (props: HeaderProps) => {
                 handleChange={handleChangeCurrency}
                 outerProps={{ className: "m-0" }}
               />
-
-              <HeaderAuth path={path} />
 
               {
                 // Cart
@@ -66,6 +84,12 @@ export const Header = (props: HeaderProps) => {
                   <span className="sr-only">items in cart, view bag</span>
                 </a>
               </div>
+
+              {session?.user ? (
+                <HeaderAvatar path={path} session={session} navigation={userMenu} logout={logout} />
+              ) : (
+                <HeaderAuth path={path} />
+              )}
             </div>
           </div>
         </div>

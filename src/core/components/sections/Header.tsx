@@ -94,9 +94,6 @@ export default function Header(props) {
       img: flag,
     }))[0]
   )
-
-  console.log("CurrenciesEnum", Object.values(CurrenciesEnum))
-
   return (
     <header className="bg-white">
       <nav

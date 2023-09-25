@@ -14,6 +14,7 @@ export interface FormProps<S extends z.ZodType<any, any>>
   children?: ReactNode
   /** Text to display in the submit button */
   submitText?: string
+  fullBtn?: boolean
   styles?: string
   schema?: S
   getInstance?: any
@@ -40,6 +41,7 @@ const validate = async (schema) => {
 export function Form<S extends z.ZodType<any, any>>({
   children,
   submitText,
+  fullBtn,
   styles,
   schema,
   initialValues,
@@ -76,7 +78,7 @@ export function Form<S extends z.ZodType<any, any>>({
         ...mutators,
         ...arrayMutators,
       }}
-      render={({ form, handleSubmit, submitting, submitError, values }) => {
+      render={({ form, submitting, submitError, handleSubmit }) => {
         {
           getInstance && getInstance(form)
         }
@@ -86,21 +88,31 @@ export function Form<S extends z.ZodType<any, any>>({
               <Autosave setFieldData={form.mutators.setFieldData} save={form.submit()} />
             )}
             {/* form fields supplied as children are rendered here */}
-            {children}
+            <div className="pb-2">{children}</div>
 
-            {showErrors !== false && submitError && (
-              <div role="alert" style={{ color: "red" }}>
-                {typeof submitError === "object"
-                  ? JSON.stringify(submitError)
-                  : submitError.replace("Error: ", "")}
-              </div>
-            )}
+            <div className="relative flex flex-col pb-8 border-t border-gray-200">
+              {submitText && (
+                <div className="flex justify-end pt-6">
+                  <Button
+                    type={"submit"}
+                    buttonText={submitText}
+                    disabled={submitting}
+                    styles={fullBtn ? "w-full justify-center" : ""}
+                  />
+                </div>
+              )}
 
-            {submitText && (
-              <div className="flex justify-end border-t border-gray-200 pt-6">
-                <Button type={"submit"} buttonText={submitText} disabled={submitting} />
-              </div>
-            )}
+              {showErrors !== false && submitError && (
+                <div
+                  role="alert"
+                  className="absolute top-[72px] text-sm text-red-500 self-center text-center"
+                >
+                  {typeof submitError === "object"
+                    ? JSON.stringify(submitError)
+                    : submitError.replace("Error: ", "")}
+                </div>
+              )}
+            </div>
 
             {debug && <pre>{`JSON.stringify(values)`}</pre>}
           </form>

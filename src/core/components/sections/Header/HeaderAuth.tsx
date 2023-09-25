@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Routes } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
 import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
@@ -13,34 +14,35 @@ export const HeaderAuth = (props: HeaderAuthProps) => {
 
   const { t } = useTranslation(["translation"])
 
+  const loginHref = Routes.LoginPage().href
+  const signupHref = Routes.SignupPage().href
+
   return (
     <div
       className={`${
         isMenu
-          ? "flex flex-row space-x-4 items-center self-center lg:hidden"
-          : "hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-4"
+          ? "flex flex-row space-x-4 items-center self-center md:hidden"
+          : "hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-4"
       }`}
     >
-      {path !== "/login" && (
-        <Link href={"/login"}>
+      {path !== loginHref && (
+        <Link href={loginHref}>
           <Button
             variant={"secondary"}
             buttonText={t("translation:menu.login")}
-            className={"ring-transparent"}
+            styles={"ring-transparent shadow-none"}
           />
         </Link>
       )}
-
-      {!(path === "/login" || path === "/signup") && (
+      {!(path === loginHref || path === signupHref) && (
         <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
       )}
-
-      {path !== "/signup" && (
-        <Link href={"/signup"}>
+      {path !== signupHref && (
+        <Link href={signupHref}>
           <Button
             variant={"soft"}
             buttonText={t("translation:menu.signup")}
-            className={"bg-transparent shadow-none"}
+            styles={"bg-transparent shadow-none"}
           />
         </Link>
       )}

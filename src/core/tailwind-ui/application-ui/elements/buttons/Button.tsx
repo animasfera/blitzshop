@@ -1,5 +1,3 @@
-import React from "react"
-
 interface ButtonProps {
   buttonText?: string
   type?: "button" | "submit" | "reset"
@@ -10,7 +8,7 @@ interface ButtonProps {
   endIcon?: JSX.Element
   rounded?: boolean
   disabled?: boolean
-  className?: string
+  styles?: string
   handleClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
@@ -25,7 +23,7 @@ export const Button = (props: ButtonProps) => {
     endIcon,
     rounded = false,
     disabled,
-    className,
+    styles,
     handleClick,
   } = props
 
@@ -57,10 +55,10 @@ export const Button = (props: ButtonProps) => {
     <button
       type={type}
       className={`
+      ${styles}
         inline-flex items-center gap-x-1.5 font-semibold
         ${variantBtn[variant]} ${sizeBtn[size]}
         ${disabled ? "cursor-not-allowed" : "cursor-pointer"}
-        ${className}
       `}
       onClick={handleClick}
       disabled={disabled}

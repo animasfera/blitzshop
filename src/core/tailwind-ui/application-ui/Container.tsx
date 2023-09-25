@@ -11,8 +11,11 @@ export const Container = (props: ContainerProps) => {
 
   return (
     <div
-      className={`container mx-auto px-4 ${size === "sm" ? "max-w-3xl" : "sm:px-6 lg:px-8"}
-      ${styles ?? ""}`}
+      className={`
+      mx-auto px-4 pb-12
+      ${size === "sm" ? "max-w-3xl" : "sm:px-6 lg:px-8"}
+      ${styles ?? ""}
+      `}
     >
       {children}
     </div>
