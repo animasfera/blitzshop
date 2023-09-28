@@ -7,7 +7,7 @@ interface Converter {
   amount: number
 }
 
-const converter = async ({ from, to, amount }: Converter) => {
+export const converter = async ({ from, to, amount }: Converter) => {
   const res = await axios.get(
     `https://api.apilayer.com/fixer/convert?to=${to}&from=${from}&amount=${amount}`,
     { headers: { apikey: process.env.CONVERTER_API_KEY || "" } }
