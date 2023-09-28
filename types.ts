@@ -1,6 +1,7 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
 import {
   Cart,
+  CartToItem,
   Category,
   ChatRoom,
   CountryFilterEnum,
@@ -64,9 +65,9 @@ export type UserMailProps = Partial<User> & Pick<User, "email" | "id" | "usernam
 export type ItemFull = Item & {
   _count: Prisma.ItemCountOutputType
   amount: Price
+  cartToItems: CartToItem[]
   category: Category | null
   coverImage: ImageToItem & { image: Image }
-  cart: Cart | null
   chatRoom: ChatRoom | null
   images: ImageToItem[]
   invoices: Invoice[]
