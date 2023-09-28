@@ -58,16 +58,29 @@ export default resolver.pipe(
         where: { cartId: cart.id },
         include: { item: { include: { amount: true } } },
       })
-      const cartData = cartToItems.reduce((obj: { qty?: number; amount?: number }, item) => {
+      const cartData = cartToItems.reduce((obj: { qty?: number }, item) => {
         return {
           qty: (obj.qty ?? 0) + item.qty,
-          amount: (obj.amount ?? 0) + (newPrice?.amount ?? 0),
         }
       }, {})
 
+      let resAmount: number = 0
+
+      for (let i = 0; i < cartToItems.length; i++) {
+        const reaAmount = cartToItems[i]?.item.amount.amount ?? 0
+        const resCurrency = cartToItems[i]?.item.amount.currency ?? CurrencyEnum.USD
+        const resRate = await converter({
+          from: resCurrency,
+          to: currency,
+          amount: reaAmount,
+        })
+
+        resAmount = resAmount + resRate
+      }
+
       const res = await db.price.update({
         where: { id: cart.amountId },
-        data: { amount: cartData.amount, currency },
+        data: { amount: resAmount, currency }, // cartData.amount
       })
 
       cart = await db.cart.update({

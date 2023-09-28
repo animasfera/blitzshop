@@ -17,11 +17,14 @@ export default resolver.pipe(
     let cart: (Cart & { cartToItems: CartToItem[] }) | null
 
     if (userId) {
-      cart = await db.cart.findFirst({ where: { userId }, include: { cartToItems: true } })
+      cart = await db.cart.findFirst({
+        where: { userId },
+        include: { cartToItems: true, amount: true },
+      })
     } else if (ctx.session.$handle) {
       cart = await db.cart.findFirst({
         where: { sessionId: ctx.session.$handle },
-        include: { cartToItems: true },
+        include: { cartToItems: true, amount: true },
       })
     } else {
       throw new Error("Please provide either sessionId or userId to get a cart")

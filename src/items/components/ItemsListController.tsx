@@ -11,7 +11,7 @@ import addProductToCart from "src/carts/mutations/addProductToCart"
 import getItems from "src/items/queries/getItems"
 import getCart from "src/carts/queries/getCart"
 
-const ITEMS_PER_PAGE = 24
+const ITEMS_PER_PAGE = 48
 
 export const ItemsListController = () => {
   const [isLoading, setLoading] = useState(false)
@@ -29,7 +29,6 @@ export const ItemsListController = () => {
 
   const handleClick = async (item: Item & { amount: Price }) => {
     setLoading(true)
-    console.log("item", item.amount)
 
     const sessionId = localStorage.getItem("sessionId")
 
@@ -50,7 +49,6 @@ export const ItemsListController = () => {
       localStorage.setItem("sessionId", res.sessionId)
     }
 
-    console.log("res", res)
     setLoading(false)
   }
 
