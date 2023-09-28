@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { CurrencyEnum } from "db"
 import { CartModel } from "db/zod"
 
 export const CreateCartSchema = CartModel.pick({
@@ -16,4 +17,16 @@ export const UpdateCartSchema = z.object({
 
 export const DeleteCartSchema = z.object({
   id: z.number(),
+})
+
+export const AddProductToCartSchema = CartModel.pick({
+  sessionId: true,
+  userId: true,
+}).extend({
+  itemId: z.number(),
+  price: z.object({
+    amount: z.number().int(),
+    currency: z.nativeEnum(CurrencyEnum),
+  }),
+  currency: z.nativeEnum(CurrencyEnum),
 })

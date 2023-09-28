@@ -8,11 +8,7 @@ export const ProductsPage = () => {
   const { t } = useTranslation(["pages.products"])
 
   return (
-    <Layout
-      title={t("title")}
-      // max-w-screen-xl
-      styles={"mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"}
-    >
+    <Layout title={t("title")} styles={"mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"}>
       <Loading>
         <ItemsListController />
       </Loading>
