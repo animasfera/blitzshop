@@ -1,6 +1,7 @@
 {
   "title": "Products",
   "buttons": {
-    "add": "Add to cart"
+    "add": "Add to cart",
+    "remove": "Remove from cart"
   }
 }
