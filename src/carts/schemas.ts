@@ -19,6 +19,13 @@ export const DeleteCartSchema = z.object({
   id: z.number(),
 })
 
+export const MergedCart = CartModel.pick({
+  sessionId: true,
+  userId: true,
+}).extend({
+  currency: z.nativeEnum(CurrencyEnum),
+})
+
 export const AddProductToCartSchema = CartModel.pick({
   sessionId: true,
   userId: true,
