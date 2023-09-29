@@ -4,16 +4,12 @@ import {
   CartToItem,
   Category,
   ChatRoom,
-  CountryFilterEnum,
-  CurrencyEnum,
   Image,
   ImageToItem,
   Invoice,
   Item,
-  LocaleEnum,
   Location,
   Message,
-  PaymentMethod,
   Price,
   Prisma,
   PrismaClient,
@@ -81,3 +77,5 @@ export type ChatRoomWithFirstMessage = ChatRoom & {
   users: (UserToChatRoom & { user: UserCardProps })[]
   messages: (Message & { sender: UserMain })[]
 }
+
+export type CartWithCartToItem = Cart & { amount: Price; cartToItems: CartToItem[] }

@@ -26,6 +26,7 @@ interface HeaderControllerProps {
 
 export const HeaderController = (props: HeaderControllerProps) => {
   const { path } = props
+  const sessionId = localStorage.getItem("sessionId")
 
   const currencies: CurrencyOption[] = CurrenciesArray.map(({ name, flag }) => ({
     label: name,
@@ -36,7 +37,10 @@ export const HeaderController = (props: HeaderControllerProps) => {
   const { t } = useTranslation(["translation"])
   const router = useRouter()
   const session = useSession()
-  const [cart] = useQuery(getCart, { userId: session?.userId ?? undefined })
+  const [cart] = useQuery(getCart, {
+    userId: session?.userId ?? undefined,
+    sessionId: !session?.userId && sessionId ? sessionId : undefined,
+  })
   const [logoutMutation] = useMutation(logout)
 
   const { currency, setCurrency } = useCurrency()

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useSession } from "@blitzjs/auth"
 import { usePaginatedQuery, useMutation, useQuery, invalidateQuery } from "@blitzjs/rpc"
-import { ImageToItem, Image, Item, Price } from "db"
+import { Item, Price } from "db"
 
 import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage"
 import { ItemsList } from "src/items/components/ItemsList"
@@ -14,12 +14,19 @@ import getCart from "src/carts/queries/getCart"
 const ITEMS_PER_PAGE = 48
 
 export const ItemsListController = () => {
+  const sessionId = localStorage.getItem("sessionId")
+
   const [isLoading, setLoading] = useState(false)
   const session = useSession()
   const currency = useCurrency()
   const [addProductToCartMutation] = useMutation(addProductToCart)
-  const [cart] = useQuery(getCart, { userId: session?.userId ?? undefined })
+  const [cart] = useQuery(getCart, {
+    userId: session?.userId ?? undefined,
+    sessionId: !session?.userId && sessionId ? sessionId : undefined,
+  })
   const pagination = usePagination()
+
+  console.log("cart", cart)
 
   const [{ items, hasMore, count }] = usePaginatedQuery(getItems, {
     orderBy: { id: "asc" },
@@ -30,9 +37,8 @@ export const ItemsListController = () => {
   const handleClick = async (item: Item & { amount: Price }) => {
     setLoading(true)
 
-    const sessionId = localStorage.getItem("sessionId")
-
     const res = await addProductToCartMutation({
+      userId: session.userId,
       sessionId: sessionId ?? null,
       itemId: item.id,
       price: {
@@ -42,12 +48,14 @@ export const ItemsListController = () => {
       currency: currency.currency.name,
     })
 
-    await invalidateQuery(getCart)
+    console.log("res", res)
 
     if (!session.user && res?.sessionId) {
       // client: save sessionId in localstorage if user unauth
       localStorage.setItem("sessionId", res.sessionId)
     }
+
+    await invalidateQuery(getCart)
 
     setLoading(false)
   }

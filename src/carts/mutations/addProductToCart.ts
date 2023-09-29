@@ -1,35 +1,28 @@
 import { resolver } from "@blitzjs/rpc"
-import db, { Cart, CartToItem, CurrencyEnum, Item, Price } from "db"
+import db, { CartToItem, CurrencyEnum, Item, Price } from "db"
+import { CartWithCartToItem } from "types"
 
 import { converter } from "src/core/converter"
+import { mergedCart } from "src/carts/mutations/mergedCart"
 
-// CreateCartSchema
 import { AddProductToCartSchema } from "../schemas"
+
+const includeCart = { amount: true, cartToItems: { include: { item: true } } }
 
 export default resolver.pipe(
   resolver.zod(AddProductToCartSchema),
-  async ({ sessionId, itemId, price, currency }, ctx) => {
+  async ({ userId, sessionId, itemId, price, currency }, ctx) => {
+    let cart: CartWithCartToItem | null = null
+    let cartToItem: CartToItem & { item: Item }
+    let newPrice: Price | null
+    const fxRate = await converter({ from: price.currency, to: currency, amount: price.amount })
+
     try {
-      // console.log("ctx isAuthorized", ctx.session.$isAuthorized())
-      // isAuthorized: ctx session trxyWASgY4LoOYP4dEbY7lolGKWWvYFo:ajwt
-      // !isAuthorized: ctx session jxmwXDrKwoHC3WuTlabLayww3AWa7-tn:ots
-
-      if (ctx.session.$isAuthorized()) {
-        console.log("ctx session", ctx.session.$handle)
-
-        // TODO: add add to cart products for authorized user
-        // return ctx.session.$handle
-      }
-
-      // add a product to cart if the user is unauthorized
-      let cart: (Cart & { cartToItems: CartToItem[] }) | null = null
-      let cartToItem: CartToItem & { item: Item }
-      let newPrice: Price | null
-      const fxRate = await converter({ from: price.currency, to: currency, amount: price.amount })
-
-      cart = await db.cart.findFirst({
-        where: { sessionId: sessionId ?? ctx.session.$handle },
-        include: { cartToItems: { include: { item: true } } },
+      cart = await mergedCart({
+        userId,
+        sessionId: sessionId ?? ctx.session.$handle,
+        currency,
+        ctx,
       })
 
       if (!cart) {
@@ -37,7 +30,7 @@ export default resolver.pipe(
 
         cart = await db.cart.create({
           data: { sessionId: ctx.session.$handle, amountId: newPrice.id },
-          include: { cartToItems: { include: { item: true } } },
+          include: includeCart,
         })
       }
 
@@ -86,7 +79,7 @@ export default resolver.pipe(
       cart = await db.cart.update({
         where: { id: cart.id },
         data: { numItems: cartData.qty ?? 0 },
-        include: { cartToItems: { include: { item: true } } },
+        include: includeCart,
       })
 
       return cart
