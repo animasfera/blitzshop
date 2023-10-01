@@ -1,5 +1,7 @@
+import { useTranslation } from "react-i18next"
 import { Category, Image, ImageToItem, Item as ItemDb, Price, Prisma, Review, User } from "db"
 
+import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 import { ItemImages } from "src/items/components/ItemImages"
 import { ItemTitle } from "src/items/components/ItemTitle"
 import { ItemPrice } from "src/items/components/ItemPrice"
@@ -22,10 +24,16 @@ interface ItemProps {
       sender: User
     })[]
   }
+  isExistItem: boolean
+  isLoading: boolean
+
+  handleAddProductToCart: () => Promise<void>
 }
 
 export const Item = (props: ItemProps) => {
-  const { item } = props
+  const { item, isExistItem, isLoading, handleAddProductToCart } = props
+
+  const { t } = useTranslation(["pages.products"])
 
   return (
     <div className="bg-white">
@@ -50,19 +58,15 @@ export const Item = (props: ItemProps) => {
             />
 
             <div className="mt-8 lg:col-span-5">
-              <form>
-                {
-                  // TODO: create in src/core/components/buttons/ButtonMain
-                }
-                <button
-                  // type="submit"
-                  type="button"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Add to cart
-                </button>
-              </form>
-
+              <Button
+                type={"submit"}
+                variant={isExistItem ? "soft" : "primary"}
+                size={"xl"}
+                buttonText={isExistItem ? t("buttons.remove") : t("buttons.add")}
+                disabled={isLoading}
+                styles={"w-full justify-center"}
+                handleClick={handleAddProductToCart}
+              />
               <ItemDetails item={item} />
 
               <ItemPolicies />

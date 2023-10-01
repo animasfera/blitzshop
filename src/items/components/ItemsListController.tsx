@@ -26,8 +26,6 @@ export const ItemsListController = () => {
   })
   const pagination = usePagination()
 
-  console.log("cart", cart)
-
   const [{ items, hasMore, count }] = usePaginatedQuery(getItems, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * pagination.page,
@@ -47,8 +45,6 @@ export const ItemsListController = () => {
       },
       currency: currency.currency.name,
     })
-
-    console.log("res", res)
 
     if (!session.user && res?.sessionId) {
       // client: save sessionId in localstorage if user unauth
