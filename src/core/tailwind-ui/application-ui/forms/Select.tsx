@@ -56,8 +56,6 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
     handleChange,
   } = props
 
-  console.log("props", props)
-
   const { t } = useTranslation(["translation"])
 
   return (
@@ -86,8 +84,9 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
             <div className="relative mt-2">
               <Listbox.Button
                 className={`
-                  relative w-full cursor-pointer rounded-md bg-white py-1.5 pl-3
+                  relative w-full rounded-md bg-white py-1.5 pl-3
                   pr-10 text-left shadow-sm ring-1 ring-inset focus:ring-2
+                  ${disabled ? "cursor-no-drop" : "cursor-pointer"}
                   ${
                     showError
                       ? `text-red-900 ring-red-300 focus:ring-red-500 focus-visible:ring-red-500

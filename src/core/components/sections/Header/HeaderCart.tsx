@@ -20,7 +20,7 @@ export const HeaderCart = (props: HeaderCartProps) => {
           startIcon={
             <ShoppingBagIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
           }
-          buttonText={`${cart?.numItems ?? 0}`}
+          buttonText={cart?.cartToItems.length ?? 0}
           styles={"bg-transparent"}
         />
         <span className="sr-only">items in cart, view bag</span>

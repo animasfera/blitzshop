@@ -1,5 +1,5 @@
 interface ButtonProps {
-  buttonText?: string
+  buttonText?: string | number
   type?: "button" | "submit" | "reset"
   variant?: "primary" | "secondary" | "soft"
   theme?: "dark"
