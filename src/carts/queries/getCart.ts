@@ -1,5 +1,5 @@
 import { resolver } from "@blitzjs/rpc"
-import db, { Cart, CartToItem } from "db"
+import db, { Cart, CartToItem, Image, ImageToItem, Item, Price } from "db"
 import { z } from "zod"
 
 const GetCart = z.object({
@@ -10,17 +10,43 @@ const GetCart = z.object({
 
 export default resolver.pipe(resolver.zod(GetCart), async ({ userId, sessionId }, ctx) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  let cart: (Cart & { cartToItems: CartToItem[] }) | null
+  let cart:
+    | (Cart & {
+        amount: Price
+        cartToItems: (CartToItem & {
+          item: Item & {
+            amount: Price
+            coverImage: ImageToItem & {
+              image: Image
+            }
+          }
+        })[]
+      })
+    | null
 
   if (userId) {
     cart = await db.cart.findFirst({
       where: { userId },
-      include: { cartToItems: true, amount: true },
+      include: {
+        cartToItems: {
+          include: {
+            item: { include: { amount: true, coverImage: { include: { image: true } } } },
+          },
+        },
+        amount: true,
+      },
     })
   } else if (sessionId || ctx.session.$handle) {
     cart = await db.cart.findFirst({
       where: { sessionId: sessionId ?? ctx.session.$handle },
-      include: { cartToItems: true, amount: true },
+      include: {
+        cartToItems: {
+          include: {
+            item: { include: { amount: true, coverImage: { include: { image: true } } } },
+          },
+        },
+        amount: true,
+      },
     })
   } else {
     throw new Error("Please provide either sessionId or userId to get a cart")
