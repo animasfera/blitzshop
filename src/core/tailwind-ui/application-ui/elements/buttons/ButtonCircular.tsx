@@ -1,3 +1,5 @@
+import React from "react"
+
 interface ButtonCircularProps {
   type?: "button" | "submit" | "reset"
   variant?: "primary" | "secondary" | "soft"

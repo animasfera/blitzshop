@@ -1,7 +1,7 @@
 interface ButtonProps {
   buttonText?: string
   type?: "button" | "submit" | "reset"
-  variant?: "primary" | "secondary" | "soft"
+  variant?: "primary" | "secondary" | "soft" | "link"
   theme?: "dark"
   size?: "xs" | "sm" | "md" | "lg" | "xl"
   startIcon?: JSX.Element
@@ -49,6 +49,7 @@ export const Button = (props: ButtonProps) => {
           : "bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
       }`,
     soft: "bg-indigo-50 text-indigo-600 hover:bg-indigo-100",
+    link: "text-indigo-600 hover:text-indigo-500 shadow-none",
   }
 
   return (

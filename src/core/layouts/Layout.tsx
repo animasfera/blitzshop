@@ -3,7 +3,7 @@ import React, { useEffect } from "react"
 import { BlitzLayout } from "@blitzjs/next"
 
 import i18n from "src/core/i18n"
-import Container from "src/core/tailwind-ui/application-ui/Container"
+import { Container } from "src/core/tailwind-ui/application-ui/Container"
 
 interface LayoutProps {
   title?: string
