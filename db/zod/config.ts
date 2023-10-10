@@ -15,8 +15,6 @@ export interface CompleteConfig extends z.infer<typeof ConfigModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedConfigModel: z.ZodSchema<CompleteConfig> = z.lazy(() =>
-  ConfigModel.extend({
-    users: RelatedUserModel.array(),
-  })
-)
+export const RelatedConfigModel: z.ZodSchema<CompleteConfig> = z.lazy(() => ConfigModel.extend({
+  users: RelatedUserModel.array(),
+}))

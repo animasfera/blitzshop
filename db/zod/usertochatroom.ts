@@ -1,13 +1,6 @@
 import * as z from "zod"
 import { UserRoleEnum } from "@prisma/client"
-import {
-  CompleteUser,
-  RelatedUserModel,
-  CompleteChatRoom,
-  RelatedChatRoomModel,
-  CompleteMessage,
-  RelatedMessageModel,
-} from "./index"
+import { CompleteUser, RelatedUserModel, CompleteChatRoom, RelatedChatRoomModel, CompleteMessage, RelatedMessageModel } from "./index"
 
 export const UserToChatRoomModel = z.object({
   numUnread: z.number().int(),
@@ -28,10 +21,8 @@ export interface CompleteUserToChatRoom extends z.infer<typeof UserToChatRoomMod
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedUserToChatRoomModel: z.ZodSchema<CompleteUserToChatRoom> = z.lazy(() =>
-  UserToChatRoomModel.extend({
-    user: RelatedUserModel,
-    room: RelatedChatRoomModel,
-    lastReadMessage: RelatedMessageModel.nullish(),
-  })
-)
+export const RelatedUserToChatRoomModel: z.ZodSchema<CompleteUserToChatRoom> = z.lazy(() => UserToChatRoomModel.extend({
+  user: RelatedUserModel,
+  room: RelatedChatRoomModel,
+  lastReadMessage: RelatedMessageModel.nullish(),
+}))

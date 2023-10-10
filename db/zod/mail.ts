@@ -6,9 +6,7 @@ import { CompleteMailReceiver, RelatedMailReceiverModel } from "./index"
 type Literal = boolean | number | string
 type Json = Literal | { [key: string]: Json } | Json[]
 const literalSchema = z.union([z.string(), z.number(), z.boolean()])
-const jsonSchema: z.ZodSchema<Json> = z.lazy(() =>
-  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
-)
+const jsonSchema: z.ZodSchema<Json> = z.lazy(() => z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]))
 
 export const MailModel = z.object({
   id: z.number().int(),
@@ -35,8 +33,6 @@ export interface CompleteMail extends z.infer<typeof MailModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedMailModel: z.ZodSchema<CompleteMail> = z.lazy(() =>
-  MailModel.extend({
-    receiverType: RelatedMailReceiverModel.nullish(),
-  })
-)
+export const RelatedMailModel: z.ZodSchema<CompleteMail> = z.lazy(() => MailModel.extend({
+  receiverType: RelatedMailReceiverModel.nullish(),
+}))
