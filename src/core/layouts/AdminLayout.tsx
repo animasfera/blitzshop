@@ -1,67 +1,43 @@
-/*
 import Head from "next/head"
-import { useRouter } from "next/router"
+import React, { useEffect } from "react"
+import { BlitzLayout } from "@blitzjs/next"
+
+import i18n from "src/core/i18n"
+import { Container } from "src/core/tailwind-ui/application-ui/Container"
 import { useSession } from "@blitzjs/auth"
-import { BlitzLayout, Routes } from "@blitzjs/next"
-import { Box } from "@chakra-ui/react"
-import { UserRoleEnum } from "@prisma/client"
+import {
+  BellIcon,
+  CreditCardIcon,
+  CubeIcon,
+  FingerPrintIcon,
+  UserCircleIcon,
+  UsersIcon,
+} from "@heroicons/react/24/outline"
+import AdminSidebar from "../tailwind-ui/application-ui/admin/AdminSidebar"
+interface AdminLayoutProps {
+  title?: string
+  styles?: string
+  children?: React.ReactNode
+}
+const navigation = [{ name: "Dashboard", href: "#", icon: UserCircleIcon, current: true }]
 
-import AdminSidebar from "src/core/components/sections/AdminSidebar"
-import { Loading } from "src/core/components/Loading"
-
-const AdminLayout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
-  title,
-  children,
-}) => {
-  const session = useSession()
-  const router = useRouter()
-
-
-  if (session.role !== UserRoleEnum.ADMIN) {
-    // void router.push(Routes.Home())
-  }
+export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
+  const { title, styles, children } = props
+  const session = useSession({ suspense: false })
+  useEffect(() => {
+    // @ts-ignore
+    document.documentElement.lang = i18n.resolvedLanguage?.toUpperCase()
+  }, [])
 
   return (
     <>
       <Head>
-        <title>{title || "shop"}</title>
+        <title>{title || "Administration"}</title>
+        <link rel="icon" href="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" />
       </Head>
-
-     <AdminSidebar>
-      <Box maxW={"container.xl"} pt={4} pb={12} pl={6} pr={4}>
-        <Loading>{children}</Loading>
-      </Box>
-      </AdminSidebar>
+      {session.role === "ADMIN" ? <AdminSidebar>{children}</AdminSidebar> : <p>Admin only</p>}
     </>
   )
 }
-*/
 
-import Head from "next/head"
-import React, { useEffect, FC } from "react"
-import { BlitzLayout } from "@blitzjs/next"
-import { Box, Container } from "@chakra-ui/react"
-
-import { Loading } from "src/core/components/Loading"
-import i18n from "../i18n"
-
-const AdminLayout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
-  title,
-  children,
-}) => {
-  return (
-    <Box>
-      <Head>
-        <title>{title || "shop"}</title>
-        {
-          // <link rel="icon" href="/favicon.ico" />
-        }
-      </Head>
-
-      <Loading>{children}</Loading>
-    </Box>
-  )
-}
-
-// AdminLayout.authenticate = true
 export default AdminLayout
