@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { useCurrentUser } from "../../hooks/useCurrentUser"
+import { useEffect, useState } from "react"
 
 let navigation = {
   social: [
@@ -69,12 +69,18 @@ let navigation = {
 
 export default function Footer(props) {
   const { t } = useTranslation(["translation"])
-
   navigation.main = [
     { name: t("translation:menu.products"), href: "/products" },
     { name: t("translation:menu.shipping"), href: "/shipping" },
     { name: t("translation:menu.contacts"), href: "/contacts" },
   ]
+  const [mainNavigation, setMainNavigation] = useState<any>([{}])
+  const [navigationSocial, setNavigationSocial] = useState<any>(navigation.social)
+
+  useEffect(() => {
+    setMainNavigation(navigation.main)
+    setNavigationSocial(navigation.social)
+  }, [])
 
   return (
     <footer className="bg-gray-900">
@@ -83,8 +89,8 @@ export default function Footer(props) {
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
           aria-label="Footer"
         >
-          {navigation.main.map((item) => (
-            <div key={item.name} className="pb-6">
+          {mainNavigation.map((item, i) => (
+            <div key={i} className="pb-6">
               <a href={item.href} className="text-sm leading-6 text-gray-600 hover:text-gray-900">
                 {item.name}
               </a>
@@ -92,8 +98,8 @@ export default function Footer(props) {
           ))}
         </nav>
         <div className="mt-10 flex justify-center space-x-10">
-          {navigation.social.map((item) => (
-            <a key={item.name} href={item.href} className="text-gray-400 hover:text-gray-500">
+          {navigationSocial.map((item, i) => (
+            <a key={i} href={item.href} className="text-gray-400 hover:text-gray-500">
               <span className="sr-only">{item.name}</span>
               <item.icon className="h-6 w-6" aria-hidden="true" />
             </a>
