@@ -32,6 +32,7 @@ export default resolver.pipe(resolver.zod(GetCart), async (input, ctx) => {
           include: {
             item: { include: { amount: true, coverImage: { include: { image: true } } } },
           },
+          take: 250,
         },
         amount: true,
       },
