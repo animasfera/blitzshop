@@ -16,7 +16,10 @@ export default resolver.pipe(
   ),
   resolver.authorize(),
   async ({ unloggedCartId }, ctx: Ctx) => {
+    // get unlogged cart
     const currentCart = await getCart({}, ctx)
+
+    // move items from unlogged to logged
     await db.cartToItem.updateMany({
       where: {
         cartId: unloggedCartId,
@@ -25,6 +28,8 @@ export default resolver.pipe(
         cartId: currentCart.id,
       },
     })
+
+    // update cart item counter
     const numItems = await db.cartToItem.count({
       where: {
         cartId: currentCart.id,
@@ -36,6 +41,9 @@ export default resolver.pipe(
         numItems,
       },
     })
+
+    // delete unlogged cart
+    await db.cart.delete({ where: { id: unloggedCartId } })
 
     return await getCart({}, ctx)
   }
