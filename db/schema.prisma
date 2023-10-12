@@ -272,8 +272,6 @@ model Item {
   coverImageId   Int
   user           User?           @relation(fields: [userId], references: [id])
   userId         Int?
-  cart           Cart?           @relation(fields: [cartId], references: [id])
-  cartId         Int?
   location       Location?       @relation(fields: [locationId], references: [id])
   locationId     Int?
   chatRoom       ChatRoom?       @relation(fields: [chatRoomId], references: [id])
@@ -282,20 +280,31 @@ model Item {
   reviews        Review[]
   purchasedItems PurchasedItem[]
   invoices       Invoice[]
+  cartToItems    CartToItem[]
+}
+
+model CartToItem {
+  id     Int  @id @default(autoincrement())
+  qty    Int  @default(1)
+  item   Item @relation(fields: [itemId], references: [id])
+  itemId Int
+  cart   Cart @relation(fields: [cartId], references: [id])
+  cartId Int
+  @@unique([cartId, itemId])
 }
 
 model Cart {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  numItems     Int      @default(0)
+  id           Int          @id @default(autoincrement())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  numItems     Int          @default(0)
   sessionId    String?
   mergedCartId Int?
-  amount       Price    @relation(fields: [amountId], references: [id])
+  amount       Price        @relation(fields: [amountId], references: [id])
   amountId     Int
-  user         User?    @relation(fields: [userId], references: [id])
+  user         User?        @relation(fields: [userId], references: [id])
   userId       Int?
-  items        Item[]
+  cartToItems  CartToItem[]
 }
 
 model OrderLog {

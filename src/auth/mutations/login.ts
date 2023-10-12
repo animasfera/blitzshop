@@ -4,9 +4,12 @@ import { resolver } from "@blitzjs/rpc"
 import db from "db"
 import { LocaleEnum, UserRoleEnum, UserStatusEnum } from "@prisma/client"
 
-import getConfigs from "src/configs/queries/getConfigs"
-import { LoginProhibitedError } from "src/core/errors/Errors"
 import { Login } from "../schemas"
+import { LoginProhibitedError } from "src/core/errors/Errors"
+import getConfigs from "src/configs/queries/getConfigs"
+import getCart from "../../carts/queries/getCart"
+import createCart from "../../carts/mutations/createCart"
+import mergeCarts from "../../carts/mutations/mergeCarts"
 
 interface AuthenticateUserParams {
   rawEmail: string
@@ -61,29 +64,42 @@ export const authenticateUser = async (params: AuthenticateUserParams, ctx: Ctx)
   return rest
 }
 
-export default resolver.pipe(resolver.zod(Login), async ({ email, password, timezone }, ctx) => {
-  const user = await authenticateUser(
-    { rawEmail: email, rawPassword: password, rawTimezone: timezone },
-    ctx
-  )
+export default resolver.pipe(
+  resolver.zod(Login),
+  async ({ email, password, timezone, sessionId }, ctx) => {
+    let cartUnlogged = await getCart({}, ctx)
 
-  await ctx.session.$create({
-    userId: user.id,
-    role: user.role as UserRoleEnum,
-    timezone: user.timezone || "Etc/Greenwich",
-    user: {
-      id: user.id,
-      role: user.role,
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      avatarUrl: user.avatarUrl,
-      timezone: user.timezone ?? "Etc/Greenwich",
-      locale: user.locale || LocaleEnum.EN,
-      currency: user.currency,
-      buyingInCountries: user.buyingInCountries,
-    },
-  })
+    const user = await authenticateUser(
+      { rawEmail: email, rawPassword: password, rawTimezone: timezone },
+      ctx
+    )
 
-  return user
-})
+    await ctx.session.$create({
+      userId: user.id,
+      role: user.role as UserRoleEnum,
+      timezone: user.timezone || "Etc/Greenwich",
+      user: {
+        id: user.id,
+        role: user.role,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        avatarUrl: user.avatarUrl,
+        timezone: user.timezone ?? "Etc/Greenwich",
+        locale: user.locale || LocaleEnum.EN,
+        currency: user.currency,
+        buyingInCountries: user.buyingInCountries,
+      },
+    })
+
+    let loggedCart = await getCart({ userId: user.id }, ctx)
+    ctx.session.$setPrivateData({
+      cartId: loggedCart.id,
+    })
+    if (cartUnlogged && cartUnlogged.cartToItems.length > 0) {
+      await mergeCarts({ mergeToCartId: loggedCart.id, mergeFromCartId: cartUnlogged.id }, ctx)
+    }
+
+    return user
+  }
+)

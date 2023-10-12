@@ -733,3 +733,25 @@ ALTER TABLE "_ConfigToUser" ADD CONSTRAINT "_ConfigToUser_B_fkey" FOREIGN KEY ("
 
 -- AlterTable
 ALTER TABLE "Item" ADD COLUMN     "color" TEXT;
+
+-- DropForeignKey
+ALTER TABLE "Item" DROP CONSTRAINT "Item_cartId_fkey";
+
+-- AlterTable
+ALTER TABLE "Item" DROP COLUMN "cartId";
+
+-- CreateTable
+CREATE TABLE "CartToItem" (
+    "id" SERIAL NOT NULL,
+    "qty" INTEGER NOT NULL DEFAULT 1,
+    "itemId" INTEGER NOT NULL,
+    "cartId" INTEGER NOT NULL,
+
+    CONSTRAINT "CartToItem_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+ALTER TABLE "CartToItem" ADD CONSTRAINT "CartToItem_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CartToItem" ADD CONSTRAINT "CartToItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

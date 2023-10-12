@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useSession } from "@blitzjs/auth"
-import { useMutation } from "@blitzjs/rpc"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 import { Routes } from "@blitzjs/next"
 import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
@@ -12,6 +12,8 @@ import { HeaderMobileMenu } from "src/core/components/sections/Header/HeaderMobi
 import { CurrenciesArray } from "src/core/enums/CurrenciesEnum"
 import { useCurrency } from "src/core/hooks/useCurrency"
 import logout from "src/auth/mutations/logout"
+import getCart from "src/carts/queries/getCart"
+import { useCart } from "../../../hooks/useCart"
 
 export interface CurrencyOption {
   label: CurrencyEnum
@@ -32,10 +34,12 @@ export const HeaderController = (props: HeaderControllerProps) => {
     img: flag,
   }))
 
-  const [logoutMutation] = useMutation(logout)
   const { t } = useTranslation(["translation"])
   const router = useRouter()
   const session = useSession()
+
+  const { cart, reloadCart } = useCart()
+  const [logoutMutation] = useMutation(logout)
 
   const { currency, setCurrency } = useCurrency()
   const [selectedCurrency, setSelectedCurrency] = useState<CurrencyOption | undefined>(
@@ -88,6 +92,7 @@ export const HeaderController = (props: HeaderControllerProps) => {
         currency={selectedCurrency}
         currencies={currencies}
         path={path}
+        cart={cart}
         handleOpenMenu={handleOpenMenu}
         handleChangeCurrency={handleChangeCurrency}
         logout={handleLogout}

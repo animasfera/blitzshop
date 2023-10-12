@@ -1,20 +1,29 @@
-import Head from "next/head"
-import { ErrorComponent } from "@blitzjs/next"
+"use client"
+import { BlitzPage, Routes } from "@blitzjs/next"
+import { useTranslation } from "react-i18next"
 
-// ------------------------------------------------------
-// This page is rendered if a route match is not found
-// ------------------------------------------------------
-export default function Page404() {
+import { Layout } from "src/core/layouts/Layout"
+import { Loading } from "src/core/components/Loading"
+import { ErrorSection } from "src/core/components/sections/Error/ErrorSection"
+
+export const Page404: BlitzPage = () => {
+  const { t } = useTranslation(["pages.errors"])
+
   const statusCode = 404
-  const title = "This page could not be found"
+
   return (
-    <>
-      <Head>
-        <title>
-          {statusCode}: {title}
-        </title>
-      </Head>
-      <ErrorComponent statusCode={statusCode} title={title} />
-    </>
+    <Layout title={`${statusCode}: ${t("404.header.title")}`}>
+      <Loading>
+        <ErrorSection
+          header={{
+            statusCode,
+            title: t("404.header.title"),
+            message: t("404.header.message"),
+          }}
+        />
+      </Loading>
+    </Layout>
   )
 }
+
+export default Page404

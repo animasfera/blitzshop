@@ -24,9 +24,9 @@ export default resolver.pipe(async ({ where, orderBy, skip = 0, take = 100 }: Ge
         include: {
           _count: true,
           amount: true,
+          cartToItems: true,
           category: true,
           coverImage: { include: { image: true } },
-          cart: true,
           chatRoom: true,
           images: true,
           invoices: true,

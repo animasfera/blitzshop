@@ -1,5 +1,6 @@
 import { ClientSession } from "@blitzjs/auth"
 import { Bars3Icon, ShoppingBagIcon } from "@heroicons/react/24/outline"
+import { Cart, CartToItem } from "db"
 
 import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { ButtonCircular } from "src/core/tailwind-ui/application-ui/elements/buttons/ButtonCircular"
@@ -9,6 +10,7 @@ import { HeaderLogo } from "src/core/components/sections/Header/HeaderLogo"
 import { HeaderAuth } from "src/core/components/sections/Header/HeaderAuth"
 import { HeaderAvatar } from "src/core/components/sections/Header/HeaderAvatar"
 import { CurrencyOption } from "src/core/components/sections/Header/HeaderController"
+import HeaderCart from "./HeaderCart"
 
 interface HeaderProps {
   openMenu: boolean
@@ -18,6 +20,7 @@ interface HeaderProps {
   currency: CurrencyOption | undefined
   currencies: CurrencyOption[]
   path: string
+  cart: (Cart & { cartToItems: CartToItem[] }) | null
 
   handleOpenMenu: (value: boolean) => void
   handleChangeCurrency?: (values: OptionSelectField) => void
@@ -33,6 +36,7 @@ export const Header = (props: HeaderProps) => {
     currency,
     currencies,
     path,
+    cart,
 
     handleOpenMenu,
     handleChangeCurrency,
@@ -48,7 +52,7 @@ export const Header = (props: HeaderProps) => {
               <ButtonCircular
                 variant={"soft"}
                 icon={<Bars3Icon className="h-6 w-6" aria-hidden="true" />}
-                handleClick={() => handleOpenMenu(!openMenu)}
+                onClick={() => handleOpenMenu(!openMenu)}
                 className={"bg-white xl:hidden"}
               />
 
@@ -69,21 +73,7 @@ export const Header = (props: HeaderProps) => {
                 outerProps={{ className: "m-0" }}
               />
 
-              {
-                // Cart
-              }
-              <div className="flow-root">
-                <a href="#" className="group -m-2 flex items-center p-2">
-                  <ShoppingBagIcon
-                    className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                    aria-hidden="true"
-                  />
-                  <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                    0
-                  </span>
-                  <span className="sr-only">items in cart, view bag</span>
-                </a>
-              </div>
+              <HeaderCart cart={cart} />
 
               {session?.user ? (
                 <HeaderAvatar path={path} session={session} navigation={userMenu} logout={logout} />
