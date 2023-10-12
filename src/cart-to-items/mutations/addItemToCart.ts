@@ -12,6 +12,13 @@ export default resolver.pipe(resolver.zod(AddProductToCartSchema), async ({ item
     cartId = cart.id
   }
 
+  let numCartToItems = await db.cartToItem.count({
+    where: { cartId: cartId },
+  })
+  if (numCartToItems > 249) {
+    throw new Error("You have reach the maximum number of items in the cart: 250.")
+  }
+
   const item = await db.item.findUnique({
     where: {
       id: itemId,
@@ -41,7 +48,7 @@ export default resolver.pipe(resolver.zod(AddProductToCartSchema), async ({ item
     include: { item: { include: { amount: true } }, cart: { include: { amount: true } } },
   })
 
-  const numCartToItems = await db.cartToItem.count({
+  numCartToItems = await db.cartToItem.count({
     where: { cartId: cartId },
   })
 
