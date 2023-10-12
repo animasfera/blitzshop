@@ -1,33 +1,34 @@
 import Head from "next/head"
-import React, { useEffect } from "react"
 import { BlitzLayout } from "@blitzjs/next"
-
-import i18n from "src/core/i18n"
-import { Container } from "src/core/tailwind-ui/application-ui/Container"
 import { useSession } from "@blitzjs/auth"
-import {
-  BellIcon,
-  CreditCardIcon,
-  CubeIcon,
-  FingerPrintIcon,
-  UserCircleIcon,
-  UsersIcon,
-} from "@heroicons/react/24/outline"
 import AdminSidebar from "../tailwind-ui/application-ui/admin/AdminSidebar"
+import { HomeIcon } from "@heroicons/react/24/outline"
+import { useRouter } from "next/router"
+import { Routes } from "@blitzjs/next"
 interface AdminLayoutProps {
   title?: string
-  styles?: string
-  children?: React.ReactNode
+  children?: JSX.Element
 }
-const navigation = [{ name: "Dashboard", href: "#", icon: UserCircleIcon, current: true }]
+
+const userNavigation = [
+  { name: "Your profile", href: "#" },
+  { name: "Sign out", href: "#" },
+]
 
 export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
-  const { title, styles, children } = props
+  const router = useRouter()
+  const routerPathname = router.pathname
+  const { title, children } = props
   const session = useSession({ suspense: false })
-  useEffect(() => {
-    // @ts-ignore
-    document.documentElement.lang = i18n.resolvedLanguage?.toUpperCase()
-  }, [])
+
+  const navigation = [
+    {
+      name: "Dashboard",
+      href: Routes.AdminPage().href,
+      icon: HomeIcon,
+      current: routerPathname === Routes.AdminPage().href,
+    },
+  ]
 
   return (
     <>
@@ -35,7 +36,13 @@ export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
         <title>{title || "Administration"}</title>
         <link rel="icon" href="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" />
       </Head>
-      {session.role === "ADMIN" ? <AdminSidebar>{children}</AdminSidebar> : <p>Admin only</p>}
+      {session.user && session.role === "ADMIN" ? (
+        <AdminSidebar userNavigation={userNavigation} navigation={navigation}>
+          {children}
+        </AdminSidebar>
+      ) : (
+        <p>Admin only</p>
+      )}
     </>
   )
 }
