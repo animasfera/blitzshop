@@ -7,7 +7,8 @@ import { LocaleEnum, UserRoleEnum, UserStatusEnum } from "@prisma/client"
 import { Login } from "../schemas"
 import { LoginProhibitedError } from "src/core/errors/Errors"
 import getConfigs from "src/configs/queries/getConfigs"
-import { mergedCart } from "src/carts/mutations/mergedCart"
+import mergeUserCartWithUnlogged from "src/carts/mutations/mergeUserCartWithUnlogged"
+import getCart from "../../carts/queries/getCart"
 
 interface AuthenticateUserParams {
   rawEmail: string
@@ -65,6 +66,8 @@ export const authenticateUser = async (params: AuthenticateUserParams, ctx: Ctx)
 export default resolver.pipe(
   resolver.zod(Login),
   async ({ email, password, timezone, sessionId }, ctx) => {
+    let cartUnlogged = await getCart({}, ctx)
+
     const user = await authenticateUser(
       { rawEmail: email, rawPassword: password, rawTimezone: timezone },
       ctx
@@ -88,12 +91,7 @@ export default resolver.pipe(
       },
     })
 
-    await mergedCart({
-      userId: user.id,
-      sessionId,
-      currency: user.currency,
-      ctx,
-    })
+    await mergeUserCartWithUnlogged({ unloggedCartId: cartUnlogged.id }, ctx)
 
     return user
   }

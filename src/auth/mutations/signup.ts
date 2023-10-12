@@ -15,10 +15,12 @@ import db from "db"
 import i18n from "src/core/i18n"
 import { Signup } from "src/auth/schemas"
 import { ConflictError } from "src/core/errors/Errors"
+import getCart from "../../carts/queries/getCart"
+import mergeUserCartWithUnlogged from "../../carts/mutations/mergeUserCartWithUnlogged"
 
 export default resolver.pipe(
   resolver.zod(Signup),
-  async ({ username, email, password, countryIsoCode, locale, timezone }, ctx?: Ctx | null) => {
+  async ({ username, email, password, countryIsoCode, locale, timezone }, ctx: Ctx) => {
     const hashedPassword = await SecurePassword.hash(password.trim())
     const emailToken = Math.floor(Math.random() * 1000000) + ""
     const hashedToken = hash256(emailToken)
@@ -78,6 +80,8 @@ export default resolver.pipe(
       },
     })
 
+    let cartUnlogged = await getCart({}, ctx)
+
     // TODO: Send the email
 
     if (ctx)
@@ -100,6 +104,7 @@ export default resolver.pipe(
       })
 
     await i18n.changeLanguage(user.locale)
+    await mergeUserCartWithUnlogged({ unloggedCartId: cartUnlogged.id }, ctx)
 
     // TODO: create Notification
 
