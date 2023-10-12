@@ -3,26 +3,19 @@ import { Cart as CartDb, CartToItem, Image, ImageToItem, Item, Price } from "db"
 
 import { HeadingPage } from "src/core/tailwind-ui/headings/HeadingPage"
 import { CartItemsListController } from "src/carts/components/CartItemsListController"
-import { CartOrder } from "src/carts/components/CartOrder"
+import { CartTotal } from "src/carts/components/CartTotal"
+import { cartClient } from "../../core/hooks/useCart"
 
 interface CartProps {
-  cart: CartDb & {
-    amount: Price
-    cartToItems: (CartToItem & {
-      item: Item & {
-        amount: Price
-        coverImage: ImageToItem & { image: Image }
-      }
-    })[]
-  }
+  cart: cartClient
   isLoading: boolean
 
-  handleUpdateCartToItem: ({ id, qty }: { id: number; qty: number }) => Promise<void>
-  handleDeleteCartToItem: (id: number) => Promise<void>
+  onUpdateCartToItem: ({ id, qty }: { id: number; qty: number }) => Promise<void>
+  onDeleteCartToItem: (id: number) => Promise<void>
 }
 
 export const Cart = (props: CartProps) => {
-  const { cart, isLoading, handleUpdateCartToItem, handleDeleteCartToItem } = props
+  const { cart, isLoading, onUpdateCartToItem, onDeleteCartToItem } = props
 
   const { t } = useTranslation(["pages.cart"])
 
@@ -34,11 +27,11 @@ export const Cart = (props: CartProps) => {
         <CartItemsListController
           cart={cart}
           isLoading={isLoading}
-          handleUpdateCartToItem={handleUpdateCartToItem}
-          handleDeleteCartToItem={handleDeleteCartToItem}
+          onUpdateCartToItem={onUpdateCartToItem}
+          onDeleteCartToItem={onDeleteCartToItem}
         />
 
-        <CartOrder cart={cart} isLoading={isLoading} />
+        <CartTotal total={cart.getTotal()} isLoading={isLoading} />
       </div>
     </div>
   )

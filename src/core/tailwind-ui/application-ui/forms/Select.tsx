@@ -31,7 +31,7 @@ export interface SelectProps {
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
 
-  handleChange?: (values: OptionSelectField | OptionSelectField[]) => void
+  onChange?: (values: OptionSelectField | OptionSelectField[]) => void
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
@@ -53,7 +53,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
     outerProps,
     labelProps,
 
-    handleChange,
+    onChange,
   } = props
 
   const { t } = useTranslation(["translation"])
@@ -66,7 +66,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
         name={name ?? input?.name}
         value={selected ?? input?.value}
         defaultValue={defaultValue}
-        onChange={handleChange ?? input?.onChange}
+        onChange={onChange ?? input?.onChange}
         multiple={multiple}
         disabled={disabled}
       >

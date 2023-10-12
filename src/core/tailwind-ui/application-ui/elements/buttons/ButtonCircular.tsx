@@ -7,7 +7,7 @@ interface ButtonCircularProps {
   icon: JSX.Element
   disabled?: boolean
   className?: string
-  handleClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 export const ButtonCircular = (props: ButtonCircularProps) => {
@@ -19,7 +19,7 @@ export const ButtonCircular = (props: ButtonCircularProps) => {
     icon,
     disabled,
     className,
-    handleClick,
+    onClick,
   } = props
 
   const sizeBtn = {
@@ -54,7 +54,7 @@ export const ButtonCircular = (props: ButtonCircularProps) => {
         ${disabled ? "cursor-not-allowed" : "cursor-pointer"}
         ${className}
       `}
-      onClick={handleClick}
+      onClick={onClick}
       disabled={disabled}
     >
       {icon}

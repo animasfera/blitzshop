@@ -5,34 +5,27 @@ import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage
 import { CartItemsList } from "src/carts/components/CartItemsList"
 import { usePagination } from "src/core/hooks/usePagination"
 import getCartToItems from "src/cart-to-items/queries/getCartToItems"
+import { cartClient } from "../../core/hooks/useCart"
 
 interface CartItemsListControllerProps {
-  cart: Cart & {
-    amount: Price
-    cartToItems: (CartToItem & {
-      item: Item & {
-        amount: Price
-        coverImage: ImageToItem & { image: Image }
-      }
-    })[]
-  }
+  cart: cartClient
   isLoading: boolean
 
-  handleUpdateCartToItem: ({ id, qty }: { id: number; qty: number }) => Promise<void>
-  handleDeleteCartToItem: (id: number) => Promise<void>
+  onUpdateCartToItem: ({ id, qty }: { id: number; qty: number }) => Promise<void>
+  onDeleteCartToItem: (id: number) => Promise<void>
 }
 
 const ITEMS_PER_PAGE = 2
 
 export const CartItemsListController = (props: CartItemsListControllerProps) => {
-  const { cart, isLoading, handleUpdateCartToItem, handleDeleteCartToItem } = props
+  const { cart, isLoading, onUpdateCartToItem, onDeleteCartToItem } = props
 
   const pagination = usePagination()
   const [{ cartToItems, hasMore, count }] = usePaginatedQuery(getCartToItems, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * pagination.page,
     take: ITEMS_PER_PAGE,
-    where: { cartId: cart.id },
+    where: { cartId: cart.cart.id },
   })
 
   return (
@@ -48,10 +41,10 @@ export const CartItemsListController = (props: CartItemsListControllerProps) => 
         hasMore={hasMore}
       >
         <CartItemsList
-          cartToItems={cartToItems ?? 0}
+          cartToItems={cartToItems}
           isLoading={isLoading}
-          handleUpdateCartToItem={handleUpdateCartToItem}
-          handleDeleteCartToItem={handleDeleteCartToItem}
+          onUpdateCartToItem={onUpdateCartToItem}
+          onDeleteCartToItem={onDeleteCartToItem}
         />
       </ListOrNotFoundMessage>
     </section>

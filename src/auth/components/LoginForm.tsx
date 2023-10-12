@@ -20,7 +20,6 @@ interface LoginFormProps {
 export const LoginForm = (props: LoginFormProps) => {
   const { onSuccess } = props
 
-  const sessionId = localStorage.getItem("sessionId")
   const [loginMutation] = useMutation(login)
   const [timezone, setTimezone] = useState("")
   const { t, i18n } = useTranslation(["pages.login", "zod"])
@@ -54,7 +53,7 @@ export const LoginForm = (props: LoginFormProps) => {
       initialValues={{ email: "", password: "", timezone: timezone }}
       onSubmit={async (values) => {
         try {
-          const user = await loginMutation({ ...values, sessionId: sessionId ?? undefined })
+          const user = await loginMutation({ ...values })
           void i18n.changeLanguage(user.locale || LocaleEnum.EN)
 
           await invalidateQuery(getCart)

@@ -52,7 +52,7 @@ export const Header = (props: HeaderProps) => {
               <ButtonCircular
                 variant={"soft"}
                 icon={<Bars3Icon className="h-6 w-6" aria-hidden="true" />}
-                handleClick={() => handleOpenMenu(!openMenu)}
+                onClick={() => handleOpenMenu(!openMenu)}
                 className={"bg-white xl:hidden"}
               />
 

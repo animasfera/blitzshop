@@ -26,7 +26,7 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     debug: false,
-    fallbackLng: "EN",
+    fallbackLng: "RU",
     react: { useSuspense: false },
     /*
     resources: {

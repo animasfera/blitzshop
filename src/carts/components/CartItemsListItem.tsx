@@ -18,8 +18,8 @@ interface CartItemsListItemProps {
   }
   isLoading: boolean
 
-  handleUpdateCartToItem: ({ id, qty }: { id: number; qty: number }) => Promise<void>
-  handleDeleteCartToItem: (id: number) => Promise<void>
+  onUpdateCartToItem: ({ id, qty }: { id: number; qty: number }) => Promise<void>
+  onDeleteCartToItem: (id: number) => Promise<void>
 }
 
 // TODO: сделать количество значений в зависимости от количества товара
@@ -38,7 +38,7 @@ const quantityItemsOptions: OptionSelectField[] = [
 ]
 
 export const CartItemsListItem = (props: CartItemsListItemProps) => {
-  const { cartToItem, isLoading, handleUpdateCartToItem, handleDeleteCartToItem } = props
+  const { cartToItem, isLoading, onUpdateCartToItem, onDeleteCartToItem } = props
 
   const [selectedProductsQty, setSelectedProductsQty] = useState<OptionSelectField>(
     quantityItemsOptions.find((el) => cartToItem.qty === el.value) ?? { label: "0", value: 0 }
@@ -60,8 +60,8 @@ export const CartItemsListItem = (props: CartItemsListItemProps) => {
             defaultValue={selectedProductsQty}
             selected={selectedProductsQty}
             options={quantityItemsOptions}
-            handleChange={async (value: { value: number; label: string }) => {
-              await handleUpdateCartToItem({ id: cartToItem.id, qty: value.value })
+            onChange={async (value: { value: number; label: string }) => {
+              await onUpdateCartToItem({ id: cartToItem.id, qty: value.value })
               setSelectedProductsQty(value)
             }}
             disabled={isLoading}
@@ -73,7 +73,7 @@ export const CartItemsListItem = (props: CartItemsListItemProps) => {
             variant={"soft"}
             size={"xs"}
             icon={<XMarkIcon className="h-5 w-5" aria-hidden="true" />}
-            handleClick={async () => handleDeleteCartToItem(cartToItem.id)}
+            onClick={async () => onDeleteCartToItem(cartToItem.id)}
             disabled={isLoading}
           />
         </div>

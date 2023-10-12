@@ -6,12 +6,19 @@ import { CurrencyEnum, Prisma } from "@prisma/client"
 export default resolver.pipe(
   resolver.zod(CreateCartSchema),
   // resolver.authorize(),
-  async (input, ctx) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    // const defaultCart = {{numItems: 0},}
-
+  async ({ userId }, ctx) => {
     const privateSessData = await ctx.session.$getPrivateData()
-    if (ctx.session.$isAuthorized() || privateSessData.cartId) {
+
+    const existingCart = await db.cart.findMany({
+      where: {
+        userId,
+      },
+    })
+    if (
+      existingCart[0] &&
+      privateSessData.cartId &&
+      privateSessData.cartId === existingCart[0].id
+    ) {
       throw new Error("Cart already exists")
     }
 
@@ -23,12 +30,22 @@ export default resolver.pipe(
         },
       },
     } as Prisma.CartCreateInput
-    if (input.userId) {
+    if (userId) {
       data.user = {
-        connect: { id: input.userId },
+        connect: { id: userId },
       }
     }
-    const cart = await db.cart.create({ data })
+    const cart = await db.cart.create({
+      data,
+      include: {
+        cartToItems: {
+          include: {
+            item: { include: { amount: true, coverImage: { include: { image: true } } } },
+          },
+        },
+        amount: true,
+      },
+    })
     ctx.session.$setPrivateData({
       cartId: cart.id,
     })

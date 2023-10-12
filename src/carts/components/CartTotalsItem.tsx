@@ -12,7 +12,7 @@ export interface CartOrderPriceProps {
   styles?: string
 }
 
-export const CartOrderPrice = (props: CartOrderPriceProps) => {
+export const CartTotalsItem = (props: CartOrderPriceProps) => {
   const { title, price, link, size = "sm", border, styles } = props
 
   const sizesCartOrderPrice = {
@@ -46,4 +46,4 @@ export const CartOrderPrice = (props: CartOrderPriceProps) => {
   )
 }
 
-export default CartOrderPrice
+export default CartTotalsItem

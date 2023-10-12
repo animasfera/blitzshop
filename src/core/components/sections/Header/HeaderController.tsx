@@ -13,6 +13,7 @@ import { CurrenciesArray } from "src/core/enums/CurrenciesEnum"
 import { useCurrency } from "src/core/hooks/useCurrency"
 import logout from "src/auth/mutations/logout"
 import getCart from "src/carts/queries/getCart"
+import { useCart } from "../../../hooks/useCart"
 
 export interface CurrencyOption {
   label: CurrencyEnum
@@ -36,7 +37,8 @@ export const HeaderController = (props: HeaderControllerProps) => {
   const { t } = useTranslation(["translation"])
   const router = useRouter()
   const session = useSession()
-  const [cart] = useQuery(getCart, {})
+
+  const { cart, reloadCart } = useCart()
   const [logoutMutation] = useMutation(logout)
 
   const { currency, setCurrency } = useCurrency()

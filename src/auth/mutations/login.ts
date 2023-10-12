@@ -7,8 +7,9 @@ import { LocaleEnum, UserRoleEnum, UserStatusEnum } from "@prisma/client"
 import { Login } from "../schemas"
 import { LoginProhibitedError } from "src/core/errors/Errors"
 import getConfigs from "src/configs/queries/getConfigs"
-import mergeUserCartWithUnlogged from "src/carts/mutations/mergeUserCartWithUnlogged"
 import getCart from "../../carts/queries/getCart"
+import createCart from "../../carts/mutations/createCart"
+import mergeCarts from "../../carts/mutations/mergeCarts"
 
 interface AuthenticateUserParams {
   rawEmail: string
@@ -91,7 +92,13 @@ export default resolver.pipe(
       },
     })
 
-    await mergeUserCartWithUnlogged({ unloggedCartId: cartUnlogged.id }, ctx)
+    let loggedCart = await getCart({ userId: user.id }, ctx)
+    ctx.session.$setPrivateData({
+      cartId: loggedCart.id,
+    })
+    if (cartUnlogged && cartUnlogged.cartToItems.length > 0) {
+      await mergeCarts({ mergeToCartId: loggedCart.id, mergeFromCartId: cartUnlogged.id }, ctx)
+    }
 
     return user
   }
