@@ -1,13 +1,7 @@
-import { ForwardRefExoticComponent } from "react"
 import AdminSidebarMenuItem, { IAdminSidebarMenuItem } from "./AdminSidebarMenuItem"
 
 export interface INavigationAdminSidebar {
-  navigation: {
-    name: string
-    href: string
-    icon?: any
-    current?: boolean
-  }[]
+  navigation: IAdminSidebarMenuItem["item"][]
 }
 
 const AdminSidebarMenu = (props: INavigationAdminSidebar) => {
@@ -29,8 +23,8 @@ const AdminSidebarMenu = (props: INavigationAdminSidebar) => {
           <li>
             <ul role="list" className="-mx-2 space-y-1">
               {navigation.map((item, i) => (
-                <li key={i}>
-                  <AdminSidebarMenuItem key={i} item={item} />
+                <li key={item.name}>
+                  <AdminSidebarMenuItem key={item.name} item={item} />
                 </li>
               ))}
             </ul>

@@ -1,7 +1,4 @@
 import { classNames } from "src/core/helpers/classNames"
-import React, { HTMLAttributes } from "react"
-import { HomeIcon } from "@heroicons/react/24/outline"
-
 export interface IAdminSidebarMenuItem {
   item: {
     name: string
