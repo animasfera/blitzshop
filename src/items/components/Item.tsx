@@ -24,14 +24,13 @@ interface ItemProps {
       sender: User
     })[]
   }
-  isExistItem: boolean
   isLoading: boolean
 
   handleAddProductToCart: () => Promise<void>
 }
 
 export const Item = (props: ItemProps) => {
-  const { item, isExistItem, isLoading, handleAddProductToCart } = props
+  const { item, isLoading, handleAddProductToCart } = props
 
   const { t } = useTranslation(["pages.products"])
 
@@ -60,9 +59,9 @@ export const Item = (props: ItemProps) => {
             <div className="mt-8 lg:col-span-5">
               <Button
                 type={"submit"}
-                variant={isExistItem ? "soft" : "primary"}
+                variant={"primary"}
                 size={"xl"}
-                buttonText={isExistItem ? t("buttons.remove") : t("buttons.add")}
+                buttonText={t("buttons.add")}
                 disabled={isLoading}
                 styles={"w-full justify-center"}
                 handleClick={handleAddProductToCart}

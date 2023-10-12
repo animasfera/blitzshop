@@ -11,25 +11,18 @@ interface ItemsListProps {
       image: Image
     }
   })[]
-  cart: (Cart & { cartToItems: CartToItem[] }) | null
   isLoading: boolean
 
   handleClick: (item: Item & { amount: Price }) => Promise<void>
 }
 
 export const ItemsList = (props: ItemsListProps) => {
-  const { items, cart, isLoading, handleClick } = props
+  const { items, isLoading, handleClick } = props
 
   return (
     <ul className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 px-2">
       {items.map((item) => (
-        <ItemsListItem
-          key={item.id}
-          item={item}
-          cart={cart}
-          isLoading={isLoading}
-          handleClick={handleClick}
-        />
+        <ItemsListItem key={item.id} item={item} isLoading={isLoading} handleClick={handleClick} />
       ))}
     </ul>
   )

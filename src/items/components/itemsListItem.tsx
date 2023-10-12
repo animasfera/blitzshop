@@ -9,18 +9,15 @@ import { ItemsListItemInfo } from "src/items/components/ItemsListItemInfo"
 
 interface ItemsListItemProps {
   item: Item & { amount: Price; coverImage: ImageToItem & { image: Image } }
-  cart: (Cart & { cartToItems: CartToItem[] }) | null
   isLoading: boolean
 
   handleClick: (item: Item & { amount: Price }) => Promise<void>
 }
 
 export const ItemsListItem = (props: ItemsListItemProps) => {
-  const { item, cart, isLoading, handleClick } = props
+  const { item, isLoading, handleClick } = props
 
   const { t } = useTranslation(["pages.products"])
-
-  const isExistItemId = cart ? cart.cartToItems.some((el) => el.itemId === item.id) : false
 
   return (
     <li className="relative flex flex-col gap-2 justify-between">
@@ -29,15 +26,15 @@ export const ItemsListItem = (props: ItemsListItemProps) => {
         <ItemsListItemInfo item={item} />
       </Link>
 
-      <Button
-        buttonText={isExistItemId ? t("buttons.remove") : t("buttons.add")}
-        variant={isExistItemId ? "soft" : "primary"}
-        styles={"w-full justify-center"}
-        disabled={isLoading}
-        handleClick={async () => {
-          await handleClick(item)
-        }}
-      />
+      {/*<Button*/}
+      {/*  buttonText={t("buttons.add")}*/}
+      {/*  variant={"primary"}*/}
+      {/*  styles={"w-full justify-center"}*/}
+      {/*  disabled={isLoading}*/}
+      {/*  handleClick={async () => {*/}
+      {/*    await handleClick(item)*/}
+      {/*  }}*/}
+      {/*/>*/}
     </li>
   )
 }

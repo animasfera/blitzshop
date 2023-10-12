@@ -1,58 +1,34 @@
 import { resolver } from "@blitzjs/rpc"
 import db, { Cart, CartToItem, Image, ImageToItem, Item, Price } from "db"
 import { z } from "zod"
+import createCart from "../mutations/createCart"
+import { NotFoundError } from "blitz"
 
-const GetCart = z.object({
-  // This accepts type of undefined, but is required at runtime
-  userId: z.number().optional(),
-  sessionId: z.string().optional(),
-})
+const GetCart = z.object({})
 
-export default resolver.pipe(resolver.zod(GetCart), async ({ userId, sessionId }, ctx) => {
-  // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  let cart:
-    | (Cart & {
-        amount: Price
-        cartToItems: (CartToItem & {
-          item: Item & {
-            amount: Price
-            coverImage: ImageToItem & {
-              image: Image
-            }
-          }
-        })[]
-      })
-    | null
-
-  if (userId) {
-    cart = await db.cart.findFirst({
-      where: { userId },
-      include: {
-        cartToItems: {
-          include: {
-            item: { include: { amount: true, coverImage: { include: { image: true } } } },
-          },
-        },
-        amount: true,
-      },
-    })
-  } else if (sessionId || ctx.session.$handle) {
-    cart = await db.cart.findFirst({
-      where: { sessionId: sessionId ?? ctx.session.$handle },
-      include: {
-        cartToItems: {
-          include: {
-            item: { include: { amount: true, coverImage: { include: { image: true } } } },
-          },
-        },
-        amount: true,
-      },
-    })
-  } else {
-    throw new Error("Please provide either sessionId or userId to get a cart")
+export default resolver.pipe(resolver.zod(GetCart), async ({}, ctx) => {
+  const privateSessData = await ctx.session.$getPrivateData()
+  let cartId = privateSessData.cartId
+  if (!ctx.session.$isAuthorized() && !cartId) {
+    const cart = await createCart({}, ctx)
+    cartId = cart.id
   }
 
-  if (!cart) return null
+  const cart = await db.cart.findUnique({
+    where: { id: cartId },
+    include: {
+      cartToItems: {
+        include: {
+          item: { include: { amount: true, coverImage: { include: { image: true } } } },
+        },
+      },
+      amount: true,
+    },
+  })
+
+  if (!cart) {
+    throw new NotFoundError("Can't load user cart")
+  }
 
   return cart
 })

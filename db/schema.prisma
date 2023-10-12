@@ -290,6 +290,7 @@ model CartToItem {
   itemId Int
   cart   Cart @relation(fields: [cartId], references: [id])
   cartId Int
+  @@unique([cartId, itemId])
 }
 
 model Cart {
