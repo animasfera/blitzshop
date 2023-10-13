@@ -1,43 +1,6 @@
 import * as z from "zod"
-import {
-  LocaleEnum,
-  UserRoleEnum,
-  UserStatusEnum,
-  CountryFilterEnum,
-  CurrencyEnum,
-} from "@prisma/client"
-import {
-  CompleteLocation,
-  RelatedLocationModel,
-  CompleteToken,
-  RelatedTokenModel,
-  CompleteSession,
-  RelatedSessionModel,
-  CompleteCardToken,
-  RelatedCardTokenModel,
-  CompleteNotification,
-  RelatedNotificationModel,
-  CompleteReview,
-  RelatedReviewModel,
-  CompleteItem,
-  RelatedItemModel,
-  CompleteCart,
-  RelatedCartModel,
-  CompleteOrder,
-  RelatedOrderModel,
-  CompleteShippingAddress,
-  RelatedShippingAddressModel,
-  CompleteRefund,
-  RelatedRefundModel,
-  CompleteTransaction,
-  RelatedTransactionModel,
-  CompleteMessage,
-  RelatedMessageModel,
-  CompleteUserToChatRoom,
-  RelatedUserToChatRoomModel,
-  CompleteConfig,
-  RelatedConfigModel,
-} from "./index"
+import { LocaleEnum, UserRoleEnum, UserStatusEnum, CountryFilterEnum, CurrencyEnum } from "@prisma/client"
+import { CompleteLocation, RelatedLocationModel, CompleteToken, RelatedTokenModel, CompleteSession, RelatedSessionModel, CompleteCardToken, RelatedCardTokenModel, CompleteNotification, RelatedNotificationModel, CompleteReview, RelatedReviewModel, CompleteItem, RelatedItemModel, CompleteCart, RelatedCartModel, CompleteOrder, RelatedOrderModel, CompleteShippingAddress, RelatedShippingAddressModel, CompleteRefund, RelatedRefundModel, CompleteTransaction, RelatedTransactionModel, CompleteMessage, RelatedMessageModel, CompleteUserToChatRoom, RelatedUserToChatRoomModel, CompleteConfig, RelatedConfigModel } from "./index"
 
 export const UserModel = z.object({
   id: z.number().int(),
@@ -85,23 +48,21 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
  *
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
-export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() =>
-  UserModel.extend({
-    location: RelatedLocationModel.nullish(),
-    tokens: RelatedTokenModel.array(),
-    sessions: RelatedSessionModel.array(),
-    cardTokens: RelatedCardTokenModel.array(),
-    notifications: RelatedNotificationModel.array(),
-    reviews: RelatedReviewModel.array(),
-    items: RelatedItemModel.array(),
-    carts: RelatedCartModel.array(),
-    orders: RelatedOrderModel.array(),
-    shippingAddresses: RelatedShippingAddressModel.array(),
-    refundProcessedByUser: RelatedRefundModel.array(),
-    refunds: RelatedRefundModel.array(),
-    transactions: RelatedTransactionModel.array(),
-    messages: RelatedMessageModel.array(),
-    messageRooms: RelatedUserToChatRoomModel.array(),
-    configs: RelatedConfigModel.array(),
-  })
-)
+export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() => UserModel.extend({
+  location: RelatedLocationModel.nullish(),
+  tokens: RelatedTokenModel.array(),
+  sessions: RelatedSessionModel.array(),
+  cardTokens: RelatedCardTokenModel.array(),
+  notifications: RelatedNotificationModel.array(),
+  reviews: RelatedReviewModel.array(),
+  items: RelatedItemModel.array(),
+  carts: RelatedCartModel.array(),
+  orders: RelatedOrderModel.array(),
+  shippingAddresses: RelatedShippingAddressModel.array(),
+  refundProcessedByUser: RelatedRefundModel.array(),
+  refunds: RelatedRefundModel.array(),
+  transactions: RelatedTransactionModel.array(),
+  messages: RelatedMessageModel.array(),
+  messageRooms: RelatedUserToChatRoomModel.array(),
+  configs: RelatedConfigModel.array(),
+}))
