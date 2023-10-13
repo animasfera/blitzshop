@@ -23,9 +23,7 @@ const AdminSidebarMenu = (props: INavigationAdminSidebar) => {
           <li>
             <ul role="list" className="-mx-2 space-y-1">
               {navigation.map((item, i) => (
-                <li key={item.name}>
-                  <AdminSidebarMenuItem key={item.name} item={item} />
-                </li>
+                <AdminSidebarMenuItem key={item.name} item={item} />
               ))}
             </ul>
           </li>
