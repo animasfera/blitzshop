@@ -1,20 +1,21 @@
+"use client"
+import { BlitzPage } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
-import { useSession } from "@blitzjs/auth"
-import Layout from "../../core/layouts/Layout"
-import React from "react"
 
-const CartPage = (props) => {
-  const { t } = useTranslation()
+import { Layout } from "src/core/layouts/Layout"
+import { Loading } from "src/core/components/Loading"
+import { CartController } from "src/carts/components/CartController"
+
+export const CartPage: BlitzPage = () => {
+  const { t } = useTranslation(["pages.cart"])
 
   return (
-    <>
-      <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-        {t("cart:header")}
-      </h1>
-      {/*<Loading>{session.userId && <CartController userId={session.userId} />}</Loading>*/}
-    </>
+    <Layout title={t("title")} styles={"mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"}>
+      <Loading>
+        <CartController />
+      </Loading>
+    </Layout>
   )
 }
 
-CartPage.getLayout = (page) => <Layout title={"CartPage"}>{page}</Layout>
 export default CartPage

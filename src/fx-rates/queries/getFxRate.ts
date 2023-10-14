@@ -1,15 +1,7 @@
 import { resolver } from "@blitzjs/rpc"
 import db, { CurrencyEnum } from "db"
 import { z } from "zod"
-import axios from "axios"
 import { DateTime } from "luxon"
-
-/*
-const VALUES = ["Salmon", "Tuna", "Trout"] as const;
-const FishEnum = z.enum(VALUES);
-*/
-
-// const Currencies = Object.values(CurrencyEnum)
 
 const GetFxrate = z.object({
   from: z.string(),
@@ -20,8 +12,6 @@ export default resolver.pipe(resolver.zod(GetFxrate), async ({ from, to }) => {
   if (from === to) {
     return 1
   }
-
-  // await db.fxRate.deleteMany({})
 
   const fxrate = await db.fxRate.findUnique({
     where: { from_to: { from, to } },
@@ -54,6 +44,7 @@ export default resolver.pipe(resolver.zod(GetFxrate), async ({ from, to }) => {
         .catch((err) => console.error(err))
     } catch (error) {
       console.error(error)
+      throw new Error("Currency converter is unavailable")
     }
 
     const data = res * 1.01
@@ -80,5 +71,5 @@ export default resolver.pipe(resolver.zod(GetFxrate), async ({ from, to }) => {
     }
   }
 
-  return fxrate?.rate ?? 1 // as number
+  return fxrate?.rate ?? 1
 })

@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { ItemStatusEnum, AccessTypeEnum } from "@prisma/client"
-import { CompleteCategory, RelatedCategoryModel, CompletePrice, RelatedPriceModel, CompleteImageToItem, RelatedImageToItemModel, CompleteUser, RelatedUserModel, CompleteCart, RelatedCartModel, CompleteLocation, RelatedLocationModel, CompleteChatRoom, RelatedChatRoomModel, CompleteReview, RelatedReviewModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
+import { CompleteCategory, RelatedCategoryModel, CompletePrice, RelatedPriceModel, CompleteImageToItem, RelatedImageToItemModel, CompleteUser, RelatedUserModel, CompleteLocation, RelatedLocationModel, CompleteChatRoom, RelatedChatRoomModel, CompleteReview, RelatedReviewModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteInvoice, RelatedInvoiceModel, CompleteCartToItem, RelatedCartToItemModel } from "./index"
 
 export const ItemModel = z.object({
   id: z.number().int(),
@@ -19,7 +19,6 @@ export const ItemModel = z.object({
   amountId: z.number().int(),
   coverImageId: z.number().int(),
   userId: z.number().int().nullish(),
-  cartId: z.number().int().nullish(),
   locationId: z.number().int().nullish(),
   chatRoomId: z.number().int().nullish(),
 })
@@ -29,13 +28,13 @@ export interface CompleteItem extends z.infer<typeof ItemModel> {
   amount: CompletePrice
   coverImage: CompleteImageToItem
   user?: CompleteUser | null
-  cart?: CompleteCart | null
   location?: CompleteLocation | null
   chatRoom?: CompleteChatRoom | null
   images: CompleteImageToItem[]
   reviews: CompleteReview[]
   purchasedItems: CompletePurchasedItem[]
   invoices: CompleteInvoice[]
+  cartToItems: CompleteCartToItem[]
 }
 
 /**
@@ -48,11 +47,11 @@ export const RelatedItemModel: z.ZodSchema<CompleteItem> = z.lazy(() => ItemMode
   amount: RelatedPriceModel,
   coverImage: RelatedImageToItemModel,
   user: RelatedUserModel.nullish(),
-  cart: RelatedCartModel.nullish(),
   location: RelatedLocationModel.nullish(),
   chatRoom: RelatedChatRoomModel.nullish(),
   images: RelatedImageToItemModel.array(),
   reviews: RelatedReviewModel.array(),
   purchasedItems: RelatedPurchasedItemModel.array(),
   invoices: RelatedInvoiceModel.array(),
+  cartToItems: RelatedCartToItemModel.array(),
 }))

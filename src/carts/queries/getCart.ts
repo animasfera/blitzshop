@@ -1,30 +1,48 @@
-import { NotFoundError } from "blitz"
 import { resolver } from "@blitzjs/rpc"
-import db from "db"
+import db, { Cart, CartToItem, Image, ImageToItem, Item, Price } from "db"
 import { z } from "zod"
+import { NotFoundError } from "blitz"
+import createCart from "../mutations/createCart"
 
 const GetCart = z.object({
-  // This accepts type of undefined, but is required at runtime
+  id: z.number().optional(),
   userId: z.number().optional(),
-  sessionId: z.string().optional(),
 })
 
-export default resolver.pipe(
-  resolver.zod(GetCart),
-  resolver.authorize(),
-  async ({ userId, sessionId }) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    let cart
-    if (userId) {
-      cart = await db.cart.findFirst({ where: { userId } })
-    } else if (sessionId) {
-      cart = await db.cart.findFirst({ where: { sessionId } })
-    } else {
-      throw new Error("Please provide either sessionId or userId to get a cart")
+export default resolver.pipe(resolver.zod(GetCart), async (input, ctx) => {
+  if (!input.userId && !input.id) {
+    const sessPriv = await ctx.session.$getPrivateData()
+    input = {
+      id: sessPriv.cartId,
     }
-
-    if (!cart) return {}
-
-    return cart
   }
-)
+  let cart:
+    | (Cart & {
+        amount: Price
+        cartToItems: (CartToItem & {
+          item: Item & { amount: Price; coverImage: ImageToItem & { image: Image } }
+        })[]
+      })
+    | null = null
+  if (input.userId || input.id) {
+    cart = await db.cart.findFirst({
+      where: input,
+      include: {
+        cartToItems: {
+          include: {
+            item: { include: { amount: true, coverImage: { include: { image: true } } } },
+          },
+          take: 250,
+        },
+        amount: true,
+      },
+    })
+  }
+
+  if (!cart) {
+    const newCartArgs = input.userId ? { userId: input.userId } : {}
+    cart = await createCart(newCartArgs, ctx)
+  }
+
+  return cart
+})

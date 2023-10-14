@@ -18,7 +18,7 @@ export const items = {
     },
     amount: {
       amount: 1500000,
-      currency: CurrencyEnum.RUB,
+      currency: CurrencyEnum.EUR,
     },
     category: floorPlayingFields,
   } as ItemSeed,
@@ -69,7 +69,7 @@ export const items = {
     },
     amount: {
       amount: 1500000,
-      currency: CurrencyEnum.RUB,
+      currency: CurrencyEnum.EUR,
     },
     category: floorPlayingFields,
   } as ItemSeed,
@@ -151,7 +151,7 @@ export const items = {
     },
     amount: {
       amount: 380000,
-      currency: CurrencyEnum.RUB,
+      currency: CurrencyEnum.EUR,
     },
     category: tablePlayingFields,
   } as ItemSeed,
@@ -201,7 +201,7 @@ export const items = {
     },
     amount: {
       amount: 500000,
-      currency: CurrencyEnum.RUB,
+      currency: CurrencyEnum.EUR,
     },
     category: cubes,
   } as ItemSeed,
@@ -251,7 +251,7 @@ export const items = {
     },
     amount: {
       amount: 950000,
-      currency: CurrencyEnum.RUB,
+      currency: CurrencyEnum.EUR,
     },
     category: cubes,
   } as ItemSeed,
@@ -283,7 +283,7 @@ export const items = {
     },
     amount: {
       amount: 180000,
-      currency: CurrencyEnum.RUB,
+      currency: CurrencyEnum.EUR,
     },
     category: books,
   } as ItemSeed,

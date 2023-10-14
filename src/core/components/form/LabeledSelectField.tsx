@@ -73,7 +73,7 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
         showError={showError}
         outerProps={outerProps}
         labelProps={labelProps}
-        handleChange={handleChange}
+        onChange={handleChange}
       />
     )
   }

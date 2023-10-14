@@ -55,7 +55,7 @@ export const HeaderMobileMenu = (props: HeaderMobileMenuProps) => {
                 <ButtonCircular
                   variant={"soft"}
                   icon={<XMarkIcon className="h-5 w-5" aria-hidden="true" />}
-                  handleClick={() => handleOpen(!open)}
+                  onClick={() => handleOpen(!open)}
                   className={"bg-white xl:hidden"}
                 />
               </div>

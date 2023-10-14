@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { AuthenticationError, PromiseReturnType } from "blitz"
-import { useMutation } from "@blitzjs/rpc"
+import { invalidateQuery, useMutation } from "@blitzjs/rpc"
 import { useTranslation } from "react-i18next"
 import { z } from "zod"
 import { makeZodI18nMap } from "zod-i18n-map"
@@ -10,6 +10,7 @@ import { LabeledTextField, LabeledTextFieldProps } from "src/core/components/for
 import { Form, FORM_ERROR } from "src/core/components/form/Form"
 import { LoginProhibitedError } from "src/core/errors/Errors"
 import login from "src/auth/mutations/login"
+import getCart from "src/carts/queries/getCart"
 import { Login } from "src/auth/schemas"
 
 interface LoginFormProps {
@@ -52,9 +53,10 @@ export const LoginForm = (props: LoginFormProps) => {
       initialValues={{ email: "", password: "", timezone: timezone }}
       onSubmit={async (values) => {
         try {
-          const user = await loginMutation(values)
+          const user = await loginMutation({ ...values })
           void i18n.changeLanguage(user.locale || LocaleEnum.EN)
 
+          await invalidateQuery(getCart)
           onSuccess?.(user)
         } catch (error: any) {
           if (error instanceof AuthenticationError) {

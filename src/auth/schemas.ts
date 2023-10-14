@@ -24,6 +24,7 @@ export const Login = z.object({
   email,
   password: z.string(),
   timezone: z.string().optional(),
+  sessionId: z.string().optional(),
 })
 
 export const ForgotPassword = z.object({

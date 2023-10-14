@@ -1,19 +1,26 @@
 import { z } from "zod"
-import { CartModel } from "db/zod"
+import { CurrencyEnum } from "db"
+import { CartModel, CartToItemModel } from "db/zod"
 
 export const CreateCartSchema = CartModel.pick({
-  numItems: true,
-  sessionId: true,
-  amountId: true,
   userId: true,
-  mergedCartId: true,
 })
 
 export const UpdateCartSchema = z.object({
   id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
 })
 
 export const DeleteCartSchema = z.object({
   id: z.number(),
+})
+
+export const MergedCart = CartModel.pick({
+  sessionId: true,
+  userId: true,
+}).extend({
+  currency: z.nativeEnum(CurrencyEnum),
+})
+
+export const AddProductToCartSchema = CartToItemModel.pick({
+  itemId: true,
 })
