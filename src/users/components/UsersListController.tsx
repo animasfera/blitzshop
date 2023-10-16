@@ -13,7 +13,7 @@ export const UsersListController = () => {
   const pagination = usePagination()
   const [filter, setFilter] = useState<{ isGuide?: boolean }>({ isGuide: true })
 
-  const [{ users, hasMore }] = usePaginatedQuery(getUsers, {
+  const [{ users, count, hasMore }] = usePaginatedQuery(getUsers, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * pagination.page,
     take: ITEMS_PER_PAGE,
@@ -41,7 +41,12 @@ export const UsersListController = () => {
         }}
       />
 
-      <ListOrNotFoundMessage objects={users} pagination={pagination} hasMore={hasMore}>
+      <ListOrNotFoundMessage
+        countObjects={count ?? 0}
+        itemsPerPage={ITEMS_PER_PAGE}
+        pagination={pagination}
+        hasMore={hasMore}
+      >
         <UsersList users={users} />
       </ListOrNotFoundMessage>
     </>

@@ -39,6 +39,7 @@
   "receivedMany": "Полученные",
   "save": "Сохранить",
   "send": "Отправить",
+  "select": "Выберите",
   "sendMessage": "Сообщение",
   "sent": "Отправлено",
   "sentMany": "Отправленные",
@@ -83,15 +84,15 @@
   "username": "Имя пользователя",
   "view": "Просмотр",
   "menu": {
-    "login": "Вход",
     "products": "Товары",
     "contacts": "Контакты",
-    "shipping": "Доставка и оплата"
+    "shipping": "Доставка и оплата",
+    "signup": "Регистрация",
+    "login": "Вход"
   },
   "userMenu": {
-    "header": "Привет, {{username}}!",
-    "logout": "Выход",
     "orders": "Заказы",
-    "settings": "Настройки"
+    "settings": "Настройки",
+    "logout": "Выход"
   }
 }

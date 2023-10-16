@@ -1,3 +1,45 @@
 {
-  "title": "Sign Up"
+  "title": "Register",
+  "signupForm": {
+    "buttons": {
+      "createAccount": "Create an account",
+      "enter": "Register"
+    },
+    "errors": {
+      "unknown": "Sorry, we had an unexpected error. Please try again.",
+      "authErr": "Sorry, those credentials are invalid",
+      "wrongPassword": "Incorrect email or password.",
+      "prohibitedErr": "Renovations are underway and the entrance is temporarily closed.",
+      "conflictEmailErr": "A user with this email address is already registered.",
+      "conflictUsernameErr": "This username is already taken."
+    },
+    "fields": {
+      "username": {
+        "label": "Username"
+      },
+      "email": {
+        "label": "E-mail address"
+      },
+      "password": {
+        "label": "Password"
+      },
+      "countryIsoCode": {
+        "label": "Country",
+        "placeholder": "Choose the country"
+      },
+
+      "agreeAgreement": {
+        "label": "I've read and accept the <2>User agreement</2>"
+      },
+      "agreeDogovor": {
+        "label": "I've read and accept the <2>Merchant agreement</2>"
+      }
+    },
+    "links": {
+      "enter": "Sign in"
+    },
+    "texts": {
+      "haveAccount": "Already have an account?"
+    }
+  }
 }

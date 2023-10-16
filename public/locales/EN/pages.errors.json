@@ -1,0 +1,19 @@
+{
+  "404": {
+    "header": {
+      "title": "Page not found",
+      "message": "Sorry, we couldn’t find the page you’re looking for."
+    },
+    "links": {}
+  },
+  "main": {
+    "header": {
+      "title": "Not found",
+      "message": "Sorry, we were unable to find the page or data for it."
+    },
+    "links": {
+      "home": "Go back home",
+      "products": "Return to shopping"
+    }
+  }
+}

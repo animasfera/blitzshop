@@ -1,11 +1,9 @@
 import { resolver } from "@blitzjs/rpc"
-import db from "db"
+import db, { CurrencyEnum } from "db"
 import { z } from "zod"
-import axios from "axios"
 import { DateTime } from "luxon"
 
 const GetFxrate = z.object({
-  // This accepts type of undefined, but is required at runtime
   from: z.string(),
   to: z.string(),
 })
@@ -14,13 +12,13 @@ export default resolver.pipe(resolver.zod(GetFxrate), async ({ from, to }) => {
   if (from === to) {
     return 1
   }
+
   const fxrate = await db.fxRate.findUnique({
-    where: {
-      from_to: { from, to },
-    },
+    where: { from_to: { from, to } },
   })
 
   let diffHours = 0
+
   if (fxrate) {
     const now = DateTime.now()
     const rateUpdatedAt = DateTime.fromJSDate(fxrate.updatedAt)
@@ -29,37 +27,49 @@ export default resolver.pipe(resolver.zod(GetFxrate), async ({ from, to }) => {
 
   if (!fxrate || (diffHours && diffHours > 24)) {
     let res: any
+
     try {
-      res = await axios.get(`https://api.apilayer.com/fixer/latest?symbols=${to}&base=${from}`, {
-        headers: {
-          apikey: process.env.FXRATE_API_KEY || "",
-        },
-      })
-    } catch (e) {
-      console.log(e)
+      await fetch("https://www.cbr-xml-daily.ru/daily_json.js")
+        .then(async (response) => {
+          const result = await response.json()
+
+          if (to === CurrencyEnum.RUB) {
+            res = result.Valute[`${from}`].Value
+          } else if (from === CurrencyEnum.RUB) {
+            res = result.Valute[`${to}`].Value / 10000
+          } else {
+            res = result.Valute[`${from}`].Value / result.Valute[`${to}`].Value
+          }
+        })
+        .catch((err) => console.error(err))
+    } catch (error) {
+      console.error(error)
+      throw new Error("Currency converter is unavailable")
     }
 
-    const data = res.data
+    const data = res * 1.01
 
-    if (data && data.rates && data.rates[to]) {
+    if (data) {
       await db.fxRate.upsert({
         where: {
           from_to: { from, to },
         },
         update: {
-          rate: data.rates[to],
+          rate: data,
         },
         create: {
           from,
           to,
-          rate: data.rates[to],
+          rate: data,
         },
       })
-      return data.rates[to] as number
+
+      return data as number
     } else {
+      console.error("Currency converter is unavailable")
       throw new Error("Currency converter is unavailable")
     }
   }
 
-  return fxrate.rate as number
+  return fxrate?.rate ?? 1
 })

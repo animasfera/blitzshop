@@ -34,6 +34,18 @@ const config = {
         port: "",
         pathname: "/fileservice/file/thumbnail/h/**",
       },
+      {
+        protocol: "https",
+        hostname: "tailwindui.com",
+        port: "",
+        pathname: "/img/**",
+      },
+      {
+        protocol: "https",
+        hostname: "flagcdn.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   // distDir: process.env.BUILD_DIR || ".next",

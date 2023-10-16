@@ -22,18 +22,8 @@ export function AdminSettingsForm<S extends z.ZodType<any, any>>(props: FormProp
         Ссылки
       </FormLabel>
 
-      <LabeledTextField
-        name="linkMeditation"
-        type="string"
-        label="Медитация: ссылка на Youtube"
-        autoComplete={"off"}
-      />
-      <LabeledTextField
-        name="linkCommunity"
-        type="string"
-        label="Коммьюнити: ссылка на Youtube"
-        autoComplete={"off"}
-      />
+      <LabeledTextField name="linkMeditation" label="Медитация: ссылка на Youtube" />
+      <LabeledTextField name="linkCommunity" label="Коммьюнити: ссылка на Youtube" />
 
       <Divider />
 
@@ -44,61 +34,43 @@ export function AdminSettingsForm<S extends z.ZodType<any, any>>(props: FormProp
         name="numDaysMaxForSales"
         type="number"
         label="Максимальное кол-во дней от начала продаж до старта игры"
-        autoComplete={"off"}
       />
-      <LabeledTextField
-        name="feeSaleCoef"
-        type="number"
-        label="Комиссия с продаж"
-        autoComplete={"off"}
-      />
+      <LabeledTextField name="feeSaleCoef" type="number" label="Комиссия с продаж" />
       <LabeledTextField
         name="feeCardRuTransactionCoef"
         type="number"
         label="Комиссия эквайринга % (российские карты)"
-        autoComplete={"off"}
       />
       <LabeledTextField
         name="feeCardRuTransactionFixed"
         type="number"
         label="Комиссия эквайринга фикс., руб (российские карты)"
-        autoComplete={"off"}
       />
       <LabeledTextField
         name="feeCardIntTransactionCoef"
         type="number"
         label="Комиссия эквайринга % (иностранные карты)"
-        autoComplete={"off"}
       />
       <LabeledTextField
         name="feeCardIntTransactionFixed"
         type="number"
         label="Комиссия эквайринга фикс., руб (иностранные карты)"
-        autoComplete={"off"}
       />
       <LabeledTextField
         name="feeBankRuTransactionCoef"
         type="number"
         label="Комиссия банковский перевод по РФ %"
-        autoComplete={"off"}
       />
       <LabeledTextField
         name="feeBankRuTransactionFixed"
         type="number"
         label="Комиссия банковский перевод по РФ, фикс. руб."
-        autoComplete={"off"}
       />
-      <LabeledTextField
-        name="feeSwiftTransactionCoef"
-        type="number"
-        label="Комиссия swif, %"
-        autoComplete={"off"}
-      />
+      <LabeledTextField name="feeSwiftTransactionCoef" type="number" label="Комиссия swif, %" />
       <LabeledTextField
         name="feeSwiftTransactionFixed"
         type="number"
         label="Комиссия swif, фикс. руб."
-        autoComplete={"off"}
       />
 
       <Divider />

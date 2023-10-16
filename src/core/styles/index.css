@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("../../../public/fonts/fonts.css");
+
 body {
   display: flex;
   flex-direction: column;
@@ -86,7 +88,6 @@ ol li {
 
 ul,
 ol {
-  margin-bottom: 15px !important;
 }
 legend {
   margin-top: 50px !important;
@@ -560,7 +561,7 @@ button[role="tab"]:focus {
 }
 
 .container {
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 .scrollable {
@@ -774,4 +775,10 @@ body.fullscreen .vid-fixed {
 .title,
 .description {
   @apply text-center;
+}
+
+input:focus-visible,
+button:focus-visible,
+textarea:focus-visible {
+  outline: none;
 }

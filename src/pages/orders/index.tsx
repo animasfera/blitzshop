@@ -1,66 +1,23 @@
 "use client"
-import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
-import Link from "next/link"
-import { usePaginatedQuery } from "@blitzjs/rpc"
-import { useRouter } from "next/router"
+import React from "react"
+import { BlitzPage } from "@blitzjs/next"
+import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
-import getOrders from "src/orders/queries/getOrders"
+import { Loading } from "src/core/components/Loading"
+import { OrdersListController } from "src/orders/components/OrdersListController"
 
-const ITEMS_PER_PAGE = 100
-
-export const OrdersList = () => {
-  const router = useRouter()
-  const page = Number(router.query.page) || 0
-  const [{ orders, hasMore }] = usePaginatedQuery(getOrders, {
-    orderBy: { id: "asc" },
-    skip: ITEMS_PER_PAGE * page,
-    take: ITEMS_PER_PAGE,
-  })
-
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
-  const goToNextPage = () => router.push({ query: { page: page + 1 } })
+export const OrdersPage: BlitzPage = () => {
+  const { t } = useTranslation(["pages.orders"])
 
   return (
-    <div>
-      <ul>
-        {orders.map((order) => (
-          <li key={order.id}>
-            <Link href={Routes.OrderPage({ orderId: order.id })}>{order.id}</Link>
-          </li>
-        ))}
-      </ul>
-
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
-    </div>
-  )
-}
-
-const OrdersPage = () => {
-  return (
-    <Layout>
-      <Head>
-        <title>Orders</title>
-      </Head>
-
-      <div>
-        <p>
-          <Link href={Routes.NewOrderPage()}>Create Order</Link>
-        </p>
-
-        <Suspense fallback={<div>Loading...</div>}>
-          <OrdersList />
-        </Suspense>
-      </div>
+    <Layout title={t("index.title")}>
+      <Loading>
+        <OrdersListController />
+      </Loading>
     </Layout>
   )
 }
 
+export { getServerSideProps } from "src/core/getServerSideProps"
 export default OrdersPage

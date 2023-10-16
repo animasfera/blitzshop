@@ -1,24 +1,42 @@
 import React, { ComponentPropsWithoutRef, ReactElement } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
-import { Box, Checkbox } from "@chakra-ui/react"
 
-export interface LabeledCheckboxFieldProps extends ComponentPropsWithoutRef<"input"> {
-  /** Field name. */
+import { Checkbox } from "src/core/tailwind-ui/application-ui/forms/Checkbox"
+
+export interface LabeledCheckboxFieldProps {
   name: string
-  /** Field label. */
   label: string | ReactElement
-  value?: string
-  help?: string
+  description?: string
+  inlineDescription?: boolean
+  positionInput?: "rigth" | "left"
+  defaultChecked?: boolean
+  helperText?: string
+  required?: boolean
+  disabled?: boolean
+  autoComplete?: string
   outerProps?: ComponentPropsWithoutRef<"div">
   fieldProps?: UseFieldConfig<string>
   labelProps?: ComponentPropsWithoutRef<"label">
 }
 
 export const LabeledCheckboxField = React.forwardRef<HTMLInputElement, LabeledCheckboxFieldProps>(
-  (
-    { name, help, value, checked, label, outerProps, fieldProps, labelProps, className, ...props },
-    ref
-  ) => {
+  (props, ref) => {
+    const {
+      name,
+      label,
+      description,
+      inlineDescription,
+      positionInput,
+      defaultChecked,
+      helperText,
+      required,
+      disabled,
+      autoComplete,
+      outerProps,
+      fieldProps,
+      labelProps,
+    } = props
+
     const {
       input,
       meta: { touched, error, submitError, submitting },
@@ -31,31 +49,23 @@ export const LabeledCheckboxField = React.forwardRef<HTMLInputElement, LabeledCh
     const showError = touched && normalizedError
 
     return (
-      <Box {...outerProps}>
-        <Box>
-          <Checkbox
-            isChecked={input.checked}
-            type={"checkbox"}
-            disabled={submitting}
-            ref={ref}
-            onChange={input.onChange}
-            style={{ marginRight: "5px" }}
-          >
-            {label}
-          </Checkbox>
-
-          {help && (
-            <Box color={"grey"} fontSize={"13px"} mt={1}>
-              {help}
-            </Box>
-          )}
-          {touched && normalizedError && (
-            <div role="alert" style={{ color: "red" }}>
-              {normalizedError}
-            </div>
-          )}
-        </Box>
-      </Box>
+      <Checkbox
+        name={name}
+        label={label}
+        description={description}
+        inlineDescription={inlineDescription}
+        input={input}
+        positionInput={positionInput}
+        defaultChecked={defaultChecked}
+        required={required}
+        disabled={disabled || submitting}
+        autoComplete={autoComplete}
+        helperText={helperText}
+        error={normalizedError}
+        showError={showError}
+        outerProps={outerProps}
+        labelProps={labelProps}
+      />
     )
   }
 )

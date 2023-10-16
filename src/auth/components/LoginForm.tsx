@@ -1,55 +1,88 @@
-"use client"
+import { useEffect, useState } from "react"
 import { AuthenticationError, PromiseReturnType } from "blitz"
-import Link from "next/link"
-import { useMutation } from "@blitzjs/rpc"
-import { Routes } from "@blitzjs/next"
+import { invalidateQuery, useMutation } from "@blitzjs/rpc"
+import { useTranslation } from "react-i18next"
+import { z } from "zod"
+import { makeZodI18nMap } from "zod-i18n-map"
+import { LocaleEnum } from "db"
 
-import { LabeledTextField } from "src/core/components/form/LabeledTextField"
+import { LabeledTextField, LabeledTextFieldProps } from "src/core/components/form/LabeledTextField"
 import { Form, FORM_ERROR } from "src/core/components/form/Form"
+import { LoginProhibitedError } from "src/core/errors/Errors"
 import login from "src/auth/mutations/login"
+import getCart from "src/carts/queries/getCart"
 import { Login } from "src/auth/schemas"
 
-type LoginFormProps = {
+interface LoginFormProps {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void
 }
 
 export const LoginForm = (props: LoginFormProps) => {
-  const [loginMutation] = useMutation(login)
-  return (
-    <>
-      <h1>Login</h1>
+  const { onSuccess } = props
 
-      <Form
-        submitText="Login"
-        schema={Login}
-        initialValues={{ email: "", password: "" }}
-        onSubmit={async (values) => {
-          try {
-            const user = await loginMutation(values)
-            props.onSuccess?.(user)
-          } catch (error: any) {
-            if (error instanceof AuthenticationError) {
-              return { [FORM_ERROR]: "Sorry, those credentials are invalid" }
-            } else {
-              return {
-                [FORM_ERROR]:
-                  "Sorry, we had an unexpected error. Please try again. - " + error.toString(),
-              }
+  const [loginMutation] = useMutation(login)
+  const [timezone, setTimezone] = useState("")
+  const { t, i18n } = useTranslation(["pages.login", "zod"])
+  z.setErrorMap(makeZodI18nMap({ t }))
+
+  const loginLabeleds: LabeledTextFieldProps[] = [
+    {
+      name: "email",
+      label: t("loginForm.fields.email.label"),
+      type: "email",
+      placeholder: "example@mail.com",
+      required: true,
+    },
+    {
+      name: "password",
+      label: t("loginForm.fields.password.label"),
+      type: "password",
+      placeholder: "Qwerty123",
+      required: true,
+    },
+  ]
+
+  useEffect(() => {
+    setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone)
+  }, [])
+
+  return (
+    <Form
+      submitText={t("loginForm.buttons.enter")}
+      schema={Login}
+      initialValues={{ email: "", password: "", timezone: timezone }}
+      onSubmit={async (values) => {
+        try {
+          const user = await loginMutation({ ...values })
+          void i18n.changeLanguage(user.locale || LocaleEnum.EN)
+
+          await invalidateQuery(getCart)
+          onSuccess?.(user)
+        } catch (error: any) {
+          if (error instanceof AuthenticationError) {
+            return { [FORM_ERROR]: t("loginForm.errors.authErr") }
+          } else if (error instanceof LoginProhibitedError) {
+            return { [FORM_ERROR]: t("loginForm.errors.prohibitedErr") }
+          } else {
+            return {
+              [FORM_ERROR]: `${t("loginForm.errors.unknown")} - ` + error.toString(),
             }
           }
-        }}
-      >
-        <LabeledTextField name="email" label="Email" placeholder="Email" />
-        <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
-        <div>
-          <Link href={Routes.ForgotPasswordPage()}>Forgot your password?</Link>
-        </div>
-      </Form>
-
-      <div style={{ marginTop: "1rem" }}>
-        Or <Link href={Routes.SignupPage()}>Sign Up</Link>
-      </div>
-    </>
+        }
+      }}
+      fullBtn
+    >
+      {loginLabeleds.map(({ name, label, type, placeholder, required }) => (
+        <LabeledTextField
+          key={`${type}-${name}`}
+          name={name}
+          label={label}
+          type={type}
+          placeholder={placeholder}
+          required={required}
+        />
+      ))}
+    </Form>
   )
 }
 

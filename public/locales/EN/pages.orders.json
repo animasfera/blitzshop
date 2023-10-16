@@ -1,0 +1,17 @@
+{
+  "index": {
+    "title": "Your Orders",
+    "description": "Check the status of recent orders, manage returns, and discover similar products."
+  },
+  "orders": {
+    "title": "Order #{{orderId}}",
+    "manage": "Manage order",
+    "view": "View Invoice"
+  },
+  "items": {
+    "actions": {
+      "buy": "Buy again",
+      "shop": "Shop similar"
+    }
+  }
+}

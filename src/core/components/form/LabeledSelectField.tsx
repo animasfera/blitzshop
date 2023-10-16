@@ -1,72 +1,82 @@
 import React, { ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
-import { Box } from "@chakra-ui/react"
-import { Select } from "@chakra-ui/select"
-import { FormControl, FormLabel } from "@chakra-ui/form-control"
 
-export interface LabeledSelectFieldProps extends ComponentPropsWithoutRef<typeof Select> {
-  /** Field name. */
+import { OptionSelectField, Select } from "src/core/tailwind-ui/application-ui/forms/Select"
+
+export interface LabeledSelectFieldProps {
   name: string
-  /** Field label. */
-  label: string
-  help?: string
-  /** Field type. Doesn't include radio buttons and checkboxes */
-  type?: "text" | "number"
-  options: Array<{ label: string | number; value: string | number }>
+  label?: string
+  placeholder?: string
+  selected?: OptionSelectField | OptionSelectField[]
+  defaultValue?: OptionSelectField
+  required?: boolean
+  disabled?: boolean
+  options: OptionSelectField[]
+  multiple?: boolean
+  helperText?: string
+
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
+
+  handleChange?: (values: OptionSelectField | OptionSelectField[]) => void
 }
 
 export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSelectFieldProps>(
-  ({ name, type, label, help, options, fieldProps, outerProps, labelProps, ...props }, ref) => {
+  (props, ref) => {
+    const {
+      name,
+      label,
+      placeholder,
+      selected,
+      defaultValue,
+      required,
+      disabled,
+      options,
+      multiple,
+      helperText,
+
+      outerProps,
+      labelProps,
+      fieldProps,
+
+      handleChange,
+    } = props
+
     const {
       input,
       meta: { touched, error, submitError, submitting },
     } = useField(name, {
-      parse: (v) => {
-        return v
-        // (v = type === "number" ? Number(v) : v)
-      },
-      format: (v) => {
-        return v
-      },
+      parse: (v) => v,
+      format: (v) => v,
       ...fieldProps,
     })
 
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
     const showError = touched && normalizedError
-    const optionsHtml = options
-      ? options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))
-      : null
 
     return (
-      <FormControl {...outerProps}>
-        <FormLabel {...labelProps}>{label}</FormLabel>
-
-        {optionsHtml ? (
-          <Select {...input} onChange={input.onChange} disabled={submitting} {...props} ref={ref}>
-            {optionsHtml}
-          </Select>
-        ) : (
-          <Select {...input} onChange={input.onChange} disabled={submitting} {...props} ref={ref} />
-        )}
-        {help && (
-          <Box color={"grey"} fontSize={"13px"} mt={1}>
-            {help}
-          </Box>
-        )}
-
-        {showError && (
-          <div role="alert" style={{ color: "red" }}>
-            {normalizedError}
-          </div>
-        )}
-      </FormControl>
+      <Select
+        ref={ref}
+        name={name}
+        label={label}
+        input={input}
+        placeholder={placeholder}
+        selected={selected}
+        defaultValue={defaultValue}
+        required={required}
+        disabled={disabled || submitting}
+        options={options}
+        multiple={multiple}
+        helperText={helperText}
+        error={normalizedError}
+        showError={showError}
+        outerProps={outerProps}
+        labelProps={labelProps}
+        onChange={handleChange}
+      />
     )
   }
 )
+
+export default LabeledSelectField

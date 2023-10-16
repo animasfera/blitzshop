@@ -44,7 +44,8 @@ export const TransactionsTable = (props) => {
       Header: "Сумма",
       accessor: "amount",
       Cell: ({ row }) => {
-        return currencyFormat(row.original.amount, row.original.currency)
+        // @ts-ignore
+        return currencyFormat({ amount: row.original.amount, currency: row.original.currency })
       },
     },
     {

@@ -4,9 +4,9 @@ import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form
 export { FORM_ERROR } from "final-form"
 import arrayMutators from "final-form-arrays"
 import { z } from "zod"
-import { Button } from "@chakra-ui/react"
 
-import Autosave from "./Autosave"
+import Autosave from "src/core/components/form/Autosave"
+import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
@@ -14,9 +14,10 @@ export interface FormProps<S extends z.ZodType<any, any>>
   children?: ReactNode
   /** Text to display in the submit button */
   submitText?: string
+  fullBtn?: boolean
+  styles?: string
   schema?: S
   getInstance?: any
-  onSubmit: FinalFormProps<z.infer<S>>["onSubmit"]
   initialValues?: FinalFormProps<z.infer<S>>["initialValues"]
   game?: any
   mutators?: any
@@ -28,6 +29,8 @@ export interface FormProps<S extends z.ZodType<any, any>>
   keepDirtyOnReinitialize?: boolean
   _autoSave?: boolean
   [key: string]: any
+
+  onSubmit: FinalFormProps<z.infer<S>>["onSubmit"]
 }
 
 const validate = async (schema) => {
@@ -38,9 +41,10 @@ const validate = async (schema) => {
 export function Form<S extends z.ZodType<any, any>>({
   children,
   submitText,
+  fullBtn,
+  styles,
   schema,
   initialValues,
-  onSubmit,
   getInstance,
   mutators,
   debug,
@@ -48,6 +52,9 @@ export function Form<S extends z.ZodType<any, any>>({
   enableReinitialize,
   keepDirtyOnReinitialize,
   _autoSave,
+
+  onSubmit,
+
   ...props
 }: FormProps<S>) {
   return (
@@ -61,8 +68,8 @@ export function Form<S extends z.ZodType<any, any>>({
         try {
           schema?.parse(values)
         } catch (error) {
-          console.log(error)
-          console.log(formatZodError(error))
+          console.error(error)
+          console.error(formatZodError(error))
           return formatZodError(error)
         }
       }}
@@ -71,33 +78,43 @@ export function Form<S extends z.ZodType<any, any>>({
         ...mutators,
         ...arrayMutators,
       }}
-      render={({ form, handleSubmit, submitting, submitError, values }) => {
+      render={({ form, submitting, submitError, handleSubmit }) => {
         {
           getInstance && getInstance(form)
         }
         return (
-          <form onSubmit={handleSubmit} className="form" {...props} style={{ width: "100%" }}>
+          <form onSubmit={handleSubmit} className={`form w-full ${styles}`} {...props}>
             {_autoSave && (
               <Autosave setFieldData={form.mutators.setFieldData} save={form.submit()} />
             )}
             {/* form fields supplied as children are rendered here */}
-            {children}
+            <div className="pb-2">{children}</div>
 
-            {showErrors !== false && submitError && (
-              <div role="alert" style={{ color: "red" }}>
-                {typeof submitError === "object"
-                  ? JSON.stringify(submitError)
-                  : submitError.replace("Error: ", "")}
-              </div>
-            )}
+            <div className="relative flex flex-col pb-8 border-t border-gray-200">
+              {submitText && (
+                <div className="flex justify-end pt-6">
+                  <Button
+                    type={"submit"}
+                    buttonText={submitText}
+                    disabled={submitting}
+                    styles={fullBtn ? "w-full justify-center" : ""}
+                  />
+                </div>
+              )}
 
-            {submitText && (
-              <Button type="submit" disabled={submitting}>
-                {submitText}
-              </Button>
-            )}
+              {showErrors !== false && submitError && (
+                <div
+                  role="alert"
+                  className="absolute top-[72px] text-sm text-red-500 self-center text-center"
+                >
+                  {typeof submitError === "object"
+                    ? JSON.stringify(submitError)
+                    : submitError.replace("Error: ", "")}
+                </div>
+              )}
+            </div>
 
-            {debug && <pre>{JSON.stringify(values)}</pre>}
+            {debug && <pre>{`JSON.stringify(values)`}</pre>}
           </form>
         )
       }}

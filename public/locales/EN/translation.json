@@ -44,6 +44,7 @@
   "receivedMany": "Received",
   "save": "Save",
   "send": "Send",
+  "select": "Choose",
   "sendMessage": "Message",
   "sent": "Sent",
   "sentMany": "Sent",
@@ -88,15 +89,15 @@
   "username": "Username",
   "view": "View",
   "menu": {
-    "login": "Sign in",
     "products": "Products",
     "contacts": "Contacts",
-    "shipping": "Shipping and payment"
+    "shipping": "Shipping and payment",
+    "signup": "Sign up",
+    "login": "Sign in"
   },
   "userMenu": {
-    "header": "Hi, {{username}}!",
-    "logout": "Logout",
     "orders": "Orders",
-    "settings": "Settings"
+    "settings": "Settings",
+    "logout": "Logout"
   }
 }

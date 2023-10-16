@@ -14,12 +14,14 @@ import db from "db"
 
 import i18n from "src/core/i18n"
 import { Signup } from "src/auth/schemas"
-import { confirmEmailAddressMailer } from "mailers/confirmEmailAddressMailer"
-import createNotification from "src/notifications/mutations/createNotification"
+import { ConflictError } from "src/core/errors/Errors"
+import getCart from "../../carts/queries/getCart"
+import mergeCarts from "src/carts/mutations/mergeCarts"
+import createCart from "../../carts/mutations/createCart"
 
 export default resolver.pipe(
   resolver.zod(Signup),
-  async ({ username, email, password, countryIsoCode, locale, timezone }, ctx?: Ctx | null) => {
+  async ({ username, email, password, countryIsoCode, locale, timezone }, ctx: Ctx) => {
     const hashedPassword = await SecurePassword.hash(password.trim())
     const emailToken = Math.floor(Math.random() * 1000000) + ""
     const hashedToken = hash256(emailToken)
@@ -46,11 +48,29 @@ export default resolver.pipe(
       },
     } as { data: Prisma.UserCreateInput }
 
+    const findUserByEmail = await db.user.findFirst({
+      where: { OR: { email } },
+    })
+
+    if (findUserByEmail) {
+      throw new ConflictError("A user with this email address is already registered.")
+    }
+
+    const findUserByUsername = await db.user.findFirst({
+      where: { OR: { username } },
+    })
+
+    if (findUserByUsername) {
+      throw new ConflictError("This username is already taken.")
+    }
+
     const user = await db.user.create({
       ...userData,
       select: {
         id: true,
         username: true,
+        firstName: true,
+        lastName: true,
         email: true,
         role: true,
         timezone: true,
@@ -61,8 +81,10 @@ export default resolver.pipe(
       },
     })
 
-    // 6. Send the email
-    await confirmEmailAddressMailer({ user: user, token: emailToken }, { lang: user.locale }).send()
+    const privateSessData = await ctx.session.$getPrivateData()
+    let cartUnlogged = await getCart({ id: privateSessData.cartId }, ctx)
+
+    // TODO: Send the email
 
     if (ctx)
       await ctx.session.$create({
@@ -73,8 +95,10 @@ export default resolver.pipe(
           id: user.id,
           role: user.role,
           username: user.username,
-          timezone: user.timezone || "Etc/Greenwich",
-          avatarUrl: user.avatarUrl || "",
+          firstName: user.firstName,
+          lastName: user.lastName,
+          avatarUrl: user.avatarUrl,
+          timezone: user.timezone ?? "Etc/Greenwich",
           locale: user.locale || LocaleEnum.EN,
           currency: user.currency,
           buyingInCountries: user.buyingInCountries,
@@ -82,23 +106,12 @@ export default resolver.pipe(
       })
 
     await i18n.changeLanguage(user.locale)
-    await i18n.loadNamespaces(["mails"])
-
-    const data = {
-      timezoneSystem: timezone,
-      settingsUrl: process.env.SITE_URL, // + Routes.SettingsPage().pathname,
+    if (cartUnlogged && cartUnlogged.cartToItems.length > 0) {
+      let loggedCart = await getCart({ userId: user.id }, ctx)
+      await mergeCarts({ mergeToCartId: loggedCart.id, mergeFromCartId: cartUnlogged.id }, ctx)
     }
 
-    await createNotification(
-      {
-        userId: user.id,
-        type: NotificationTypeEnum.WARNING,
-        message: i18n.t("mails:timezoneNotification.html", data),
-        isHtml: true,
-        jsonData: JSON.parse(i18n.t("mails:timezoneNotification.html", data)),
-      },
-      ctx!
-    )
+    // TODO: create Notification
 
     return user
   }
