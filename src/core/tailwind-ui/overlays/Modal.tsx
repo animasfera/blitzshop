@@ -50,7 +50,8 @@ export const Modal = (props: ModalProps) => {
               <div
                 className={classNames(
                   size +
-                    " inline-block p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
+                    (size !== "w-full" ? " my-8 rounded-lg " : "") +
+                    " inline-block p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl"
                 )}
               >
                 <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
