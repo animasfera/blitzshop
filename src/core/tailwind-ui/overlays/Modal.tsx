@@ -4,6 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline"
 import { classNames } from "../../helpers/classNames"
 import Button from "../application-ui/elements/buttons/Button"
 import ButtonCircular from "../application-ui/elements/buttons/ButtonCircular"
+import { Loading } from "../../components/Loading"
 
 type ModalProps = {
   size?: string
@@ -65,7 +66,10 @@ export const Modal = (props: ModalProps) => {
                     />
                   </div>
                 </Dialog.Title>
-                {children}
+                <div>
+                  <Loading>{children}</Loading>
+                </div>
+
                 <div className="flex justify-end">
                   {bottomClose && (
                     <Button buttonText="Закрыть" handleClick={() => onClose && onClose()} />
