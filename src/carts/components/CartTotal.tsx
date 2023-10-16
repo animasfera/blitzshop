@@ -1,10 +1,9 @@
 import { useTranslation } from "react-i18next"
-import { Cart, CartToItem, Image, ImageToItem, Item, Price } from "db"
-
 import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 import { CartTotalsItem, CartOrderPriceProps } from "src/carts/components/CartTotalsItem"
-import { cartClient } from "../../core/hooks/useCart"
 import { CurrencyEnum } from "@prisma/client"
+import { useRouter } from "next/router"
+import { Routes } from "@blitzjs/next"
 
 interface CartOrderProps {
   total: number
@@ -13,6 +12,7 @@ interface CartOrderProps {
 
 export const CartTotal = (props: CartOrderProps) => {
   const { total, isLoading } = props
+  const router = useRouter()
 
   const { t } = useTranslation(["pages.cart"])
 
@@ -54,6 +54,9 @@ export const CartTotal = (props: CartOrderProps) => {
         </dl>
 
         <Button
+          onClick={() => {
+            router.push(Routes.CheckoutPage())
+          }}
           buttonText={t("order.button")}
           size={"xl"}
           styles={"justify-center"}

@@ -11,6 +11,7 @@ export const ShippingAddressModel = z.object({
   instructions: z.string().nullish(),
   address: z.string(),
   city: z.string(),
+  province: z.string(),
   postalCode: z.string(),
   countryId: z.string(),
   userId: z.number().int(),

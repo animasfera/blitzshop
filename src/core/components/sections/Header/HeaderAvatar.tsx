@@ -46,7 +46,7 @@ export const HeaderAvatar = (props: HeaderAvatarProps) => {
             variant={"soft"}
             buttonText={t("translation:userMenu.logout")}
             styles={"bg-transparent shadow-none w-full justify-center"}
-            handleClick={logout}
+            onClick={logout}
           />
         </div>
       </div>
@@ -108,7 +108,7 @@ export const HeaderAvatar = (props: HeaderAvatarProps) => {
                     size={"sm"}
                     buttonText={t("translation:userMenu.logout")}
                     styles={"bg-transparent shadow-none w-full pl-4"}
-                    handleClick={logout}
+                    onClick={logout}
                   />
                 </div>
               </div>

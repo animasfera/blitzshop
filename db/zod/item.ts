@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { ItemStatusEnum, AccessTypeEnum } from "@prisma/client"
-import { CompleteCategory, RelatedCategoryModel, CompletePrice, RelatedPriceModel, CompleteImageToItem, RelatedImageToItemModel, CompleteUser, RelatedUserModel, CompleteLocation, RelatedLocationModel, CompleteChatRoom, RelatedChatRoomModel, CompleteReview, RelatedReviewModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteInvoice, RelatedInvoiceModel, CompleteCartToItem, RelatedCartToItemModel } from "./index"
+import { ItemStatusEnum, AccessTypeEnum, CurrencyEnum } from "@prisma/client"
+import { CompleteCategory, RelatedCategoryModel, CompleteUser, RelatedUserModel, CompleteLocation, RelatedLocationModel, CompleteChatRoom, RelatedChatRoomModel, CompleteImageToItem, RelatedImageToItemModel, CompleteReview, RelatedReviewModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteInvoice, RelatedInvoiceModel, CompleteCartToItem, RelatedCartToItemModel } from "./index"
 
 export const ItemModel = z.object({
   id: z.number().int(),
@@ -16,8 +16,8 @@ export const ItemModel = z.object({
   status: z.nativeEnum(ItemStatusEnum).nullish(),
   access: z.nativeEnum(AccessTypeEnum),
   categoryId: z.number().int().nullish(),
-  amountId: z.number().int(),
-  coverImageId: z.number().int(),
+  price: z.number().int(),
+  currency: z.nativeEnum(CurrencyEnum),
   userId: z.number().int().nullish(),
   locationId: z.number().int().nullish(),
   chatRoomId: z.number().int().nullish(),
@@ -25,8 +25,6 @@ export const ItemModel = z.object({
 
 export interface CompleteItem extends z.infer<typeof ItemModel> {
   category?: CompleteCategory | null
-  amount: CompletePrice
-  coverImage: CompleteImageToItem
   user?: CompleteUser | null
   location?: CompleteLocation | null
   chatRoom?: CompleteChatRoom | null
@@ -44,8 +42,6 @@ export interface CompleteItem extends z.infer<typeof ItemModel> {
  */
 export const RelatedItemModel: z.ZodSchema<CompleteItem> = z.lazy(() => ItemModel.extend({
   category: RelatedCategoryModel.nullish(),
-  amount: RelatedPriceModel,
-  coverImage: RelatedImageToItemModel,
   user: RelatedUserModel.nullish(),
   location: RelatedLocationModel.nullish(),
   chatRoom: RelatedChatRoomModel.nullish(),

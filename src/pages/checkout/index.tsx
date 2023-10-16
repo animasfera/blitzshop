@@ -20,4 +20,5 @@ export const CheckoutPage: BlitzPage = () => {
 }
 
 export { getServerSideProps } from "src/core/getServerSideProps"
+CheckoutPage.authenticate = true
 export default CheckoutPage

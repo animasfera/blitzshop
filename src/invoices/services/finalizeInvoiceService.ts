@@ -21,7 +21,6 @@ export const finalizeInvoiceServiceDbQuery = async ({ id }, ctx, $db: PrismaDbTy
       },
       order: true,
       originalInvoice: true,
-      amount: true,
       // booking: { select: { id: true } },
       // refund: { select: { id: true } },
     },
@@ -35,7 +34,7 @@ export const finalizeInvoiceServiceDbQuery = async ({ id }, ctx, $db: PrismaDbTy
   }
 
   const sumOfTranasctions = sum(invoiceToFinalize.transactions, "amount")
-  if (Math.abs(sumOfTranasctions) < invoiceToFinalize.amount.amount) {
+  if (Math.abs(sumOfTranasctions) < invoiceToFinalize.amount) {
     throw new Error(
       "Can't finalize invoice - sum amount of transactions is less than invoice amount"
     )

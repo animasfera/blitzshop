@@ -1,4 +1,10 @@
-import React, { useState, forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
+import React, {
+  useState,
+  forwardRef,
+  ComponentPropsWithoutRef,
+  PropsWithoutRef,
+  ReactElement,
+} from "react"
 import { useField, UseFieldConfig } from "react-final-form"
 import { RadioGroup } from "@headlessui/react"
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid"
@@ -8,8 +14,8 @@ import { RadioSelectedCard } from "./RadioSelectedCard"
 export interface OptionRadioSelectedCard {
   label: string
   value: string | number
-  description?: string
-  footerText?: string
+  description?: string | ReactElement
+  footerText?: string | ReactElement
 }
 
 export interface RadioSelectedCardsFieldProps {
@@ -50,14 +56,6 @@ export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelecte
       input,
       meta: { touched, error, submitError, submitting },
     } = useField(name, {
-      /*
-      parse: (v) => {
-        return boolean ? !!Number(v) : v
-      },
-      format: (v) => {
-        return boolean ? (typeof v === "string" ? v : v ? "1" : "0") : v
-      },
-      */
       parse: (v) => v,
       format: (v) => v,
       ...fieldProps,
@@ -71,8 +69,11 @@ export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelecte
         <RadioGroup
           {...input}
           ref={ref}
-          value={selected}
-          onChange={setSelected}
+          value={options.find((o) => o.value === input.value)}
+          onChange={(v) => {
+            // setSelected(options.find((o) => o.value === v.value))
+            input?.onChange(v.value)
+          }}
           disabled={disabled || submitting}
         >
           <div className="relative">

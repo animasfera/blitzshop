@@ -200,23 +200,6 @@ model Category {
   purchasedItems PurchasedItem[]
 }
 
-model Price {
-  id                   Int             @id @default(autoincrement())
-  createdAt            DateTime        @default(now())
-  updatedAt            DateTime        @updatedAt
-  amount               Int             @default(0)
-  currency             CurrencyEnum    @default(RUB)
-  items                Item[]
-  carts                Cart[]
-  orders               Order[]
-  purchasedItems       PurchasedItem[]
-  refunds              Refund[]
-  invoices             Invoice[]
-  amountTransactions   Transaction[]   @relation(name: "AmountTransaction")
-  feeTotalTransactions Transaction[]   @relation(name: "FeeTotalTransaction")
-  netTransactions      Transaction[]   @relation(name: "NetTransaction")
-}
-
 model Image {
   id             Int             @id @default(autoincrement())
   createdAt      DateTime        @default(now())
@@ -234,7 +217,7 @@ model ImageToItem {
   imageId    Int
   item       Item?  @relation(fields: [itemId], references: [id])
   itemId     Int?
-  itemCovers Item[] @relation(name: "CoverImageToItem")
+  order      Int @default(0)
 }
 
 enum ItemStatusEnum {
@@ -266,10 +249,8 @@ model Item {
   access         AccessTypeEnum  @default(PUBLIC)
   category       Category?       @relation(fields: [categoryId], references: [id])
   categoryId     Int?
-  amount         Price           @relation(fields: [amountId], references: [id])
-  amountId       Int
-  coverImage     ImageToItem     @relation(name: "CoverImageToItem", fields: [coverImageId], references: [id])
-  coverImageId   Int
+  price          Int @default(0)
+  currency       CurrencyEnum @default(EUR)
   user           User?           @relation(fields: [userId], references: [id])
   userId         Int?
   location       Location?       @relation(fields: [locationId], references: [id])
@@ -300,8 +281,8 @@ model Cart {
   numItems     Int          @default(0)
   sessionId    String?
   mergedCartId Int?
-  amount       Price        @relation(fields: [amountId], references: [id])
-  amountId     Int
+  amount       Int  @default(0)
+  currency     CurrencyEnum @default(EUR)
   user         User?        @relation(fields: [userId], references: [id])
   userId       Int?
   cartToItems  CartToItem[]
@@ -333,17 +314,11 @@ enum OrderStatusEnum {
 
 model ShippingMethod {
   id          Int                 @id @default(autoincrement())
-  title       String
-  description String?
-  fee         Int
-  feeType     ShippingFeeTypeEnum @default(FIXED)
+  titleRu     String
+  titleEn     String
   orders      Order[]
 }
 
-enum ShippingFeeTypeEnum {
-  FIXED
-  PER_KG
-}
 
 model Order {
   id                Int               @id @default(autoincrement())
@@ -352,8 +327,11 @@ model Order {
   couponCode        String?
   notes             String?
   status            OrderStatusEnum   @default(PENDING)
-  amount            Price             @relation(fields: [amountId], references: [id])
-  amountId          Int
+  subtotal          Int
+  shippingFee       Int
+  total             Int
+  net               Int
+  currency          CurrencyEnum @default(EUR)
   orderLog          OrderLog          @relation(fields: [orderLogId], references: [id])
   orderLogId        Int
   shippingMethod    ShippingMethod?   @relation(fields: [shippingMethodId], references: [id])
@@ -381,8 +359,9 @@ model PurchasedItem {
   qty           Int            @default(0)
   title         String
   description   String
-  amount        Price          @relation(fields: [amountId], references: [id])
-  amountId      Int
+  price         Int  @default(0)
+  net           Int?
+  currency      CurrencyEnum @default(EUR)
   item          Item           @relation(fields: [itemId], references: [id])
   itemId        Int
   category      Category?      @relation(fields: [categoryId], references: [id])
@@ -404,6 +383,7 @@ model ShippingAddress {
   instructions String?
   address      String
   city         String
+  province     String   @default("")
   postalCode   String
   country      Country  @relation(fields: [countryId], references: [id])
   countryId    String   @db.Char(2)
@@ -430,12 +410,12 @@ model Refund {
   notes          String?
   refundedAt     DateTime?
   status         RefundStatusEnum @default(PENDING)
-  amount         Price            @relation(fields: [amountId], references: [id])
-  amountId       Int
+  amount         Int  @default(0)
+  currency       CurrencyEnum @default(EUR)
   refundMethod   PaymentMethod    @relation(fields: [refundMethodId], references: [id])
   refundMethodId Int
-  processedBy    User             @relation(name: "ProcessedByUser", fields: [processedById], references: [id])
-  processedById  Int
+  processedBy    User?             @relation(name: "ProcessedByUser", fields: [processedById], references: [id])
+  processedById  Int?
   order          Order            @relation(fields: [orderId], references: [id])
   orderId        Int
   chatRoom       ChatRoom?        @relation(fields: [chatRoomId], references: [id])
@@ -471,8 +451,8 @@ model Invoice {
   error             String?
   notes             String?
   status            InvoiceStatusEnum @default(PENDING)
-  amount            Price             @relation(fields: [amountId], references: [id])
-  amountId          Int
+  amount            Int  @default(0)
+  currency          CurrencyEnum @default(EUR)
   paymentMethod     PaymentMethod     @relation(fields: [paymentMethodId], references: [id])
   paymentMethodId   Int
   order             Order             @relation(fields: [orderId], references: [id])
@@ -513,12 +493,10 @@ model Transaction {
   receiptUrl          String?
   status              TransactionStatusEnum @default(PENDING)
   type                TransactionTypeEnum
-  amount              Price                 @relation(name: "AmountTransaction", fields: [amountId], references: [id])
-  amountId            Int
-  feeTotal            Price                 @relation(name: "FeeTotalTransaction", fields: [feeTotalId], references: [id])
-  feeTotalId          Int
-  net                 Price                 @relation(name: "NetTransaction", fields: [netId], references: [id])
-  netId               Int
+  amount              Int  @default(0)
+  net                 Int  @default(0)
+  feeTotal            Int  @default(0)
+  currency            CurrencyEnum @default(EUR)
   paymentMethod       PaymentMethod         @relation(fields: [paymentMethodId], references: [id])
   paymentMethodId     Int
   invoice             Invoice               @relation(fields: [invoiceId], references: [id])

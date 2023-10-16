@@ -1,0 +1,22 @@
+{
+  "title": "Shipping address",
+  "form": {
+    "title": "Shipping address",
+    "country": {
+      "label": "Country"
+    },
+    "address": {
+      "label": "Address",
+      "placeholder": "Street, apartment, suite, etc."
+    },
+    "city": {
+      "label": "City"
+    },
+    "province": {
+      "label": "State / Province"
+    },
+    "postal": {
+      "label": "Postal code"
+    }
+  }
+}

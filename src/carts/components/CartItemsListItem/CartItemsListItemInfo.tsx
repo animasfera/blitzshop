@@ -1,17 +1,11 @@
-import { CartToItem, Image as ImageDb, ImageToItem, Item, Price } from "db"
+import { CartToItem, Image as ImageDb, ImageToItem, Item } from "db"
 
 import { CartItemsListItemTitle } from "src/carts/components/CartItemsListItem/CartItemsListItemTitle"
 import { CartItemsListItemPrice } from "src/carts/components/CartItemsListItem/CartItemsListItemPrice"
+import { CartItemWithItem } from "../../../../types"
 
 interface CartItemsListItemInfoProps {
-  cartToItem: CartToItem & {
-    item: Item & {
-      amount: Price
-      coverImage: ImageToItem & {
-        image: ImageDb
-      }
-    }
-  }
+  cartToItem: CartItemWithItem
 }
 
 export const CartItemsListItemInfo = (props: CartItemsListItemInfoProps) => {
@@ -31,7 +25,7 @@ export const CartItemsListItemInfo = (props: CartItemsListItemInfoProps) => {
         )}
       </div>
 
-      <CartItemsListItemPrice amount={cartToItem.item.amount} />
+      <CartItemsListItemPrice amount={cartToItem.item.price} currency={cartToItem.item.currency} />
     </div>
   )
 }

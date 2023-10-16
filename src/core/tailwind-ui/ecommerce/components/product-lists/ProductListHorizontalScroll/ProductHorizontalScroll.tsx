@@ -11,7 +11,7 @@ interface ProductProps {
 
 export const ProductHorizontalScroll = (props: ProductProps) => {
   const { item } = props
-  const { id, coverImage, color, title, amount } = item
+  const { id, coverImage, color, title, price, currency } = item
 
   return (
     <li className="inline-flex w-64 flex-col text-center lg:w-auto">
@@ -38,7 +38,7 @@ export const ProductHorizontalScroll = (props: ProductProps) => {
           </h3>
 
           <p className="mt-1 text-sm text-gray-500">
-            <Money amount={amount.amount} currency={amount.currency} />
+            <Money amount={price} currency={currency} />
           </p>
         </div>
       </div>

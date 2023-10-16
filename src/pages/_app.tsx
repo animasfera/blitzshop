@@ -20,13 +20,22 @@ import { TimezoneWatch } from "src/core/components/TimezoneWatch"
 import { useQueryErrorResetBoundary } from "@blitzjs/rpc"
 import { HeaderController } from "src/core/components/sections/Header/HeaderController"
 import Footer from "../core/components/sections/Footer"
+import LoginForm from "../auth/components/LoginForm"
+import SignupForm from "../auth/components/SignupForm"
 
 ReactGA.initialize("G-34Y9N908L5")
 
-function RootErrorFallback({ error }: ErrorFallbackProps) {
-  console.error("RootErrorFallback", error)
+function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
+  const [authForm, setAuthForm] = useState("login")
+  let CertainAuthForm = authForm === "login" ? LoginForm : SignupForm
+
   if (error instanceof AuthenticationError) {
-    return <div>Error: You are not authenticated</div>
+    return (
+      // <Loading>
+      <Suspense fallback={<>"Loading..."</>}>
+        <CertainAuthForm onSuccess={resetErrorBoundary} onNavigate={(link) => setAuthForm(link)} />
+      </Suspense>
+    )
   } else if (error instanceof AuthorizationError) {
     return (
       <ErrorComponent

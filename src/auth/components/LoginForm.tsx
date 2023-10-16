@@ -15,6 +15,7 @@ import { Login } from "src/auth/schemas"
 
 interface LoginFormProps {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void
+  onNavigate?: (link: string) => void
 }
 
 export const LoginForm = (props: LoginFormProps) => {

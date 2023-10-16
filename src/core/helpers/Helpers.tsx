@@ -128,3 +128,19 @@ const usePrevious = (value) => {
   // return previous value (happens before update in useEffect)
   return ref.current
 }
+
+export function ucfirst(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+export const camelCase = (str: string[]) => {
+  return str
+    .map((s, i) => {
+      let strFormatted = s.toLowerCase()
+      if (i !== 0) {
+        strFormatted = ucfirst(strFormatted)
+      }
+      return strFormatted
+    })
+    .join("")
+}

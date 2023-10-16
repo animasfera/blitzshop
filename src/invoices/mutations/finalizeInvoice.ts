@@ -57,7 +57,6 @@ export const finalizeInvoiceDbQuery = async ({ id }, ctx, $db: PrismaDbType) => 
   const invoiceUpdated = await $db.invoice.findUnique({
     where: { id },
     include: {
-      amount: true,
       creditNotes: true,
       order: true,
       originalInvoice: true,

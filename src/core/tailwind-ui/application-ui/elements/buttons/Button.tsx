@@ -9,7 +9,7 @@ interface ButtonProps {
   rounded?: boolean
   disabled?: boolean
   styles?: string
-  handleClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 export const Button = (props: ButtonProps) => {
@@ -24,7 +24,7 @@ export const Button = (props: ButtonProps) => {
     rounded = false,
     disabled,
     styles,
-    handleClick,
+    onClick,
   } = props
 
   const sizeBtn = {
@@ -61,7 +61,7 @@ export const Button = (props: ButtonProps) => {
         ${variantBtn[variant]} ${sizeBtn[size]}
         ${disabled ? "cursor-not-allowed" : "cursor-pointer"}
       `}
-      onClick={handleClick}
+      onClick={onClick}
       disabled={disabled}
     >
       {startIcon}

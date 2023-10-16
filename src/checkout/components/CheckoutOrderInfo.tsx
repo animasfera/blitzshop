@@ -5,10 +5,13 @@ import { Money } from "src/core/components/Money"
 
 interface CheckoutOrderInfoProps {
   children: ReactElement | ReactElement[]
+  subtotal: number
+  shipping: number
+  total: number
 }
 
 export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
-  const { children } = props
+  const { children, total, subtotal, shipping } = props
 
   const { t } = useTranslation(["pages.checkout"])
 
@@ -17,11 +20,7 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
       <dl>
         <dt className="text-sm font-medium">{t("order.amount")}</dt>
         <dd className="mt-1 text-3xl font-bold tracking-tight text-white">
-          <Money
-            // $232.00
-            amount={23200}
-            currency={"USD"}
-          />
+          <Money amount={total} currency={"EUR"} />
         </dd>
       </dl>
 
@@ -33,8 +32,8 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
           <dd>
             <Money
               // $570.00
-              amount={57000}
-              currency={"USD"}
+              amount={subtotal}
+              currency={"EUR"}
             />
           </dd>
         </div>
@@ -44,30 +43,30 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
           <dd>
             <Money
               // $25.00
-              amount={2500}
-              currency={"USD"}
+              amount={shipping}
+              currency={"EUR"}
             />
           </dd>
         </div>
 
-        <div className="flex items-center justify-between">
-          <dt>{t("order.taxes")}</dt>
-          <dd>
-            <Money
-              // $47.60
-              amount={4760}
-              currency={"USD"}
-            />
-          </dd>
-        </div>
+        {/*<div className="flex items-center justify-between">*/}
+        {/*  <dt>{t("order.taxes")}</dt>*/}
+        {/*  <dd>*/}
+        {/*    <Money*/}
+        {/*      // $47.60*/}
+        {/*      amount={4760}*/}
+        {/*      currency={"USD"}*/}
+        {/*    />*/}
+        {/*  </dd>*/}
+        {/*</div>*/}
 
         <div className="flex items-center justify-between border-t border-white border-opacity-10 pt-6 text-white">
           <dt className="text-base">{t("order.total")}</dt>
           <dd className="text-base">
             <Money
               // $642.60
-              amount={64260}
-              currency={"USD"}
+              amount={total}
+              currency={"EUR"}
             />
           </dd>
         </div>

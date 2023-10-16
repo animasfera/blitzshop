@@ -31,25 +31,7 @@
           "label": "CVC"
         }
       },
-      "shipping": {
-        "title": "Shipping address",
-        "address": {
-          "label": "Address",
-          "placeholder": "Street, apartment, suite, etc."
-        },
-        "city": {
-          "label": "City",
-          "placeholder": "City"
-        },
-        "region": {
-          "label": "State / Province",
-          "placeholder": "State / Province"
-        },
-        "postal": {
-          "label": "Postal code",
-          "placeholder": "Code"
-        }
-      },
+
       "billing": {
         "title": "Billing information",
         "sameAsShipping": {

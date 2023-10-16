@@ -21,10 +21,10 @@ import {
   Order,
   OrderStatusEnum,
   PaymentMethod,
-  Price,
   Transaction,
   User,
   InvoiceStatusEnum,
+  CurrencyEnum,
 } from "@prisma/client"
 import { UserTaxDetails } from "src/users/components/UserTaxDetailsController"
 import { Money } from "src/core/components/Money"
@@ -33,7 +33,8 @@ import { useTranslation } from "react-i18next"
 export const InvoiceView = (props: {
   invoice: Invoice & {
     order: Order & { user: User }
-    amount: Price
+    amount: number
+    currency: CurrencyEnum
     creditNotes: Invoice[]
     originalInvoice: Invoice | null
     parentItem: Item & { user: User }
@@ -146,10 +147,10 @@ export const InvoiceView = (props: {
                 <Tr>
                   <Td>{t("ticket")}</Td>
                   <Td>
-                    <Money amount={invoice.amount.amount} currency={invoice.amount.currency} />
+                    <Money amount={invoice.amount} currency={invoice.currency} />
                   </Td>
                   <Td>
-                    <Money amount={invoice.amount.amount} currency={invoice.amount.currency} />
+                    <Money amount={invoice.amount} currency={invoice.currency} />
                   </Td>
                 </Tr>
               </Tbody>
@@ -158,7 +159,7 @@ export const InvoiceView = (props: {
           <Box mt={2} mb={2} textAlign={"right"}>
             {t("total")}
             {invoice.status === InvoiceStatusEnum.PARTIALLY_PAID && " (" + t("paid") + ")"}:{" "}
-            <Money amount={invoice.amount.amount} currency={invoice.amount.currency} />
+            <Money amount={invoice.amount} currency={invoice.currency} />
           </Box>
         </Box>
       )}
