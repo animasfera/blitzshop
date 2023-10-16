@@ -7,7 +7,7 @@ import ButtonCircular from "./application-ui/elements/buttons/ButtonCircular"
 
 type ModalProps = {
   size?: string
-  children: ReactElement // ReactChildren
+  children: ReactElement | ReactElement[]
   toggle?: [boolean, (val: boolean) => void]
   title?: string
   onClose: () => void
