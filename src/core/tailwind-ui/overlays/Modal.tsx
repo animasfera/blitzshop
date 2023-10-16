@@ -10,7 +10,7 @@ type ModalProps = {
   children: ReactElement | ReactElement[]
   toggle?: [boolean, (val: boolean) => void]
   title?: string
-  onClose: () => void
+  onClose?: () => void
   isOpen?: boolean
   withPrint?: boolean
   bottomClose?: boolean
@@ -24,7 +24,7 @@ export const Modal = (props: ModalProps) => {
       show={isOpen ? isOpen : toggle && typeof toggle[0] !== "undefined" ? toggle[0] : false}
       as={Fragment}
     >
-      <Dialog as="div" className="relative z-10" onClose={() => onClose()}>
+      <Dialog as="div" className="relative z-10" onClose={() => onClose && onClose()}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -61,14 +61,16 @@ export const Modal = (props: ModalProps) => {
                       variant={"soft"}
                       size={"xs"}
                       icon={<XMarkIcon className="h-5 w-5" aria-hidden="true" />}
-                      onClick={() => onClose()}
+                      onClick={() => onClose && onClose()}
                     />
                   </div>
                 </Dialog.Title>
                 <Suspense></Suspense>
                 {children}
                 <div className="flex justify-end">
-                  <Button buttonText="Закрыть" handleClick={() => onClose()} />
+                  {bottomClose && (
+                    <Button buttonText="Закрыть" handleClick={() => onClose && onClose()} />
+                  )}
                 </div>
               </div>
             </Transition.Child>
