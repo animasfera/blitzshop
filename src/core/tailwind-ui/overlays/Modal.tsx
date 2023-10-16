@@ -16,9 +16,8 @@ type ModalProps = {
   bottomClose?: boolean
 }
 export const Modal = (props: ModalProps) => {
-  let { size, toggle, children, title, onClose, isOpen, withPrint, bottomClose } = props
+  let { size, toggle, children, title, onClose, isOpen, withPrint, bottomClose = true } = props
 
-  bottomClose = typeof bottomClose === "undefined" ? true : bottomClose
   return (
     <Transition.Root
       show={isOpen ? isOpen : toggle && typeof toggle[0] !== "undefined" ? toggle[0] : false}
@@ -65,7 +64,6 @@ export const Modal = (props: ModalProps) => {
                     />
                   </div>
                 </Dialog.Title>
-                <Suspense></Suspense>
                 {children}
                 <div className="flex justify-end">
                   {bottomClose && (
