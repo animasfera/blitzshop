@@ -1,9 +1,9 @@
 import { Fragment, ReactElement, Suspense, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { XMarkIcon } from "@heroicons/react/24/outline"
-import { classNames } from "../helpers/classNames"
-import Button from "./application-ui/elements/buttons/Button"
-import ButtonCircular from "./application-ui/elements/buttons/ButtonCircular"
+import { classNames } from "../../helpers/classNames"
+import Button from "../application-ui/elements/buttons/Button"
+import ButtonCircular from "../application-ui/elements/buttons/ButtonCircular"
 
 type ModalProps = {
   size?: string
