@@ -11,39 +11,43 @@ export class ConfirmEmailError extends Error {
   message = "Wrong confirmation code"
 }
 
-export default resolver.pipe(resolver.zod(ConfirmEmail), async ({ token }, ctx) => {
-  // 1. Try to find this token in the database
-  const hashedToken = hash256(token)
-  const possibleToken = await db.token.findFirst({
-    where: { hashedToken, type: TokenTypeEnum.CONFIRM_EMAIL },
-    include: { user: true },
-  })
+export default resolver.pipe(
+  resolver.zod(ConfirmEmail),
+  resolver.authorize(),
+  async ({ token }, ctx) => {
+    // 1. Try to find this token in the database
+    const hashedToken = hash256(token)
+    const possibleToken = await db.token.findFirst({
+      where: { hashedToken, type: TokenTypeEnum.CONFIRM_EMAIL },
+      include: { user: true },
+    })
 
-  // 2. If token not found, error
-  if (!possibleToken) {
-    throw new ConfirmEmailError()
+    // 2. If token not found, error
+    if (!possibleToken) {
+      throw new ConfirmEmailError()
+    }
+    const savedToken = possibleToken
+
+    // 3. Delete token so it can't be used again
+    await db.token.delete({ where: { id: savedToken.id } })
+
+    // 5. Since token is valid, now we can activate user
+    const user = await db.user.update({
+      where: { id: savedToken.userId },
+      data: {
+        status: UserStatusEnum.ACTIVE,
+        emailConfirmed: true,
+      },
+    })
+
+    await deleteNotificationsByRef(
+      {
+        userId: savedToken.userId,
+        // ref: "confirmEmail",
+      },
+      ctx
+    )
+
+    return true
   }
-  const savedToken = possibleToken
-
-  // 3. Delete token so it can't be used again
-  await db.token.delete({ where: { id: savedToken.id } })
-
-  // 5. Since token is valid, now we can activate user
-  const user = await db.user.update({
-    where: { id: savedToken.userId },
-    data: {
-      status: UserStatusEnum.ACTIVE,
-      emailConfirmed: true,
-    },
-  })
-
-  await deleteNotificationsByRef(
-    {
-      userId: savedToken.userId,
-      // ref: "confirmEmail",
-    },
-    ctx
-  )
-
-  return true
-})
+)

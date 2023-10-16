@@ -50,9 +50,13 @@ export const cancelTransactionDbQuery = async (input: CancelTransactionType, ctx
   return transactionUpdated
 }
 
-export default resolver.pipe(resolver.zod(CancelTransaction), async (input, ctx) => {
-  // @ts-ignore
-  return await db.$transaction(async ($db) => {
-    return await cancelTransactionDbQuery(input, ctx, $db)
-  })
-})
+export default resolver.pipe(
+  resolver.zod(CancelTransaction),
+  resolver.authorize(),
+  async (input, ctx) => {
+    // @ts-ignore
+    return await db.$transaction(async ($db) => {
+      return await cancelTransactionDbQuery(input, ctx, $db)
+    })
+  }
+)
