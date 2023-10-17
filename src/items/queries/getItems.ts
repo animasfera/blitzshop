@@ -28,7 +28,7 @@ export default resolver.pipe(async ({ where, orderBy, skip = 0, take = 100 }: Ge
           category: true,
           coverImage: { include: { image: true } },
           chatRoom: true,
-          images: true,
+          images: { include: { image: true } },
           invoices: true,
           location: true,
           purchasedItems: true,

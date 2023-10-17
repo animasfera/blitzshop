@@ -2,7 +2,7 @@ import Head from "next/head"
 import { BlitzLayout } from "@blitzjs/next"
 import { useSession } from "@blitzjs/auth"
 import AdminSidebar from "../tailwind-ui/application-ui/admin/AdminSidebar"
-import { HomeIcon } from "@heroicons/react/24/outline"
+import { HomeIcon, CircleStackIcon } from "@heroicons/react/24/outline"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 interface AdminLayoutProps {
@@ -27,6 +27,12 @@ export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
       href: Routes.AdminPage().href,
       icon: HomeIcon,
       current: routerPathname === Routes.AdminPage().href,
+    },
+    {
+      name: "Товары",
+      href: Routes.AdminItemsPage().href,
+      icon: CircleStackIcon,
+      current: routerPathname === Routes.AdminItemsPage().href,
     },
   ]
 
