@@ -10,60 +10,6 @@
     "taxes": "Налоги",
     "total": "Итого"
   },
-  "payment": {
-    "title": "Подробности оплаты и доставки",
-    "form": {
-      "contact": {
-        "title": "Контактная информация",
-        "email": {
-          "label": "Электронная почта"
-        }
-      },
-      "details": {
-        "title": "Детали оплаты",
-        "cardNum": {
-          "label": "Номер карты"
-        },
-        "exp": {
-          "label": "Срок действия карты (ММ/ГГ)"
-        },
-        "cvc": {
-          "label": "CVC"
-        }
-      },
-      "shipping": {
-        "title": "Адрес доставки",
-        "country": {
-          "label": "Страна"
-        },
-        "address": {
-          "label": "Адрес",
-          "placeholder": "Улица, дом, корпус/строение, квартира"
-        },
-        "city": {
-          "label": "Город",
-          "placeholder": "Город"
-        },
-        "region": {
-          "label": "Регион",
-          "placeholder": "Регион"
-        },
-        "postal": {
-          "label": "Почтовый индекс",
-          "placeholder": "Индекс"
-        }
-      },
-      "billing": {
-        "title": "Платежные данные",
-        "sameAsShipping": {
-          "label": "То же, что и информация о доставке"
-        }
-      },
-      "submit": {
-        "button": {
-          "text": "Оплатить сейчас"
-        }
-      }
-    }
-  }
+  "chooseMethod": "Выбрать способ оплаты",
+  "paymentCurrency": "Валюта оплаты"
 }

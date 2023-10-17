@@ -22,21 +22,25 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
       <h2 className="sr-only">{t("shippingAddress:title")}</h2>
       <Form<S> {...props}>
         <div className="mx-auto max-w-2xl flex flex-col gap-10 px-4 xl:max-w-none xl:px-0">
-          {/*<CheckoutPaymentFormInputsBlock title={t("payment.form.contact.title")}>*/}
-          {/*  <LabeledTextField*/}
-          {/*    name={"email"}*/}
-          {/*    label={t("payment.form.contact.email.label")}*/}
-          {/*    type={"email"}*/}
-          {/*    placeholder={"example@mail.com"}*/}
-          {/*    autoComplete={"email"}*/}
-          {/*    outerProps={{ className: "mt-6" }}*/}
-          {/*  />*/}
-          {/*</CheckoutPaymentFormInputsBlock>*/}
+          <LabeledTextField
+            name={"firstName"}
+            label={t("shippingAddress:fields.firstName.label")}
+            type={"text"}
+            autoComplete={"first-name"}
+            outerProps={{ className: "mt-6 mb-2" }}
+          />
+          <LabeledTextField
+            name={"lastName"}
+            label={t("shippingAddress:fields.lastName.label")}
+            type={"text"}
+            autoComplete={"last-name"}
+            outerProps={{ className: "mb-2" }}
+          />
 
           <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-4 xxl:grid-cols-5">
             <LabeledSelectField
-              name={"countryIsoCode"}
-              label={t("shippingAddress:form.country.label")}
+              name={"countryId"}
+              label={t("shippingAddress:fields.country.label")}
               options={CountriesOptions}
               outerProps={{
                 className: "sm:col-span-4 md:col-span-3 lg:col-span-5 xl:col-span-4 xxl:col-span-5",
@@ -45,8 +49,7 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
 
             <LabeledTextField
               name={"address"}
-              label={t("shippingAddress:form.address.label")}
-              placeholder={t("shippingAddress:form.address.label")}
+              label={t("shippingAddress:fields.address.label")}
               autoComplete={"street-address"}
               outerProps={{
                 className: "sm:col-span-4 md:col-span-3 lg:col-span-5 xl:col-span-4 xxl:col-span-5",
@@ -55,8 +58,7 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
 
             <LabeledTextField
               name={"city"}
-              label={t("shippingAddress:form.city.label")}
-              placeholder={t("shippingAddress:form.city.placeholder")}
+              label={t("shippingAddress:fields.city.label")}
               autoComplete={"city-address"}
               outerProps={{
                 className: "sm:col-span-4 md:col-span-3 lg:col-span-2 xl:col-span-4 xxl:col-span-2",
@@ -64,10 +66,9 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
             />
 
             <LabeledTextField
-              name={"region"}
-              label={t("shippingAddress:form.region.label")}
-              placeholder={t("shippingAddress:form.city.placeholder")}
-              autoComplete={"region-address"}
+              name={"province"}
+              label={t("shippingAddress:fields.province.label")}
+              autoComplete={"province-address"}
               outerProps={{
                 className: "sm:col-span-2 md:col-span-2 lg:col-span-2 xl:col-span-4 xxl:col-span-2",
               }}
@@ -75,14 +76,20 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
 
             <LabeledTextField
               name={"postalCode"}
-              label={t("shippingAddress:form.postalCode.label")}
-              placeholder={t("shippingAddress:form.postalCode.placeholder")}
+              label={t("shippingAddress:fields.postalCode.label")}
               autoComplete={"postal-code-address"}
               outerProps={{
                 className: "sm:col-span-2 md:col-span-1 xl:col-span-4 xxl:col-span-1",
               }}
             />
           </div>
+          <LabeledTextField
+            name={"phone"}
+            label={t("shippingAddress:fields.phone.label")}
+            type={"text"}
+            autoComplete={"phone"}
+            outerProps={{ className: "mt-6 mb-2" }}
+          />
         </div>
       </Form>
     </>

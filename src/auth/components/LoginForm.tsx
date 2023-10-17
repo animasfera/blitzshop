@@ -55,7 +55,7 @@ export const LoginForm = (props: LoginFormProps) => {
       onSubmit={async (values) => {
         try {
           const user = await loginMutation({ ...values })
-          void i18n.changeLanguage(user.locale || LocaleEnum.EN)
+          void i18n.changeLanguage(user.locale || LocalEnum.en)
 
           await invalidateQuery(getCart)
           onSuccess?.(user)

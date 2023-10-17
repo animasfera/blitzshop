@@ -9,8 +9,16 @@ import ShippingMethodForm from "./ShippingMethodForm"
 import { CurrencyEnum, ShippingAddress } from "@prisma/client"
 import CheckoutPaymentFormInputsBlock from "./CheckoutPaymentFormInputsBlock"
 import getShippingMethods from "../../shipping-methods/queries/getShippingMethods"
-import { useQuery } from "@blitzjs/rpc"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 import { CreateShippingAddressSchema } from "../../shipping-addresses/schemas"
+import { ShippingAddressChoiceController } from "./ShippingAddressChoiceController"
+import { ShippingMethodChoiceController } from "./ShippingMethodChoiceController"
+import { ShippingMethodWithPrice } from "../../shipping-methods/schemas"
+import getShippingMethodWithPrice from "../../shipping-methods/queries/getShippingMethodWithPrice"
+import { PaymentMethodChoiceController } from "./PaymentMethodChoiceController"
+import createOrder from "../../orders/mutations/createOrder"
+import useScript from "../../core/hooks/useScript"
+import { StripeCheckoutForm } from "src/core/stripe/components/StripeCheckoutForm"
 
 interface CheckoutProps {
   cartClient: cartClient
@@ -19,30 +27,46 @@ interface CheckoutProps {
 export const Checkout = (props: CheckoutProps) => {
   const { cartClient } = props
 
-  const { t, i18n } = useTranslation(["pages.checkout", "shippingAddress"])
-  const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null)
-  const [shippingMethodsCustom, setShippingMethodsCustom] = useState<any>(null)
-
-  const [step, setStep] = useState<"address" | "shippingMethod" | "payment">("address")
-  const [{ shippingMethods }] = useQuery(getShippingMethods, {})
-
-  const shippingMethodsLocalized = shippingMethods.map((sm) => {
-    return {
-      id: sm.id,
-      title: i18n.resolvedLanguage === "ru" ? sm.titleRu : sm.titleEn,
-      price: 0,
-      currency: CurrencyEnum.EUR,
-    }
+  const [cpScriptLoaded, setCpScriptLoaded] = useState(false)
+  useScript("https://widget.cloudpayments.ru/bundles/cloudpayments.js", () => {
+    setCpScriptLoaded(true)
   })
 
+  const { t, i18n } = useTranslation(["pages.checkout", "shippingAddress"])
+  const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null)
+  const [shippingMethod, setShippingMethod] = useState<ShippingMethodWithPrice | null>(null)
+  const [shippingMethodWithPrice] = useQuery(
+    getShippingMethodWithPrice,
+    { address: shippingAddress! },
+    { enabled: shippingAddress !== null }
+  )
+
+  const [createOrderMutation] = useMutation(createOrder)
+
+  const [step, setStep] = useState<"address" | "shippingMethod" | "payment">("address")
+  const [paymentCurrency, setPaymentCurrency] = useState<CurrencyEnum>(CurrencyEnum.RUB)
+
   useEffect(() => {
-    if (step === "shippingMethod") {
-      if (["ru", "by", "kz"].includes(shippingAddress.countryIsoCode)) {
+    if (step === "shippingMethod" && shippingAddress) {
+      if (["ru", "by", "kz"].includes(shippingAddress.countryId)) {
       }
     }
   }, [step])
 
   const shipping = 100
+
+  const initPayment = async () => {
+    // const order = await createOrderMutation({})
+
+    switch (paymentCurrency) {
+      case CurrencyEnum.RUB:
+        // TODO do Cloudpayments payment with order.invoiceId
+        break
+      case CurrencyEnum.EUR:
+        // TODO do Stripe payment with order.invoiceId
+        break
+    }
+  }
 
   return (
     <div className="bg-white relative">
@@ -65,22 +89,43 @@ export const Checkout = (props: CheckoutProps) => {
         <CheckoutPayment>
           {step === "address" && (
             <CheckoutPaymentFormInputsBlock title={t("shippingAddress:title")}>
-              <ShippingAddressForm
-                submitText={t("shippingAddress:chooseMethod")}
-                initialValues={{}}
-                schema={CreateShippingAddressSchema}
-                onSubmit={(address) => {
+              <ShippingAddressChoiceController
+                onSelect={(address) => {
                   setShippingAddress(address)
-                  setStep("shippingMethod")
+                  setStep("payment")
                 }}
               />
             </CheckoutPaymentFormInputsBlock>
           )}
-          {step === "shippingMethod" && (
+          {step === "shippingMethod" && shippingAddress && (
             <>
               <CheckoutPaymentFormInputsBlock title={t("shippingMethod:title")}>
-                <ShippingMethodForm methods={shippingMethodsLocalized} onSubmit={() => {}} />
+                <ShippingMethodChoiceController
+                  address={shippingAddress}
+                  onSelect={(shippingMethod) => {
+                    setShippingMethod(shippingMethod)
+                  }}
+                />
               </CheckoutPaymentFormInputsBlock>
+            </>
+          )}
+          {step === "paymentCurrency" && shippingMethodWithPrice && (
+            <>
+              <CheckoutPaymentFormInputsBlock title={t("shippingMethod:title")}>
+                <PaymentMethodChoiceController
+                  onSubmit={async (values) => {
+                    setPaymentCurrency(values.currency)
+                    await initPayment()
+                  }}
+                />
+              </CheckoutPaymentFormInputsBlock>
+            </>
+          )}
+          {step === "payment" && shippingMethodWithPrice && (
+            <>
+              <Elements options={options} stripe={stripePromise}>
+                <StripeCheckoutForm booking={bookingDetails.booking} />
+              </Elements>
             </>
           )}
         </CheckoutPayment>

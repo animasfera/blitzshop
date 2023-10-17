@@ -1,7 +1,19 @@
 {
   "title": "Shipping address",
-  "form": {
+  "fields": {
     "title": "Shipping address",
+    "firstName": {
+      "label": "First name"
+    },
+    "lastName": {
+      "label": "Last name"
+    },
+    "email": {
+      "label": "E-mail"
+    },
+    "phone": {
+      "label": "Phone"
+    },
     "country": {
       "label": "Country"
     },
@@ -15,7 +27,7 @@
     "province": {
       "label": "State / Province"
     },
-    "postal": {
+    "postalCode": {
       "label": "Postal code"
     }
   }

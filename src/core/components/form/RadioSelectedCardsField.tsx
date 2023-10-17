@@ -67,7 +67,6 @@ export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelecte
     return (
       <div className="relative mb-7" {...outerProps}>
         <RadioGroup
-          {...input}
           ref={ref}
           value={options.find((o) => o.value === input.value)}
           onChange={(v) => {

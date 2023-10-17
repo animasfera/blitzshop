@@ -1,7 +1,18 @@
 {
   "title": "Адрес доставки",
-  "form": {
-    "title": "Адрес доставки",
+  "fields": {
+    "firstName": {
+      "label": "Имя"
+    },
+    "lastName": {
+      "label": "Фамилия"
+    },
+    "email": {
+      "label": "E-mail"
+    },
+    "phone": {
+      "label": "Телефон"
+    },
     "country": {
       "label": "Страна"
     },
@@ -15,7 +26,7 @@
     "province": {
       "label": "Область"
     },
-    "postal": {
+    "postalCode": {
       "label": "Почтовый индекс"
     }
   }

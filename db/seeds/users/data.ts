@@ -17,7 +17,7 @@ export const users = {
     email: "mkdir.web.dev@gmail.com",
     username: "mkdir",
     role: UserRoleEnum.ADMIN,
-    locale: LocaleEnum.RU,
+    locale: LocaleEnum.ru,
   } as Prisma.UserCreateInput,
 
   // moderators

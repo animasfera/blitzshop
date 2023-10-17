@@ -70,8 +70,10 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
         <RadioGroup
           {...input}
           ref={ref}
-          value={selected}
-          onChange={setSelected}
+          value={options.find((o) => o.value === input.value)}
+          onChange={(v) => {
+            input?.onChange(v)
+          }}
           disabled={disabled || submitting}
         >
           <div className="relative">

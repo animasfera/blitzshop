@@ -12,7 +12,7 @@ export const PrivacyPolicyPage = () => {
     <Container maxWidth={"container.lg"}>
       PrivacyPolicyEn
       {
-        // currentUser?.locale === LocaleEnum.RU ? <PrivacyPolicyRu /> : <PrivacyPolicyEn />
+        // currentUser?.locale === LocalEnum.ru ? <PrivacyPolicyRu /> : <PrivacyPolicyEn />
       }
     </Container>
   )

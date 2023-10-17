@@ -8,6 +8,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 generator zod {
@@ -35,7 +36,7 @@ model User {
   lastName              String?
   hashedPassword        String?
   timezone              String            @default("Etc/Greenwich")
-  locale                LocaleEnum        @default(EN)
+  locale                LocaleEnum        @default(en)
   avatarUrl             String            @default("")
   role                  UserRoleEnum      @default(USER)
   status                UserStatusEnum    @default(PENDING)
@@ -102,8 +103,8 @@ enum CurrencyEnum {
 }
 
 enum LocaleEnum {
-  RU
-  EN
+  ru
+  en
 }
 
 model Token {

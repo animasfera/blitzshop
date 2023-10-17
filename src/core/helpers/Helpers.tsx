@@ -144,3 +144,11 @@ export const camelCase = (str: string[]) => {
     })
     .join("")
 }
+
+export const br2nl = (string: string): string => {
+  return string
+    .replace(/<br \/>/g, "\n")
+    .replace(/[^\S\r\n]+/g, " ")
+    .replace(/\n /g, "\n")
+    .trim()
+}

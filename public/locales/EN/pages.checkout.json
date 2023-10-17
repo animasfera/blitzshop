@@ -10,39 +10,6 @@
     "taxes": "Taxes",
     "total": "Total"
   },
-  "payment": {
-    "title": "Payment and shipping details",
-    "form": {
-      "contact": {
-        "title": "Contact information",
-        "email": {
-          "label": "Email address"
-        }
-      },
-      "details": {
-        "title": "Payment details",
-        "cardNum": {
-          "label": "Card number"
-        },
-        "exp": {
-          "label": "Expiration date (MM/YY)"
-        },
-        "cvc": {
-          "label": "CVC"
-        }
-      },
-
-      "billing": {
-        "title": "Billing information",
-        "sameAsShipping": {
-          "label": "Same as shipping information"
-        }
-      },
-      "submit": {
-        "button": {
-          "text": "Pay now"
-        }
-      }
-    }
-  }
+  "chooseMethod": "Choose shipping method",
+  "paymentCurrency": "Payment currency"
 }

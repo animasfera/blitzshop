@@ -21,7 +21,7 @@ export const DeleteShippingAddressSchema = z.object({
   id: z.number(),
 })
 
-const ShippingAddressPlain = ShippingAddressModel.pick({
+export const ShippingAddressPlain = ShippingAddressModel.pick({
   firstName: true,
   lastName: true,
   phone: true,
