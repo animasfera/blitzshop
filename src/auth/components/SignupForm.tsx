@@ -14,6 +14,7 @@ import signup from "src/auth/mutations/signup"
 import { Signup } from "src/auth/schemas"
 import { Countries } from "src/auth/components/Countries"
 import { getUrlСountryFlag } from "src/core/helpers/getUrlСountryFlag"
+import { LocaleEnum } from "@prisma/client"
 
 interface SignupFormProps {
   onSuccess?: (user: PromiseReturnType<typeof signup>) => void
@@ -77,7 +78,7 @@ export const SignupForm = (props: SignupFormProps) => {
         email: "",
         password: "",
         timezone,
-        locale: i18n.resolvedLanguage,
+        locale: i18n.resolvedLanguage?.toUpperCase() as LocaleEnum,
         countryIsoCode: country?.value ?? "us",
       }}
       onSubmit={async (values) => {

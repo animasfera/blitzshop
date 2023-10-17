@@ -71,33 +71,38 @@ export const HeaderController = (props: HeaderControllerProps) => {
     { name: t("translation:userMenu.orders"), href: Routes.OrdersPage().href },
     { name: t("translation:userMenu.settings"), href: Routes.SettingsPage().href },
   ]
+  const isAdminPage = path.indexOf("/admin") !== -1
 
   return (
-    <Loading>
-      <HeaderMobileMenu
-        open={openMenu}
-        session={session}
-        navigation={navigation}
-        userMenu={userMenu}
-        path={path}
-        handleOpen={handleOpenMenu}
-        logout={handleLogout}
-      />
+    <>
+      {!isAdminPage && (
+        <Loading>
+          <HeaderMobileMenu
+            open={openMenu}
+            session={session}
+            navigation={navigation}
+            userMenu={userMenu}
+            path={path}
+            handleOpen={handleOpenMenu}
+            logout={handleLogout}
+          />
 
-      <Header
-        openMenu={openMenu}
-        session={session}
-        navigation={navigation}
-        userMenu={userMenu}
-        currency={selectedCurrency}
-        currencies={currencies}
-        path={path}
-        cart={cart}
-        handleOpenMenu={handleOpenMenu}
-        handleChangeCurrency={handleChangeCurrency}
-        logout={handleLogout}
-      />
-    </Loading>
+          <Header
+            openMenu={openMenu}
+            session={session}
+            navigation={navigation}
+            userMenu={userMenu}
+            currency={selectedCurrency}
+            currencies={currencies}
+            path={path}
+            cart={cart}
+            handleOpenMenu={handleOpenMenu}
+            handleChangeCurrency={handleChangeCurrency}
+            logout={handleLogout}
+          />
+        </Loading>
+      )}
+    </>
   )
 }
 
