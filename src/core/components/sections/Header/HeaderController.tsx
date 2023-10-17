@@ -87,20 +87,22 @@ export const HeaderController = (props: HeaderControllerProps) => {
             logout={handleLogout}
           />
 
-      <Header
-        openMenu={openMenu}
-        session={session}
-        navigation={navigation}
-        userMenu={userMenu}
-        currency={selectedCurrency}
-        currencies={currencies}
-        path={path}
-        cart={cart}
-        handleOpenMenu={handleOpenMenu}
-        handleChangeCurrency={handleChangeCurrency}
-        logout={handleLogout}
-      />
-    </Loading>
+          <Header
+            openMenu={openMenu}
+            session={session}
+            navigation={navigation}
+            userMenu={userMenu}
+            currency={selectedCurrency}
+            currencies={currencies}
+            path={path}
+            cart={cart}
+            handleOpenMenu={handleOpenMenu}
+            handleChangeCurrency={handleChangeCurrency}
+            logout={handleLogout}
+          />
+        </Loading>
+      )}
+    </>
   )
 }
 
