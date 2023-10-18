@@ -1,8 +1,8 @@
 import React from "react"
-import AdminItemsItem, { IAdminItemsItem } from "./AdminItemsItem"
+import AdminItem, { IAdminItem } from "./AdminItem"
 
 export interface IAdminItemsList {
-  items: IAdminItemsItem["item"][]
+  items: IAdminItem["item"][]
 }
 
 const AdminItemsList = (props: IAdminItemsList) => {
@@ -55,7 +55,7 @@ const AdminItemsList = (props: IAdminItemsList) => {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {items.map((item) => (
-              <AdminItemsItem key={item.id} item={item} />
+              <AdminItem key={item.id} item={item} />
             ))}
           </tbody>
         </table>

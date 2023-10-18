@@ -1,33 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-  Category,
-  ChatRoom,
-  Image,
-  ImageToItem,
-  Item,
-  Location,
-  Price,
-  Prisma,
-  User,
-} from "@prisma/client"
-
 import React from "react"
-export interface IAdminItemsItem {
-  item: Item & {
-    location: Location | null
-    user: User | null
-    amount: Price
-    category: Category | null
-    _count: Prisma.ItemCountOutputType
-    chatRoom: ChatRoom | null
-    images: ImageToItem[]
-    coverImage: ImageToItem & {
-      image: Image
-    }
-  }
+import { ItemFull } from "types"
+export interface IAdminItem {
+  item: ItemFull
 }
 
-const AdminItemsItem = (props: IAdminItemsItem) => {
+const AdminItem = (props: IAdminItem) => {
   const { item } = props
   return (
     <tr>
@@ -58,4 +36,4 @@ const AdminItemsItem = (props: IAdminItemsItem) => {
   )
 }
 
-export default AdminItemsItem
+export default AdminItem
