@@ -4,10 +4,10 @@ import AdminItemsItem, { IAdminItemsItem } from "./AdminItemsItem"
 export interface IAdminItemsList {
   items: IAdminItemsItem["item"][]
   onItemClick: (item: IAdminItemsItem["item"]) => void
+  onEditClick?: (item: IAdminItemsItem["item"]) => void
 }
-
 const AdminItemsList = (props: IAdminItemsList) => {
-  const { items, onItemClick } = props
+  const { items, onItemClick, onEditClick } = props
   return (
     <div className="px-4 sm:px-4 lg:px-4">
       <div className="-mx-4 mt-8 sm:-mx-0">
@@ -49,13 +49,20 @@ const AdminItemsList = (props: IAdminItemsList) => {
               </th>
 
               <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                <span className="sr-only">Edit</span>
+                <button>
+                  <span className="sr-only">Edit</span>
+                </button>
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {items.map((item) => (
-              <AdminItemsItem key={item?.id} item={item} onItemClick={() => onItemClick(item)} />
+              <AdminItemsItem
+                key={item?.id}
+                item={item}
+                onItemClick={() => onItemClick(item)}
+                onEditClick={onEditClick}
+              />
             ))}
           </tbody>
         </table>

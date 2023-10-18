@@ -5,6 +5,7 @@ import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage
 import { usePagination } from "src/core/hooks/usePagination"
 import { Modal } from "src/core/tailwind-ui/overlays/Modal"
 import getItems from "src/items/queries/getItems"
+import { ItemForm } from "../ItemForm"
 import AdminItemCard from "./AdminItemCard"
 import AdminItemsControllerHeader from "./AdminItemsControllerHeader"
 import { IAdminItemsItem } from "./AdminItemsItem"
@@ -23,11 +24,25 @@ const AdminItemsController = () => {
   })
   const [currentItem, setCurrentItem] = useState<IAdminItemsItem["item"]>(null)
   const [showItemCard, setShowItemCard] = useState<boolean>(false)
+  const [showItemForm, setShowItemForm] = useState<boolean>(false)
 
   return (
     <>
-      <Modal size="w-1/2" isOpen={showItemCard} onClose={() => setShowItemCard(false)}>
-        <AdminItemCard item={currentItem} />
+      <Modal
+        size="w-1/2"
+        isOpen={showItemCard}
+        onClose={() => setShowItemCard(false)}
+        bottomClose={false}
+      >
+        <AdminItemCard item={currentItem} onEditClick={(item) => {}} />
+      </Modal>
+      <Modal
+        size="flex w-full transform  text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl"
+        isOpen={showItemForm}
+        onClose={() => setShowItemForm(false)}
+        bottomClose={false}
+      >
+        <ItemForm item={currentItem} onSubmit={() => {}} />
       </Modal>
       <AdminItemsControllerHeader />
       <ListOrNotFoundMessage
@@ -41,6 +56,10 @@ const AdminItemsController = () => {
           onItemClick={(item) => {
             setCurrentItem(item)
             setShowItemCard(true)
+          }}
+          onEditClick={(item) => {
+            setCurrentItem(item)
+            setShowItemForm(true)
           }}
         />
       </ListOrNotFoundMessage>

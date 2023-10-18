@@ -4,12 +4,14 @@ import { StarIcon } from "@heroicons/react/20/solid"
 import { RadioGroup } from "@headlessui/react"
 import { CurrencyDollarIcon, GlobeAmericasIcon } from "@heroicons/react/24/outline"
 import { classNames } from "src/core/helpers/classNames"
+import Button from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 interface IAdminItemCard {
   item: IAdminItemsItem["item"]
+  onEditClick?: (item: IAdminItemsItem["item"]) => void
 }
 
 const AdminItemCard = (props: IAdminItemCard) => {
-  const { item } = props
+  const { item, onEditClick } = props
   return (
     <>
       {item && (
@@ -88,6 +90,11 @@ const AdminItemCard = (props: IAdminItemCard) => {
                 </div>
               </div>
             </div>
+            {onEditClick && (
+              <div className="flex justify-start">
+                <Button buttonText="Edit" handleClick={() => onEditClick(item)} />
+              </div>
+            )}
           </div>
         </div>
       )}
