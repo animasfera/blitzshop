@@ -55,8 +55,8 @@ const AdminItemsList = (props: IAdminItemsList) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            {items.map((item) => (
-              <AdminItem key={item.id} item={item} />
+            {items.map((item, i) => (
+              <AdminItem key={i} item={item} onItemClick={(item) => onItemClick(item)} />
             ))}
           </tbody>
         </table>

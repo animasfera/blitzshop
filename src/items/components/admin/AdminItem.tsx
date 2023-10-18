@@ -3,21 +3,24 @@ import React from "react"
 import { ItemFull } from "types"
 export interface IAdminItem {
   item: ItemFull | null
+  onItemClick: (item: IAdminItem["item"]) => void
 }
 
 const AdminItem = (props: IAdminItem) => {
-  const { item } = props
+  const { item, onItemClick } = props
   return (
     <>
       {item && (
         <tr>
           <td className="max-w-fit px-3 py-4 text-sm text-gray-500 lg:table-cell">{item.id}</td>
           <td className="px-3 py-2 text-sm text-gray-500 lg:table-cell">
-            <img
-              className="h-20 w-20 rounded-md object-cover object-center"
-              src={item.coverImage.image.url}
-              alt=""
-            />
+            <button onClick={() => onItemClick(item)}>
+              <img
+                className="h-20 w-20 rounded-md object-cover object-center"
+                src={item.coverImage.image.url}
+                alt=""
+              />
+            </button>
           </td>
           <td className="px-3 py-1 text-sm text-black-600 lg:font-normal sm:table-cell sm:font-semibold">
             {item.title}
