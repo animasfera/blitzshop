@@ -1,10 +1,15 @@
 import { BlitzPage } from "@blitzjs/next"
-import React from "react"
-import AdminLayout from "src/core/layouts/AdminLayout"
+
+import { AdminLayout } from "src/core/layouts/AdminLayout"
+import { Loading } from "src/core/components/Loading"
 
 const AdminPage: BlitzPage = () => {
-  return <>Dashboard</>
+  return (
+    <AdminLayout title={"Admin Dashboard"}>
+      <Loading>Dashboard</Loading>
+    </AdminLayout>
+  )
 }
 
-AdminPage.getLayout = (page) => <AdminLayout title={"Admin Dashboard"}>{page}</AdminLayout>
+export { getServerSideProps } from "src/core/getServerSideProps"
 export default AdminPage

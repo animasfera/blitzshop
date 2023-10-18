@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import { classNames } from "src/core/helpers/classNames"
 export interface IAdminSidebarMenuItem {
   item: {
@@ -19,7 +21,7 @@ const AdminSidebarMenuItem = (props: IAdminSidebarMenuItem) => {
   return (
     <>
       <li>
-        <a
+        <Link
           href={item.href}
           className={classNames(
             item.current
@@ -39,7 +41,7 @@ const AdminSidebarMenuItem = (props: IAdminSidebarMenuItem) => {
             />
           )}
           {item.name}
-        </a>
+        </Link>
       </li>
     </>
   )

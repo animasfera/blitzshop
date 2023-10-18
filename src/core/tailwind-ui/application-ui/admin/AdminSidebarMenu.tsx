@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import AdminSidebarMenuItem, { IAdminSidebarMenuItem } from "./AdminSidebarMenuItem"
 
 export interface INavigationAdminSidebar {
@@ -9,13 +11,13 @@ const AdminSidebarMenu = (props: INavigationAdminSidebar) => {
   return (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
       <div className="flex h-16 shrink-0 items-center">
-        <a href="/">
+        <Link href="/">
           <img
             className="h-8 w-auto"
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
             alt="Sfera"
           />
-        </a>
+        </Link>
         <div className="text-lg ml-2">Администрирование</div>
       </div>
       <nav className="flex flex-1 flex-col">
