@@ -15,13 +15,6 @@ const createDataItems = async (obj: ItemSeed) => {
     ? await db.imageToItem.findFirst({ where: { imageId: coverImage?.id } })
     : null
 
-  let amount = await db.price.findFirst({
-    where: {
-      AND: { amount: obj.amount.amount, currency: obj.amount.currency },
-    },
-    select: { id: true, amount: true, currency: true },
-  })
-
   let category
 
   if (!!obj?.category?.titleEn && !!obj?.category?.titleRu) {
@@ -43,12 +36,10 @@ const createDataItems = async (obj: ItemSeed) => {
     })
   }
 
-  if (!amount) {
-    amount = await db.price.create({
-      data: obj.amount,
-      select: { id: true, amount: true, currency: true },
-    })
-  }
+  const amount = await db.price.create({
+    data: obj.amount,
+    select: { id: true, amount: true, currency: true },
+  })
 
   if (!category && !!obj.category) {
     category = await db.category.create({ data: { ...obj.category, numItems: 1 } })

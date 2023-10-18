@@ -28,6 +28,16 @@ export default resolver.pipe(
             amount: true,
             shippingMethod: true,
             user: { select: { id: true, email: true, username: true } },
+            purchasedItems: {
+              include: {
+                amount: true,
+                category: true,
+                coverImage: true,
+                item: {
+                  include: { user: { select: { email: true, id: true, username: true } } },
+                },
+              },
+            },
           },
         }),
     })
