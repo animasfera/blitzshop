@@ -8,7 +8,7 @@ import getItems from "src/items/queries/getItems"
 import { ItemForm } from "../ItemForm"
 import AdminItemCard from "./AdminItemCard"
 import AdminItemsControllerHeader from "./AdminItemsControllerHeader"
-import { IAdminItemsItem } from "./AdminItemsItem"
+import { IAdminItem } from "./AdminItem"
 import AdminItemsList from "./AdminItemsList"
 
 const ITEMS_PER_PAGE = 10
@@ -22,20 +22,12 @@ const AdminItemsController = () => {
     skip: ITEMS_PER_PAGE * pagination.page,
     take: ITEMS_PER_PAGE,
   })
-  const [currentItem, setCurrentItem] = useState<IAdminItemsItem["item"]>(null)
+  const [currentItem, setCurrentItem] = useState<IAdminItem["item"]>(null)
   const [showItemCard, setShowItemCard] = useState<boolean>(false)
   const [showItemForm, setShowItemForm] = useState<boolean>(false)
 
   return (
     <>
-      <Modal
-        size="w-1/2"
-        isOpen={showItemCard}
-        onClose={() => setShowItemCard(false)}
-        bottomClose={false}
-      >
-        <AdminItemCard item={currentItem} onEditClick={(item) => {}} />
-      </Modal>
       <Modal
         size="flex w-full transform  text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl"
         isOpen={showItemForm}
@@ -43,6 +35,9 @@ const AdminItemsController = () => {
         bottomClose={false}
       >
         <ItemForm item={currentItem} onSubmit={() => {}} />
+      </Modal>
+      <Modal size="lg:w-1/2 sm:w-5/6" isOpen={showItemCard} onClose={() => setShowItemCard(false)}>
+        <AdminItemCard item={currentItem} />
       </Modal>
       <AdminItemsControllerHeader />
       <ListOrNotFoundMessage
