@@ -1,11 +1,8 @@
-import { IAdminItemsItem } from "./AdminItemsItem"
-import { useState } from "react"
+import { IAdminItem } from "./AdminItem"
 import { StarIcon } from "@heroicons/react/20/solid"
-import { RadioGroup } from "@headlessui/react"
-import { CurrencyDollarIcon, GlobeAmericasIcon } from "@heroicons/react/24/outline"
 import { classNames } from "src/core/helpers/classNames"
 interface IAdminItemCard {
-  item: IAdminItemsItem["item"]
+  item: IAdminItem["item"]
 }
 
 const AdminItemCard = (props: IAdminItemCard) => {

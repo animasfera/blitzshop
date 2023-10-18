@@ -7,7 +7,7 @@ import { Modal } from "src/core/tailwind-ui/overlays/Modal"
 import getItems from "src/items/queries/getItems"
 import AdminItemCard from "./AdminItemCard"
 import AdminItemsControllerHeader from "./AdminItemsControllerHeader"
-import { IAdminItemsItem } from "./AdminItemsItem"
+import { IAdminItem } from "./AdminItem"
 import AdminItemsList from "./AdminItemsList"
 
 const ITEMS_PER_PAGE = 10
@@ -21,7 +21,7 @@ const AdminItemsController = () => {
     skip: ITEMS_PER_PAGE * pagination.page,
     take: ITEMS_PER_PAGE,
   })
-  const [currentItem, setCurrentItem] = useState<IAdminItemsItem["item"]>(null)
+  const [currentItem, setCurrentItem] = useState<IAdminItem["item"]>(null)
   const [showItemCard, setShowItemCard] = useState<boolean>(false)
 
   return (
