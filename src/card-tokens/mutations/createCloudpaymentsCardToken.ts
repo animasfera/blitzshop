@@ -7,7 +7,7 @@ import { CreateCardTokenSchema } from "../schemas"
 
 export default resolver.pipe(
   resolver.zod(CreateCardTokenSchema),
-  // resolver.authorize(),
+  resolver.authorize(),
   async (input, ctx) => {
     let cardToken = await db.cardToken.findUnique({ where: { token: input.token } })
     const cardCountryIsoCode = input.cardCountryIsoCode.toLowerCase()

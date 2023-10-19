@@ -1,4 +1,25 @@
 {
+  "authentication": {
+    "header": {
+      "title": "Authentication error",
+      "message": "You must be logged in to  visit the page."
+    }
+  },
+  "authorized": {
+    "header": {
+      "title": "Authorization error",
+      "message": "Sorry, you are not authorized to  visit the page."
+    }
+  },
+  "401": {
+    "header": {
+      "title": "Authorization error",
+      "message": "Sorry, you do not have sufficient rights to visit the page."
+    },
+    "links": {
+      "signin": "Login again"
+    }
+  },
   "404": {
     "header": {
       "title": "Page not found",
@@ -12,6 +33,7 @@
       "message": "Sorry, we were unable to find the page or data for it."
     },
     "links": {
+      "signin": "Login",
       "home": "Go back home",
       "products": "Return to shopping"
     }

@@ -12,7 +12,7 @@ export const Container = (props: ContainerProps) => {
   return (
     <div
       className={`
-      mx-auto px-4 pb-12
+      mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8
       ${size === "sm" ? "max-w-3xl" : "sm:px-6 lg:px-8"}
       ${styles ?? ""}
       `}

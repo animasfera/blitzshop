@@ -1,0 +1,16 @@
+{
+  "title": "Orders",
+  "table": {
+    "headers": {
+      "createdAt": "Date",
+      "id": "#",
+      "email": "E-mail",
+      "status": "Status",
+      "amount": "Total"
+    },
+    "buttons": {
+      "view": "View",
+      "edit": "Edit"
+    }
+  }
+}

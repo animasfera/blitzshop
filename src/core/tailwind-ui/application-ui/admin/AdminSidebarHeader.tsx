@@ -1,8 +1,11 @@
 import React from "react"
 import { Fragment, useState } from "react"
+import Link from "next/link"
 import { Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/20/solid"
+
 import { classNames } from "src/core/helpers/classNames"
+
 export interface IAdminSidebarHeader {
   userNavigation: { name: string; href: string }[]
 }
@@ -51,7 +54,7 @@ const AdminSidebarHeader = (props: IAdminSidebarHeader) => {
                 {userNavigation.map((item) => (
                   <Menu.Item key={item.name}>
                     {({ active }) => (
-                      <a
+                      <Link
                         href={item.href}
                         className={classNames(
                           active ? "bg-gray-50" : "",
@@ -59,7 +62,7 @@ const AdminSidebarHeader = (props: IAdminSidebarHeader) => {
                         )}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     )}
                   </Menu.Item>
                 ))}

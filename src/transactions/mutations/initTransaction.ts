@@ -72,6 +72,7 @@ export const initTransactionServiceDbQuery = async (
 
 export default resolver.pipe(
   resolver.zod(InitTransaction),
+  resolver.authorize(),
   async ({ id, remoteTransactionId }, ctx) => {
     // @ts-ignore
     return await db.$transaction(async ($db) => {

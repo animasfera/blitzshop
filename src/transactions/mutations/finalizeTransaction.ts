@@ -85,6 +85,7 @@ export const finalizeTransactionDbQuery = async (
 
 export default resolver.pipe(
   resolver.zod(TransactionModel.pick({ id: true })),
+  resolver.authorize(),
   async ({ id }, ctx) => {
     // @ts-ignore
     return await db.$transaction(async ($db) => {

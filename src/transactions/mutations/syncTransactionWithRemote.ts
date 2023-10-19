@@ -118,9 +118,13 @@ export const syncTransactionWithRemoteDbQuery = async (
   }
 }
 
-export default resolver.pipe(resolver.zod(SyncTransaction), async ({ id }, ctx) => {
-  // @ts-ignore
-  return await db.$transaction(async ($db) => {
-    return await syncTransactionWithRemoteDbQuery({ id }, ctx, $db)
-  })
-})
+export default resolver.pipe(
+  resolver.zod(SyncTransaction),
+  resolver.authorize(),
+  async ({ id }, ctx) => {
+    // @ts-ignore
+    return await db.$transaction(async ($db) => {
+      return await syncTransactionWithRemoteDbQuery({ id }, ctx, $db)
+    })
+  }
+)
