@@ -99,6 +99,7 @@ export const startRefundPaymentDbQuery = async (
 
 export default resolver.pipe(
   resolver.zod(StartRefundSchema),
+  resolver.authorize(),
   async ({ invoice, transaction }, ctx) => {
     // @ts-ignore
     return await db.$transaction(async ($db) => {

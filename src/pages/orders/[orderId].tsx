@@ -1,66 +1,22 @@
 "use client"
-import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
+import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
-import getOrder from "src/orders/queries/getOrder"
-import deleteOrder from "src/orders/mutations/deleteOrder"
+import { Loading } from "src/core/components/Loading"
+import { OrderInfoController } from "src/orders/components/OrderInfoController"
 
-export const Order = () => {
-  const router = useRouter()
-  const orderId = useParam("orderId", "number")
-  const [deleteOrderMutation] = useMutation(deleteOrder)
-  const [order] = useQuery(getOrder, { id: orderId })
+export const OrderPage = () => {
+  const { t } = useTranslation(["pages.orderId"])
 
   return (
-    <>
-      <Head>
-        <title>Order {order.id}</title>
-      </Head>
-
-      <div>
-        <h1>Order {order.id}</h1>
-        <pre>{JSON.stringify(order, null, 2)}</pre>
-
-        <Link href={Routes.EditOrderPage({ orderId: order.id })}>Edit</Link>
-
-        <button
-          type="button"
-          onClick={async () => {
-            if (window.confirm("This will be deleted")) {
-              await deleteOrderMutation({ id: order.id })
-              await router.push(Routes.OrdersPage())
-            }
-          }}
-          style={{ marginLeft: "0.5rem" }}
-        >
-          Delete
-        </button>
-      </div>
-    </>
+    <Layout title={t("title")}>
+      <Loading>
+        <OrderInfoController />
+      </Loading>
+    </Layout>
   )
 }
 
-const ShowOrderPage = () => {
-  return (
-    <div>
-      <p>
-        <Link href={Routes.OrdersPage()}>Orders</Link>
-      </p>
-
-      <Suspense fallback={<div>Loading...</div>}>
-        <Order />
-      </Suspense>
-    </div>
-  )
-}
-
-ShowOrderPage.authenticate = true
-ShowOrderPage.getLayout = (page) => <Layout>{page}</Layout>
-
-export default ShowOrderPage
+// OrderPage.authenticate = true
+export { getServerSideProps } from "src/core/getServerSideProps"
+export default OrderPage
