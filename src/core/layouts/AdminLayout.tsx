@@ -5,7 +5,7 @@ import { useSession } from "@blitzjs/auth"
 import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
 
-import { HomeIcon, ShoppingCartIcon } from "@heroicons/react/24/outline"
+import { HomeIcon, ShoppingCartIcon, AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline"
 import { UserRoleEnum } from "db"
 
 import i18n from "src/core/i18n"
@@ -35,6 +35,12 @@ export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
       href: Routes.AdminPage().href,
       icon: HomeIcon,
       current: routerPathname === Routes.AdminPage().href,
+    },
+    {
+      name: "Настройки",
+      href: Routes.AdminSettingsPage().href,
+      icon: AdjustmentsHorizontalIcon,
+      current: routerPathname === Routes.AdminSettingsPage().href,
     },
     {
       name: t("pages.admin.orders:title"),
