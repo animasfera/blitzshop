@@ -1,24 +1,18 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Head from "next/head"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useQuery, useMutation } from "@blitzjs/rpc"
+import { useQuery } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
-
 import Layout from "src/core/layouts/Layout"
 import getItem from "src/items/queries/getItem"
-import deleteItem from "src/items/mutations/deleteItem"
 import AdminItemCard from "src/items/components/admin/AdminItemCard"
-import { IAdminItemsItem } from "src/items/components/admin/AdminItemsItem"
+import { IAdminItem } from "src/items/components/admin/AdminItem"
 
-export const AdminItem = () => {
-  const router = useRouter()
+const AdminItem = () => {
   const itemId = useParam("itemId", "number")
 
   let [item] = useQuery(getItem, { id: itemId }) as any
-  item = item as IAdminItemsItem["item"]
+  item = item as IAdminItem["item"]
   return (
     <>
       <Head>

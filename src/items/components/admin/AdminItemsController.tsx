@@ -13,8 +13,6 @@ import AdminItemsList from "./AdminItemsList"
 const ITEMS_PER_PAGE = 10
 
 const AdminItemsController = () => {
-  const router = useRouter()
-
   const pagination = usePagination()
   const [{ items, hasMore, count }] = usePaginatedQuery(getItems, {
     orderBy: { id: "asc" },
