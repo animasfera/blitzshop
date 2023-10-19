@@ -2,11 +2,11 @@
   "title": "Orders",
   "table": {
     "headers": {
-      "createdAt": "Date placed",
-      "id": "Order number",
-      "email": "E-mail address",
+      "createdAt": "Date",
+      "id": "#",
+      "email": "E-mail",
       "status": "Status",
-      "amount": "Total amount"
+      "amount": "Total"
     },
     "buttons": {
       "view": "View",

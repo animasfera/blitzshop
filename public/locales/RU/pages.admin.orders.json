@@ -2,11 +2,11 @@
   "title": "Заказы",
   "table": {
     "headers": {
-      "createdAt": "Дата размещения",
-      "id": "Номер заказа",
-      "email": "Электронная почта",
+      "createdAt": "Дата",
+      "id": "#",
+      "email": "E-mail",
       "status": "Статус",
-      "amount": "Общая сумма"
+      "amount": "Сумма"
     },
     "buttons": {
       "view": "Посмотреть",
