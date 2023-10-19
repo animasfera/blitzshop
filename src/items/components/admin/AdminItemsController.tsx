@@ -11,6 +11,7 @@ import { IAdminItem } from "./AdminItem"
 import AdminItemsList from "./AdminItemsList"
 import { AdminItemForm } from "./AdminItemForm"
 import updateItem from "src/items/mutations/updateItem"
+import { FORM_ERROR } from "final-form"
 
 const ITEMS_PER_PAGE = 10
 
@@ -38,8 +39,16 @@ const AdminItemsController = () => {
           item={currentItem}
           submitText="Сохранить"
           initialValues={currentItem ? { ...currentItem } : {}}
-          onSubmit={(data) => {
-            updateItemMutation({ id: currentItem?.id, ...data })
+          onSubmit={async (data) => {
+            try {
+              updateItemMutation({ id: currentItem?.id, ...data })
+              setShowItemForm(false)
+            } catch (error: any) {
+              console.error("error")
+              return {
+                [FORM_ERROR]: error.toString(),
+              }
+            }
           }}
         />
       </Modal>
