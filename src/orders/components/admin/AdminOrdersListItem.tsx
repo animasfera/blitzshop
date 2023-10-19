@@ -24,8 +24,6 @@ export const AdminOrdersListItem = (props: AdminOrdersListItemProps) => {
 
   const { t } = useTranslation(["pages.admin.orders"])
 
-  console.log("isMobileScreen", isMobileScreen)
-
   return (
     <tr>
       <td className="w-full max-w-0 py-4 pl-4 pr-3 text-xs sm:text-sm font-medium text-gray-900 md:w-auto md:max-w-none md:pl-0">

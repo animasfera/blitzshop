@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next"
 import { useMediaQuery } from "react-responsive"
 import { Order, Price, ShippingMethod } from "db"
 
-import { AdminOrdersListItem } from "src/orders/components/AdminOrdersListItem"
+import { AdminOrdersListItem } from "src/orders/components/admin/AdminOrdersListItem"
 
 interface AdminOrdersListProps {
   orders: (Order & {
