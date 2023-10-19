@@ -3,7 +3,7 @@ import {
   CreateShippingAddressSchema,
   ShippingAddressPlainType,
 } from "../../shipping-addresses/schemas"
-import React from "react"
+import React, { useState } from "react"
 import { useQuery } from "@blitzjs/rpc"
 import { useTranslation } from "react-i18next"
 import { ShippingAddress } from "@prisma/client"
@@ -12,24 +12,50 @@ import getCurrentUserShippingAddresses from "../../shipping-addresses/queries/ge
 
 type ShippingAddressChoiceControllerProps = {
   onSelect: (address: ShippingAddress) => void
+  shippingAddress?: ShippingAddress
 }
 
 export const ShippingAddressChoiceController = (props: ShippingAddressChoiceControllerProps) => {
-  const { onSelect } = props
+  const { onSelect, shippingAddress } = props
 
   // const [shippingAddresses] = useQuery(getCurrentUserShippingAddresses, {})
-  const { t } = useTranslation(["pages.checkout"])
+  const [isEditing, setIsEditing] = useState(true)
+  const { t } = useTranslation(["pages.checkout", "translation"])
 
   return (
     <>
-      <ShippingAddressForm
-        submitText={t("pages.checkout:chooseMethod")}
-        initialValues={{}}
-        schema={CreateShippingAddressSchema}
-        onSubmit={(address) => {
-          onSelect(address)
-        }}
-      />
+      {isEditing ? (
+        <ShippingAddressForm
+          submitText={t("translation:next")}
+          initialValues={shippingAddress}
+          schema={CreateShippingAddressSchema}
+          onSubmit={(address) => {
+            onSelect(address)
+            setIsEditing(false)
+          }}
+        />
+      ) : (
+        <>
+          {shippingAddress && (
+            <div className={"mb-4"}>
+              <div>
+                {shippingAddress.firstName} {shippingAddress.lastName}
+              </div>
+              <div>
+                {shippingAddress.address}, {shippingAddress.city}
+              </div>
+              <div>
+                {shippingAddress.postalCode}, {shippingAddress.countryId}
+              </div>
+              <div>
+                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                  {t("translation:edit")}
+                </a>
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </>
   )
 }

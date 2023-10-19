@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { ItemStatusEnum, AccessTypeEnum, CurrencyEnum } from "@prisma/client"
-import { CompleteCategory, RelatedCategoryModel, CompleteUser, RelatedUserModel, CompleteLocation, RelatedLocationModel, CompleteChatRoom, RelatedChatRoomModel, CompleteImageToItem, RelatedImageToItemModel, CompleteReview, RelatedReviewModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteInvoice, RelatedInvoiceModel, CompleteCartToItem, RelatedCartToItemModel } from "./index"
+import { CompleteCategory, RelatedCategoryModel, CompleteUser, RelatedUserModel, CompleteLocation, RelatedLocationModel, CompleteChatRoom, RelatedChatRoomModel, CompleteImageToItem, RelatedImageToItemModel, CompleteReview, RelatedReviewModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteCartToItem, RelatedCartToItemModel } from "./index"
 
 export const ItemModel = z.object({
   id: z.number().int(),
@@ -31,7 +31,6 @@ export interface CompleteItem extends z.infer<typeof ItemModel> {
   images: CompleteImageToItem[]
   reviews: CompleteReview[]
   purchasedItems: CompletePurchasedItem[]
-  invoices: CompleteInvoice[]
   cartToItems: CompleteCartToItem[]
 }
 
@@ -48,6 +47,5 @@ export const RelatedItemModel: z.ZodSchema<CompleteItem> = z.lazy(() => ItemMode
   images: RelatedImageToItemModel.array(),
   reviews: RelatedReviewModel.array(),
   purchasedItems: RelatedPurchasedItemModel.array(),
-  invoices: RelatedInvoiceModel.array(),
   cartToItems: RelatedCartToItemModel.array(),
 }))

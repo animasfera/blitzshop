@@ -51,8 +51,8 @@ const sendMailsNewsletter = async () => {
       select: { email: true, id: true, locale: true },
     })
 
-    const usersEn = users.filter(({ locale }) => locale === LocalEnum.en)
-    const usersRu = users.filter(({ locale }) => locale === LocalEnum.ru)
+    const usersEn = users.filter(({ locale }) => locale === LocaleEnum.en)
+    const usersRu = users.filter(({ locale }) => locale === LocaleEnum.ru)
 
     if (!!usersEn) {
       try {

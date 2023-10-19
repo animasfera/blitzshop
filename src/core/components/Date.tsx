@@ -22,7 +22,7 @@ export const Date = (
     return <></>
   }
 
-  let _date = DateTime.fromJSDate(date).setLocale(i18n.resolvedLanguage ?? LocalEnum.en)
+  let _date = DateTime.fromJSDate(date).setLocale(i18n.resolvedLanguage ?? LocaleEnum.en)
 
   if (relative && _date.toRelative() !== null) {
     dateFormatted = _date.toRelative()!
@@ -42,7 +42,7 @@ export const Date = (
       dateFormatted +=
         ", " +
         _date
-          .setLocale(i18n.resolvedLanguage ?? LocalEnum.en)
+          .setLocale(i18n.resolvedLanguage ?? LocaleEnum.en)
           .toLocaleString(DateTime.TIME_24_SIMPLE)
     }
   }

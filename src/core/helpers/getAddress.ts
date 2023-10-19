@@ -2,10 +2,10 @@ import { LocaleEnum, Location } from "@prisma/client"
 
 export const getAddress = (location: Location, locale: LocaleEnum) => {
   switch (locale) {
-    case LocalEnum.ru:
+    case LocaleEnum.ru:
       return location.addressRu || location?.addressEn || location?.address || ""
       break
-    case LocalEnum.en:
+    case LocaleEnum.en:
       return location?.addressEn || location?.address || ""
       break
     default:

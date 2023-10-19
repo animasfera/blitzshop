@@ -1,12 +1,12 @@
 import * as z from "zod"
 import { InvoiceStatusEnum, CurrencyEnum } from "@prisma/client"
-import { CompletePaymentMethod, RelatedPaymentMethodModel, CompleteOrder, RelatedOrderModel, CompleteItem, RelatedItemModel, CompleteTransaction, RelatedTransactionModel } from "./index"
+import { CompletePaymentMethod, RelatedPaymentMethodModel, CompleteOrder, RelatedOrderModel, CompleteTransaction, RelatedTransactionModel } from "./index"
 
 export const InvoiceModel = z.object({
   id: z.number().int(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  paidAt: z.date(),
+  paidAt: z.date().nullish(),
   error: z.string().nullish(),
   notes: z.string().nullish(),
   status: z.nativeEnum(InvoiceStatusEnum),
@@ -14,14 +14,12 @@ export const InvoiceModel = z.object({
   currency: z.nativeEnum(CurrencyEnum),
   paymentMethodId: z.number().int(),
   orderId: z.number().int(),
-  parentItemId: z.number().int(),
-  originalInvoiceId: z.number().int(),
+  originalInvoiceId: z.number().int().nullish(),
 })
 
 export interface CompleteInvoice extends z.infer<typeof InvoiceModel> {
   paymentMethod: CompletePaymentMethod
   order: CompleteOrder
-  parentItem: CompleteItem
   originalInvoice?: CompleteInvoice | null
   creditNotes: CompleteInvoice[]
   transactions: CompleteTransaction[]
@@ -35,7 +33,6 @@ export interface CompleteInvoice extends z.infer<typeof InvoiceModel> {
 export const RelatedInvoiceModel: z.ZodSchema<CompleteInvoice> = z.lazy(() => InvoiceModel.extend({
   paymentMethod: RelatedPaymentMethodModel,
   order: RelatedOrderModel,
-  parentItem: RelatedItemModel,
   originalInvoice: RelatedInvoiceModel.nullish(),
   creditNotes: RelatedInvoiceModel.array(),
   transactions: RelatedTransactionModel.array(),

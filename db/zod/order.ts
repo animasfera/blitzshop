@@ -14,16 +14,16 @@ export const OrderModel = z.object({
   total: z.number().int(),
   net: z.number().int(),
   currency: z.nativeEnum(CurrencyEnum),
-  orderLogId: z.number().int(),
+  logId: z.number().int(),
   shippingMethodId: z.number().int().nullish(),
   userId: z.number().int(),
 })
 
 export interface CompleteOrder extends z.infer<typeof OrderModel> {
-  orderLog: CompleteOrderLog
+  log: CompleteOrderLog
   shippingMethod?: CompleteShippingMethod | null
   user: CompleteUser
-  purchasedItems: CompletePurchasedItem[]
+  items: CompletePurchasedItem[]
   shippingAddresses: CompleteShippingAddress[]
   refunds: CompleteRefund[]
   invoices: CompleteInvoice[]
@@ -35,10 +35,10 @@ export interface CompleteOrder extends z.infer<typeof OrderModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedOrderModel: z.ZodSchema<CompleteOrder> = z.lazy(() => OrderModel.extend({
-  orderLog: RelatedOrderLogModel,
+  log: RelatedOrderLogModel,
   shippingMethod: RelatedShippingMethodModel.nullish(),
   user: RelatedUserModel,
-  purchasedItems: RelatedPurchasedItemModel.array(),
+  items: RelatedPurchasedItemModel.array(),
   shippingAddresses: RelatedShippingAddressModel.array(),
   refunds: RelatedRefundModel.array(),
   invoices: RelatedInvoiceModel.array(),

@@ -34,7 +34,6 @@ export const createStripePaymentIntentDbQuery = async (input, ctx, $db: PrismaDb
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = (await stripe.paymentIntents.create(stripeQuery)) as PaymentIntent
-
   return paymentIntent
 }
 

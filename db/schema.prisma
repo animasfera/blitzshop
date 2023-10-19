@@ -261,7 +261,6 @@ model Item {
   images         ImageToItem[]
   reviews        Review[]
   purchasedItems PurchasedItem[]
-  invoices       Invoice[]
   cartToItems    CartToItem[]
 }
 
@@ -294,7 +293,6 @@ model OrderLog {
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
   comment   String?
-  status    OrderStatusEnum @default(PENDING)
   orders    Order[]
 }
 
@@ -333,13 +331,13 @@ model Order {
   total             Int
   net               Int
   currency          CurrencyEnum @default(EUR)
-  orderLog          OrderLog          @relation(fields: [orderLogId], references: [id])
-  orderLogId        Int
+  log               OrderLog          @relation(fields: [logId], references: [id])
+  logId             Int
   shippingMethod    ShippingMethod?   @relation(fields: [shippingMethodId], references: [id])
   shippingMethodId  Int?
   user              User              @relation(fields: [userId], references: [id])
   userId            Int
-  purchasedItems    PurchasedItem[]
+  items             PurchasedItem[]
   shippingAddresses ShippingAddress[]
   refunds           Refund[]
   invoices          Invoice[]
@@ -369,7 +367,7 @@ model PurchasedItem {
   categoryId    Int?
   coverImage    Image          @relation(fields: [coverImageId], references: [id])
   coverImageId  Int
-  Order         Order?         @relation(fields: [orderId], references: [id])
+  order         Order?         @relation(fields: [orderId], references: [id])
   orderId       Int?
   itemToRefunds ItemToRefund[]
 }
@@ -448,7 +446,7 @@ model Invoice {
   id                Int               @id @default(autoincrement())
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
-  paidAt            DateTime
+  paidAt            DateTime?
   error             String?
   notes             String?
   status            InvoiceStatusEnum @default(PENDING)
@@ -458,10 +456,8 @@ model Invoice {
   paymentMethodId   Int
   order             Order             @relation(fields: [orderId], references: [id])
   orderId           Int
-  parentItem        Item              @relation(fields: [parentItemId], references: [id])
-  parentItemId      Int
   originalInvoice   Invoice?          @relation(name: "CreditNotes", fields: [originalInvoiceId], references: [id])
-  originalInvoiceId Int
+  originalInvoiceId Int?
   creditNotes       Invoice[]         @relation(name: "CreditNotes")
   transactions      Transaction[]
 }

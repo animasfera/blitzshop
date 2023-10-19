@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { CheckoutOrder } from "src/checkout/components/CheckoutOrder"
 import { CheckoutPayment } from "src/checkout/components/CheckoutPayment"
-import { CartItemWithItem } from "../../../types"
 import { cartClient } from "../../core/hooks/useCart"
-import ShippingAddressForm from "./ShippingAddressForm"
-import ShippingMethodForm from "./ShippingMethodForm"
-import { CurrencyEnum, ShippingAddress } from "@prisma/client"
+import { CurrencyEnum, Invoice, PaymentMethod, ShippingAddress } from "@prisma/client"
 import CheckoutPaymentFormInputsBlock from "./CheckoutPaymentFormInputsBlock"
-import getShippingMethods from "../../shipping-methods/queries/getShippingMethods"
 import { useMutation, useQuery } from "@blitzjs/rpc"
-import { CreateShippingAddressSchema } from "../../shipping-addresses/schemas"
 import { ShippingAddressChoiceController } from "./ShippingAddressChoiceController"
 import { ShippingMethodChoiceController } from "./ShippingMethodChoiceController"
 import { ShippingMethodWithPrice } from "../../shipping-methods/schemas"
-import getShippingMethodWithPrice from "../../shipping-methods/queries/getShippingMethodWithPrice"
-import { PaymentMethodChoiceController } from "./PaymentMethodChoiceController"
+import getShippingMethodWithPrice from "../../shipping-methods/mutations/getShippingMethodWithPrice"
+import { PaymentCountryChoiceController } from "./PaymentCountryChoiceController"
 import createOrder from "../../orders/mutations/createOrder"
-import useScript from "../../core/hooks/useScript"
-import { StripeCheckoutForm } from "src/core/stripe/components/StripeCheckoutForm"
+import { StripeCheckoutFormWithElements, useStripe } from "../../core/hooks/useStripe"
+import {
+  OrderWithItemsAndUserAndInvoice,
+  useCloudpayments,
+} from "../../core/hooks/useCloudpayments"
+import { CreateOrderType } from "../../orders/schemas"
 
 interface CheckoutProps {
   cartClient: cartClient
@@ -27,23 +26,40 @@ interface CheckoutProps {
 export const Checkout = (props: CheckoutProps) => {
   const { cartClient } = props
 
-  const [cpScriptLoaded, setCpScriptLoaded] = useState(false)
-  useScript("https://widget.cloudpayments.ru/bundles/cloudpayments.js", () => {
-    setCpScriptLoaded(true)
-  })
+  const stripe = useStripe()
+  const cloudpayments = useCloudpayments()
 
   const { t, i18n } = useTranslation(["pages.checkout", "shippingAddress"])
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null)
   const [shippingMethod, setShippingMethod] = useState<ShippingMethodWithPrice | null>(null)
-  const [shippingMethodWithPrice] = useQuery(
-    getShippingMethodWithPrice,
-    { address: shippingAddress! },
-    { enabled: shippingAddress !== null }
-  )
+  const [paymentMethod, setPaymentMethod] = useState<"stripe" | "cloudpayments" | undefined>()
+  const [getShippingMethodWithPriceMutation] = useMutation(getShippingMethodWithPrice)
+  const [order, setOrder] = useState<{
+    id?: number
+    items: { itemId: number; qty: number; price: number }[]
+    shippingFee?: number
+    subtotal: number
+    total: number
+    paymentMethodId?: number
+    invoices?: (Invoice & { paymentMethod: PaymentMethod })[]
+  }>({
+    items: cartClient.getItems().map((item) => {
+      return {
+        itemId: item.itemId,
+        qty: item.qty,
+        price: item.item.price,
+      }
+    }),
+    subtotal: cartClient.getTotal(),
+    total: cartClient.getTotal(),
+    shippingFee: 0,
+  })
 
   const [createOrderMutation] = useMutation(createOrder)
 
-  const [step, setStep] = useState<"address" | "shippingMethod" | "payment">("address")
+  const [step, setStep] = useState<"address" | "shippingMethod" | "paymentCountry" | "payment">(
+    "address"
+  )
   const [paymentCurrency, setPaymentCurrency] = useState<CurrencyEnum>(CurrencyEnum.RUB)
 
   useEffect(() => {
@@ -55,15 +71,20 @@ export const Checkout = (props: CheckoutProps) => {
 
   const shipping = 100
 
-  const initPayment = async () => {
-    // const order = await createOrderMutation({})
+  const [stripePayment, setStripePayment] = useState<any>()
 
-    switch (paymentCurrency) {
-      case CurrencyEnum.RUB:
-        // TODO do Cloudpayments payment with order.invoiceId
+  const initPayment = async (order: OrderWithItemsAndUserAndInvoice) => {
+    if (!order.invoices[0]) {
+      return false
+    }
+    alert(order.invoices[0].paymentMethod.name)
+    switch (order.invoices[0].paymentMethod.name) {
+      case "cloudpayments":
+        cloudpayments.pay(order)
         break
-      case CurrencyEnum.EUR:
-        // TODO do Stripe payment with order.invoiceId
+      case "stripe":
+        const paymentIntent = await stripe.pay(order)
+        setStripePayment(paymentIntent)
         break
     }
   }
@@ -90,9 +111,16 @@ export const Checkout = (props: CheckoutProps) => {
           {step === "address" && (
             <CheckoutPaymentFormInputsBlock title={t("shippingAddress:title")}>
               <ShippingAddressChoiceController
-                onSelect={(address) => {
+                onSelect={async (address) => {
                   setShippingAddress(address)
-                  setStep("payment")
+                  const shippingWithPrice = await getShippingMethodWithPriceMutation({
+                    address,
+                  })
+                  setOrder({
+                    ...order,
+                    shippingFee: shippingWithPrice.price,
+                  })
+                  setStep("paymentCountry")
                 }}
               />
             </CheckoutPaymentFormInputsBlock>
@@ -109,23 +137,38 @@ export const Checkout = (props: CheckoutProps) => {
               </CheckoutPaymentFormInputsBlock>
             </>
           )}
-          {step === "paymentCurrency" && shippingMethodWithPrice && (
+          {step === "paymentCountry" && (
             <>
               <CheckoutPaymentFormInputsBlock title={t("shippingMethod:title")}>
-                <PaymentMethodChoiceController
+                <PaymentCountryChoiceController
                   onSubmit={async (values) => {
-                    setPaymentCurrency(values.currency)
-                    await initPayment()
+                    console.log("pm ID")
+                    console.log(values.paymentMethodId)
+                    let newOrderData = {
+                      ...order,
+                      paymentMethodId: values.paymentMethodId,
+                    }
+
+                    if (
+                      typeof newOrderData.paymentMethodId !== "undefined" &&
+                      newOrderData.shippingFee
+                    ) {
+                      const orderCreated = await createOrderMutation(
+                        newOrderData as CreateOrderType
+                      )
+                      setOrder(orderCreated)
+                      await initPayment(orderCreated)
+                    }
                   }}
                 />
               </CheckoutPaymentFormInputsBlock>
-            </>
-          )}
-          {step === "payment" && shippingMethodWithPrice && (
-            <>
-              <Elements options={options} stripe={stripePromise}>
-                <StripeCheckoutForm booking={bookingDetails.booking} />
-              </Elements>
+              {order.id && order.invoices && order.invoices[0]?.paymentMethod.name === "stripe" && (
+                // <stripe.CheckoutForm orderId={order.id} />
+                <StripeCheckoutFormWithElements
+                  orderId={order.id}
+                  paymentIntentInstance={stripePayment}
+                />
+              )}
             </>
           )}
         </CheckoutPayment>

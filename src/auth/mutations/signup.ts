@@ -36,7 +36,7 @@ export default resolver.pipe(
         countryIsoCode,
         timezone: timezone || null,
         role: UserRoleEnum.USER,
-        locale: locale || LocalEnum.en,
+        locale: locale || LocaleEnum.en,
         tokens: {
           create: {
             type: TokenTypeEnum.CONFIRM_EMAIL,
@@ -99,7 +99,7 @@ export default resolver.pipe(
           lastName: user.lastName,
           avatarUrl: user.avatarUrl,
           timezone: user.timezone ?? "Etc/Greenwich",
-          locale: user.locale || LocalEnum.en,
+          locale: user.locale || LocaleEnum.en,
           currency: user.currency,
           buyingInCountries: user.buyingInCountries,
         },

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
-import { Box, Button } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
+import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 import { useTranslation } from "react-i18next"
 
 type StripeCheckoutFormProps = {
@@ -56,11 +57,9 @@ export function StripeCheckoutForm(props: StripeCheckoutFormProps) {
         <Button
           type={"submit"}
           disabled={isLoading || !stripe || !elements}
-          id="submit"
-          isLoading={isLoading}
-        >
-          {t("pay")}
-        </Button>
+          // isLoading={isLoading}
+          buttonText={t("pay")}
+        />
       </Box>
     </form>
   )

@@ -72,7 +72,7 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
           ref={ref}
           value={options.find((o) => o.value === input.value)}
           onChange={(v) => {
-            input?.onChange(v)
+            input?.onChange(v.value)
           }}
           disabled={disabled || submitting}
         >
