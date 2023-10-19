@@ -66,7 +66,9 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
         name={name ?? input?.name}
         value={selected ?? input?.value}
         defaultValue={defaultValue}
-        onChange={onChange ?? input?.onChange}
+        onChange={(v) => {
+          input?.onChange(v.value)
+        }}
         multiple={multiple}
         disabled={disabled}
       >

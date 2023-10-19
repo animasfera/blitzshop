@@ -9,7 +9,7 @@ export default resolver.pipe(
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const item = await db.item.update({
       where: { id },
-      data,
+      data: data,
       include: {
         _count: true,
         amount: true,

@@ -1,0 +1,9 @@
+{
+  "statuses":{
+    "DRAFT":"DRAFT",
+    "SALE":"SALE",
+    "BLOCKED":"BLOCKED",
+    "HIDDEN":"HIDDEN",
+    "OUT_OF_STOCK":"OUT OF STOCK"
+  }
+}

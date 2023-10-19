@@ -3,7 +3,7 @@ import { z } from "zod"
 import { Form, FormProps, FORM_ERROR } from "src/core/components/form/Form"
 import { ItemFull } from "types"
 export interface IItemForm<S> extends FormProps<any> {
-  item: ItemFull | null
+  // item: ItemFull | null
 }
 export function ItemForm<S extends z.ZodType<any, any>>(props: IItemForm<S>) {
   return (

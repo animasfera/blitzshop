@@ -3,15 +3,11 @@ import Head from "next/head"
 import { BlitzLayout, Routes } from "@blitzjs/next"
 import { useSession } from "@blitzjs/auth"
 import AdminSidebar from "../tailwind-ui/application-ui/admin/AdminSidebar"
-import { HomeIcon, CircleStackIcon } from "@heroicons/react/24/outline"
+import { HomeIcon, CircleStackIcon, ShoppingCartIcon } from "@heroicons/react/24/outline"
 import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
-
-import { HomeIcon, ShoppingCartIcon } from "@heroicons/react/24/outline"
 import { UserRoleEnum } from "db"
-
 import i18n from "src/core/i18n"
-import AdminSidebar from "src/core/tailwind-ui/application-ui/admin/AdminSidebar"
 import { Loading } from "src/core/components/Loading"
 
 interface AdminLayoutProps {
@@ -37,6 +33,18 @@ export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
       href: Routes.AdminPage().href,
       icon: HomeIcon,
       current: routerPathname === Routes.AdminPage().href,
+    },
+    {
+      name: "Товары",
+      href: Routes.AdminItemsPage().href,
+      icon: CircleStackIcon,
+      current: routerPathname === Routes.AdminItemsPage().href,
+    },
+    {
+      name: t("pages.admin.orders:title"),
+      href: Routes.AdminOrdersPage().href,
+      icon: ShoppingCartIcon,
+      current: routerPathname === Routes.AdminOrdersPage().href,
     },
   ]
 
