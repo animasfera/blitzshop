@@ -1,67 +1,78 @@
-/*
+import React, { useEffect } from "react"
 import Head from "next/head"
-import { useRouter } from "next/router"
-import { useSession } from "@blitzjs/auth"
 import { BlitzLayout, Routes } from "@blitzjs/next"
-import { Box } from "@chakra-ui/react"
-import { UserRoleEnum } from "@prisma/client"
+import { useSession } from "@blitzjs/auth"
+import { useRouter } from "next/router"
+import { useTranslation } from "react-i18next"
 
-import AdminSidebar from "src/core/components/sections/AdminSidebar"
+import { HomeIcon, ShoppingCartIcon } from "@heroicons/react/24/outline"
+import { UserRoleEnum } from "db"
+
+import i18n from "src/core/i18n"
+import AdminSidebar from "src/core/tailwind-ui/application-ui/admin/AdminSidebar"
 import { Loading } from "src/core/components/Loading"
 
-const AdminLayout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
-  title,
-  children,
-}) => {
-  const session = useSession()
+interface AdminLayoutProps {
+  title?: string
+  children?: JSX.Element
+}
+
+const userNavigation = [
+  { name: "Your profile", href: "#" },
+  { name: "Sign out", href: "#" },
+]
+
+export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
   const router = useRouter()
+  const routerPathname = router.pathname
+  const { title, children } = props
+  const session = useSession({ suspense: false })
+  const { t } = useTranslation(["pages.errors", "pages.admin.orders", "translation"])
 
+  const navigation = [
+    {
+      name: "Dashboard",
+      href: Routes.AdminPage().href,
+      icon: HomeIcon,
+      current: routerPathname === Routes.AdminPage().href,
+    },
+    {
+      name: t("pages.admin.orders:title"),
+      href: Routes.AdminOrdersPage().href,
+      icon: ShoppingCartIcon,
+      current: routerPathname === Routes.AdminOrdersPage().href,
+    },
+  ]
 
-  if (session.role !== UserRoleEnum.ADMIN) {
-    // void router.push(Routes.Home())
-  }
+  useEffect(() => {
+    // @ts-ignore
+    document.documentElement.lang = i18n.resolvedLanguage?.toUpperCase()
+  }, [])
+
+  useEffect(() => {
+    console.log("session", session)
+
+    if (!session.isLoading && (!session.user || session.role !== UserRoleEnum.ADMIN)) {
+      router.push(Routes.Page401().href)
+    }
+  }, [session])
 
   return (
-    <>
+    <Loading>
       <Head>
-        <title>{title || "shop"}</title>
+        <title>{title || "Administration"}</title>
+        <link rel="icon" href="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" />
       </Head>
 
-     <AdminSidebar>
-      <Box maxW={"container.xl"} pt={4} pb={12} pl={6} pr={4}>
-        <Loading>{children}</Loading>
-      </Box>
-      </AdminSidebar>
-    </>
-  )
-}
-*/
-
-import Head from "next/head"
-import React, { useEffect, FC } from "react"
-import { BlitzLayout } from "@blitzjs/next"
-import { Box, Container } from "@chakra-ui/react"
-
-import { Loading } from "src/core/components/Loading"
-import i18n from "../i18n"
-
-const AdminLayout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
-  title,
-  children,
-}) => {
-  return (
-    <Box>
-      <Head>
-        <title>{title || "shop"}</title>
-        {
-          // <link rel="icon" href="/favicon.ico" />
-        }
-      </Head>
-
-      <Loading>{children}</Loading>
-    </Box>
+      {session.isLoading || session.role !== UserRoleEnum.ADMIN ? (
+        <Loading>{t("translation:loading")}</Loading>
+      ) : (
+        <AdminSidebar userNavigation={userNavigation} navigation={navigation}>
+          {children}
+        </AdminSidebar>
+      )}
+    </Loading>
   )
 }
 
-// AdminLayout.authenticate = true
 export default AdminLayout

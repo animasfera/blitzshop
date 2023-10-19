@@ -1,0 +1,11 @@
+{
+  "title": "Information about order",
+  "head": {
+    "title": "Thank you!",
+    "subtitle": "It's on the way!",
+    "message": "Your order #{{orderId}} has shipped and will be with you soon.",
+    "info": {
+      "title": "Tracking number"
+    }
+  }
+}

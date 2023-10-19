@@ -3,7 +3,7 @@ import db from "db"
 
 import { ImagesQueue } from "src/core/queues"
 
-export default resolver.pipe(async (input) => {
+export default resolver.pipe(resolver.authorize(), async (input) => {
   const users = await db.user.findMany()
   const usersWithAvatars = users.filter((u) => !!u.avatarUrl)
 
