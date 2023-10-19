@@ -5,11 +5,11 @@ import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage
 import { usePagination } from "src/core/hooks/usePagination"
 import { Modal } from "src/core/tailwind-ui/overlays/Modal"
 import getItems from "src/items/queries/getItems"
-import { ItemForm } from "../ItemForm"
 import AdminItemCard from "./AdminItemCard"
 import AdminItemsControllerHeader from "./AdminItemsControllerHeader"
 import { IAdminItem } from "./AdminItem"
 import AdminItemsList from "./AdminItemsList"
+import { AdminItemForm } from "./AdminItemForm"
 
 const ITEMS_PER_PAGE = 10
 
@@ -34,10 +34,16 @@ const AdminItemsController = () => {
         onClose={() => setShowItemForm(false)}
         bottomClose={false}
       >
-        <ItemForm item={currentItem} onSubmit={() => {}} />
+        <AdminItemForm item={currentItem} submitText="Сохранить" onSubmit={() => {}} />
       </Modal>
       <Modal size="lg:w-1/2 sm:w-5/6" isOpen={showItemCard} onClose={() => setShowItemCard(false)}>
-        <AdminItemCard item={currentItem} />
+        <AdminItemCard
+          item={currentItem}
+          onEditClick={(item) => {
+            setCurrentItem(item)
+            setShowItemForm(true)
+          }}
+        />
       </Modal>
       <AdminItemsControllerHeader />
       <ListOrNotFoundMessage
