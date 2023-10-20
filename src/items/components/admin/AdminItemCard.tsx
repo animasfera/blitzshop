@@ -1,6 +1,7 @@
 import { IAdminItem } from "./AdminItem"
 import { StarIcon } from "@heroicons/react/20/solid"
 import { classNames } from "src/core/helpers/classNames"
+import { Money } from "src/core/components/Money"
 interface IAdminItemCard {
   item: IAdminItem["item"]
 }
@@ -22,7 +23,7 @@ const AdminItemCard = (props: IAdminItemCard) => {
 
                   <div className="text-left">
                     <p className="text-base font-medium text-gray-600">
-                      Цена: {item.amount.amount / 100}
+                      Цена: <Money amount={item.amount.amount} />
                     </p>
                   </div>
                   {/* Reviews */}
