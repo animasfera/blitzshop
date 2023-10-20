@@ -1,7 +1,5 @@
 "use client"
-import React, { Suspense } from "react"
 import { z } from "zod"
-
 import { Form, FormProps, FORM_ERROR } from "src/core/components/form/Form"
 import { LabeledTextField } from "src/core/components/form/LabeledTextField"
 import { ItemFull } from "types"

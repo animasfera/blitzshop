@@ -3,6 +3,7 @@ import { StarIcon } from "@heroicons/react/20/solid"
 import { classNames } from "src/core/helpers/classNames"
 import Button from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 import { Money } from "src/core/components/Money"
+import { Weight } from "src/core/components/Weight"
 interface IAdminItemCard {
   item: IAdminItem["item"]
   onEditClick?: (item: IAdminItem["item"]) => void
@@ -48,7 +49,6 @@ const AdminItemCard = (props: IAdminItemCard) => {
                           />
                         ))}
                       </div>
-
                       <div aria-hidden="true" className="ml-4 text-sm text-gray-300">
                         ·
                       </div>
@@ -57,7 +57,7 @@ const AdminItemCard = (props: IAdminItemCard) => {
                       <p className="text-sm font-medium text-gray-400">Остаток: {item.qty}</p>
                       <p className="text-sm font-medium text-gray-400">Color: {item.color}</p>
                       <p className="text-sm font-medium text-gray-400">
-                        Вес: {item.weight / 1000} кг
+                        Вес: <Weight value={item.weight} />
                       </p>
                       <p className="text-sm font-medium text-gray-400">Статус: {item.status}</p>
                       <p className="text-sm font-medium text-gray-400">Access: {item.access}</p>
