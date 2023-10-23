@@ -8,10 +8,10 @@ import { AccessTypeEnum, ItemStatusEnum } from "@prisma/client"
 import { useTranslation } from "react-i18next"
 import { ItemAccess } from "src/core/enums/ItemEnums"
 
-export interface IAdminItemForm<S> extends FormProps<any> {
+export interface AdminItemFormProps<S> extends FormProps<any> {
   item: ItemFull | null
 }
-export function AdminItemForm<S extends z.ZodType<any, any>>(props: IAdminItemForm<S>) {
+export function AdminItemForm<S extends z.ZodType<any, any>>(props: AdminItemFormProps<S>) {
   const { item } = props
   const { t, i18n } = useTranslation(["item"])
   let _itemStatuses = [] as { value: string; label: string }[]
