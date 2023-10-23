@@ -1,17 +1,20 @@
-import { useMutation, usePaginatedQuery } from "@blitzjs/rpc"
-import { useRouter } from "next/router"
 import React, { useState } from "react"
+import { useMutation, usePaginatedQuery, useQuery } from "@blitzjs/rpc"
+import { FORM_ERROR } from "final-form"
+
 import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage"
 import { usePagination } from "src/core/hooks/usePagination"
 import { Modal } from "src/core/tailwind-ui/overlays/Modal"
-import getItems from "src/items/queries/getItems"
+
 import AdminItemCard from "./AdminItemCard"
 import AdminItemsControllerHeader from "./AdminItemsControllerHeader"
 import { IAdminItem } from "./AdminItem"
 import AdminItemsList from "./AdminItemsList"
 import { AdminItemForm } from "./AdminItemForm"
+
+import getItems from "src/items/queries/getItems"
 import updateItem from "src/items/mutations/updateItem"
-import { FORM_ERROR } from "final-form"
+import createDraftItem from "src/items/mutations/createDraftItem"
 
 const ITEMS_PER_PAGE = 10
 
@@ -22,7 +25,9 @@ const AdminItemsController = () => {
     skip: ITEMS_PER_PAGE * pagination.page,
     take: ITEMS_PER_PAGE,
   })
+  const [createDraftItemMutation] = useMutation(createDraftItem)
   const [updateItemMutation] = useMutation(updateItem)
+
   const [currentItem, setCurrentItem] = useState<IAdminItem["item"]>(null)
   const [showItemCard, setShowItemCard] = useState<boolean>(false)
   const [showItemForm, setShowItemForm] = useState<boolean>(false)
@@ -61,7 +66,16 @@ const AdminItemsController = () => {
           }}
         />
       </Modal>
-      <AdminItemsControllerHeader />
+
+      <AdminItemsControllerHeader
+        onCreateButtonClick={async () => {
+          console.log("START")
+          const draftItem = await createDraftItemMutation()
+          console.log(draftItem)
+          setCurrentItem(draftItem)
+          setShowItemForm(true)
+        }}
+      />
       <ListOrNotFoundMessage
         countObjects={count}
         itemsPerPage={ITEMS_PER_PAGE}
