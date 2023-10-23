@@ -143,9 +143,13 @@ export const failTransactionDbQuery = async (
   return _transaction
 }
 
-export default resolver.pipe(resolver.zod(FailTransaction), async (input, ctx) => {
-  // @ts-ignore
-  return await db.$transaction(async ($db) => {
-    return await failTransactionDbQuery(input, ctx, $db)
-  })
-})
+export default resolver.pipe(
+  resolver.zod(FailTransaction),
+  resolver.authorize(),
+  async (input, ctx) => {
+    // @ts-ignore
+    return await db.$transaction(async ($db) => {
+      return await failTransactionDbQuery(input, ctx, $db)
+    })
+  }
+)

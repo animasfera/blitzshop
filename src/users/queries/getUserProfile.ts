@@ -11,7 +11,7 @@ const GetUser = z.object({
 
 export default resolver.pipe(
   resolver.zod(GetUser),
-  // resolver.authorize(),
+  resolver.authorize(),
   async ({ id, username }) => {
     const query = id ? { id } : { username }
     const user = await db.user.findFirst({

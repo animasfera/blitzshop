@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, startTransition, Suspense } from "react"
 import { useRouter } from "next/router"
 import { AuthenticationError, AuthorizationError } from "blitz"
-import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
-// import { ChakraProvider, extendTheme } from "@chakra-ui/react"
+import { ErrorFallbackProps, ErrorBoundary, AppProps, Routes } from "@blitzjs/next"
+import { useTranslation } from "react-i18next"
 import { CurrencyEnum } from "db"
 import LoadingBar, { LoadingBarRef } from "react-top-loading-bar"
 import ReactGA from "react-ga4"
@@ -15,31 +15,64 @@ import { LightModeContext } from "src/core/contexts/lightModeContext"
 import { Currency, CurrencyContext } from "src/core/contexts/currencyContext"
 import { TimezoneContext } from "src/core/contexts/timezoneContext"
 import { ThemeEnum } from "src/core/enums/ThemeEnum"
+import { Layout } from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
 import { TimezoneWatch } from "src/core/components/TimezoneWatch"
 import { useQueryErrorResetBoundary } from "@blitzjs/rpc"
 import { HeaderController } from "src/core/components/sections/Header/HeaderController"
 import Footer from "../core/components/sections/Footer"
+import { ErrorSection } from "src/core/components/sections/Error/ErrorSection"
 
 ReactGA.initialize("G-34Y9N908L5")
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
+  const { t } = useTranslation(["pages.errors"])
+
   console.error("RootErrorFallback", error)
   if (error instanceof AuthenticationError) {
-    return <div>Error: You are not authenticated</div>
+    return (
+      <Layout title={`${error.statusCode}: ${t("authentication.header.title")}`}>
+        <Loading>
+          <ErrorSection
+            header={{
+              statusCode: error.statusCode,
+              title: t("authentication.header.title"),
+              message: t("authentication.header.message"),
+            }}
+            link={{ href: Routes.LoginPage().href, text: t("main.links.signin") }}
+          />
+        </Loading>
+      </Layout>
+    )
   } else if (error instanceof AuthorizationError) {
     return (
-      <ErrorComponent
-        statusCode={error.statusCode}
-        title="Sorry, you are not authorized to access this"
-      />
+      <Layout title={`${error.statusCode}: ${t("authorized.header.title")}`}>
+        <Loading>
+          <ErrorSection
+            header={{
+              statusCode: error.statusCode,
+              title: t("authorized.header.title"),
+              message: t("authorized.header.message"),
+            }}
+            link={{ href: Routes.LoginPage().href, text: t("main.links.signin") }}
+          />
+        </Loading>
+      </Layout>
     )
   } else {
+    const statusCode = (error as any)?.statusCode || 400
     return (
-      <ErrorComponent
-        statusCode={(error as any)?.statusCode || 400}
-        title={error.message || error.name}
-      />
+      <Layout title={`${statusCode}: ${error.name}`}>
+        <Loading>
+          <ErrorSection
+            header={{
+              statusCode,
+              title: error.name,
+              message: error.message,
+            }}
+          />
+        </Loading>
+      </Layout>
     )
   }
 }

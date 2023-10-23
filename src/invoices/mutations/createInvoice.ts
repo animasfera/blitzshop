@@ -24,9 +24,13 @@ export const createInvoiceDbQuery = async (data: CreateInvoiceType, ctx, $db: Pr
   // END TRANSACTION
 }
 
-export default resolver.pipe(resolver.zod(CreateInvoice), async (input, ctx) => {
-  // @ts-ignore
-  return await db.$transaction(async ($db) => {
-    return createInvoiceDbQuery(input, ctx, $db)
-  })
-})
+export default resolver.pipe(
+  resolver.zod(CreateInvoice),
+  resolver.authorize(),
+  async (input, ctx) => {
+    // @ts-ignore
+    return await db.$transaction(async ($db) => {
+      return createInvoiceDbQuery(input, ctx, $db)
+    })
+  }
+)

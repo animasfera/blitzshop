@@ -25,7 +25,7 @@ const NewOrderPage = () => {
           onSubmit={async (values) => {
             try {
               const order = await createOrderMutation(values)
-              await router.push(Routes.ShowOrderPage({ orderId: order.id }))
+              await router.push(Routes.OrderPage({ orderId: order.id }))
             } catch (error: any) {
               console.error(error)
               return {

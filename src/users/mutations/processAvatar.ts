@@ -13,7 +13,7 @@ const path = require("path")
 const url = require("url")
 var mime = require("mime-types")
 
-export default resolver.pipe(async (input: { userId: number }, ctx) => {
+export default resolver.pipe(resolver.authorize(), async (input: { userId: number }, ctx) => {
   const { userId } = input
 
   const user = await db.user.findUnique({ where: { id: userId } })
