@@ -7,6 +7,7 @@ import Layout from "src/core/layouts/Layout"
 import getItem from "src/items/queries/getItem"
 import AdminItemCard from "src/items/components/admin/AdminItemCard"
 import { IAdminItem } from "src/items/components/admin/AdminItem"
+import { UserRoleEnum } from "@prisma/client"
 
 const AdminItem = () => {
   const itemId = useParam("itemId", "number")
@@ -31,7 +32,7 @@ const ShowAdminItemPage = () => {
   )
 }
 
-ShowAdminItemPage.authenticate = true
+ShowAdminItemPage.authenticate = { role: UserRoleEnum.ADMIN, redirectTo: "/" }
 ShowAdminItemPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default ShowAdminItemPage
