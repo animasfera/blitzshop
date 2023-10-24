@@ -24,7 +24,7 @@ export const Modal = (props: ModalProps) => {
       show={isOpen ? isOpen : toggle && typeof toggle[0] !== "undefined" ? toggle[0] : false}
       as={Fragment}
     >
-      <Dialog as="div" className="relative z-10" onClose={() => onClose && onClose()}>
+      <Dialog as="div" className="relative z-50" onClose={() => onClose && onClose()}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
