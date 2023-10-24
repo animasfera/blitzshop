@@ -1,16 +1,20 @@
-import { IAdminItem } from "./AdminItem"
+import { useRouter } from "next/router"
+import Link from "next/link"
+
 import { StarIcon } from "@heroicons/react/20/solid"
-import { classNames } from "src/core/helpers/classNames"
+
 import Button from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
+import { classNames } from "src/core/helpers/classNames"
 import { Money } from "src/core/components/Money"
 import { Weight } from "src/core/components/Weight"
+import { IAdminItem } from "./AdminItem"
 interface IAdminItemCard {
   item: IAdminItem["item"]
-  onEditClick?: (item: IAdminItem["item"]) => void
 }
 
 const AdminItemCard = (props: IAdminItemCard) => {
-  const { item, onEditClick } = props
+  const router = useRouter()
+  const { item } = props
   return (
     <>
       {item && (
@@ -86,11 +90,12 @@ const AdminItemCard = (props: IAdminItemCard) => {
                 />
               </div>
             </div>
-            {onEditClick && (
-              <div className="flex justify-start">
-                <Button buttonText="Edit" handleClick={() => onEditClick(item)} />
-              </div>
-            )}
+
+            <div className="flex justify-end">
+              <Link href={router.pathname + "/" + item.id + "/edit"}>
+                <Button buttonText={"Редактировать"} />
+              </Link>
+            </div>
           </div>
         </div>
       )}

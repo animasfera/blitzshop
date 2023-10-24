@@ -1,15 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link"
+import { useRouter } from "next/router"
 import React from "react"
 import Button from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 import { ItemFull } from "types"
 export interface IAdminItem {
   item: ItemFull | null
   onItemClick: (item: IAdminItem["item"]) => void
-  onEditClick?: (item: IAdminItem["item"]) => void
 }
 
 const AdminItem = (props: IAdminItem) => {
-  const { item, onItemClick, onEditClick } = props
+  const router = useRouter()
+  const { item, onItemClick } = props
+
   return (
     <>
       {item && (
@@ -37,10 +40,9 @@ const AdminItem = (props: IAdminItem) => {
             {item.qty}
           </td>
           <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-            <Button
-              buttonText={"Редактировать"}
-              handleClick={() => onEditClick && onEditClick(item)}
-            />
+            <Link href={router.pathname + "/" + item.id + "/edit"}>
+              <Button buttonText={"Редактировать"} />
+            </Link>
           </td>
         </tr>
       )}

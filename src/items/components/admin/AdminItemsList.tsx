@@ -4,8 +4,6 @@ import AdminItem, { IAdminItem } from "./AdminItem"
 export interface IAdminItemsList {
   items: IAdminItem["item"][]
   onItemClick: (item: IAdminItem["item"]) => void
-  onEditClick?: (item: IAdminItem["item"]) => void
-
 }
 const AdminItemsList = (props: IAdminItemsList) => {
   const { items, onItemClick, onEditClick } = props
@@ -59,12 +57,7 @@ const AdminItemsList = (props: IAdminItemsList) => {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {items.map((item, i) => (
-              <AdminItem
-                key={i}
-                item={item}
-                onItemClick={(item) => onItemClick(item)}
-                onEditClick={onEditClick}
-              />
+              <AdminItem key={i} item={item} onItemClick={(item) => onItemClick(item)} />
             ))}
           </tbody>
         </table>
