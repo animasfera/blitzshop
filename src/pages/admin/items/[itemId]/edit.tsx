@@ -1,10 +1,11 @@
 "use client"
 import { Suspense } from "react"
-import { useParam } from "@blitzjs/next"
-import Layout from "src/core/layouts/Layout"
-import AdminEditItemController from "src/items/components/admin/AdminEditItemController"
 import { BlitzPage } from "@blitzjs/auth"
 import { UserRoleEnum } from "@prisma/client"
+import { useParam } from "@blitzjs/next"
+
+import AdminEditItemController from "src/items/components/admin/AdminEditItemController"
+import AdminLayout from "src/core/layouts/AdminLayout"
 
 const AdminEditItem = (props) => {
   const itemId = useParam("itemId", "number")
@@ -25,7 +26,7 @@ const AdminEditItemPage: BlitzPage = () => {
 }
 
 AdminEditItemPage.authenticate = { role: UserRoleEnum.ADMIN, redirectTo: "/" }
-AdminEditItemPage.getLayout = (page) => <Layout>{page}</Layout>
+AdminEditItemPage.getLayout = (page) => <AdminLayout>{page}</AdminLayout>
 
 export { getServerSideProps } from "src/core/getServerSideProps"
 export default AdminEditItemPage
