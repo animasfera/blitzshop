@@ -6,7 +6,7 @@ import { Money } from "src/core/components/Money"
 interface CheckoutOrderInfoProps {
   children: ReactElement | ReactElement[]
   subtotal: number
-  shipping: number
+  shipping?: number
   total: number
 }
 
@@ -41,11 +41,15 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
         <div className="flex items-center justify-between">
           <dt>{t("order.shipping")}</dt>
           <dd>
-            <Money
-              // $25.00
-              amount={shipping}
-              currency={"EUR"}
-            />
+            {shipping ? (
+              <Money
+                // $25.00
+                amount={shipping}
+                currency={"EUR"}
+              />
+            ) : (
+              "?"
+            )}
           </dd>
         </div>
 

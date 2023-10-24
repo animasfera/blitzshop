@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { InvoiceStatusEnum, CurrencyEnum } from "@prisma/client"
-import { CompletePaymentMethod, RelatedPaymentMethodModel, CompleteOrder, RelatedOrderModel, CompleteTransaction, RelatedTransactionModel } from "./index"
+import { CompleteRefund, RelatedRefundModel, CompleteOrder, RelatedOrderModel, CompleteTransaction, RelatedTransactionModel } from "./index"
 
 export const InvoiceModel = z.object({
   id: z.number().int(),
@@ -12,15 +12,13 @@ export const InvoiceModel = z.object({
   status: z.nativeEnum(InvoiceStatusEnum),
   amount: z.number().int(),
   currency: z.nativeEnum(CurrencyEnum),
-  paymentMethodId: z.number().int(),
-  orderId: z.number().int(),
   originalInvoiceId: z.number().int().nullish(),
 })
 
 export interface CompleteInvoice extends z.infer<typeof InvoiceModel> {
-  paymentMethod: CompletePaymentMethod
-  order: CompleteOrder
   originalInvoice?: CompleteInvoice | null
+  refund?: CompleteRefund | null
+  order?: CompleteOrder | null
   creditNotes: CompleteInvoice[]
   transactions: CompleteTransaction[]
 }
@@ -31,9 +29,9 @@ export interface CompleteInvoice extends z.infer<typeof InvoiceModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedInvoiceModel: z.ZodSchema<CompleteInvoice> = z.lazy(() => InvoiceModel.extend({
-  paymentMethod: RelatedPaymentMethodModel,
-  order: RelatedOrderModel,
   originalInvoice: RelatedInvoiceModel.nullish(),
+  refund: RelatedRefundModel.nullish(),
+  order: RelatedOrderModel.nullish(),
   creditNotes: RelatedInvoiceModel.array(),
   transactions: RelatedTransactionModel.array(),
 }))

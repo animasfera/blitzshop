@@ -5,7 +5,6 @@ import { UpdateTransactionSchema, UpdateTransactionType } from "../schemas"
 
 import { cancelTransactionDbQuery } from "./cancelTransaction"
 import { failTransactionDbQuery } from "./failTransaction"
-import { initTransactionServiceDbQuery } from "./initTransaction"
 import { finalizeTransactionServiceDbQuery } from "./finalizeTransactionService"
 
 export const updateTransactionDbQuery = async (input: UpdateTransactionType, ctx, $db) => {
@@ -36,7 +35,7 @@ export const updateTransactionDbQuery = async (input: UpdateTransactionType, ctx
     const statusMutations = {
       canceled: cancelTransactionDbQuery,
       failed: failTransactionDbQuery,
-      paying: initTransactionServiceDbQuery,
+      // paying: initTransactionServiceDbQuery,
       finished: finalizeTransactionServiceDbQuery,
     }
 

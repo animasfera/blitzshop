@@ -64,9 +64,8 @@ export type ItemFull = Item & {
   currency: CurrencyEnum
   cartToItems: CartToItem[]
   category: Category | null
-  coverImage: ImageToItem & { image: Image }
   chatRoom: ChatRoom | null
-  images: ImageToItem[]
+  images: (ImageToItem & { image: Image })[]
   invoices: Invoice[]
   location: Location | null
   user: User | null
@@ -85,6 +84,10 @@ export type CartItemWithItem = CartToItem & {
       image: Image
     })[]
   }
+}
+
+export type PreOrderItem = Pick<PurchasedItem, "title" | "itemId" | "qty" | "price"> & {
+  imageUrl?: string
 }
 
 export type CartWithCartToItem = Cart & { cartToItems: CartItemWithItem[] }

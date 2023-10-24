@@ -55,7 +55,6 @@ model User {
   shippingAddresses     ShippingAddress[]
   refundProcessedByUser Refund[]          @relation(name: "ProcessedByUser")
   refunds               Refund[]          @relation(name: "RefundUser")
-  transactions          Transaction[]
   messages              Message[]
   messageRooms          UserToChatRoom[]
   configs               Config[]
@@ -340,7 +339,8 @@ model Order {
   items             PurchasedItem[]
   shippingAddresses ShippingAddress[]
   refunds           Refund[]
-  invoices          Invoice[]
+  invoice           Invoice              @relation(fields: [invoiceId], references: [id])
+  invoiceId         Int @unique
 }
 
 model Country {
@@ -397,8 +397,6 @@ model PaymentMethod {
   name         String        @unique
   title        String
   description  String?
-  refunds      Refund[]
-  invoices     Invoice[]
   transactions Transaction[]
 }
 
@@ -411,8 +409,6 @@ model Refund {
   status         RefundStatusEnum @default(PENDING)
   amount         Int  @default(0)
   currency       CurrencyEnum @default(EUR)
-  refundMethod   PaymentMethod    @relation(fields: [refundMethodId], references: [id])
-  refundMethodId Int
   processedBy    User?             @relation(name: "ProcessedByUser", fields: [processedById], references: [id])
   processedById  Int?
   order          Order            @relation(fields: [orderId], references: [id])
@@ -422,6 +418,8 @@ model Refund {
   user           User             @relation(name: "RefundUser", fields: [userId], references: [id])
   userId         Int
   itemToRefund   ItemToRefund[]
+  invoice        Invoice              @relation(fields: [invoiceId], references: [id])
+  invoiceId      Int @unique
 }
 
 enum RefundStatusEnum {
@@ -452,30 +450,19 @@ model Invoice {
   status            InvoiceStatusEnum @default(PENDING)
   amount            Int  @default(0)
   currency          CurrencyEnum @default(EUR)
-  paymentMethod     PaymentMethod     @relation(fields: [paymentMethodId], references: [id])
-  paymentMethodId   Int
-  order             Order             @relation(fields: [orderId], references: [id])
-  orderId           Int
   originalInvoice   Invoice?          @relation(name: "CreditNotes", fields: [originalInvoiceId], references: [id])
   originalInvoiceId Int?
+  refund            Refund?
+  order             Order?
   creditNotes       Invoice[]         @relation(name: "CreditNotes")
   transactions      Transaction[]
 }
 
 enum InvoiceStatusEnum {
   PENDING // ожидание оплаты
-  COMPLETED // оплачено
-  FAILED // не удалось оплатить
-  REFUNDED // возвращено
-  PROCESSING // Оплата обрабатывается или находится в процессе
-  AUTHORIZED // Оплата авторизована, но еще не завершена
-  DECLINED // Оплата отклонена
   PARTIALLY_PAID // Заказ частично оплачен
-  AWAITING_CONFIRMATION // Ожидание подтверждения оплаты
-  VOIDED // Оплата аннулирована
-  ABANDONED // Оплата не завершена или прервана пользователем
-  DISPUTED // Оплата оспаривается или находится в процессе разрешения спора
-  EXPIRED // Время для оплаты истекло
+  PAID // оплачено
+  CANCELLED // оплата отменена
 }
 
 model Transaction {
@@ -483,10 +470,10 @@ model Transaction {
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   remoteTransactionId String?
-  description         String
+  description         String?
   failureReason       String?
   failReasonCode      Int?
-  metadata            Json
+  metadata            Json?
   receiptUrl          String?
   status              TransactionStatusEnum @default(PENDING)
   type                TransactionTypeEnum
@@ -494,12 +481,10 @@ model Transaction {
   net                 Int  @default(0)
   feeTotal            Int  @default(0)
   currency            CurrencyEnum @default(EUR)
-  paymentMethod       PaymentMethod         @relation(fields: [paymentMethodId], references: [id])
-  paymentMethodId     Int
-  invoice             Invoice               @relation(fields: [invoiceId], references: [id])
-  invoiceId           Int
-  user                User                  @relation(fields: [userId], references: [id])
-  userId              Int
+  paymentMethod       PaymentMethod?         @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId     Int?
+  invoice             Invoice?               @relation(fields: [invoiceId], references: [id])
+  invoiceId           Int?
 }
 
 enum TransactionStatusEnum {

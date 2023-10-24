@@ -3,14 +3,13 @@ import { useTranslation } from "react-i18next"
 
 import { CheckoutOrderInfo } from "src/checkout/components/CheckoutOrderInfo"
 import { CheckoutOrderItemsList } from "src/checkout/components/CheckoutOrderItemsList"
-import { CartToItem, Item } from "@prisma/client"
-import { CartItemWithItem } from "../../../types"
+import { PreOrderItem } from "types"
 
 interface CheckoutOrderProps {
-  items: CartItemWithItem[]
+  items: PreOrderItem[]
   subtotal: number
   total: number
-  shipping: number
+  shipping?: number
 }
 
 export const CheckoutOrder = (props: CheckoutOrderProps) => {

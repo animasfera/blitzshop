@@ -11,13 +11,12 @@
     "total": "Total"
   },
   "chooseMethod": "Choose shipping method",
-  "paymentCurrency": "Payment currency",
-  "paymentMethod": {
-    "label": "Card's country of origin",
-    "help": "We use different payment systems for different countries. Please select your bank card's country of origin.",
+  "paymentCurrency": {
+    "title": "Payment currency",
+    "description": "We use different payment gateways for different currencies. Please select your card's currency.",
     "options": {
-      "stripe": "Another country",
-      "cloudpayments": "Russia"
+      "EUR": "Another currency",
+      "RUB": "₽ (Russian Ruble)"
     }
   }
 }

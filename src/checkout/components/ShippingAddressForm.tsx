@@ -19,7 +19,6 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
 
   return (
     <>
-      <h2 className="sr-only">{t("shippingAddress:title")}</h2>
       <Form<S> {...props}>
         <div className="mx-auto max-w-2xl flex flex-col gap-10 px-4 xl:max-w-none xl:px-0">
           <LabeledTextField

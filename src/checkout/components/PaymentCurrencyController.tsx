@@ -1,26 +1,23 @@
 import React from "react"
 import { CurrencyEnum } from "@prisma/client"
-import PaymentCountryForm from "./PaymentCountryForm"
+import PaymentCurrencyForm from "./PaymentCurrencyForm"
 import getPaymentMethods from "../../payment-methods/queries/getPaymentMethods"
 import { useQuery } from "@blitzjs/rpc"
 import { z } from "zod"
 
-type PaymentCountryChoiceControllerProps = {
+type PaymentCurrencyControllerProps = {
   onSubmit: (values: { paymentMethodId: number }) => void
 }
 
-export const PaymentCountryChoiceController = (props: PaymentCountryChoiceControllerProps) => {
+export const PaymentCurrencyController = (props: PaymentCurrencyControllerProps) => {
   const { onSubmit } = props
-
-  const [{ paymentMethods }] = useQuery(getPaymentMethods, {})
 
   return (
     <>
-      <PaymentCountryForm
+      <PaymentCurrencyForm
         schema={z.object({
-          paymentMethodId: z.number(),
+          currency: z.enum(["RUB", "EUR"]),
         })}
-        paymentMethods={paymentMethods}
         submitText={"Pay"}
         onSubmit={(values) => {
           onSubmit && onSubmit(values)

@@ -7,16 +7,17 @@ import { NotFoundError } from "blitz"
 export default resolver.pipe(
   resolver.zod(CreateOrderSchema),
   resolver.authorize(),
-  async ({ paymentMethodId, items, ...rest }, ctx) => {
+  async ({ items, currency, ...rest }, ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+    // TODO if currency!==EUR - convert rest.total to currency
     let orderData = {
       ...rest,
       log: { create: {} },
-      invoices: {
+      invoice: {
         create: {
           amount: rest.total,
           status: InvoiceStatusEnum.PENDING,
-          paymentMethodId,
+          currency,
         },
       },
       items: {
@@ -61,11 +62,7 @@ export default resolver.pipe(
       include: {
         items: true,
         user: true,
-        invoices: {
-          include: {
-            paymentMethod: true,
-          },
-        },
+        invoice: true,
       },
     })
 

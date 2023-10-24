@@ -45,23 +45,20 @@ export const useStripe = () => {
 
   return {
     pay: async (order: OrderWithItemsAndUserAndInvoice) => {
-      if (!order.invoices[0]) {
+      if (!order.invoice) {
         return
       }
 
       const paymentIntent = await createPaymentIntentMutation({
-        amount: order.invoices[0].amount / 100,
+        amount: order.invoice.amount,
         currency: "EUR",
         metadata: {
-          invoiceId: order.invoices[0].id,
+          invoiceId: order.invoice.id,
         },
       })
       return paymentIntent
       // setPaymentIntentInstance(paymentIntent)
     },
     paymentIntent: paymentIntentInstance,
-    CheckoutForm: ({ orderId }: { orderId: number }) => {
-      return <CheckoutForm orderId={orderId} paymentIntentInstance={paymentIntentInstance} />
-    },
   }
 }

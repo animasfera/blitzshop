@@ -53,14 +53,14 @@ export function StripeCheckoutForm(props: StripeCheckoutFormProps) {
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
-      <Box mt={6}>
+      <div className={"mt-6 right-items p-0"}>
         <Button
           type={"submit"}
           disabled={isLoading || !stripe || !elements}
           // isLoading={isLoading}
           buttonText={t("pay")}
         />
-      </Box>
+      </div>
     </form>
   )
 }

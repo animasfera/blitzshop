@@ -4,7 +4,7 @@ import { Invoice, Order, User, PurchasedItem, PaymentMethod } from "@prisma/clie
 
 export type OrderWithItemsAndUserAndInvoice = Order & {
   user: Pick<User, "email" | "firstName" | "lastName" | "id">
-  invoices: (Invoice & { paymentMethod: PaymentMethod })[]
+  invoice: Invoice
   items: PurchasedItem[]
 }
 
@@ -16,7 +16,7 @@ export const useCloudpayments = () => {
   })
 
   const pay = (order: OrderWithItemsAndUserAndInvoice) => {
-    if (typeof order.invoices[0] === "undefined") {
+    if (!order.invoice) {
       return false
     }
 
@@ -54,7 +54,7 @@ export const useCloudpayments = () => {
         Inn: process.env.NEXT_PUBLIC_COMPANY_RU_INN, // ИНН поставщика, тег ОФД 1226
       },
       amounts: {
-        electronic: order.invoices[0].amount / 100, // Сумма оплаты электронными деньгами
+        electronic: order.invoice.amount / 100, // Сумма оплаты электронными деньгами
         advancePayment: 0.0, // Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
         credit: 0.0, // Сумма постоплатой(в кредит) (2 знака после запятой)
         provision: 0.0, // Сумма оплаты встречным предоставлением (сертификаты, др. мат.ценности) (2 знака после запятой)
@@ -68,11 +68,11 @@ export const useCloudpayments = () => {
       {
         //options
         publicId: process.env.NEXT_PUBLIC_CP_USERNAME, //id из личного кабинета
-        description: "Оплата заказа №" + order.id + " по счету №" + order.invoices[0].id, //назначение
-        amount: order.invoices[0].amount / 100, //сумма
+        description: "Оплата заказа №" + order.id + " по счету №" + order.invoice.id, //назначение
+        amount: order.invoice.amount / 100, //сумма
         currency: "RUB", //валюта
         accountId: order.user.id, //идентификатор плательщика (необязательно)
-        invoiceId: order.invoices[0].id, //номер заказа  (необязательно)
+        invoiceId: order.invoice.id, //номер заказа  (необязательно)
         email: order.user.email || "", //email плательщика (необязательно)
         skin: "mini", //дизайн виджета (необязательно)
         data: {

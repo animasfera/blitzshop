@@ -4,22 +4,16 @@ import db from "db"
 import { PrismaDbType } from "types"
 
 import { CreateInvoiceSchema } from "../schemas"
+import { Prisma } from "@prisma/client"
 
 const CreateInvoice = z.object({
   invoice: CreateInvoiceSchema,
-  refundId: z.number().optional(),
-  bookingId: z.number().optional(),
 })
 type CreateInvoiceType = z.infer<typeof CreateInvoice>
 
 export const createInvoiceDbQuery = async (data: CreateInvoiceType, ctx, $db: PrismaDbType) => {
   // START TRANSACTION
-  let invoiceData = { ...data.invoice } as any
-  if (data.refundId) {
-    invoiceData.refund = { connect: { id: data.refundId } }
-  } else if (data.bookingId) {
-    invoiceData.booking = { connect: { id: data.bookingId } }
-  }
+  let invoiceData = { ...data.invoice } as Prisma.InvoiceCreateInput
   return $db.invoice.create({ data: invoiceData })
   // END TRANSACTION
 }

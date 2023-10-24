@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next"
 import { ShippingAddress } from "@prisma/client"
 import { useSession } from "@blitzjs/auth"
 import getCurrentUserShippingAddresses from "../../shipping-addresses/queries/getCurrentUserShippingAddresses"
+import Link from "next/link"
 
 type ShippingAddressChoiceControllerProps = {
   onSelect: (address: ShippingAddress) => void
@@ -18,39 +19,49 @@ type ShippingAddressChoiceControllerProps = {
 export const ShippingAddressChoiceController = (props: ShippingAddressChoiceControllerProps) => {
   const { onSelect, shippingAddress } = props
 
-  // const [shippingAddresses] = useQuery(getCurrentUserShippingAddresses, {})
   const [isEditing, setIsEditing] = useState(true)
   const { t } = useTranslation(["pages.checkout", "translation"])
+
+  const handleSubmit = (data) => {
+    onSelect(data)
+    setIsEditing(false)
+  }
 
   return (
     <>
       {isEditing ? (
         <ShippingAddressForm
-          submitText={t("translation:next")}
+          submitText={shippingAddress ? t("translation:update") : t("translation:next")}
           initialValues={shippingAddress}
           schema={CreateShippingAddressSchema}
           onSubmit={(address) => {
-            onSelect(address)
-            setIsEditing(false)
+            handleSubmit(address)
           }}
         />
       ) : (
         <>
           {shippingAddress && (
-            <div className={"mb-4"}>
+            <div className={"my-4"}>
               <div>
                 {shippingAddress.firstName} {shippingAddress.lastName}
               </div>
+              <div>{shippingAddress.address}</div>
               <div>
-                {shippingAddress.address}, {shippingAddress.city}
+                {shippingAddress.city} {shippingAddress.postalCode}
               </div>
+              <div>{shippingAddress.countryId}</div>
+              <div>{shippingAddress.phone}</div>
               <div>
-                {shippingAddress.postalCode}, {shippingAddress.countryId}
-              </div>
-              <div>
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <Link
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setIsEditing(true)
+                  }}
+                  href="#"
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                >
                   {t("translation:edit")}
-                </a>
+                </Link>
               </div>
             </div>
           )}

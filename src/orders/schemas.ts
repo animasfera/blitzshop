@@ -16,13 +16,28 @@ export const CreateOrderSchema = OrderModel.pick({
         price: true,
       })
     ),
-    paymentMethodId: z.number(),
+    currency: z.enum(["EUR", "RUB"]),
   })
 )
 
 export type CreateOrderType = z.infer<typeof CreateOrderSchema>
 
-export const UpdateOrderSchema = CreateOrderSchema.partial().merge(withIdOfSchema(OrderModel))
+export const UpdateOrderSchema = OrderModel.pick({
+  id: true,
+  shippingFee: true,
+  subtotal: true,
+  total: true,
+  shippingMethodId: true,
+  status: true,
+}).partial({
+  shippingFee: true,
+  subtotal: true,
+  total: true,
+  shippingMethodId: true,
+  status: true,
+})
+
+export type UpdateOrderSchemaType = z.infer<typeof UpdateOrderSchema>
 
 export const DeleteOrderSchema = OrderModel.pick({
   id: true,
