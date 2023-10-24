@@ -14,6 +14,7 @@ export default resolver.pipe(
     // TODO add types
     let _configs = {} as {
       allowLogin: boolean
+      allowSales: boolean
       allowAddSlots: boolean
       allowPaidGames: boolean
       allowPaymentsSgd: boolean
