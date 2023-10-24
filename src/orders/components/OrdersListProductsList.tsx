@@ -1,7 +1,20 @@
+import { Price, PurchasedItem, Category, Image, Item } from "db"
+
 import { OrdersListProductsListItem } from "src/orders/components/OrdersListProductsListItem"
 
 interface OrderListProductsListProps {
-  items: any[]
+  items: (PurchasedItem & {
+    amount: Price
+    category: Category | null
+    item: Item & {
+      user: {
+        email: string
+        id: number
+        username: string
+      } | null
+    }
+    coverImage: Image
+  })[]
 }
 
 export const OrdersListProductsList = (props: OrderListProductsListProps) => {

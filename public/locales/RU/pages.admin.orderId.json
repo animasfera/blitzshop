@@ -1,0 +1,76 @@
+{
+  "heading": {
+    "title": "Заказ №{{orderId}}",
+    "date": "от {{date}}"
+  },
+  "order": {
+    "data": {
+      "status": {
+        "label": "Статус"
+      },
+      "notes": {
+        "label": "Примечания"
+      },
+      "comment": {
+        "label": "Комментарий"
+      }
+    },
+    "contacts": {
+      "title": "Контактная информация",
+      "list": {
+        "customer": {
+          "label": "Заказчик"
+        },
+        "email": {
+          "label": "Электронная почта"
+        },
+        "phone": {
+          "label": "Номер телефона"
+        }
+      }
+    },
+    "shipping": {
+      "title": "Информация о доставке",
+      "list": {
+        "recipient": {
+          "label": "Получатель"
+        },
+        "postalCode": {
+          "label": "Почтовый индекс"
+        },
+        "country": {
+          "label": "Страна"
+        },
+        "city": {
+          "label": "Город"
+        },
+        "address": {
+          "label": "Адрес"
+        },
+        "instructions": {
+          "label": "Инструкции"
+        }
+      }
+    },
+    "delivery": {
+      "title": "Способ доставки",
+      "list": {
+        "title": {
+          "label": "Наименование"
+        },
+        "description": {
+          "label": "Описание"
+        },
+        "feeType": {
+          "label": "Тип комиссии"
+        },
+        "fee": {
+          "label": "Комиссия"
+        }
+      }
+    }
+  },
+  "summary": {
+    "title": "Итогo по заказу"
+  }
+}

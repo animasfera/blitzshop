@@ -1,0 +1,77 @@
+{
+  "heading": {
+    "title": "Order #{{orderId}}",
+    "date": "from {{date}}"
+  },
+  "order": {
+    "data": {
+      "status": {
+        "label": "Status"
+      },
+      "notes": {
+        "label": "Примечания"
+      },
+      "comment": {
+        "label": "Комментарий"
+      }
+    },
+    "contacts": {
+      "title": "Contact information",
+      "list": {
+        "customer": {
+          "label": "Customer"
+        },
+        "email": {
+          "label": "Email address"
+        },
+        "phone": {
+          "label": "Phone number"
+        }
+      }
+    },
+    "shipping": {
+      "title": "Shipping information",
+      "list": {
+        "recipient": {
+          "label": "Recipient",
+          "textButton": "Edit recipient"
+        },
+        "postalCode": {
+          "label": "Postal code"
+        },
+        "country": {
+          "label": "Country"
+        },
+        "city": {
+          "label": "City"
+        },
+        "address": {
+          "label": "Address"
+        },
+        "instructions": {
+          "label": "Instructions"
+        }
+      }
+    },
+    "delivery": {
+      "title": "Delivery method",
+      "list": {
+        "title": {
+          "label": "Title"
+        },
+        "description": {
+          "label": "Description"
+        },
+        "feeType": {
+          "label": "Fee type"
+        },
+        "fee": {
+          "label": "Fee"
+        }
+      }
+    }
+  },
+  "summary": {
+    "title": "Order summry"
+  }
+}

@@ -1,48 +1,40 @@
 import { usePaginatedQuery } from "@blitzjs/rpc"
-import { useRouter } from "next/router"
+import { useSession } from "@blitzjs/auth"
+import { Routes } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
+import { ErrorSection } from "src/core/components/sections/Error/ErrorSection"
 import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage"
 import { OrdersList } from "src/orders/components/OrdersList"
-import getOrders from "src/orders/queries/getOrders"
 import { usePagination } from "src/core/hooks/usePagination"
+import getOrders from "src/orders/queries/getOrders"
 
 const ORDERS_PER_PAGE = 100
 
-const orders = [
-  {
-    number: "4376",
-    status: "Delivered on January 22, 2021",
-    href: "#",
-    invoiceHref: "#",
-    products: [
-      {
-        id: 1,
-        name: "Machined Brass Puzzle",
-        href: "#",
-        price: "$95.00",
-        color: "Brass",
-        size: '3" x 3" x 3"',
-        imageSrc:
-          "https://tailwindui.com/img/ecommerce-images/order-history-page-07-product-01.jpg",
-        imageAlt: "Brass puzzle in the shape of a jack with overlapping rounded posts.",
-      },
-      // More products...
-    ],
-  },
-  // More orders...
-]
-
 export const OrdersListController = () => {
+  const { userId } = useSession()
+  const { t } = useTranslation(["pages.orders", "pages.errors"])
   const pagination = usePagination()
-  const router = useRouter()
-  const [{ orders: data, hasMore, count }] = usePaginatedQuery(getOrders, {
+
+  if (!userId) {
+    return (
+      <ErrorSection
+        header={{
+          statusCode: 401,
+          title: t("pages.errors:401.header.title"),
+          message: t("pages.errors:401.header.message"),
+        }}
+        link={{ href: Routes.LoginPage().href, text: t("401.links.signin") }}
+      />
+    )
+  }
+
+  const [{ orders, hasMore, count }] = usePaginatedQuery(getOrders, {
     orderBy: { id: "asc" },
     skip: ORDERS_PER_PAGE * pagination.page,
     take: ORDERS_PER_PAGE,
+    where: { userId },
   })
-
-  const { t } = useTranslation(["pages.orders"])
 
   return (
     <>

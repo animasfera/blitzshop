@@ -347,22 +347,23 @@ enum ShippingFeeTypeEnum {
 }
 
 model Order {
-  id                Int               @id @default(autoincrement())
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  id                Int              @id @default(autoincrement())
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
   couponCode        String?
   notes             String?
-  status            OrderStatusEnum   @default(PENDING)
-  amount            Price             @relation(fields: [amountId], references: [id])
+  status            OrderStatusEnum  @default(PENDING)
+  amount            Price            @relation(fields: [amountId], references: [id])
   amountId          Int
-  orderLog          OrderLog          @relation(fields: [orderLogId], references: [id])
+  orderLog          OrderLog         @relation(fields: [orderLogId], references: [id])
   orderLogId        Int
-  shippingMethod    ShippingMethod?   @relation(fields: [shippingMethodId], references: [id])
+  shippingMethod    ShippingMethod?  @relation(fields: [shippingMethodId], references: [id])
   shippingMethodId  Int?
-  user              User              @relation(fields: [userId], references: [id])
+  user              User             @relation(fields: [userId], references: [id])
   userId            Int
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId Int?
   purchasedItems    PurchasedItem[]
-  shippingAddresses ShippingAddress[]
   refunds           Refund[]
   invoices          Invoice[]
 }
@@ -410,8 +411,7 @@ model ShippingAddress {
   countryId    String   @db.Char(2)
   user         User     @relation(fields: [userId], references: [id])
   userId       Int
-  order        Order    @relation(fields: [orderId], references: [id])
-  orderId      Int
+  orders       Order[]
 }
 
 model PaymentMethod {
@@ -566,10 +566,8 @@ model Location {
   id        Int     @id @default(autoincrement())
   lat       Float
   lng       Float
-  address   String  @default("")
   addressRu String  @default("")
   addressEn String  @default("")
-  city      String  @default("")
   cityRu    String  @default("")
   cityEn    String  @default("")
   country   Country @relation(fields: [countryId], references: [id])

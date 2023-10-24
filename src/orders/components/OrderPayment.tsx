@@ -1,10 +1,10 @@
 import { Order } from "db"
 
-interface OrderInfoPaymentProps {
+interface OrderPaymentProps {
   order: Order
 }
 
-export const OrderInfoPayment = (props: OrderInfoPaymentProps) => {
+export const OrderPayment = (props: OrderPaymentProps) => {
   // TODO: получать только данные по платежу
   const { order } = props
 
@@ -35,4 +35,4 @@ export const OrderInfoPayment = (props: OrderInfoPaymentProps) => {
   )
 }
 
-export default OrderInfoPayment
+export default OrderPayment

@@ -1,10 +1,10 @@
 import { Order } from "db"
 
-interface OrderInfoSummaryProps {
+interface OrderSummaryProps {
   order: Order
 }
 
-export const OrderInfoSummary = (props: OrderInfoSummaryProps) => {
+export const OrderSummary = (props: OrderSummaryProps) => {
   // TODO: получать только данные по price
   const { order } = props
 
@@ -39,4 +39,4 @@ export const OrderInfoSummary = (props: OrderInfoSummaryProps) => {
   )
 }
 
-export default OrderInfoSummary
+export default OrderSummary

@@ -1,6 +1,6 @@
 import { Ctx, paginate } from "blitz"
 import { resolver } from "@blitzjs/rpc"
-import db, { Prisma } from "db"
+import db, { Prisma, UserRoleEnum } from "db"
 
 interface GetOrdersInput
   extends Pick<Prisma.OrderFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}

@@ -1,22 +1,24 @@
 "use client"
+import { useParam } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
-import { Layout } from "src/core/layouts/Layout"
+import { AdminLayout } from "src/core/layouts/AdminLayout"
 import { Loading } from "src/core/components/Loading"
-import { AdminOrderController } from "src/orders/components/AdminOrderController"
+import { AdminOrderController } from "src/orders/components/admin/AdminOrderController"
 
-export const OrderPage = () => {
-  const { t } = useTranslation(["pages.orderId"])
+export const AdminOrderPage = () => {
+  const orderId = useParam("orderId", "number")
+  const { t } = useTranslation(["pages.admin.orderId"])
 
   return (
-    <Layout title={t("title")}>
+    <AdminLayout title={t("heading.title", { orderId })}>
       <Loading>
         <AdminOrderController />
       </Loading>
-    </Layout>
+    </AdminLayout>
   )
 }
 
-OrderPage.authenticate = true
+AdminOrderPage.authenticate = true
 export { getServerSideProps } from "src/core/getServerSideProps"
-export default OrderPage
+export default AdminOrderPage

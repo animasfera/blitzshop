@@ -755,3 +755,19 @@ ALTER TABLE "CartToItem" ADD CONSTRAINT "CartToItem_itemId_fkey" FOREIGN KEY ("i
 
 -- AddForeignKey
 ALTER TABLE "CartToItem" ADD CONSTRAINT "CartToItem_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "Cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AlterTable
+ALTER TABLE "Location" DROP COLUMN "address",
+DROP COLUMN "city";
+
+-- DropForeignKey
+ALTER TABLE "ShippingAddress" DROP CONSTRAINT "ShippingAddress_orderId_fkey";
+
+-- AlterTable
+ALTER TABLE "Order" ADD COLUMN     "shippingAddressId" INTEGER;
+
+-- AlterTable
+ALTER TABLE "ShippingAddress" DROP COLUMN "orderId";
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_shippingAddressId_fkey" FOREIGN KEY ("shippingAddressId") REFERENCES "ShippingAddress"("id") ON DELETE SET NULL ON UPDATE CASCADE;

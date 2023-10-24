@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next"
 import { Order } from "db"
 
-interface OrderInfoHeadProps {
+interface OrderHeadProps {
   order: Order
 }
 
-export const OrderInfoHead = (props: OrderInfoHeadProps) => {
+export const OrderHead = (props: OrderHeadProps) => {
   const { order } = props
 
   const { t } = useTranslation(["pages.orderId"])
@@ -26,4 +26,4 @@ export const OrderInfoHead = (props: OrderInfoHeadProps) => {
   )
 }
 
-export default OrderInfoHead
+export default OrderHead
