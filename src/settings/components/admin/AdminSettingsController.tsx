@@ -1,3 +1,4 @@
+"use client"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 import updateConfigs from "src/configs/mutations/updateConfigs"
 import getConfigs from "src/configs/queries/getConfigs"

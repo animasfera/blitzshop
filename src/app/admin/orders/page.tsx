@@ -1,20 +1,17 @@
-"use client"
 import { BlitzPage } from "@blitzjs/next"
-import { useTranslation } from "react-i18next"
-
 import { Loading } from "src/core/components/Loading"
-import { AdminLayout } from "src/core/layouts/AdminLayout"
 import { AdminOrdersListController } from "src/orders/components/admin/AdminOrdersListController"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Заказы | Администрирование",
+}
 
 const AdminOrdersPage: BlitzPage = () => {
-  const { t } = useTranslation(["pages.admin.orders"])
-
   return (
-    <AdminLayout title={t("title")}>
-      <Loading>
-        <AdminOrdersListController />
-      </Loading>
-    </AdminLayout>
+    <Loading>
+      <AdminOrdersListController />
+    </Loading>
   )
 }
 

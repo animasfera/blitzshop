@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react"
 import { useMutation, usePaginatedQuery, useQuery } from "@blitzjs/rpc"
 import { FORM_ERROR } from "final-form"

@@ -1,5 +1,5 @@
+"use client"
 import { usePaginatedQuery } from "@blitzjs/rpc"
-
 import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage"
 import { AdminOrdersList } from "src/orders/components/admin/AdminOrdersList"
 import getOrders from "src/orders/queries/getOrders"

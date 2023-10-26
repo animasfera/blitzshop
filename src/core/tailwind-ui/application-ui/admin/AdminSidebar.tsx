@@ -1,8 +1,7 @@
 "use client"
-import { Fragment, ReactElement, useState } from "react"
+import { Fragment, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
-
 import AdminSidebarHeader, { IAdminSidebarHeader } from "./AdminSidebarHeader"
 import AdminSidebarMenu, { INavigationAdminSidebar } from "./AdminSidebarMenu"
 export interface IAdminSidebar
@@ -62,7 +61,6 @@ const AdminSidebar = (props: IAdminSidebar) => {
                     </button>
                   </div>
                 </Transition.Child>
-
                 {/* Sidebar mobile */}
                 <AdminSidebarMenu navigation={navigation} />
               </Dialog.Panel>
@@ -70,7 +68,6 @@ const AdminSidebar = (props: IAdminSidebar) => {
           </div>
         </Dialog>
       </Transition.Root>
-
       {/* Static sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <AdminSidebarMenu navigation={navigation} />

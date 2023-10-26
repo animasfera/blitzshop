@@ -1,23 +1,19 @@
 "use client"
 import { Suspense } from "react"
-import Head from "next/head"
 import { useQuery } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
-import Layout from "src/core/layouts/Layout"
 import getItem from "src/items/queries/getItem"
 import AdminItemCard from "src/items/components/admin/AdminItemCard"
 import { IAdminItem } from "src/items/components/admin/AdminItem"
+import { useParams } from "next/navigation"
 
 const AdminItem = () => {
-  const itemId = useParam("itemId", "number")
+  const itemId: any = useParams()
 
-  let [item] = useQuery(getItem, { id: itemId }) as any
+  let [item] = useQuery(getItem, { id: parseInt(itemId.itemId) }) as any
   item = item as IAdminItem["item"]
   return (
     <>
-      <Head>
-        <title>Item {item.title}</title>
-      </Head>
+      <title>{item.title}</title>
       <AdminItemCard item={item} />
     </>
   )
@@ -30,8 +26,5 @@ const ShowAdminItemPage = () => {
     </Suspense>
   )
 }
-
-ShowAdminItemPage.authenticate = true
-ShowAdminItemPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default ShowAdminItemPage

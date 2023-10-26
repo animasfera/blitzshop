@@ -11,6 +11,7 @@ import { Currency, CurrencyContext } from "src/core/contexts/currencyContext"
 import { LightModeContext } from "src/core/contexts/lightModeContext"
 import { TimezoneContext } from "src/core/contexts/timezoneContext"
 import { ThemeEnum } from "src/core/enums/ThemeEnum"
+import "src/core/styles/index.css"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<ThemeEnum>(ThemeEnum.light)

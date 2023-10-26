@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect } from "react"
-import Head from "next/head"
 import { BlitzLayout, Routes } from "@blitzjs/next"
 import { useSession } from "@blitzjs/auth"
 import AdminSidebar from "src/core/tailwind-ui/application-ui/admin/AdminSidebar"
@@ -15,6 +14,7 @@ import { useTranslation } from "react-i18next"
 import { UserRoleEnum } from "db"
 import i18n from "src/core/i18n"
 import { Loading } from "src/core/components/Loading"
+import { AuthenticationError } from "blitz"
 
 interface AdminLayoutProps {
   title?: string
@@ -26,7 +26,7 @@ const userNavigation = [
   { name: "Sign out", href: "#" },
 ]
 
-export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
+const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
   const router = useRouter()
   const routerPathname = usePathname()
   const { title, children } = props
@@ -67,8 +67,8 @@ export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
 
   useEffect(() => {
     if (!session.isLoading && (!session.user || session.role !== UserRoleEnum.ADMIN)) {
-          router.push(Routes.Page401().href)
-        }
+      throw new AuthenticationError()
+    }
   }, [session])
 
   return (
