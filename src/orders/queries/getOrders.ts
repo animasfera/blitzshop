@@ -10,7 +10,7 @@ export default resolver.pipe(
   async ({ where, orderBy, skip = 0, take = 100 }: GetOrdersInput, ctx: Ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
 
-    if (where?.userId !== ctx.session?.userId || ctx.session.role !== UserRoleEnum.ADMIN) {
+    if (where?.userId !== ctx.session?.userId && ctx.session.role !== UserRoleEnum.ADMIN) {
       // TODO: добавить перевод для вывода ошибки
       throw new AuthenticationError("Недостаточно прав")
     }
