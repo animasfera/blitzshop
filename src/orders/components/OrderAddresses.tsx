@@ -1,10 +1,10 @@
 import { Order } from "db"
 
-interface OrderInfoAddressesProps {
+interface OrderAddressesProps {
   order: Order
 }
 
-export const OrderInfoAddresses = (props: OrderInfoAddressesProps) => {
+export const OrderAddresses = (props: OrderAddressesProps) => {
   // TODO: получать только адреса
   const { order } = props
 
@@ -37,4 +37,4 @@ export const OrderInfoAddresses = (props: OrderInfoAddressesProps) => {
   )
 }
 
-export default OrderInfoAddresses
+export default OrderAddresses

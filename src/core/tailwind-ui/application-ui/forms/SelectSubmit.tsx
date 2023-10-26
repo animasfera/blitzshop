@@ -117,7 +117,10 @@ export const SelectSubmit = React.forwardRef<HTMLSelectElement, SelectSubmitProp
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="min-w-full absolute right-0 z-10 mt-2 origin-top-right divide-y divide-gray-200 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Listbox.Options
+                  // ring-1 ring-black ring-opacity-5
+                  className="min-w-full absolute right-0 z-10 mt-2 origin-top-right divide-y divide-gray-200 overflow-hidden rounded-md bg-white shadow-lg focus:outline-none"
+                >
                   {options.map((option) => {
                     return (
                       <Listbox.Option

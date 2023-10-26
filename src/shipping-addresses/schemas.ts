@@ -14,10 +14,19 @@ export const CreateShippingAddressSchema = ShippingAddressModel.pick({
   orderId: true,
 })
 
-export const UpdateShippingAddressSchema = z.object({
-  id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
+export const UpdateShippingAddressSchema = ShippingAddressModel.pick({
+  firstName: true,
+  lastName: true,
+  phone: true,
+  postalCode: true,
+  city: true,
+  address: true,
+  instructions: true,
 })
+  .partial()
+  .extend({
+    id: z.number(),
+  })
 
 export const DeleteShippingAddressSchema = z.object({
   id: z.number(),

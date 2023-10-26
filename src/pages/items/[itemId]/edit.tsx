@@ -48,7 +48,7 @@ export const EditItem = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowItemPage({ itemId: updated.id }))
+                await router.push(Routes.ItemPage({ itemId: updated.id }))
               } catch (error: any) {
                 console.error(error)
                 return {

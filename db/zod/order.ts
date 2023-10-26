@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { OrderStatusEnum } from "@prisma/client"
-import { CompletePrice, RelatedPriceModel, CompleteOrderLog, RelatedOrderLogModel, CompleteShippingMethod, RelatedShippingMethodModel, CompleteUser, RelatedUserModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteShippingAddress, RelatedShippingAddressModel, CompleteRefund, RelatedRefundModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
+import { CompletePrice, RelatedPriceModel, CompleteOrderLog, RelatedOrderLogModel, CompleteShippingMethod, RelatedShippingMethodModel, CompleteUser, RelatedUserModel, CompleteShippingAddress, RelatedShippingAddressModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteRefund, RelatedRefundModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
 
 export const OrderModel = z.object({
   id: z.number().int(),
@@ -13,6 +13,7 @@ export const OrderModel = z.object({
   orderLogId: z.number().int(),
   shippingMethodId: z.number().int().nullish(),
   userId: z.number().int(),
+  shippingAddressId: z.number().int().nullish(),
 })
 
 export interface CompleteOrder extends z.infer<typeof OrderModel> {
@@ -20,8 +21,8 @@ export interface CompleteOrder extends z.infer<typeof OrderModel> {
   orderLog: CompleteOrderLog
   shippingMethod?: CompleteShippingMethod | null
   user: CompleteUser
+  shippingAddress?: CompleteShippingAddress | null
   purchasedItems: CompletePurchasedItem[]
-  shippingAddresses: CompleteShippingAddress[]
   refunds: CompleteRefund[]
   invoices: CompleteInvoice[]
 }
@@ -36,8 +37,8 @@ export const RelatedOrderModel: z.ZodSchema<CompleteOrder> = z.lazy(() => OrderM
   orderLog: RelatedOrderLogModel,
   shippingMethod: RelatedShippingMethodModel.nullish(),
   user: RelatedUserModel,
+  shippingAddress: RelatedShippingAddressModel.nullish(),
   purchasedItems: RelatedPurchasedItemModel.array(),
-  shippingAddresses: RelatedShippingAddressModel.array(),
   refunds: RelatedRefundModel.array(),
   invoices: RelatedInvoiceModel.array(),
 }))

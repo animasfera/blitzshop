@@ -26,7 +26,7 @@ const NewItemPage = () => {
           onSubmit={async (values) => {
             try {
               const item = await createItemMutation(values)
-              await router.push(Routes.ShowItemPage({ itemId: item.id }))
+              await router.push(Routes.ItemPage({ itemId: item.id }))
             } catch (error: any) {
               console.error(error)
               return {

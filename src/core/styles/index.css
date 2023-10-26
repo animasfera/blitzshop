@@ -384,7 +384,7 @@ button[role="tab"]:focus {
   bottom: 0px;
 }
 .form > * + * {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
 }
 .form > *:first-child {
   margin-top: 0 !important;

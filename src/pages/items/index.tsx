@@ -27,7 +27,7 @@ export const ItemsList = () => {
       <ul>
         {items.map((item) => (
           <li key={item.id}>
-            <Link href={Routes.ShowItemPage({ itemId: item.id })}>{item.title}</Link>
+            <Link href={Routes.ItemPage({ itemId: item.id })}>{item.title}</Link>
           </li>
         ))}
       </ul>
