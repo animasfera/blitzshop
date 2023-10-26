@@ -1,4 +1,4 @@
-import { usePaginatedQuery } from "@blitzjs/rpc"
+import { useMutation, usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage"
@@ -9,6 +9,9 @@ import AdminItemCard from "./AdminItemCard"
 import AdminItemsControllerHeader from "./AdminItemsControllerHeader"
 import { IAdminItem } from "./AdminItem"
 import AdminItemsList from "./AdminItemsList"
+import { AdminItemForm } from "./AdminItemForm"
+import updateItem from "src/items/mutations/updateItem"
+import { FORM_ERROR } from "final-form"
 
 const ITEMS_PER_PAGE = 10
 
@@ -19,13 +22,44 @@ const AdminItemsController = () => {
     skip: ITEMS_PER_PAGE * pagination.page,
     take: ITEMS_PER_PAGE,
   })
+  const [updateItemMutation] = useMutation(updateItem)
   const [currentItem, setCurrentItem] = useState<IAdminItem["item"]>(null)
   const [showItemCard, setShowItemCard] = useState<boolean>(false)
+  const [showItemForm, setShowItemForm] = useState<boolean>(false)
 
   return (
     <>
+      <Modal
+        size="flex w-full transform  text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl"
+        isOpen={showItemForm}
+        onClose={() => setShowItemForm(false)}
+        bottomClose={false}
+      >
+        <AdminItemForm
+          item={currentItem}
+          submitText="Сохранить"
+          initialValues={currentItem ? { ...currentItem } : {}}
+          onSubmit={async (data) => {
+            try {
+              updateItemMutation({ id: currentItem?.id, ...data })
+              setShowItemForm(false)
+            } catch (error: any) {
+              console.error("error")
+              return {
+                [FORM_ERROR]: error.toString(),
+              }
+            }
+          }}
+        />
+      </Modal>
       <Modal size="lg:w-1/2 sm:w-5/6" isOpen={showItemCard} onClose={() => setShowItemCard(false)}>
-        <AdminItemCard item={currentItem} />
+        <AdminItemCard
+          item={currentItem}
+          onEditClick={(item) => {
+            setCurrentItem(item)
+            setShowItemForm(true)
+          }}
+        />
       </Modal>
       <AdminItemsControllerHeader />
       <ListOrNotFoundMessage
@@ -39,6 +73,10 @@ const AdminItemsController = () => {
           onItemClick={(item) => {
             setCurrentItem(item)
             setShowItemCard(true)
+          }}
+          onEditClick={(item) => {
+            setCurrentItem(item)
+            setShowItemForm(true)
           }}
         />
       </ListOrNotFoundMessage>

@@ -1,13 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react"
+import Button from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 import { ItemFull } from "types"
 export interface IAdminItem {
   item: ItemFull | null
   onItemClick: (item: IAdminItem["item"]) => void
+  onEditClick?: (item: IAdminItem["item"]) => void
 }
 
 const AdminItem = (props: IAdminItem) => {
-  const { item, onItemClick } = props
+  const { item, onItemClick, onEditClick } = props
   return (
     <>
       {item && (
@@ -35,9 +37,10 @@ const AdminItem = (props: IAdminItem) => {
             {item.qty}
           </td>
           <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-            <a href="#" className="text-indigo-600 hover:text-indigo-900">
-              Edit<span className="sr-only">, {item.title}</span>
-            </a>
+            <Button
+              buttonText={"Редактировать"}
+              handleClick={() => onEditClick && onEditClick(item)}
+            />
           </td>
         </tr>
       )}

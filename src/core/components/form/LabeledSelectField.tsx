@@ -54,7 +54,6 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
 
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
     const showError = touched && normalizedError
-
     return (
       <Select
         ref={ref}
@@ -62,7 +61,7 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
         label={label}
         input={input}
         placeholder={placeholder}
-        selected={selected}
+        selected={options.find((o) => o.value === input.value)}
         defaultValue={defaultValue}
         required={required}
         disabled={disabled || submitting}

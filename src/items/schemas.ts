@@ -17,9 +17,35 @@ export const CreateItemSchema = ItemModel.pick({
   cartId: true,
 })
 
-export const UpdateItemSchema = z.object({
-  id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
+export const UpdateItemSchema = ItemModel.pick({
+  id: true,
+  title: true,
+  description: true,
+  qty: true,
+  weight: true,
+  rating: true,
+  isFeatured: true,
+  status: true,
+  access: true,
+  categoryId: true,
+  amountId: true,
+  coverImageId: true,
+  userId: true,
+  cartId: true,
+}).partial({
+  title: true,
+  description: true,
+  qty: true,
+  weight: true,
+  rating: true,
+  isFeatured: true,
+  status: true,
+  access: true,
+  categoryId: true,
+  amountId: true,
+  coverImageId: true,
+  userId: true,
+  cartId: true,
 })
 
 export const DeleteItemSchema = z.object({
