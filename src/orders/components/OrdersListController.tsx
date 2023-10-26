@@ -16,6 +16,13 @@ export const OrdersListController = () => {
   const { t } = useTranslation(["pages.orders", "pages.errors"])
   const pagination = usePagination()
 
+  const [{ orders, hasMore, count }] = usePaginatedQuery(getOrders, {
+    orderBy: { id: "asc" },
+    skip: ORDERS_PER_PAGE * pagination.page,
+    take: ORDERS_PER_PAGE,
+    where: userId ? { userId } : {},
+  })
+
   if (!userId) {
     return (
       <ErrorSection
@@ -28,13 +35,6 @@ export const OrdersListController = () => {
       />
     )
   }
-
-  const [{ orders, hasMore, count }] = usePaginatedQuery(getOrders, {
-    orderBy: { id: "asc" },
-    skip: ORDERS_PER_PAGE * pagination.page,
-    take: ORDERS_PER_PAGE,
-    where: { userId },
-  })
 
   return (
     <>

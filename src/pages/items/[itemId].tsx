@@ -1,4 +1,4 @@
-;("use client")
+"use client"
 import { useTranslation } from "react-i18next"
 
 import { Layout } from "src/core/layouts/Layout"

@@ -45,6 +45,8 @@ export const EditOrder = () => {
                   id: order.id,
                   // ...values,
                 })
+                // TODO: убрать, когда будет делаться страница
+                // @ts-ignore
                 await setQueryData(updated)
                 await router.push(Routes.OrderPage({ orderId: updated.id }))
               } catch (error: any) {
