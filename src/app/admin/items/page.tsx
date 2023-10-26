@@ -1,5 +1,5 @@
+"use client"
 import { BlitzPage } from "@blitzjs/next"
-import React from "react"
 import AdminLayout from "src/core/layouts/AdminLayout"
 import AdminItemsController from "src/items/components/admin/AdminItemsController"
 

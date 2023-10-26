@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useSession } from "@blitzjs/auth"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 import { Routes } from "@blitzjs/next"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
 import { CurrencyEnum } from "db"
 

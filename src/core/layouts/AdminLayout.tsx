@@ -1,10 +1,16 @@
+"use client"
 import React, { useEffect } from "react"
 import Head from "next/head"
 import { BlitzLayout, Routes } from "@blitzjs/next"
 import { useSession } from "@blitzjs/auth"
-import AdminSidebar from "../tailwind-ui/application-ui/admin/AdminSidebar"
-import { HomeIcon, CircleStackIcon, ShoppingCartIcon, AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline"
-import { useRouter } from "next/router"
+import AdminSidebar from "src/core/tailwind-ui/application-ui/admin/AdminSidebar"
+import {
+  HomeIcon,
+  CircleStackIcon,
+  ShoppingCartIcon,
+  AdjustmentsHorizontalIcon,
+} from "@heroicons/react/24/outline"
+import { usePathname, useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
 import { UserRoleEnum } from "db"
 import i18n from "src/core/i18n"
@@ -22,7 +28,7 @@ const userNavigation = [
 
 export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
   const router = useRouter()
-  const routerPathname = router.pathname
+  const routerPathname = usePathname()
   const { title, children } = props
   const session = useSession({ suspense: false })
   const { t } = useTranslation(["pages.errors", "pages.admin.orders", "translation"])
@@ -30,27 +36,27 @@ export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
   const navigation = [
     {
       name: "Dashboard",
-      href: Routes.AdminPage().href,
+      href: "/admin",
       icon: HomeIcon,
-      current: routerPathname === Routes.AdminPage().href,
+      current: routerPathname === "/admin",
     },
     {
       name: "Товары",
-      href: Routes.AdminItemsPage().href,
+      href: "/admin/items",
       icon: CircleStackIcon,
-      current: routerPathname === Routes.AdminItemsPage().href,
+      current: routerPathname === "/admin/items",
     },
     {
       name: t("pages.admin.orders:title"),
-      href: Routes.AdminOrdersPage().href,
+      href: "/admin/orders",
       icon: ShoppingCartIcon,
-      current: routerPathname === Routes.AdminOrdersPage().href,
+      current: routerPathname === "/admin/orders",
     },
     {
       name: "Настройки",
-      href: Routes.AdminSettingsPage().href,
+      href: "/admin/settings",
       icon: AdjustmentsHorizontalIcon,
-      current: routerPathname === Routes.AdminSettingsPage().href,
+      current: routerPathname === "/admin/settings",
     },
   ]
 
@@ -60,11 +66,9 @@ export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
   }, [])
 
   useEffect(() => {
-    console.log("session", session)
-
     if (!session.isLoading && (!session.user || session.role !== UserRoleEnum.ADMIN)) {
-      router.push(Routes.Page401().href)
-    }
+          router.push(Routes.Page401().href)
+        }
   }, [session])
 
   return (
