@@ -8,35 +8,35 @@ interface AdminOrderListItemSectionListProps {
     label: string
     value?: string | null
     button?: {
-      id?: string
+      id: string
       select?: boolean
-      text: string
     }
   }[]
   statusOrder: OptionSelectField
   shippingOptions: OptionSelectField[]
+  isLoading: boolean
+
+  handleUpdateOrder: (values: any) => Promise<void>
 }
 
 export const AdminOrderListItemSectionList = (props: AdminOrderListItemSectionListProps) => {
-  const { list, statusOrder, shippingOptions } = props
+  const { list, statusOrder, shippingOptions, isLoading, handleUpdateOrder } = props
 
   return (
     <dl>
       <ul className="my-2 pb-6 flex flex-col gap-y-2 border-b border-gray-200 text-sm leading-6">
-        {list.map(({ label, value, button }) => {
-          if (!value) return
-
-          return (
-            <AdminOrderListItemSectionListItem
-              key={`${value}-${label}`}
-              label={label}
-              value={value}
-              button={button}
-              statusOrder={statusOrder}
-              shippingOptions={shippingOptions}
-            />
-          )
-        })}
+        {list.map(({ label, value, button }) => (
+          <AdminOrderListItemSectionListItem
+            key={`${value}-${label}`}
+            label={label}
+            value={value}
+            button={button}
+            statusOrder={statusOrder}
+            shippingOptions={shippingOptions}
+            isLoading={isLoading}
+            handleUpdateOrder={handleUpdateOrder}
+          />
+        ))}
       </ul>
     </dl>
   )

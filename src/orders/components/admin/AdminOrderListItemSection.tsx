@@ -8,17 +8,19 @@ interface AdminOrderListItemSectionProps {
     label: string
     value?: string | null
     button?: {
-      id?: string
+      id: string
       select?: boolean
-      text: string
     }
   }[]
   statusOrder: OptionSelectField
   shippingOptions: OptionSelectField[]
+  isLoading: boolean
+
+  handleUpdateOrder: (values: any) => Promise<void>
 }
 
 export const AdminOrderListItemSection = (props: AdminOrderListItemSectionProps) => {
-  const { title, list, statusOrder, shippingOptions } = props
+  const { title, list, statusOrder, shippingOptions, isLoading, handleUpdateOrder } = props
 
   return (
     <section>
@@ -29,6 +31,8 @@ export const AdminOrderListItemSection = (props: AdminOrderListItemSectionProps)
           list={list}
           statusOrder={statusOrder}
           shippingOptions={shippingOptions}
+          isLoading={isLoading}
+          handleUpdateOrder={handleUpdateOrder}
         />
       )}
     </section>

@@ -10,21 +10,23 @@ interface AdminOrderListProps {
       label: string
       value?: string | null
       button?: {
-        id?: string
+        id: string
         select?: boolean
-        text: string
       }
     }[]
   }[]
   statusOrder: OptionSelectField
   shippingOptions: OptionSelectField[]
+  isLoading: boolean
+
+  handleUpdateOrder: (values: any) => Promise<void>
 }
 
 export const AdminOrderList = (props: AdminOrderListProps) => {
-  const { sections, statusOrder, shippingOptions } = props
+  const { sections, statusOrder, shippingOptions, isLoading, handleUpdateOrder } = props
 
   return (
-    <ul className="space-y-6">
+    <ul className="space-y-6 xl:w-2/4">
       {sections.map(({ title, list }, index) => (
         <AdminOrderListItemSection
           key={`${index}-${title}`}
@@ -32,6 +34,8 @@ export const AdminOrderList = (props: AdminOrderListProps) => {
           list={list}
           statusOrder={statusOrder}
           shippingOptions={shippingOptions}
+          isLoading={isLoading}
+          handleUpdateOrder={handleUpdateOrder}
         />
       ))}
     </ul>

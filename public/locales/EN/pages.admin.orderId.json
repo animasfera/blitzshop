@@ -32,9 +32,11 @@
     "shipping": {
       "title": "Shipping information",
       "list": {
-        "recipient": {
-          "label": "Recipient",
-          "textButton": "Edit recipient"
+        "firstname": {
+          "label": "Recipient firstname"
+        },
+        "lastname": {
+          "label": "Recipient lastname"
         },
         "postalCode": {
           "label": "Postal code"

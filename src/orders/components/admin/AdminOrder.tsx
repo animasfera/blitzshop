@@ -57,17 +57,19 @@ interface AdminOrderProps {
       coverImage: Image
     })[]
   }
-  statusOrder: OptionSelectField // OrderStatusEnum
+  statusOrder: OptionSelectField
   shippingOptions: OptionSelectField[]
+  isLoading: boolean
+
+  handleUpdateOrder: (values: any) => Promise<void>
 }
 
 interface ItemList {
   label: string
   value?: string | null
   button?: {
-    id?: string
+    id: string
     select?: boolean
-    text: string
   }
 }
 
@@ -88,8 +90,7 @@ const handleFullname = ({
 }
 
 export const AdminOrder = (props: AdminOrderProps) => {
-  const { order, statusOrder, shippingOptions } = props
-  const { firstName, lastName, phone, email } = order.user
+  const { order, statusOrder, shippingOptions, isLoading, handleUpdateOrder } = props
 
   const { t, i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
@@ -109,54 +110,57 @@ export const AdminOrder = (props: AdminOrderProps) => {
       label: t("order.data.status.label"),
       value: orderStatus,
       button: {
-        id: `order-status-${order.id}`,
+        id: "status",
         select: true,
-        text: t("translation:change"),
       },
     },
     {
       label: t("order.data.notes.label"),
       value: order.notes,
-      button: { text: t("translation:change") },
+      button: { id: "notes" },
     },
     {
       label: t("order.data.comment.label"),
       value: order.orderLog.comment,
-      button: { text: t("translation:edit") },
+      button: { id: "comment" },
     },
   ]
 
   const contacts: ItemList[] = [
     {
       label: t("order.contacts.list.customer.label"),
-      value: handleFullname({ firstName, lastName }),
+      value: handleFullname({ firstName: order.user.firstName, lastName: order.user.lastName }),
     },
     {
       label: t("order.contacts.list.email.label"),
-      value: email,
+      value: order.user.email,
     },
     {
       label: t("order.contacts.list.phone.label"),
-      value: phone,
+      value: order.user.phone,
     },
   ]
 
   const shipping: ItemList[] = [
     {
-      label: t("order.shipping.list.recipient.label"),
-      value: handleFullname({
-        firstName: order.shippingAddress?.firstName,
-        lastName: order.shippingAddress?.lastName,
-      }),
-      button: { text: t("translation:edit") },
+      label: t("order.shipping.list.firstname.label"),
+      value: order.shippingAddress?.firstName,
+      button: { id: "firstName" },
+    },
+    {
+      label: t("order.shipping.list.lastname.label"),
+      value: order.shippingAddress?.lastName,
+      button: { id: "lastName" },
     },
     {
       label: t("order.contacts.list.phone.label"),
       value: order.shippingAddress?.phone,
+      button: { id: "phone" },
     },
     {
       label: t("order.shipping.list.postalCode.label"),
       value: order.shippingAddress?.postalCode,
+      button: { id: "postalCode" },
     },
     {
       label: t("order.shipping.list.country.label"),
@@ -168,14 +172,17 @@ export const AdminOrder = (props: AdminOrderProps) => {
     {
       label: t("order.shipping.list.city.label"),
       value: order.shippingAddress?.city,
+      button: { id: "city" },
     },
     {
       label: t("order.shipping.list.address.label"),
       value: order.shippingAddress?.address,
+      button: { id: "address" },
     },
     {
       label: t("order.shipping.list.instructions.label"),
       value: order.shippingAddress?.instructions,
+      button: { id: "instructions" },
     },
   ]
 
@@ -231,6 +238,8 @@ export const AdminOrder = (props: AdminOrderProps) => {
           sections={sections}
           statusOrder={statusOrder}
           shippingOptions={shippingOptions}
+          isLoading={isLoading}
+          handleUpdateOrder={handleUpdateOrder}
         />
         <AdminOrderSummery order={order} />
       </div>

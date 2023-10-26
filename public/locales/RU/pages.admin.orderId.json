@@ -32,8 +32,11 @@
     "shipping": {
       "title": "Информация о доставке",
       "list": {
-        "recipient": {
-          "label": "Получатель"
+        "firstname": {
+          "label": "Имя получателя"
+        },
+        "lastname": {
+          "label": "Фамилия получателя"
         },
         "postalCode": {
           "label": "Почтовый индекс"

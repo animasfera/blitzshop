@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { useQuery } from "@blitzjs/rpc"
+import { invalidateQuery, useMutation, useQuery } from "@blitzjs/rpc"
+
 import { useParam } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 import { LocaleEnum, OrderStatusEnum } from "db"
@@ -8,12 +9,18 @@ import { OrderStatusesArray, OrderStatusesEnum } from "src/core/enums/OrderStatu
 import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { AdminOrder } from "src/orders/components/admin/AdminOrder"
 import getOrder from "src/orders/queries/getOrder"
+import updateOrder from "src/orders/mutations/updateOrder"
+import updateShippingAddress from "src/shipping-addresses/mutations/updateShippingAddress"
+import updateOrderLog from "src/order-logs/mutations/updateOrderLog"
 
 export const AdminOrderController = () => {
   const orderId = useParam("orderId", "number")
   const [order] = useQuery(getOrder, { id: orderId })
+  const [updateOrderMutation] = useMutation(updateOrder)
+  const [updateShippingAddressMutation] = useMutation(updateShippingAddress)
+  const [updateOrderLogMutation] = useMutation(updateOrderLog)
 
-  const { t, i18n } = useTranslation(["pages.admin.orderId", "translation"])
+  const { i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
   const shippingOptions: OptionSelectField[] = Object.values(OrderStatusesArray).map(
     ({ value, nameEn, nameRu }) => ({
@@ -22,25 +29,55 @@ export const AdminOrderController = () => {
     })
   )
 
-  // order.status
-  // OrderStatusEnum
-  const [statusOrder, setStatusOrder] = useState<OptionSelectField>(
-    shippingOptions.find((el) => order.status === el.value) ?? {
-      value: OrderStatusesEnum[order.status].value,
-      label:
-        i18n.resolvedLanguage === LocaleEnum.RU
-          ? OrderStatusesEnum[order.status].nameRu
-          : OrderStatusesEnum[order.status].nameEn,
-    }
-  )
-
-  /*
-  const handleChangeOrderStatus = async ({ value }: { value: OrderStatusEnum }) => {
-    setStatusOrder(value)
+  const handleStatusOrder = (status: OrderStatusEnum): OptionSelectField => {
+    return (
+      shippingOptions.find((el) => status === el.value) ?? {
+        value: OrderStatusesEnum[status].value,
+        label:
+          i18n.resolvedLanguage === LocaleEnum.RU
+            ? OrderStatusesEnum[status].nameRu
+            : OrderStatusesEnum[status].nameEn,
+      }
+    )
   }
-  */
 
-  return <AdminOrder order={order} statusOrder={statusOrder} shippingOptions={shippingOptions} />
+  const [isLoading, setLoading] = useState(false)
+  const [statusOrder, setStatusOrder] = useState<OptionSelectField>(handleStatusOrder(order.status))
+
+  const handleUpdateOrder = async (values: any) => {
+    setLoading(true)
+
+    const isExistStatus = Object.keys(values).some((el) => el === "status")
+    const isExistOrder = Object.keys(values).some((el) => el === "notes")
+    const isExistOrderLog = Object.keys(values).some((el) => el === "comment")
+
+    if (isExistStatus) {
+      const res = await updateOrderMutation({ id: order.id, ...values })
+      await updateOrderLogMutation({ id: order.orderLogId, ...values })
+
+      setStatusOrder(handleStatusOrder(res.status))
+    } else if (isExistOrder) {
+      await updateOrderMutation({ id: order.id, ...values })
+    } else if (isExistOrderLog) {
+      await updateOrderLogMutation({ id: order.orderLogId, ...values })
+    } else {
+      await updateShippingAddressMutation({ id: order.shippingAddressId, ...values })
+    }
+
+    await invalidateQuery(getOrder)
+
+    setLoading(false)
+  }
+
+  return (
+    <AdminOrder
+      order={order}
+      statusOrder={statusOrder}
+      shippingOptions={shippingOptions}
+      isLoading={isLoading}
+      handleUpdateOrder={handleUpdateOrder}
+    />
+  )
 }
 
 export default AdminOrderController

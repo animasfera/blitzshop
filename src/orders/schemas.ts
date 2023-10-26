@@ -11,10 +11,15 @@ export const CreateOrderSchema = OrderModel.pick({
   userId: true,
 })
 
-export const UpdateOrderSchema = z.object({
-  id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
+export const UpdateOrderSchema = OrderModel.pick({
+  couponCode: true,
+  notes: true,
+  status: true,
 })
+  .partial()
+  .extend({
+    id: z.number(),
+  })
 
 export const DeleteOrderSchema = z.object({
   id: z.number(),
