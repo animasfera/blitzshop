@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { Routes } from "@blitzjs/next"
 import { ShoppingBagIcon } from "@heroicons/react/24/outline"
 import { Cart, CartToItem } from "db"
 
@@ -14,7 +13,7 @@ export const HeaderCart = (props: HeaderCartProps) => {
 
   return (
     <div className="flow-root">
-      <Link href={Routes.CartPage().href} className="group -m-2 flex items-center p-2">
+      <Link href={"/cart"} className="group -m-2 flex items-center p-2">
         <Button
           variant={"soft"}
           startIcon={
