@@ -4,33 +4,32 @@ import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
 import { usePaginatedQuery } from "@blitzjs/rpc"
-import { useRouter } from "next/router"
-
+import { useRouter, useSearchParams } from "next/navigation"
 import Layout from "src/core/layouts/Layout"
 import getCategories from "src/categories/queries/getCategories"
 
-const ITEMS_PER_PAGE = 100
+const ITEMS_PER_PAGE = 20
 
-export const CategoriesList = () => {
+const CategoriesList = () => {
   const router = useRouter()
-  const page = Number(router.query.page) || 0
+  //const page = Number(router.query.page) || 0
+  const searchParams = useSearchParams()
+  const page = parseInt(searchParams?.get("page") || "0")
   const [{ categories, hasMore }] = usePaginatedQuery(getCategories, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   })
 
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
-  const goToNextPage = () => router.push({ query: { page: page + 1 } })
+  const goToPreviousPage = () => router.push(`/categories?page=${page - 1}`)
+  const goToNextPage = () => router.push(`/categories?page=${page + 1}`)
 
   return (
     <div>
       <ul>
         {categories.map((category) => (
           <li key={category.id}>
-            <Link href={Routes.ShowCategoryPage({ categoryId: category.id })}>
-              {category.titleRu}
-            </Link>
+            <Link href={"/categories/" + category.id}>{category.titleRu}</Link>
           </li>
         ))}
       </ul>
@@ -54,7 +53,7 @@ const CategoriesPage = () => {
 
       <div>
         <p>
-          <Link href={Routes.NewCategoryPage()}>Create Category</Link>
+          <Link href={"/categories/new"}>Create Category</Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>

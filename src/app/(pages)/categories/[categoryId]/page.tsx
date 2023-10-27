@@ -1,9 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
@@ -11,9 +10,9 @@ import Layout from "src/core/layouts/Layout"
 import getCategory from "src/categories/queries/getCategory"
 import deleteCategory from "src/categories/mutations/deleteCategory"
 
-export const Category = () => {
+const Category = () => {
   const router = useRouter()
-  const categoryId = useParam("categoryId", "number")
+  const categoryId: number = parseInt((useParams()?.categoryId as any) || "-1")
   const [deleteCategoryMutation] = useMutation(deleteCategory)
   const [category] = useQuery(getCategory, { id: categoryId })
 
@@ -27,14 +26,14 @@ export const Category = () => {
         <h1>Category {category.id}</h1>
         <pre>{JSON.stringify(category, null, 2)}</pre>
 
-        <Link href={Routes.EditCategoryPage({ categoryId: category.id })}>Edit</Link>
+        <Link href={"/categories/" + category.id + "/edit"}>Edit</Link>
 
         <button
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteCategoryMutation({ id: category.id })
-              await router.push(Routes.CategoriesPage())
+              await router.push("/categories")
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -50,7 +49,7 @@ const ShowCategoryPage = () => {
   return (
     <div>
       <p>
-        <Link href={Routes.CategoriesPage()}>Categories</Link>
+        <Link href={"/categories"}>Categories</Link>
       </p>
 
       <Suspense fallback={<div>Loading...</div>}>

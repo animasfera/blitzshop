@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -25,7 +24,7 @@ const NewCategoryPage = () => {
           onSubmit={async (values) => {
             try {
               const category = await createCategoryMutation(values)
-              await router.push(Routes.ShowCategoryPage({ categoryId: category.id }))
+              await router.push("/categories/" + category.id)
             } catch (error: any) {
               console.error(error)
               return {
@@ -36,7 +35,7 @@ const NewCategoryPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.CategoriesPage()}>Categories</Link>
+        <Link href={"/categories"}>Categories</Link>
       </p>
     </Layout>
   )

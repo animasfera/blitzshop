@@ -1,11 +1,9 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdateCategorySchema } from "src/categories/schemas"
@@ -13,9 +11,9 @@ import getCategory from "src/categories/queries/getCategory"
 import updateCategory from "src/categories/mutations/updateCategory"
 import { CategoryForm, FORM_ERROR } from "src/categories/components/CategoryForm"
 
-export const EditCategory = () => {
+const EditCategory = () => {
   const router = useRouter()
-  const categoryId = useParam("categoryId", "number")
+  const categoryId: number = parseInt((useParams()?.categoryId as any) || "-1")
   const [category, { setQueryData }] = useQuery(
     getCategory,
     { id: categoryId },
@@ -47,7 +45,7 @@ export const EditCategory = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowCategoryPage({ categoryId: updated.id }))
+                await router.push("/categories/" + updated.id)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -70,7 +68,7 @@ const EditCategoryPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.CategoriesPage()}>Categories</Link>
+        <Link href={"/categories"}>Categories</Link>
       </p>
     </div>
   )
