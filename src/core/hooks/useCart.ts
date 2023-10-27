@@ -1,5 +1,5 @@
+"use client"
 import { invalidateQuery, MutateFunction, useMutation, useQuery } from "@blitzjs/rpc"
-
 import getCart from "src/carts/queries/getCart"
 import addItemToCart from "../../cart-to-items/mutations/addItemToCart"
 import updateCartToItem from "../../cart-to-items/mutations/updateCartToItem"
