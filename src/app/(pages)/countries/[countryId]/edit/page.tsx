@@ -3,19 +3,17 @@ import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter, useParams } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
-
 import Layout from "src/core/layouts/Layout"
 import { UpdateCountrySchema } from "src/countries/schemas"
 import getCountry from "src/countries/queries/getCountry"
 import updateCountry from "src/countries/mutations/updateCountry"
 import { CountryForm, FORM_ERROR } from "src/countries/components/CountryForm"
 
-export const EditCountry = () => {
+const EditCountry = () => {
   const router = useRouter()
-  const countryId = useParam("countryId", "number")
+  const countryId: string = (useParams()?.countryId as any) || ""
   const [country, { setQueryData }] = useQuery(
     getCountry,
     // @ts-ignore поправить
@@ -48,7 +46,7 @@ export const EditCountry = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowCountryPage({ countryId: updated.id }))
+                await router.push("/countries/" + updated.id)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -71,7 +69,7 @@ const EditCountryPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.CountriesPage()}>Countries</Link>
+        <Link href={"/countries"}>Countries</Link>
       </p>
     </div>
   )

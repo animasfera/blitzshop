@@ -1,7 +1,6 @@
-import React from "react"
+"use client"
 import { BlitzPage } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
-
 import Layout from "src/core/layouts/Layout"
 import Container from "src/core/tailwind-ui/application-ui/Container"
 import HeadingPage from "src/core/tailwind-ui/headings/HeadingPage"
@@ -9,8 +8,7 @@ import HeadingSection from "src/core/tailwind-ui/headings/HeadingSection"
 import HeadingBlock from "src/core/tailwind-ui/headings/HeadingBlock"
 
 import { nl2br } from "src/core/helpers/Helpers"
-
-export const ContactsPage: BlitzPage = () => {
+const ContactsPage: BlitzPage = () => {
   const { t, i18n } = useTranslation(["pages.contacts"])
 
   return (

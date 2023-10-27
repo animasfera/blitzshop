@@ -1,10 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
-
 import Layout from "src/core/layouts/Layout"
 import { CreateCountrySchema } from "src/countries/schemas"
 import createCountry from "src/countries/mutations/createCountry"
@@ -25,7 +23,7 @@ const NewCountryPage = () => {
           onSubmit={async (values) => {
             try {
               const country = await createCountryMutation(values)
-              await router.push(Routes.ShowCountryPage({ countryId: country.id }))
+              await router.push("/countries/" + country.id)
             } catch (error: any) {
               console.error(error)
               return {
@@ -36,7 +34,7 @@ const NewCountryPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.CountriesPage()}>Countries</Link>
+        <Link href={"/countries"}>Countries</Link>
       </p>
     </Layout>
   )

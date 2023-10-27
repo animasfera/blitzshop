@@ -58,13 +58,13 @@ export const HeaderController = (props: HeaderControllerProps) => {
   const handleLogout = async () => {
     await logoutMutation()
 
-    void router.push(Routes.ProductsPage())
+    void router.push("/products")
   }
 
   const navigation = [
-    { name: t("translation:menu.products"), href: Routes.ProductsPage().href },
+    { name: t("translation:menu.products"), href: "/products" },
     { name: t("translation:menu.shipping"), href: "/shipping" },
-    { name: t("translation:menu.contacts"), href: Routes.ContactsPage().href },
+    { name: t("translation:menu.contacts"), href: "/contacts" },
   ]
 
   const userMenu = [

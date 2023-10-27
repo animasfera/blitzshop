@@ -3,17 +3,15 @@ import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter, useParams } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
-
 import Layout from "src/core/layouts/Layout"
 import getCountry from "src/countries/queries/getCountry"
 import deleteCountry from "src/countries/mutations/deleteCountry"
 
-export const Country = () => {
+const Country = () => {
   const router = useRouter()
-  const countryId = useParam("countryId", "number")
+  const countryId: string = (useParams()?.countryId as any) || ""
   const [deleteCountryMutation] = useMutation(deleteCountry)
   // @ts-ignore поправить
   const [country] = useQuery(getCountry, { id: countryId })
@@ -27,15 +25,13 @@ export const Country = () => {
       <div>
         <h1>Country {country.id}</h1>
         <pre>{JSON.stringify(country, null, 2)}</pre>
-
-        <Link href={Routes.EditCountryPage({ countryId: country.id })}>Edit</Link>
-
+        <Link href={"/countries/" + country.id + "/edit"}>Edit</Link>
         <button
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteCountryMutation({ id: country.id })
-              await router.push(Routes.CountriesPage())
+              await router.push("/countries")
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -51,7 +47,7 @@ const ShowCountryPage = () => {
   return (
     <div>
       <p>
-        <Link href={Routes.CountriesPage()}>Countries</Link>
+        <Link href={"/countries"}>Countries</Link>
       </p>
 
       <Suspense fallback={<div>Loading...</div>}>
