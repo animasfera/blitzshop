@@ -1,3 +1,4 @@
+"use client"
 import Head from "next/head"
 import React, { useEffect } from "react"
 import { BlitzLayout } from "@blitzjs/next"
@@ -21,8 +22,8 @@ export const Layout: BlitzLayout<LayoutProps> = (props) => {
 
   return (
     <div>
+      <title>{title || "shop"}</title>
       <Head>
-        <title>{title || "shop"}</title>
         <link rel="icon" href="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" />
       </Head>
 

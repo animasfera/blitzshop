@@ -7,7 +7,7 @@ import { Layout } from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
 import { CheckoutController } from "src/checkout/components/CheckoutController"
 
-export const CheckoutPage: BlitzPage = () => {
+const CheckoutPage: BlitzPage = () => {
   const { t } = useTranslation(["pages.checkout"])
 
   return (
@@ -19,5 +19,4 @@ export const CheckoutPage: BlitzPage = () => {
   )
 }
 
-export { getServerSideProps } from "src/core/getServerSideProps"
 export default CheckoutPage

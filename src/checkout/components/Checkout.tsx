@@ -1,6 +1,5 @@
-import React from "react"
+"use client"
 import { useTranslation } from "react-i18next"
-
 import { CheckoutOrder } from "src/checkout/components/CheckoutOrder"
 import { CheckoutPayment } from "src/checkout/components/CheckoutPayment"
 

@@ -1,8 +1,4 @@
-"use client"
-import React from "react"
-
 import { Checkout } from "src/checkout/components/Checkout"
-
 const products = [
   {
     id: 1,
