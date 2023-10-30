@@ -1,9 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
@@ -50,7 +49,7 @@ export const EditInvoice = () => {
                 // @ts-ignore
                 await setQueryData(updated)
                 // @ts-ignore
-                await router.push(Routes.ShowInvoicePage({ invoiceId: updated.id }))
+                await router.push(`/invoices/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -73,7 +72,7 @@ const EditInvoicePage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.InvoicesPage()}>Invoices</Link>
+        <Link href={`/invoices`}>Invoices</Link>
       </p>
     </div>
   )
