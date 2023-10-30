@@ -1,7 +1,6 @@
 "use client"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 import Layout from "src/core/layouts/Layout"
 import { CreateLocationSchema } from "src/locations/schemas"
@@ -24,7 +23,7 @@ const NewLocationPage = () => {
           onSubmit={async (values) => {
             try {
               const location = await createLocationMutation(values)
-              await router.push(Routes.ShowLocationPage({ locationId: location.id }))
+              await router.push(`/locations/${location.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -35,7 +34,7 @@ const NewLocationPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.LocationsPage()}>Locations</Link>
+        <Link href={`/locations`}>Locations</Link>
       </p>
     </Layout>
   )

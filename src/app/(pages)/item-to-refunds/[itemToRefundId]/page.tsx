@@ -27,7 +27,7 @@ const ItemToRefund = () => {
         <h1>ItemToRefund {itemToRefund.id}</h1>
         <pre>{JSON.stringify(itemToRefund, null, 2)}</pre>
 
-        <Link href={`/item-to-refunds/${itemToRefund.id}`}>Edit</Link>
+        <Link href={`/item-to-refunds/${itemToRefund.id}/edit`}>Edit</Link>
 
         <button
           type="button"

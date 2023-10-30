@@ -26,7 +26,7 @@ const Invoice = () => {
         <h1>Invoice {invoice.id}</h1>
         <pre>{JSON.stringify(invoice, null, 2)}</pre>
 
-        <Link href={`/invoices/${invoice.id}`}>Edit</Link>
+        <Link href={`/invoices/${invoice.id}/edit`}>Edit</Link>
 
         <button
           type="button"

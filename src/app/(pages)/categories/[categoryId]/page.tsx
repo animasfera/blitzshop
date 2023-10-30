@@ -26,14 +26,14 @@ const Category = () => {
         <h1>Category {category.id}</h1>
         <pre>{JSON.stringify(category, null, 2)}</pre>
 
-        <Link href={"/categories/" + category.id + "/edit"}>Edit</Link>
+        <Link href={`/categories/${category.id}/edit`}>Edit</Link>
 
         <button
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteCategoryMutation({ id: category.id })
-              await router.push("/categories")
+              await router.push(`/categories`)
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -49,7 +49,7 @@ const ShowCategoryPage = () => {
   return (
     <div>
       <p>
-        <Link href={"/categories"}>Categories</Link>
+        <Link href={`/categories`}>Categories</Link>
       </p>
 
       <Suspense fallback={<div>Loading...</div>}>

@@ -45,7 +45,7 @@ const EditCategory = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push("/categories/" + updated.id)
+                await router.push(`/categories/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -68,7 +68,7 @@ const EditCategoryPage = () => {
       </Suspense>
 
       <p>
-        <Link href={"/categories"}>Categories</Link>
+        <Link href={`/categories`}>Categories</Link>
       </p>
     </div>
   )

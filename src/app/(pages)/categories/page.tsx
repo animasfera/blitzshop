@@ -29,7 +29,7 @@ const CategoriesList = () => {
       <ul>
         {categories.map((category) => (
           <li key={category.id}>
-            <Link href={"/categories/" + category.id}>{category.titleRu}</Link>
+            <Link href={`/categories/${category.id}`}>{category.titleRu}</Link>
           </li>
         ))}
       </ul>
@@ -53,7 +53,7 @@ const CategoriesPage = () => {
 
       <div>
         <p>
-          <Link href={"/categories/new"}>Create Category</Link>
+          <Link href={`/categories/new`}>Create Category</Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>

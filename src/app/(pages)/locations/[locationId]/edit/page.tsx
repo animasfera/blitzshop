@@ -1,19 +1,17 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
-
 import Layout from "src/core/layouts/Layout"
 import { UpdateLocationSchema } from "src/locations/schemas"
 import getLocation from "src/locations/queries/getLocation"
 import updateLocation from "src/locations/mutations/updateLocation"
 import { LocationForm, FORM_ERROR } from "src/locations/components/LocationForm"
 
-export const EditLocation = () => {
+const EditLocation = () => {
   const router = useRouter()
   const locationId = useParam("locationId", "number")
   const [location, { setQueryData }] = useQuery(
@@ -47,7 +45,7 @@ export const EditLocation = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowLocationPage({ locationId: updated.id }))
+                await router.push(`/locations/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -70,7 +68,7 @@ const EditLocationPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.LocationsPage()}>Locations</Link>
+        <Link href={`/locations`}>Locations</Link>
       </p>
     </div>
   )

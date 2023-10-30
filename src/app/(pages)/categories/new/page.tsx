@@ -24,7 +24,7 @@ const NewCategoryPage = () => {
           onSubmit={async (values) => {
             try {
               const category = await createCategoryMutation(values)
-              await router.push("/categories/" + category.id)
+              await router.push(`/categories/` + category.id)
             } catch (error: any) {
               console.error(error)
               return {
@@ -35,7 +35,7 @@ const NewCategoryPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={"/categories"}>Categories</Link>
+        <Link href={`/categories`}>Categories</Link>
       </p>
     </Layout>
   )

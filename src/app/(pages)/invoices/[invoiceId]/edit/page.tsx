@@ -2,9 +2,8 @@
 import { Suspense } from "react"
 import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdateInvoiceSchema } from "src/invoices/schemas"
@@ -12,9 +11,9 @@ import getInvoice from "src/invoices/queries/getInvoice"
 import updateInvoice from "src/invoices/mutations/updateInvoice"
 import { InvoiceForm, FORM_ERROR } from "src/invoices/components/InvoiceForm"
 
-export const EditInvoice = () => {
+const EditInvoice = () => {
   const router = useRouter()
-  const invoiceId = useParam("invoiceId", "number")
+  const invoiceId: number = parseInt((useParams()?.invoiceId as any) || "-1")
   const [invoice, { setQueryData }] = useQuery(
     getInvoice,
     { id: invoiceId },

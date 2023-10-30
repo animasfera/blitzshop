@@ -4,8 +4,8 @@ import Head from "next/head"
 import Link from "next/link"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter, useSearchParams } from "next/navigation"
-import Layout from "src/core/layouts/Layout"
 import getCountries from "src/countries/queries/getCountries"
+import Layout from "src/core/layouts/Layout"
 
 const ITEMS_PER_PAGE = 20
 
@@ -27,7 +27,7 @@ const CountriesList = () => {
       <ul>
         {countries.map((country) => (
           <li key={country.id}>
-            <Link href={"/countries/" + country.id}>{country.id}</Link>
+            <Link href={`/countries/${country.id}`}>{country.id}</Link>
           </li>
         ))}
       </ul>
@@ -51,7 +51,7 @@ const CountriesPage = () => {
 
       <div>
         <p>
-          <Link href={"/countries/new"}>Create Country</Link>
+          <Link href={`/countries/new`}>Create Country</Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>

@@ -46,7 +46,7 @@ const EditCountry = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push("/countries/" + updated.id)
+                await router.push(`/countries/` + updated.id)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -69,7 +69,7 @@ const EditCountryPage = () => {
       </Suspense>
 
       <p>
-        <Link href={"/countries"}>Countries</Link>
+        <Link href={`/countries`}>Countries</Link>
       </p>
     </div>
   )

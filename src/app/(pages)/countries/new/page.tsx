@@ -23,7 +23,7 @@ const NewCountryPage = () => {
           onSubmit={async (values) => {
             try {
               const country = await createCountryMutation(values)
-              await router.push("/countries/" + country.id)
+              await router.push(`/countries/${country.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -34,7 +34,7 @@ const NewCountryPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={"/countries"}>Countries</Link>
+        <Link href={`/countries`}>Countries</Link>
       </p>
     </Layout>
   )
