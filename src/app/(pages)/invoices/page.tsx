@@ -20,8 +20,8 @@ const InvoicesList = () => {
     take: ITEMS_PER_PAGE,
   })
 
-  const goToPreviousPage = () => router.push(`/countries?page=${page - 1}`)
-  const goToNextPage = () => router.push(`/countries?page=${page + 1}`)
+  const goToPreviousPage = () => router.push(`/invoices?page=${page - 1}`)
+  const goToNextPage = () => router.push(`/invoices?page=${page + 1}`)
   return (
     <div>
       <ul>

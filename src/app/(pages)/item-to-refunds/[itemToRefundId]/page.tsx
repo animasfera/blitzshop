@@ -3,7 +3,7 @@ import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter, useParams } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
@@ -11,9 +11,9 @@ import Layout from "src/core/layouts/Layout"
 import getItemToRefund from "src/item-to-refunds/queries/getItemToRefund"
 import deleteItemToRefund from "src/item-to-refunds/mutations/deleteItemToRefund"
 
-export const ItemToRefund = () => {
+const ItemToRefund = () => {
   const router = useRouter()
-  const itemToRefundId = useParam("itemToRefundId", "number")
+  const itemToRefundId: number = parseInt((useParams()?.itemToRefundId as any) || "-1")
   const [deleteItemToRefundMutation] = useMutation(deleteItemToRefund)
   const [itemToRefund] = useQuery(getItemToRefund, { id: itemToRefundId })
 
@@ -27,20 +27,14 @@ export const ItemToRefund = () => {
         <h1>ItemToRefund {itemToRefund.id}</h1>
         <pre>{JSON.stringify(itemToRefund, null, 2)}</pre>
 
-        <Link
-          href={Routes.EditItemToRefundPage({
-            itemToRefundId: itemToRefund.id,
-          })}
-        >
-          Edit
-        </Link>
+        <Link href={`/item-to-refunds/${itemToRefund.id}`}>Edit</Link>
 
         <button
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteItemToRefundMutation({ id: itemToRefund.id })
-              await router.push(Routes.ItemToRefundsPage())
+              await router.push(`/item-to-refunds`)
             }
           }}
           style={{ marginLeft: "0.5rem" }}

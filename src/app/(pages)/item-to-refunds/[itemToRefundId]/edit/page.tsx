@@ -3,19 +3,17 @@ import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter, useParams } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
-
 import Layout from "src/core/layouts/Layout"
 import { UpdateItemToRefundSchema } from "src/item-to-refunds/schemas"
 import getItemToRefund from "src/item-to-refunds/queries/getItemToRefund"
 import updateItemToRefund from "src/item-to-refunds/mutations/updateItemToRefund"
 import { ItemToRefundForm, FORM_ERROR } from "src/item-to-refunds/components/ItemToRefundForm"
 
-export const EditItemToRefund = () => {
+const EditItemToRefund = () => {
   const router = useRouter()
-  const itemToRefundId = useParam("itemToRefundId", "number")
+  const itemToRefundId: number = parseInt((useParams()?.itemToRefundId as any) || "-1")
   const [itemToRefund, { setQueryData }] = useQuery(
     getItemToRefund,
     { id: itemToRefundId },
@@ -47,7 +45,7 @@ export const EditItemToRefund = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowItemToRefundPage({ itemToRefundId: updated.id }))
+                await router.push(`/item-to-refunds/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
