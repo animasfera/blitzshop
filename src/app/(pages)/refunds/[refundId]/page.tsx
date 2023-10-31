@@ -1,40 +1,35 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
-import Layout from "src/core/layouts/Layout"
 import getRefund from "src/refunds/queries/getRefund"
 import deleteRefund from "src/refunds/mutations/deleteRefund"
+import Layout from "src/core/layouts/Layout"
 
-export const Refund = () => {
+const Refund = () => {
   const router = useRouter()
-  const refundId = useParam("refundId", "number")
+  const refundId: number = parseInt((useParams()?.refundId as any) || "-1")
   const [deleteRefundMutation] = useMutation(deleteRefund)
   const [refund] = useQuery(getRefund, { id: refundId })
 
   return (
     <>
-      <Head>
-        <title>Refund {refund.id}</title>
-      </Head>
+      <title>Refund {refund.id}</title>
 
       <div>
         <h1>Refund {refund.id}</h1>
         <pre>{JSON.stringify(refund, null, 2)}</pre>
 
-        <Link href={Routes.EditRefundPage({ refundId: refund.id })}>Edit</Link>
+        <Link href={`/refunds/${refund.id}/edit`}>Edit</Link>
 
         <button
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteRefundMutation({ id: refund.id })
-              await router.push(Routes.RefundsPage())
+              await router.push(`/refunds`)
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -50,7 +45,7 @@ const ShowRefundPage = () => {
   return (
     <div>
       <p>
-        <Link href={Routes.RefundsPage()}>Refunds</Link>
+        <Link href={`/refunds`}>Refunds</Link>
       </p>
 
       <Suspense fallback={<div>Loading...</div>}>
