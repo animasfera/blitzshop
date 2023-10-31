@@ -19,5 +19,5 @@ const Home: BlitzPage = () => {
   )
 }
 
-export { getServerSideProps } from "src/core/getServerSideProps"
+//export { getServerSideProps } from "src/core/getServerSideProps"
 export default Home
