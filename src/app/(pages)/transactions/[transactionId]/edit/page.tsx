@@ -1,9 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
@@ -13,9 +11,9 @@ import getTransaction from "src/transactions/queries/getTransaction"
 import updateTransaction from "src/transactions/mutations/updateTransaction"
 import { TransactionForm, FORM_ERROR } from "src/transactions/components/TransactionForm"
 
-export const EditTransaction = () => {
+const EditTransaction = () => {
   const router = useRouter()
-  const transactionId = useParam("transactionId", "number")
+  const transactionId: number = parseInt((useParams()?.transactionId as any) || "-1")
   const [transaction, { setQueryData }] = useQuery(
     getTransaction,
     { id: transactionId },
@@ -28,9 +26,7 @@ export const EditTransaction = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Transaction {transaction.id}</title>
-      </Head>
+      <title>Edit Transaction {transaction.id}</title>
 
       <div>
         <h1>Edit Transaction {transaction.id}</h1>
@@ -50,7 +46,7 @@ export const EditTransaction = () => {
                 // @ts-ignore
                 await setQueryData(updated)
                 // @ts-ignore
-                await router.push(Routes.ShowTransactionPage({ transactionId: updated.id }))
+                await router.push(`//transactions/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -73,7 +69,7 @@ const EditTransactionPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.TransactionsPage()}>Transactions</Link>
+        <Link href={`/transactions`}>Transactions</Link>
       </p>
     </div>
   )

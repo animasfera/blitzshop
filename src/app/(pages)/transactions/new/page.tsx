@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -27,7 +26,7 @@ const NewTransactionPage = () => {
               // @ts-ignore
               const transaction = await createTransactionMutation(values)
               // @ts-ignore
-              await router.push(Routes.ShowTransactionPage({ transactionId: transaction.id }))
+              await router.push(`/transactions/${transaction.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -38,7 +37,7 @@ const NewTransactionPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.TransactionsPage()}>Transactions</Link>
+        <Link href={`/transactions`}>Transactions</Link>
       </p>
     </Layout>
   )
