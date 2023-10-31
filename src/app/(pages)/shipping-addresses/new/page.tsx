@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -28,11 +27,7 @@ const NewShippingAddressPage = () => {
           onSubmit={async (values) => {
             try {
               const shippingAddress = await createShippingAddressMutation(values)
-              await router.push(
-                Routes.ShowShippingAddressPage({
-                  shippingAddressId: shippingAddress.id,
-                })
-              )
+              await router.push(`/shipping-addresses/${shippingAddress.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -43,7 +38,7 @@ const NewShippingAddressPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.ShippingAddressesPage()}>ShippingAddresses</Link>
+        <Link href={`/shipping-addresses`}>ShippingAddresses</Link>
       </p>
     </Layout>
   )

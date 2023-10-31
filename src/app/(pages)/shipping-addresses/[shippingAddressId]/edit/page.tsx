@@ -1,11 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdateShippingAddressSchema } from "src/shipping-addresses/schemas"
@@ -16,9 +13,9 @@ import {
   FORM_ERROR,
 } from "src/shipping-addresses/components/ShippingAddressForm"
 
-export const EditShippingAddress = () => {
+const EditShippingAddress = () => {
   const router = useRouter()
-  const shippingAddressId = useParam("shippingAddressId", "number")
+  const shippingAddressId: number = parseInt((useParams()?.shippingAddressId as any) || "-1")
   const [shippingAddress, { setQueryData }] = useQuery(
     getShippingAddress,
     { id: shippingAddressId },
@@ -31,9 +28,7 @@ export const EditShippingAddress = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit ShippingAddress {shippingAddress.id}</title>
-      </Head>
+      <title>Edit ShippingAddress {shippingAddress.id}</title>
 
       <div>
         <h1>Edit ShippingAddress {shippingAddress.id}</h1>
@@ -50,11 +45,7 @@ export const EditShippingAddress = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(
-                  Routes.ShowShippingAddressPage({
-                    shippingAddressId: updated.id,
-                  })
-                )
+                await router.push(`/shipping-addresses/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -77,7 +68,7 @@ const EditShippingAddressPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.ShippingAddressesPage()}>ShippingAddresses</Link>
+        <Link href={`/shipping-addresses`}>ShippingAddresses</Link>
       </p>
     </div>
   )
