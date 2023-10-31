@@ -7,7 +7,7 @@ import Layout from "src/core/layouts/Layout"
 // import PrivacyPolicyRu from "src/legal/RU/privacy/privacy.md"
 // import PrivacyPolicyEn from "src/legal/EN/privacy/privacy.md"
 
-export const PrivacyPolicyPage = () => {
+const PrivacyPolicyPage = () => {
   return (
     <Container maxWidth={"container.lg"}>
       PrivacyPolicyEn
