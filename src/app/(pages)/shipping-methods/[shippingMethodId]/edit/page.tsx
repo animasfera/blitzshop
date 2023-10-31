@@ -1,11 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdateShippingMethodSchema } from "src/shipping-methods/schemas"
@@ -13,9 +10,9 @@ import getShippingMethod from "src/shipping-methods/queries/getShippingMethod"
 import updateShippingMethod from "src/shipping-methods/mutations/updateShippingMethod"
 import { ShippingMethodForm, FORM_ERROR } from "src/shipping-methods/components/ShippingMethodForm"
 
-export const EditShippingMethod = () => {
+const EditShippingMethod = () => {
   const router = useRouter()
-  const shippingMethodId = useParam("shippingMethodId", "number")
+  const shippingMethodId: number = parseInt((useParams()?.shippingMethodId as any) || "-1")
   const [shippingMethod, { setQueryData }] = useQuery(
     getShippingMethod,
     { id: shippingMethodId },
@@ -28,9 +25,7 @@ export const EditShippingMethod = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit ShippingMethod {shippingMethod.id}</title>
-      </Head>
+      <title>Edit ShippingMethod {shippingMethod.id}</title>
 
       <div>
         <h1>Edit ShippingMethod {shippingMethod.id}</h1>
@@ -47,11 +42,7 @@ export const EditShippingMethod = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(
-                  Routes.ShowShippingMethodPage({
-                    shippingMethodId: updated.id,
-                  })
-                )
+                await router.push(`/shipping-methods/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -74,7 +65,7 @@ const EditShippingMethodPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.ShippingMethodsPage()}>ShippingMethods</Link>
+        <Link href={`/shipping-methods`}>ShippingMethods</Link>
       </p>
     </div>
   )

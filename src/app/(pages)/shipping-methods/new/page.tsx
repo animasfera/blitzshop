@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -25,11 +24,7 @@ const NewShippingMethodPage = () => {
           onSubmit={async (values) => {
             try {
               const shippingMethod = await createShippingMethodMutation(values)
-              await router.push(
-                Routes.ShowShippingMethodPage({
-                  shippingMethodId: shippingMethod.id,
-                })
-              )
+              await router.push(`/shipping-methods/${shippingMethod.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -40,7 +35,7 @@ const NewShippingMethodPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.ShippingMethodsPage()}>ShippingMethods</Link>
+        <Link href={`/shipping-methods`}>ShippingMethods</Link>
       </p>
     </Layout>
   )
