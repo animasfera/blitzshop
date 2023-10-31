@@ -1,7 +1,8 @@
+"use client"
 import { useState } from "react"
 import { useSession } from "@blitzjs/auth"
 import { useMutation, useQuery, invalidateQuery } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
+import { useParams } from "next/navigation"
 
 import { Item } from "src/items/components/Item"
 import { useCurrency } from "src/core/hooks/useCurrency"
@@ -15,7 +16,7 @@ export const ItemController = () => {
   const [isLoading, setLoading] = useState(false)
   const session = useSession()
   const currency = useCurrency()
-  const itemId = useParam("itemId", "number")
+  const itemId: number = parseInt((useParams()?.itemId as any) || "-1")
   const [item] = useQuery(getItem, { id: itemId })
   const [cart] = useQuery(getCart, {})
   const [addProductToCartMutation] = useMutation(addItemToCart)

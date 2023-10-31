@@ -1,7 +1,5 @@
 import { Category, ImageToItem, Image, Item, Price, Prisma, Cart, CartToItem } from "db"
-
 import { ItemsListItem } from "src/items/components/itemsListItem"
-
 interface ItemsListProps {
   items: (Item & {
     amount: Price
