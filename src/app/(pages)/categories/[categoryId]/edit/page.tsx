@@ -1,6 +1,5 @@
 "use client"
 import { Suspense } from "react"
-import Head from "next/head"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
@@ -26,9 +25,7 @@ const EditCategory = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Category {category.id}</title>
-      </Head>
+      <title>Edit Category {category.id}</title>
 
       <div>
         <h1>Edit Category {category.id}</h1>

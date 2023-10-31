@@ -1,7 +1,5 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
 import { useRouter, useParams } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
@@ -27,9 +25,7 @@ const EditCountry = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Country {country.id}</title>
-      </Head>
+      <title>Edit Country {country.id}</title>
 
       <div>
         <h1>Edit Country {country.id}</h1>

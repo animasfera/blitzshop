@@ -1,10 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import Head from "next/head"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import getCategory from "src/categories/queries/getCategory"
@@ -18,9 +16,7 @@ const Category = () => {
 
   return (
     <>
-      <Head>
-        <title>Category {category.id}</title>
-      </Head>
+      <title>Category {category.id}</title>
 
       <div>
         <h1>Category {category.id}</h1>

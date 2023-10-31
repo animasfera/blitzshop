@@ -1,10 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 import Layout from "src/core/layouts/Layout"
 import { UpdateLocationSchema } from "src/locations/schemas"
 import getLocation from "src/locations/queries/getLocation"
@@ -13,7 +11,7 @@ import { LocationForm, FORM_ERROR } from "src/locations/components/LocationForm"
 
 const EditLocation = () => {
   const router = useRouter()
-  const locationId = useParam("locationId", "number")
+  const locationId: number = parseInt((useParams()?.categoryId as any) || "-1")
   const [location, { setQueryData }] = useQuery(
     getLocation,
     { id: locationId },
@@ -26,9 +24,7 @@ const EditLocation = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Location {location.id}</title>
-      </Head>
+      <title>Edit Location {location.id}</title>
 
       <div>
         <h1>Edit Location {location.id}</h1>

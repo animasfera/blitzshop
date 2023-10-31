@@ -1,7 +1,5 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
 import { useRouter, useParams } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
@@ -26,9 +24,7 @@ const EditItemToRefund = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit ItemToRefund {itemToRefund.id}</title>
-      </Head>
+      <title>Edit ItemToRefund {itemToRefund.id}</title>
 
       <div>
         <h1>Edit ItemToRefund {itemToRefund.id}</h1>
@@ -68,7 +64,7 @@ const EditItemToRefundPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.ItemToRefundsPage()}>ItemToRefunds</Link>
+        <Link href={`/item-to-refunds`}>ItemToRefunds</Link>
       </p>
     </div>
   )

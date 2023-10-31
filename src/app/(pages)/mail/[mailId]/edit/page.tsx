@@ -1,11 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdateMailSchema } from "src/mail/schemas"
@@ -13,9 +10,9 @@ import getMail from "src/mail/queries/getMail"
 import updateMail from "src/mail/mutations/updateMail"
 import { MailForm, FORM_ERROR } from "src/mail/components/MailForm"
 
-export const EditMail = () => {
+const EditMail = () => {
   const router = useRouter()
-  const mailId = useParam("mailId", "number")
+  const mailId: number = parseInt((useParams()?.mailId as any) || "-1")
   const [mail, { setQueryData }] = useQuery(
     getMail,
     { id: mailId },
@@ -28,9 +25,7 @@ export const EditMail = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Mail {mail.id}</title>
-      </Head>
+      <title>Edit Mail {mail.id}</title>
 
       <div>
         <h1>Edit Mail {mail.id}</h1>
@@ -47,7 +42,7 @@ export const EditMail = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowMailPage({ mailId: updated.id }))
+                await router.push(`/mail/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -70,7 +65,7 @@ const EditMailPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.MailPage()}>Mail</Link>
+        <Link href={`/mail`}>Mail</Link>
       </p>
     </div>
   )

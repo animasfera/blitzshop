@@ -1,7 +1,6 @@
 "use client"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 import Layout from "src/core/layouts/Layout"
 import { CreateMailSchema } from "src/mail/schemas"
@@ -24,7 +23,7 @@ const NewMailPage = () => {
           onSubmit={async (values) => {
             try {
               const mail = await createMailMutation(values)
-              await router.push(Routes.ShowMailPage({ mailId: mail.id }))
+              await router.push(`/mail/${mail.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -35,7 +34,7 @@ const NewMailPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.MailPage()}>Mail</Link>
+        <Link href={`/mail`}>Mail</Link>
       </p>
     </Layout>
   )

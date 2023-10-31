@@ -1,6 +1,5 @@
 "use client"
 import { Suspense } from "react"
-import Head from "next/head"
 import Link from "next/link"
 import { useRouter, useParams } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
@@ -17,9 +16,7 @@ const Country = () => {
 
   return (
     <>
-      <Head>
-        <title>Country {country.id}</title>
-      </Head>
+      <title>Country {country.id}</title>
 
       <div>
         <h1>Country {country.id}</h1>

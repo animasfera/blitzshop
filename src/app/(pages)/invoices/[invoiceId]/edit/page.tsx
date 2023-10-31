@@ -1,6 +1,5 @@
 "use client"
 import { Suspense } from "react"
-import Head from "next/head"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
@@ -26,9 +25,7 @@ const EditInvoice = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Invoice {invoice.id}</title>
-      </Head>
+      <title>Edit Invoice {invoice.id}</title>
 
       <div>
         <h1>Edit Invoice {invoice.id}</h1>
