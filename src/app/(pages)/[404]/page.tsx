@@ -6,7 +6,7 @@ import { Layout } from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
 import { ErrorSection } from "src/core/components/sections/Error/ErrorSection"
 
-export const Page404: BlitzPage = () => {
+const Page404: BlitzPage = () => {
   const { t } = useTranslation(["pages.errors"])
 
   const statusCode = 404
