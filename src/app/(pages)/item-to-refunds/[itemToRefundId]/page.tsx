@@ -1,11 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
 import { useRouter, useParams } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import getItemToRefund from "src/item-to-refunds/queries/getItemToRefund"
@@ -19,9 +16,7 @@ const ItemToRefund = () => {
 
   return (
     <>
-      <Head>
-        <title>ItemToRefund {itemToRefund.id}</title>
-      </Head>
+      <title>ItemToRefund {itemToRefund.id}</title>
 
       <div>
         <h1>ItemToRefund {itemToRefund.id}</h1>
@@ -50,7 +45,7 @@ const ShowItemToRefundPage = () => {
   return (
     <div>
       <p>
-        <Link href={Routes.ItemToRefundsPage()}>ItemToRefunds</Link>
+        <Link href={`/item-to-refunds`}>ItemToRefunds</Link>
       </p>
 
       <Suspense fallback={<div>Loading...</div>}>

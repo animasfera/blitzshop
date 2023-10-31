@@ -1,6 +1,5 @@
 "use client"
 import { Suspense } from "react"
-import Head from "next/head"
 import Link from "next/link"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -45,9 +44,7 @@ const LocationsList = () => {
 const LocationsPage = () => {
   return (
     <Layout>
-      <Head>
-        <title>Locations</title>
-      </Head>
+      <title>Locations</title>
 
       <div>
         <p>
