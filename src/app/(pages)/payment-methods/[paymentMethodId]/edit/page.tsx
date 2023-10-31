@@ -1,11 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdatePaymentMethodSchema } from "src/payment-methods/schemas"
@@ -13,9 +10,9 @@ import getPaymentMethod from "src/payment-methods/queries/getPaymentMethod"
 import updatePaymentMethod from "src/payment-methods/mutations/updatePaymentMethod"
 import { PaymentMethodForm, FORM_ERROR } from "src/payment-methods/components/PaymentMethodForm"
 
-export const EditPaymentMethod = () => {
+const EditPaymentMethod = () => {
   const router = useRouter()
-  const paymentMethodId = useParam("paymentMethodId", "number")
+  const paymentMethodId: number = parseInt((useParams()?.paymentMethodId as any) || "-1")
   const [paymentMethod, { setQueryData }] = useQuery(
     getPaymentMethod,
     { id: paymentMethodId },
@@ -28,9 +25,7 @@ export const EditPaymentMethod = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit PaymentMethod {paymentMethod.id}</title>
-      </Head>
+      <title>Edit PaymentMethod {paymentMethod.id}</title>
 
       <div>
         <h1>Edit PaymentMethod {paymentMethod.id}</h1>
@@ -47,7 +42,7 @@ export const EditPaymentMethod = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowPaymentMethodPage({ paymentMethodId: updated.id }))
+                await router.push(`/payment-methods/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -70,7 +65,7 @@ const EditPaymentMethodPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.PaymentMethodsPage()}>PaymentMethods</Link>
+        <Link href={`/payment-methods`}>PaymentMethods</Link>
       </p>
     </div>
   )

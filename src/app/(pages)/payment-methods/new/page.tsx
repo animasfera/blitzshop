@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -25,11 +24,7 @@ const NewPaymentMethodPage = () => {
           onSubmit={async (values) => {
             try {
               const paymentMethod = await createPaymentMethodMutation(values)
-              await router.push(
-                Routes.ShowPaymentMethodPage({
-                  paymentMethodId: paymentMethod.id,
-                })
-              )
+              await router.push(`/payment-methods/${paymentMethod.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -40,7 +35,7 @@ const NewPaymentMethodPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.PaymentMethodsPage()}>PaymentMethods</Link>
+        <Link href={`/payment-methods`}>PaymentMethods</Link>
       </p>
     </Layout>
   )
