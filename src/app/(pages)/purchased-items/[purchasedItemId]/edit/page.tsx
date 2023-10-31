@@ -1,9 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
@@ -15,7 +13,7 @@ import { PurchasedItemForm, FORM_ERROR } from "src/purchased-items/components/Pu
 
 export const EditPurchasedItem = () => {
   const router = useRouter()
-  const purchasedItemId = useParam("purchasedItemId", "number")
+  const purchasedItemId: number = parseInt((useParams()?.purchasedItemId as any) || "-1")
   const [purchasedItem, { setQueryData }] = useQuery(
     getPurchasedItem,
     { id: purchasedItemId },
@@ -28,9 +26,7 @@ export const EditPurchasedItem = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit PurchasedItem {purchasedItem.id}</title>
-      </Head>
+      <title>Edit PurchasedItem {purchasedItem.id}</title>
 
       <div>
         <h1>Edit PurchasedItem {purchasedItem.id}</h1>
@@ -47,7 +43,7 @@ export const EditPurchasedItem = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowPurchasedItemPage({ purchasedItemId: updated.id }))
+                await router.push(`/purchased-items/updated.id`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -70,7 +66,7 @@ const EditPurchasedItemPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.PurchasedItemsPage()}>PurchasedItems</Link>
+        <Link href={`/purchased-items`}>PurchasedItems</Link>
       </p>
     </div>
   )

@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -25,11 +24,7 @@ const NewPurchasedItemPage = () => {
           onSubmit={async (values) => {
             try {
               const purchasedItem = await createPurchasedItemMutation(values)
-              await router.push(
-                Routes.ShowPurchasedItemPage({
-                  purchasedItemId: purchasedItem.id,
-                })
-              )
+              await router.push(`/purchased-items/${purchasedItem.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -40,7 +35,7 @@ const NewPurchasedItemPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.PurchasedItemsPage()}>PurchasedItems</Link>
+        <Link href={`/purchased-items`}>PurchasedItems</Link>
       </p>
     </Layout>
   )
