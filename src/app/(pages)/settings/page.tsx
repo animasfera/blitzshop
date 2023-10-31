@@ -7,7 +7,7 @@ import { Layout } from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
 import { SettingsUserController } from "src/settings/components/SettingsUserController"
 
-export const SettingsPage: BlitzPage = () => {
+const SettingsPage: BlitzPage = () => {
   const { t } = useTranslation(["pages.settings"])
 
   return (
@@ -19,5 +19,5 @@ export const SettingsPage: BlitzPage = () => {
   )
 }
 
-export { getServerSideProps } from "src/core/getServerSideProps"
+//export { getServerSideProps } from "src/core/getServerSideProps"
 export default SettingsPage
