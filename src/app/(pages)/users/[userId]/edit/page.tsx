@@ -1,11 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdateUserSchema } from "src/users/schemas"
@@ -13,9 +10,9 @@ import getUser from "src/users/queries/getUser"
 import updateUser from "src/users/mutations/updateUser"
 import { UserForm, FORM_ERROR } from "src/users/components/UserForm"
 
-export const EditUser = () => {
+const EditUser = () => {
   const router = useRouter()
-  const userId = useParam("userId", "number")
+  const userId: number = parseInt((useParams()?.userId as any) || "-1")
   const [user, { setQueryData }] = useQuery(
     getUser,
     { id: userId },
@@ -28,9 +25,7 @@ export const EditUser = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit User {user.id}</title>
-      </Head>
+      <title>Edit User {user.id}</title>
 
       <div>
         <h1>Edit User {user.id}</h1>
@@ -47,7 +42,7 @@ export const EditUser = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowUserPage({ userId: updated.id }))
+                await router.push(`/users/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -70,7 +65,7 @@ const EditUserPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.UsersPage()}>Users</Link>
+        <Link href={`/users`}>Users</Link>
       </p>
     </div>
   )

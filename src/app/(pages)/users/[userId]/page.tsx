@@ -1,40 +1,35 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import getUser from "src/users/queries/getUser"
 import deleteUser from "src/users/mutations/deleteUser"
 
-export const User = () => {
+const User = () => {
   const router = useRouter()
-  const userId = useParam("userId", "number")
+  const userId: number = parseInt((useParams()?.userId as any) || "-1")
   const [deleteUserMutation] = useMutation(deleteUser)
   const [user] = useQuery(getUser, { id: userId })
 
   return (
     <>
-      <Head>
-        <title>User {user.id}</title>
-      </Head>
+      <title>User {user.id}</title>
 
       <div>
         <h1>User {user.id}</h1>
         <pre>{JSON.stringify(user, null, 2)}</pre>
 
-        <Link href={Routes.EditUserPage({ userId: user.id })}>Edit</Link>
+        <Link href={`/users/${user.id}/edit`}>Edit</Link>
 
         <button
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteUserMutation({ id: user.id })
-              await router.push(Routes.UsersPage())
+              await router.push(`/users`)
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -50,7 +45,7 @@ const ShowUserPage = () => {
   return (
     <div>
       <p>
-        <Link href={Routes.UsersPage()}>Users</Link>
+        <Link href={`/users`}>Users</Link>
       </p>
 
       <Suspense fallback={<div>Loading...</div>}>

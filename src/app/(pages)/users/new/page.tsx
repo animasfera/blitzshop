@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -27,7 +26,7 @@ const NewUserPage = () => {
               // @ts-ignore
               const user = await createUserMutation(values)
               // @ts-ignore
-              await router.push(Routes.ShowUserPage({ userId: user.id }))
+              await router.push(`/users/${user.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -38,7 +37,7 @@ const NewUserPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.UsersPage()}>Users</Link>
+        <Link href={`/users`}>Users</Link>
       </p>
     </Layout>
   )
