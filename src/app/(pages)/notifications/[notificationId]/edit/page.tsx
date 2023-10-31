@@ -1,11 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdateNotificationSchema } from "src/notifications/schemas"
@@ -13,9 +10,9 @@ import getNotification from "src/notifications/queries/getNotification"
 import updateNotification from "src/notifications/mutations/updateNotification"
 import { NotificationForm, FORM_ERROR } from "src/notifications/components/NotificationForm"
 
-export const EditNotification = () => {
+const EditNotification = () => {
   const router = useRouter()
-  const notificationId = useParam("notificationId", "number")
+  const notificationId: number = parseInt((useParams()?.categoryId as any) || "-1")
   const [notification, { setQueryData }] = useQuery(
     getNotification,
     { id: notificationId },
@@ -28,9 +25,7 @@ export const EditNotification = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Notification {notification.id}</title>
-      </Head>
+      <title>Edit Notification {notification.id}</title>
 
       <div>
         <h1>Edit Notification {notification.id}</h1>
@@ -47,7 +42,7 @@ export const EditNotification = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowNotificationPage({ notificationId: updated.id }))
+                await router.push(`/notifications/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -70,7 +65,7 @@ const EditNotificationPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.NotificationsPage()}>Notifications</Link>
+        <Link href={`/notifications`}>Notifications</Link>
       </p>
     </div>
   )

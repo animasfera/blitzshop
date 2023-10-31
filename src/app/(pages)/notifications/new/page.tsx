@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -25,7 +24,7 @@ const NewNotificationPage = () => {
           onSubmit={async (values) => {
             try {
               const notification = await createNotificationMutation(values)
-              await router.push(Routes.ShowNotificationPage({ notificationId: notification.id }))
+              await router.push(`/notifications/${notification.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -36,7 +35,7 @@ const NewNotificationPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.NotificationsPage()}>Notifications</Link>
+        <Link href={`/notifications`}>Notifications</Link>
       </p>
     </Layout>
   )

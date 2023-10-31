@@ -1,46 +1,35 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import getNotification from "src/notifications/queries/getNotification"
 import deleteNotification from "src/notifications/mutations/deleteNotification"
 
-export const Notification = () => {
+const Notification = () => {
   const router = useRouter()
-  const notificationId = useParam("notificationId", "number")
+  const notificationId: number = parseInt((useParams()?.notificationId as any) || "-1")
   const [deleteNotificationMutation] = useMutation(deleteNotification)
   const [notification] = useQuery(getNotification, { id: notificationId })
 
   return (
     <>
-      <Head>
-        <title>Notification {notification.id}</title>
-      </Head>
+      <title>Notification {notification.id}</title>
 
       <div>
         <h1>Notification {notification.id}</h1>
         <pre>{JSON.stringify(notification, null, 2)}</pre>
 
-        <Link
-          href={Routes.EditNotificationPage({
-            notificationId: notification.id,
-          })}
-        >
-          Edit
-        </Link>
+        <Link href={`/notifications/${notification.id}/edit`}>Edit</Link>
 
         <button
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteNotificationMutation({ id: notification.id })
-              await router.push(Routes.NotificationsPage())
+              await router.push(`/notifications`)
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -56,7 +45,7 @@ const ShowNotificationPage = () => {
   return (
     <div>
       <p>
-        <Link href={Routes.NotificationsPage()}>Notifications</Link>
+        <Link href={`/notifications`}>Notifications</Link>
       </p>
 
       <Suspense fallback={<div>Loading...</div>}>
