@@ -1,40 +1,35 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import getReview from "src/reviews/queries/getReview"
 import deleteReview from "src/reviews/mutations/deleteReview"
 
-export const Review = () => {
+const Review = () => {
   const router = useRouter()
-  const reviewId = useParam("reviewId", "number")
+  const reviewId: number = parseInt((useParams()?.reviewId as any) || "-1")
   const [deleteReviewMutation] = useMutation(deleteReview)
   const [review] = useQuery(getReview, { id: reviewId })
 
   return (
     <>
-      <Head>
-        <title>Review {review.id}</title>
-      </Head>
+      <title>Review {review.id}</title>
 
       <div>
         <h1>Review {review.id}</h1>
         <pre>{JSON.stringify(review, null, 2)}</pre>
 
-        <Link href={Routes.EditReviewPage({ reviewId: review.id })}>Edit</Link>
+        <Link href={`/reviews/${review.id}/edit`}>Edit</Link>
 
         <button
           type="button"
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteReviewMutation({ id: review.id })
-              await router.push(Routes.ReviewsPage())
+              await router.push(`/reviews`)
             }
           }}
           style={{ marginLeft: "0.5rem" }}
@@ -50,7 +45,7 @@ const ShowReviewPage = () => {
   return (
     <div>
       <p>
-        <Link href={Routes.ReviewsPage()}>Reviews</Link>
+        <Link href={`/reviews`}>Reviews</Link>
       </p>
 
       <Suspense fallback={<div>Loading...</div>}>

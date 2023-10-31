@@ -1,11 +1,8 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdateReviewSchema } from "src/reviews/schemas"
@@ -13,9 +10,9 @@ import getReview from "src/reviews/queries/getReview"
 import updateReview from "src/reviews/mutations/updateReview"
 import { ReviewForm, FORM_ERROR } from "src/reviews/components/ReviewForm"
 
-export const EditReview = () => {
+const EditReview = () => {
   const router = useRouter()
-  const reviewId = useParam("reviewId", "number")
+  const reviewId: number = parseInt((useParams()?.reviewId as any) || "-1")
   const [review, { setQueryData }] = useQuery(
     getReview,
     { id: reviewId },
@@ -28,9 +25,7 @@ export const EditReview = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Review {review.id}</title>
-      </Head>
+      <title>Edit Review {review.id}</title>
 
       <div>
         <h1>Edit Review {review.id}</h1>
@@ -47,7 +42,7 @@ export const EditReview = () => {
                   // ...values,
                 })
                 await setQueryData(updated)
-                await router.push(Routes.ShowReviewPage({ reviewId: updated.id }))
+                await router.push(`/reviews/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -70,7 +65,7 @@ const EditReviewPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.ReviewsPage()}>Reviews</Link>
+        <Link href={`/reviews`}>Reviews</Link>
       </p>
     </div>
   )

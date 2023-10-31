@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -25,7 +24,7 @@ const NewReviewPage = () => {
           onSubmit={async (values) => {
             try {
               const review = await createReviewMutation(values)
-              await router.push(Routes.ShowReviewPage({ reviewId: review.id }))
+              await router.push(`/reviews/${review.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -36,7 +35,7 @@ const NewReviewPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.ReviewsPage()}>Reviews</Link>
+        <Link href={`/reviews`}>Reviews</Link>
       </p>
     </Layout>
   )
