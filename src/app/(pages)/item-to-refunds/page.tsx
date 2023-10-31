@@ -48,7 +48,7 @@ const ItemToRefundsPage = () => {
 
       <div>
         <p>
-          <Link href={`/item-ro-refunds/new`}>Create ItemToRefund</Link>
+          <Link href={`/item-to-refunds/new`}>Create ItemToRefund</Link>
         </p>
 
         <Suspense fallback={<div>Loading...</div>}>

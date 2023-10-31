@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
-import { CheckIcon, ClockIcon, XMarkIcon } from "@heroicons/react/20/solid"
+"use client"
+import { useState } from "react"
+import { XMarkIcon } from "@heroicons/react/20/solid"
 import { CartToItem, Image as ImageDb, ImageToItem, Item, Price } from "db"
 
 import { OptionSelectField, Select } from "src/core/tailwind-ui/application-ui/forms/Select"
