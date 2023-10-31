@@ -40,17 +40,11 @@ export const OrdersListItem = (props: OrderListItemProps) => {
       <div className="space-y-5 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 md:min-w-0 md:flex-1">
         <p className="text-sm font-medium text-gray-500">{order.status}</p>
         <div className="flex text-sm font-medium">
-          <Link
-            href={Routes.OrderPage({ orderId: order.id }).href}
-            className="text-indigo-600 hover:text-indigo-500"
-          >
+          <Link href={`/orders/${order.id}`} className="text-indigo-600 hover:text-indigo-500">
             {t("orders.manage")}
           </Link>
           <div className="ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6">
-            <Link
-              href={Routes.OrderPage({ orderId: order.id }).href}
-              className="text-indigo-600 hover:text-indigo-500"
-            >
+            <Link href={`/orders/${order.id}`} className="text-indigo-600 hover:text-indigo-500">
               {t("orders.view")}
             </Link>
           </div>

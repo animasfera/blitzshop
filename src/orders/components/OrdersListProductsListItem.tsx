@@ -2,7 +2,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { useTranslation } from "react-i18next"
 import { Price, PurchasedItem, Category, Image as ImageDb, Item, LocaleEnum } from "db"
-import { Routes } from "@blitzjs/next"
 
 import { Money } from "src/core/components/Money"
 
@@ -38,7 +37,7 @@ export const OrdersListProductsListItem = (props: OrderListProductsListItemProps
         />
         <div className="min-w-0 flex-1 pt-1.5 sm:pt-0">
           <h3 className="text-sm font-medium text-gray-900">
-            <Link href={Routes.ItemPage({ itemId: item.id })}>{item.title}</Link>
+            <Link href={`/items/${item.id}`}>{item.title}</Link>
           </h3>
           <p className="truncate text-sm text-gray-500">
             <span>{item.description}</span>{" "}

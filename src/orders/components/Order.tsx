@@ -1,5 +1,4 @@
 import { Order as OrderDb } from "db"
-
 import OrderHead from "src/orders/components/OrderHead"
 import OrderBody from "src/orders/components/OrderBody"
 

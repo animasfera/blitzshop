@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next"
 import { Layout } from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
 
-export const ItemPage = () => {
+const ItemPage = () => {
   const { t } = useTranslation(["pages.orderId"])
 
   return (
@@ -15,5 +15,5 @@ export const ItemPage = () => {
 }
 
 ItemPage.authenticate = true
-export { getServerSideProps } from "src/core/getServerSideProps"
+//export { getServerSideProps } from "src/core/getServerSideProps"
 export default ItemPage

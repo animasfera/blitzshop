@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { useSession } from "@blitzjs/auth"
 import { useMutation, useQuery } from "@blitzjs/rpc"
-import { Routes } from "@blitzjs/next"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
 import { CurrencyEnum } from "db"
@@ -62,14 +61,14 @@ export const HeaderController = (props: HeaderControllerProps) => {
   }
 
   const navigation = [
-    { name: t("translation:menu.products"), href: "/products" },
-    { name: t("translation:menu.shipping"), href: "/shipping" },
-    { name: t("translation:menu.contacts"), href: "/contacts" },
+    { name: t("translation:menu.products"), href: `/products` },
+    { name: t("translation:menu.shipping"), href: `/shipping` },
+    { name: t("translation:menu.contacts"), href: `/contacts` },
   ]
 
   const userMenu = [
-    { name: t("translation:userMenu.orders"), href: Routes.OrdersPage().href },
-    { name: t("translation:userMenu.settings"), href: Routes.SettingsPage().href },
+    { name: t("translation:userMenu.orders"), href: `/orders` },
+    { name: t("translation:userMenu.settings"), href: `/settings` },
   ]
   const isAdminPage = path.indexOf("/admin") !== -1
 

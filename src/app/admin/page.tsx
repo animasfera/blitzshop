@@ -10,5 +10,5 @@ const AdminPage: BlitzPage = () => {
   return <Loading>Dashboard</Loading>
 }
 
-export { getServerSideProps } from "src/core/getServerSideProps"
+//export { getServerSideProps } from "src/core/getServerSideProps"
 export default AdminPage

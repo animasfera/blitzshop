@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -25,7 +24,7 @@ const NewOrderPage = () => {
           onSubmit={async (values) => {
             try {
               const order = await createOrderMutation(values)
-              await router.push(Routes.OrderPage({ orderId: order.id }))
+              await router.push(`/orders/${order.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -36,7 +35,7 @@ const NewOrderPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.OrdersPage()}>Orders</Link>
+        <Link href={`/orders`}>Orders</Link>
       </p>
     </Layout>
   )

@@ -1,9 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes, useParam } from "@blitzjs/next"
-import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -12,9 +10,9 @@ import { OrderForm, FORM_ERROR } from "src/orders/components/OrderForm"
 import getOrder from "src/orders/queries/getOrder"
 import updateOrder from "src/orders/mutations/updateOrder"
 
-export const EditOrder = () => {
+const EditOrder = () => {
   const router = useRouter()
-  const orderId = useParam("orderId", "number")
+  const orderId: number = parseInt((useParams()?.orderId as any) || "-1")
   const [order, { setQueryData }] = useQuery(
     getOrder,
     { id: orderId },
@@ -27,9 +25,7 @@ export const EditOrder = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Order {order.id}</title>
-      </Head>
+      <title>Edit Order {order.id}</title>
 
       <div>
         <h1>Edit Order {order.id}</h1>
@@ -48,7 +44,7 @@ export const EditOrder = () => {
                 // TODO: убрать, когда будет делаться страница
                 // @ts-ignore
                 await setQueryData(updated)
-                await router.push(Routes.OrderPage({ orderId: updated.id }))
+                await router.push(`/orders/${updated.id}`)
               } catch (error: any) {
                 console.error(error)
                 return {
@@ -71,7 +67,7 @@ const EditOrderPage = () => {
       </Suspense>
 
       <p>
-        <Link href={Routes.OrdersPage()}>Orders</Link>
+        <Link href={`/orders`}>Orders</Link>
       </p>
     </div>
   )

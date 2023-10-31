@@ -58,7 +58,7 @@ export const AdminOrderSummeryListItem = (props: AdminOrderSummeryListItemProps)
           <div className="min-w-0 flex-1 gap-1">
             <h4 className="text-sm">
               <Link
-                href={Routes.ItemPage({ itemId: item.id })}
+                href={`/items/${item.id}`}
                 className="font-medium text-gray-700 hover:text-gray-800"
               >
                 {item.title}

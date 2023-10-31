@@ -15,5 +15,5 @@ const AdminOrdersPage: BlitzPage = () => {
   )
 }
 
-export { getServerSideProps } from "src/core/getServerSideProps"
+//export { getServerSideProps } from "src/core/getServerSideProps"
 export default AdminOrdersPage

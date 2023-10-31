@@ -1,6 +1,6 @@
+"use client"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useSession } from "@blitzjs/auth"
-import { Routes } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
 import { ErrorSection } from "src/core/components/sections/Error/ErrorSection"
@@ -31,7 +31,7 @@ export const OrdersListController = () => {
           title: t("pages.errors:401.header.title"),
           message: t("pages.errors:401.header.message"),
         }}
-        link={{ href: Routes.LoginPage().href, text: t("401.links.signin") }}
+        link={{ href: `/login`, text: t("401.links.signin") }}
       />
     )
   }

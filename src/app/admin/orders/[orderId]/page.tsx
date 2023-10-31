@@ -1,6 +1,5 @@
 "use client"
 import { useParams } from "next/navigation"
-import { useParam } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 import { Loading } from "src/core/components/Loading"
 import { AdminOrderController } from "src/orders/components/admin/AdminOrderController"
@@ -20,5 +19,5 @@ const AdminOrderPage = () => {
 }
 
 AdminOrderPage.authenticate = true
-export { getServerSideProps } from "src/core/getServerSideProps"
+//export { getServerSideProps } from "src/core/getServerSideProps"
 export default AdminOrderPage

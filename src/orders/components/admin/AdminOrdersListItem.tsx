@@ -6,7 +6,6 @@ import { Order, Price, ShippingMethod } from "db"
 import { Money } from "src/core/components/Money"
 import { DateWithTime } from "src/core/components/Date"
 import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
-import { Routes } from "@blitzjs/next"
 
 interface AdminOrdersListItemProps {
   order: Order & {
@@ -67,7 +66,7 @@ export const AdminOrdersListItem = (props: AdminOrdersListItemProps) => {
         <Money amount={amount.amount} currency={amount.currency} />
       </td>
       <td className="py-4 pl-3 pr-4 text-right text-xs sm:text-sm font-medium md:pr-0">
-        <Link href={Routes.AdminOrderPage({ orderId: id }).href}>
+        <Link href={`/admin/orders/${id}`}>
           <Button
             buttonText={t("table.buttons.view")}
             variant={"link"}

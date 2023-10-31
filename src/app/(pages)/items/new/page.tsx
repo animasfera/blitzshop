@@ -1,8 +1,7 @@
 "use client"
 import { Suspense } from "react"
-import { Routes } from "@blitzjs/next"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useMutation } from "@blitzjs/rpc"
 
 import Layout from "src/core/layouts/Layout"
@@ -26,7 +25,7 @@ const NewItemPage = () => {
           onSubmit={async (values) => {
             try {
               const item = await createItemMutation(values)
-              await router.push(Routes.ItemPage({ itemId: item.id }))
+              await router.push(`/items/${item.id}`)
             } catch (error: any) {
               console.error(error)
               return {
@@ -37,7 +36,7 @@ const NewItemPage = () => {
         />
       </Suspense>
       <p>
-        <Link href={Routes.ItemsPage()}>Items</Link>
+        <Link href={`/items`}>Items</Link>
       </p>
     </Layout>
   )
