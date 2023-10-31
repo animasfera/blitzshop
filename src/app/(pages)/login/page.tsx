@@ -1,8 +1,7 @@
 "use client"
 import { BlitzPage } from "@blitzjs/next"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
-import { Routes } from "@blitzjs/next"
 
 import { Layout } from "src/core/layouts/Layout"
 import { AuthContainer } from "src/auth/components/AuthContainer"
@@ -19,17 +18,13 @@ const LoginPage: BlitzPage = () => {
         title={t("title")}
         link={{
           message: t("loginForm.texts.noAccount"),
-          href: Routes.SignupPage().href,
+          href: `/signup`,
           text: t("loginForm.links.register"),
         }}
       >
         <LoginForm
           onSuccess={(_user) => {
-            const next = router.query.next
-              ? decodeURIComponent(router.query.next as string)
-              : Routes.ProductsPage().href
-
-            void router.push(next)
+            void router.push(`/products`)
           }}
         />
       </AuthContainer>
