@@ -51,7 +51,7 @@ const SettingsMenuItems = () => {
 
   return (
     <Stack className={"vertical-menu"}>
-      {menuItems.map((item) => {
+      {/* {menuItems.map((item) => {
         const active = router.pathname === item.link
         const itemStyle = active ? activeItemStyle : defItemStyle
         return (
@@ -61,7 +61,7 @@ const SettingsMenuItems = () => {
             </ChakraLink>
           </Link>
         )
-      })}
+      })} */}
     </Stack>
   )
 }

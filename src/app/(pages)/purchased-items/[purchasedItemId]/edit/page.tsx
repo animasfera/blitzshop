@@ -3,7 +3,6 @@ import { Suspense } from "react"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { useQuery, useMutation } from "@blitzjs/rpc"
-import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdatePurchasedItemSchema } from "src/purchased-items/schemas"
@@ -11,7 +10,7 @@ import getPurchasedItem from "src/purchased-items/queries/getPurchasedItem"
 import updatePurchasedItem from "src/purchased-items/mutations/updatePurchasedItem"
 import { PurchasedItemForm, FORM_ERROR } from "src/purchased-items/components/PurchasedItemForm"
 
-export const EditPurchasedItem = () => {
+const EditPurchasedItem = () => {
   const router = useRouter()
   const purchasedItemId: number = parseInt((useParams()?.purchasedItemId as any) || "-1")
   const [purchasedItem, { setQueryData }] = useQuery(

@@ -13,7 +13,7 @@ export const CartItemsListItemTitle = (props: CartItemsListItemTitleProps) => {
     <div className="flex justify-between">
       <h3 className="text-sm">
         <Link
-          href={Routes.ProductPage({ itemId }).href}
+          href={`/products/${itemId}`}
           className="font-medium text-gray-700 hover:text-gray-800"
         >
           {title}

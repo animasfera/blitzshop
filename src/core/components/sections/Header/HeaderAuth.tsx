@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { Routes } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
 import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
@@ -14,8 +13,8 @@ export const HeaderAuth = (props: HeaderAuthProps) => {
 
   const { t } = useTranslation(["translation"])
 
-  const loginHref = Routes.LoginPage().href
-  const signupHref = Routes.SignupPage().href
+  const loginHref = `/login`
+  const signupHref = `/signup`
 
   return (
     <div

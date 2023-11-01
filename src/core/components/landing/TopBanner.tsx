@@ -1,5 +1,4 @@
-import { useRouter } from "next/router"
-import { Routes } from "@blitzjs/next"
+import { useRouter } from "next/navigation"
 import { Box, Button, Container, Flex, Heading, HStack, Image, Text } from "@chakra-ui/react"
 
 import { useCurrentUser } from "src/core/hooks/useCurrentUser"
@@ -101,7 +100,7 @@ export const TopBanner = () => {
                 fontWeight={700}
                 lineHeight={"24px"}
                 textTransform={"uppercase"}
-                onClick={() => void router.push(Routes.SignupPage())}
+                onClick={() => void router.push(`/signup`)}
               >
                 Принять участие
               </Button>

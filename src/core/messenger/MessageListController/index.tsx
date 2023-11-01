@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect } from "react"
 import { useSession } from "@blitzjs/auth"
-import { useRouter } from "next/router"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 
 import { usePusher } from "src/core/pusher/client"
@@ -22,7 +22,8 @@ const ITEMS_PER_PAGE = 30
 export const MessageListController = (props: MessageListControllerProps) => {
   const { chatRoom, senderId, subscribe = false, onBackClick } = props
   const router = useRouter()
-  const page = Number(router.query.page) || 0
+  const searchParams = useSearchParams()
+  const page = parseInt(searchParams?.get("page") || "0")
   const session = useSession()
 
   const opponent = chatRoom.users.map((utc) => utc.user).find((u) => u.id !== senderId)!
