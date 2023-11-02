@@ -60,9 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Suspense>
                   <HeaderController path={pathname ? pathname : ""} />
                 </Suspense>
-
-                {children}
-
+                <Suspense>{children}</Suspense>
                 <Suspense>
                   <Footer path={pathname} />
                 </Suspense>
