@@ -8,8 +8,13 @@ import HeadingSection from "src/core/tailwind-ui/headings/HeadingSection"
 import HeadingBlock from "src/core/tailwind-ui/headings/HeadingBlock"
 
 import { nl2br } from "src/core/helpers/Helpers"
+import { useSession } from "../../../blitz-client"
+
 const ContactsPage: BlitzPage = () => {
   const { t, i18n } = useTranslation(["pages.contacts"])
+
+  const session = useSession()
+  console.log(session)
 
   return (
     <Layout title={t("index.headers.main")}>
