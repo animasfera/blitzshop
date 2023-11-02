@@ -21,7 +21,7 @@ const ITEMS_PER_PAGE = 10
 
 const AdminItemsController = () => {
   const pagination = usePagination()
-  const [{ items, hasMore, count }] = usePaginatedQuery(getItems, {
+  const [{ items, hasMore, count }, { setQueryData }] = usePaginatedQuery(getItems, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * pagination.page,
     take: ITEMS_PER_PAGE,
@@ -47,10 +47,13 @@ const AdminItemsController = () => {
           initialValues={currentItem ? { ...currentItem } : {}}
           onSubmit={async (data) => {
             try {
-              updateItemMutation({ id: currentItem?.id, ...data })
+              setQueryData(data, { refetch: false })
+              await updateItemMutation({ id: currentItem?.id, ...data })
+              setQueryData(data)
               setShowItemForm(false)
             } catch (error: any) {
               console.error("error")
+              setQueryData(data)
               return {
                 [FORM_ERROR]: error.toString(),
               }
