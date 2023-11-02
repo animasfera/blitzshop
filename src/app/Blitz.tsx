@@ -14,7 +14,12 @@ import { TimezoneWatch } from "src/core/components/TimezoneWatch"
 import HeaderController from "src/core/components/sections/Header/HeaderController"
 import Footer from "src/core/components/sections/Footer"
 
-export const Blitz = ({ children, session }: PropsWithChildren & { session: SessionContext }) => {
+export const Blitz = ({
+  children,
+  currentUser,
+  ctx,
+}: PropsWithChildren & { ctx?: any; currentUser?: any }) => {
+  console.log(currentUser)
   const [mode, setMode] = useState<ThemeEnum>(ThemeEnum.light)
   const [currency, setCurrency] = useState<Currency>({ name: CurrencyEnum.EUR, rate: 1 })
   const [timezone, setTimezone] = useState("Etc/Greenwich")
