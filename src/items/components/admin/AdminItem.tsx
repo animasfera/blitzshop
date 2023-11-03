@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link"
 import React from "react"
 import Button from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 import { ItemFull } from "types"
@@ -16,13 +17,13 @@ const AdminItem = (props: IAdminItem) => {
         <tr>
           <td className="max-w-fit px-3 py-4 text-sm text-gray-500 lg:table-cell">{item.id}</td>
           <td className="px-3 py-2 text-sm text-gray-500 lg:table-cell">
-            <button onClick={() => onItemClick(item)}>
+            <Link href={`/admin/items/${item?.id}`}>
               <img
                 className="h-20 w-20 rounded-md object-cover object-center"
                 src={item.coverImage.image.url}
                 alt=""
               />
-            </button>
+            </Link>
           </td>
           <td className="px-3 py-1 text-sm text-black-600 lg:font-normal sm:table-cell sm:font-semibold">
             {item.title}

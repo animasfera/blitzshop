@@ -61,7 +61,7 @@ const AdminItemsController = () => {
           }}
         />
       </Modal>
-      <Modal size="lg:w-1/2 sm:w-5/6" isOpen={showItemCard} onClose={() => setShowItemCard(false)}>
+      {/* <Modal size="lg:w-1/2 sm:w-5/6" isOpen={showItemCard} onClose={() => setShowItemCard(false)}>
         <AdminItemCard
           item={currentItem}
           onEditClick={(item) => {
@@ -69,7 +69,7 @@ const AdminItemsController = () => {
             setShowItemForm(true)
           }}
         />
-      </Modal>
+      </Modal> */}
 
       <AdminItemsControllerHeader
         onCreateButtonClick={async () => {

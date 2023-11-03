@@ -19,7 +19,6 @@ export const Blitz = ({
   currentUser,
   ctx,
 }: PropsWithChildren & { ctx?: any; currentUser?: any }) => {
-  console.log(currentUser)
   const [mode, setMode] = useState<ThemeEnum>(ThemeEnum.light)
   const [currency, setCurrency] = useState<Currency>({ name: CurrencyEnum.EUR, rate: 1 })
   const [timezone, setTimezone] = useState("Etc/Greenwich")

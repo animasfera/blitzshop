@@ -19,6 +19,7 @@ import { AuthenticationError } from "blitz"
 interface AdminLayoutProps {
   title?: string
   children?: JSX.Element
+  modal?: JSX.Element
 }
 
 const userNavigation = [
@@ -29,7 +30,7 @@ const userNavigation = [
 const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
   const router = useRouter()
   const routerPathname = usePathname()
-  const { title, children } = props
+  const { title, children, modal } = props
   const session = useSession({ suspense: false })
   const { t } = useTranslation(["pages.errors", "pages.admin.orders", "translation"])
 
@@ -72,20 +73,23 @@ const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
   }, [session])
 
   return (
-    <Loading>
-      {/* <Head>
+    <>
+      <Loading>
+        {/* <Head>
         <title>{title || "Administration"}</title>
         <link rel="icon" href="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" />
       </Head> */}
 
-      {session.isLoading || session.role !== UserRoleEnum.ADMIN ? (
-        <Loading>{t("translation:loading")}</Loading>
-      ) : (
-        <AdminSidebar userNavigation={userNavigation} navigation={navigation}>
-          {children}
-        </AdminSidebar>
-      )}
-    </Loading>
+        {session.isLoading || session.role !== UserRoleEnum.ADMIN ? (
+          <Loading>{t("translation:loading")}</Loading>
+        ) : (
+          <AdminSidebar userNavigation={userNavigation} navigation={navigation}>
+            {children}
+          </AdminSidebar>
+        )}
+      </Loading>
+      {modal}
+    </>
   )
 }
 
