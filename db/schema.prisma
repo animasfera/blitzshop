@@ -235,6 +235,7 @@ model ImageToItem {
   item       Item?  @relation(fields: [itemId], references: [id])
   itemId     Int?
   itemCovers Item[] @relation(name: "CoverImageToItem")
+  order      Int    @default(1)
 }
 
 enum ItemStatusEnum {

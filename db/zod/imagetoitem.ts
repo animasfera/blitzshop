@@ -5,6 +5,7 @@ export const ImageToItemModel = z.object({
   id: z.number().int(),
   imageId: z.number().int(),
   itemId: z.number().int().nullish(),
+  order: z.number().int(),
 })
 
 export interface CompleteImageToItem extends z.infer<typeof ImageToItemModel> {
