@@ -53,6 +53,7 @@ const createDataItems = async (obj: ItemSeed) => {
       coverImageId: imageToItem.id,
       amountId: amount.id,
       categoryId: category.id,
+      images: { connect: { id: imageToItem.id } },
     },
   })
 
