@@ -4,6 +4,8 @@ import { FORM_ERROR } from "final-form"
 import updateItem from "src/items/mutations/updateItem"
 import getItem from "src/items/queries/getItem"
 import { AdminItemForm } from "./AdminItemForm"
+import Link from "next/link"
+import { Routes } from "@blitzjs/next"
 
 interface AdminEditItemControllerProps {
   id: number | undefined
@@ -18,6 +20,10 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
       <Head>
         <title>Admin | Редактирование {item.title}</title>
       </Head>
+      <div className="mb-4 font-medium underline flex justify-between	">
+        <Link href={Routes.ProductPage({ itemId: item.id })}> Посмотреть товар в магазине</Link>
+        <Link href={Routes.AdminItemsPage()}>Список товаров</Link>
+      </div>
       <AdminItemForm
         item={item}
         submitText="Сохранить"
