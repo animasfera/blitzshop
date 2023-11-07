@@ -61,7 +61,7 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
         label={label}
         input={input}
         placeholder={placeholder}
-        selected={options.find((o) => o.value === input.value)}
+        selected={selected ?? options.find((o) => o.value === input.value)}
         defaultValue={defaultValue}
         required={required}
         disabled={disabled || submitting}

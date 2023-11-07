@@ -88,6 +88,7 @@ export default resolver.pipe(
         locale: user.locale || LocaleEnum.EN,
         currency: user.currency,
         buyingInCountries: user.buyingInCountries,
+        countryIsoCode: user.countryIsoCode,
       },
     })
 

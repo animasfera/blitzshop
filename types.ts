@@ -38,6 +38,7 @@ declare module "@blitzjs/auth" {
         locale?: User["locale"]
         currency: User["currency"]
         buyingInCountries?: User["buyingInCountries"]
+        countryIsoCode?: User["countryIsoCode"]
       }
     }
   }

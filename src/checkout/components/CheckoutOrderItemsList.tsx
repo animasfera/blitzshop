@@ -1,9 +1,17 @@
 import React from "react"
+import { Price, CartToItem, Item, ImageToItem, Image } from "db"
 
 import { CheckoutOrderItemsListItem } from "src/checkout/components/CheckoutOrderItemsListItem"
 
 interface CheckoutOrderItemsListProps {
-  items: any[]
+  items: (CartToItem & {
+    item: Item & {
+      amount: Price
+      coverImage: ImageToItem & {
+        image: Image
+      }
+    }
+  })[]
 }
 
 export const CheckoutOrderItemsList = (props: CheckoutOrderItemsListProps) => {

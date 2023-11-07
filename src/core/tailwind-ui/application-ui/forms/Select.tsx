@@ -67,7 +67,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
         value={selected ?? input?.value}
         defaultValue={defaultValue}
         onChange={(v) => {
-          input?.onChange(v.value)
+          onChange ? onChange(v) : input?.onChange(v.value)
         }}
         multiple={multiple}
         disabled={disabled}
@@ -110,7 +110,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                                 height={200}
                                 src={el?.img}
                                 alt={el?.label ?? ""}
-                                className="h-4 w-4 mr-1 flex-shrink-0 rounded-full"
+                                className="h-4 w-4 mr-1 flex-shrink-0 rounded-full overflow-hidden"
                               />
                             )}
                             <span className="block truncate">{el?.label}</span>
@@ -128,7 +128,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                             height={200}
                             src={selected?.img}
                             alt={selected?.label ?? ""}
-                            className="h-5 w-5 mr-3 flex-shrink-0 rounded-full"
+                            className="h-5 w-5 mr-3 flex-shrink-0 rounded-full overflow-hidden"
                           />
                         )}
                         <span className="block truncate">{selected?.label}</span>
@@ -196,7 +196,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                                   height={200}
                                   src={option.img}
                                   alt={option.label ?? ""}
-                                  className="h-5 w-5 mr-3 flex-shrink-0 rounded-full"
+                                  className="h-5 w-5 mr-3 flex-shrink-0 rounded-full overflow-hidden"
                                 />
                               )}
                               <span

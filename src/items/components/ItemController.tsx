@@ -7,7 +7,7 @@ import { Item } from "src/items/components/Item"
 import { useCurrency } from "src/core/hooks/useCurrency"
 import getItem from "src/items/queries/getItem"
 import getCart from "src/carts/queries/getCart"
-import addItemToCart from "../../cart-to-items/mutations/addItemToCart"
+import addItemToCart from "src/cart-to-items/mutations/addItemToCart"
 
 export const ItemController = () => {
   const sessionId = localStorage.getItem("sessionId")
