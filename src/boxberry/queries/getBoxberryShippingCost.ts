@@ -117,10 +117,6 @@ export default resolver.pipe(
         value: 50, // TODO: required!!!
       }
 
-      console.log(
-        `${url}/export-api?token=${token}&method=DeliveryCost&${queryString.stringify(queryParams)}`
-      )
-
       const data = await fetch(
         `${url}/export-api?method=DeliveryCost&token=${token}&${queryString.stringify(
           queryParams

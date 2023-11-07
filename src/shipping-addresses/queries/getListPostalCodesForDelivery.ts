@@ -2,10 +2,6 @@ import { Ctx, NotFoundError } from "blitz"
 import { resolver } from "@blitzjs/rpc"
 import { z } from "zod"
 
-/*
-import getCdekListRegions from "src/cdek/queries/getCdekListRegions"
-import getBoxberryListRegions from "src/boxberry/queries/getBoxberryListRegions"
-*/
 import getCdekListPostalCodes from "src/cdek/queries/getCdekListPostalCodes"
 
 const GetListPostalCodesForDelivery = z.object({
@@ -26,9 +22,6 @@ export default resolver.pipe(
       if (typeof city_code === "number")
         postalCodes = await getCdekListPostalCodes({ country_code, city_code }, ctx)
     }
-    // else { regions = await getBoxberryListRegions({ country_code }, ctx) }
-
-    // console.log("GetListPostalCodesForDelivery postalCodes", postalCodes)
 
     return postalCodes.sort((a, b) => {
       if (a.label < b.label) return -1

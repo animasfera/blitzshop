@@ -59,30 +59,6 @@ export const CheckoutController = () => {
     country_code: country?.value,
     city_code: typeof city?.value === "number" ? city?.value : undefined,
   })
-  console.log("deliverypoints", deliverypoints)
-
-  /*
-  const [shippingCost] = useQuery(getShippingCost, {
-    deliveryMethod: selectedDeliveryMethod.value,
-    shippingAddress: {
-      country_code: country?.value, // "653",
-      city_code: 250,
-      city: "Екатеринбург",
-      postal_code: "620000",
-      address: "ул. Дзержинского, д. 29",
-    },
-    packages: [
-      {
-        weight: 4000, // !!! Общий вес (в граммах) - обязательное поле
-        // Габариты упаковки:
-        height: 10, // Высота (в сантиметрах) - НЕ обязательное поле
-        length: 10, // Длина (в сантиметрах) - НЕ обязательное поле
-        width: 10, // Ширина (в сантиметрах) - НЕ обязательное поле
-      },
-    ],
-  })
-  console.log("shippingCost", shippingCost)
-  */
 
   const handleSelectedDeliveryMethod = (value: { value: 1 | 2; label: string }) => {
     setSelectedDeliveryMethod(value)
@@ -91,57 +67,19 @@ export const CheckoutController = () => {
 
   const handleCountry = (value: { value: string; label: string; img: string }) => {
     setCountry(value)
-    // setRegion(undefined)
-    // invalidateQuery(getListCountriesForDelivery)
-    // invalidateQuery(getListRegionsForDelivery)
-    // invalidateQuery(getListCitiesForDelivery)
-    // invalidateQuery(getListPostalCodesForDelivery)
   }
 
   const handleRegion = (value: { value: number | string; label: string }) => {
     setRegion(value)
-    // setCity(undefined)
-    // invalidateQuery(getListCountriesForDelivery)
-    // invalidateQuery(getListRegionsForDelivery)
-    // invalidateQuery(getListCitiesForDelivery)
-    // invalidateQuery(getListPostalCodesForDelivery)
   }
 
   const handleCity = (value: { value: number | string; label: string }) => {
     setCity(value)
-    // setSelectedPostalCode(undefined)
-    // invalidateQuery(getListCountriesForDelivery)
-    // invalidateQuery(getListRegionsForDelivery)
-    // invalidateQuery(getListCitiesForDelivery)
-    // invalidateQuery(getListPostalCodesForDelivery)
   }
 
   const handlePostalCodes = (value: { value: string; label: string }) => {
     setSelectedPostalCode(value)
-    /*
-    invalidateQuery(getListCountriesForDelivery)
-    invalidateQuery(getListRegionsForDelivery)
-    invalidateQuery(getListCitiesForDelivery)
-    invalidateQuery(getListPostalCodesForDelivery)
-    */
   }
-
-  /*
-  console.log("states", {
-    country,
-    region,
-    city,
-    selectedPostalCode,
-  })
-  */
-
-  /*
-  console.log("country", country)
-  console.log("region", region)
-  console.log("city", city)
-  // console.log("selectedPostalCode", selectedPostalCode)
-  */
-  console.log("cities", cities)
 
   return (
     <Checkout
