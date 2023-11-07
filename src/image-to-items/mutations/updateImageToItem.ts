@@ -4,7 +4,7 @@ import { UpdateImageToItemSchema } from "../schemas"
 
 export default resolver.pipe(
   resolver.zod(UpdateImageToItemSchema),
-  resolver.authorize(),
+  resolver.authorize("ADMIN"),
   async ({ id, ...data }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const imageToItem = await db.imageToItem.update({ where: { id }, data })

@@ -4,7 +4,7 @@ import { DeleteItemSchema } from "../schemas"
 
 export default resolver.pipe(
   resolver.zod(DeleteItemSchema),
-  resolver.authorize(),
+  resolver.authorize("ADMIN"),
   async ({ id }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const item = await db.item.deleteMany({ where: { id } })

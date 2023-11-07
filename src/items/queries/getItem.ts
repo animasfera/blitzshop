@@ -21,7 +21,7 @@ export default resolver.pipe(
         amount: true,
         category: true,
         coverImage: { include: { image: true } },
-        images: { include: { image: true } },
+        images: { include: { image: true }, orderBy: { order: "asc" } },
         reviews: { include: { sender: true } },
         invoices: isAdmin,
         cartToItems: isAdmin,

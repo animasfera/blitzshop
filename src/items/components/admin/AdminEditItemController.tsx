@@ -6,6 +6,7 @@ import getItem from "src/items/queries/getItem"
 import { AdminItemForm } from "./AdminItemForm"
 import Link from "next/link"
 import { Routes } from "@blitzjs/next"
+import { SortableGalleryWithDropzone } from "./SortableGalleryWithDropzone"
 
 interface AdminEditItemControllerProps {
   id: number | undefined
@@ -13,8 +14,57 @@ interface AdminEditItemControllerProps {
 
 const AdminEditItemController = (props: AdminEditItemControllerProps) => {
   const { id } = props
-  const [item] = useQuery(getItem, { id: id })
+  const [item, { setQueryData, refetch }] = useQuery(getItem, { id: id })
   const [updateItemMutation] = useMutation(updateItem)
+
+  const handleUpload = async (image) => {
+    const updatedImages = [...item.images, image]
+    await Promise.all([
+      setQueryData((oldData: any) => ({ ...oldData, images: updatedImages }), { refetch: false }),
+      updateItemMutation({
+        id: item.id,
+        images: {
+          create: { image: { create: { url: image.src } }, order: item.images.length + 1 },
+        },
+      }),
+    ])
+    void refetch()
+  }
+
+  const handleSort = async (items) => {
+    await Promise.all([
+      setQueryData((oldData: any) => ({ ...oldData, images: items }), { refetch: false }),
+      Promise.all(
+        items.map((image, index) =>
+          updateItemMutation({
+            id: item.id,
+            images: { update: { where: { id: image.id }, data: { order: index + 1 } } },
+          })
+        )
+      ),
+    ])
+    void refetch()
+  }
+
+  const handleDelete = async (items, index) => {
+    await Promise.all([
+      setQueryData((oldData: any) => ({ ...oldData, images: items }), { refetch: false }),
+      updateItemMutation({
+        id: item.id,
+        images: { delete: { id: item.images[index]?.id } },
+      }),
+      Promise.all(
+        items.map((image, i) =>
+          updateItemMutation({
+            id: item.id,
+            images: { update: { where: { id: image.id }, data: { order: i + 1 } } },
+          })
+        )
+      ),
+    ])
+    void refetch()
+  }
+
   return (
     <>
       <Head>
@@ -24,6 +74,15 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
         <Link href={Routes.ProductPage({ itemId: item.id })}> Посмотреть товар в магазине</Link>
         <Link href={Routes.AdminItemsPage()}>Список товаров</Link>
       </div>
+
+      <SortableGalleryWithDropzone
+        items={item.images}
+        s3Path={`u/shop/items/${item.id}/`}
+        onUpload={handleUpload}
+        onSort={handleSort}
+        onDelete={handleDelete}
+      />
+
       <AdminItemForm
         item={item}
         submitText="Сохранить"
@@ -31,7 +90,6 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
         onSubmit={async (data) => {
           try {
             updateItemMutation({ id: item?.id, ...data })
-            // setShowItemForm(false)
           } catch (error: any) {
             console.error("error")
             return {

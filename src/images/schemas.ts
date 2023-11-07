@@ -1,11 +1,11 @@
 import { z } from "zod"
-import { ImageModel } from "db/zod"
+import { ImageModel, ImageToItemModel } from "db/zod"
 
 export const CreateImageSchema = ImageModel.pick({
   title: true,
   description: true,
   url: true,
-})
+}).partial({ title: true, description: true })
 
 export const UpdateImageSchema = z.object({
   id: z.number(),

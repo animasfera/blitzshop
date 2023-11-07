@@ -6,6 +6,7 @@ export default resolver.pipe(
   resolver.zod(CreateImageSchema),
   resolver.authorize(),
   async (input) => {
+    console.log("input ", input)
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const image = await db.image.create({ data: input })
 

@@ -1,5 +1,6 @@
 import { z } from "zod"
-import { ItemModel } from "db/zod"
+import { ImageModel, ItemModel } from "db/zod"
+import { images } from "next.config"
 
 export const CreateItemSchema = ItemModel.pick({
   title: true,
@@ -32,21 +33,25 @@ export const UpdateItemSchema = ItemModel.pick({
   coverImageId: true,
   userId: true,
   cartId: true,
-}).partial({
-  title: true,
-  description: true,
-  qty: true,
-  weight: true,
-  rating: true,
-  isFeatured: true,
-  status: true,
-  access: true,
-  categoryId: true,
-  amountId: true,
-  coverImageId: true,
-  userId: true,
-  cartId: true,
 })
+  .partial({
+    title: true,
+    description: true,
+    qty: true,
+    weight: true,
+    rating: true,
+    isFeatured: true,
+    status: true,
+    access: true,
+    categoryId: true,
+    amountId: true,
+    coverImageId: true,
+    userId: true,
+    cartId: true,
+  })
+  .extend({
+    images: z.any().optional(),
+  })
 
 export const DeleteItemSchema = z.object({
   id: z.number(),
