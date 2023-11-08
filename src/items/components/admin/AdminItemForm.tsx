@@ -52,6 +52,9 @@ export function AdminItemForm<S extends z.ZodType<any, any>>(props: AdminItemFor
                 placeholder={item.description}
               />
               <LabeledTextField name="qty" type="number" label="Остаток" />
+              <LabeledTextField name="width" type="number" label="Ширина (см)" />
+              <LabeledTextField name="height" type="number" label="Высота (см)" />
+              <LabeledTextField name="length" type="number" label="Длина (см)" />
               <LabeledTextField name="weight" type="number" label="Вес (грамм)" />
 
               <LabeledSelectField options={itemStatuses} name={"status"} label={"Статус"} />
@@ -60,7 +63,7 @@ export function AdminItemForm<S extends z.ZodType<any, any>>(props: AdminItemFor
             <div className="sm:col-span-4 lg:col-span-5">
               <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
                 <img
-                  src={item.coverImage.image.url}
+                  src={item.images[0]?.image.url}
                   alt={item.title}
                   className="object-cover object-center"
                 />

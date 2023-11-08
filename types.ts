@@ -65,7 +65,7 @@ export type ItemFull = Item & {
   category: Category | null
   coverImage: ImageToItem & { image: Image }
   chatRoom: ChatRoom | null
-  images: ImageToItem[]
+  images: (ImageToItem & { image: Image })[]
   invoices: Invoice[]
   location: Location | null
   user: User | null

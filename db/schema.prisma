@@ -285,7 +285,7 @@ model Item {
   cartToItems    CartToItem[]
   width          Int?
   height         Int?
-  lenght         Int?
+  length         Int?
 }
 
 model CartToItem {
