@@ -1,41 +1,41 @@
 import React, { useState } from "react"
-import { Box, CloseButton, Image } from "@chakra-ui/react"
+// import { Box, CloseButton } from "@chakra-ui/react"
 
 const imgWithClick = { cursor: "pointer" }
 
-export const Photo = (props) => {
-  const { index, onClick, url, width, height, direction, top, left, margin, canDelete, onDelete } =
-    props
+// export const Photo = (props) => {
+//   const { index, onClick, url, width, height, direction, top, left, margin, canDelete, onDelete } =
+//     props
 
-  const imgStyle = {
-    margin: margin,
-    width: "auto",
-  } as any
+//   const imgStyle = {
+//     margin: margin,
+//     width: "auto",
+//   } as any
 
-  if (direction === "column") {
-    imgStyle.position = "absolute"
-    imgStyle.left = left
-    imgStyle.top = top
-  }
+//   if (direction === "column") {
+//     imgStyle.position = "absolute"
+//     imgStyle.left = left
+//     imgStyle.top = top
+//   }
 
-  return (
-    <Box h={"100%"}>
-      <Image
-        style={imgStyle}
-        url={url}
-        width={"auto"}
-        height={"auto"}
-        maxWidth={"100%"}
-        maxHeight={"100%"}
-        minWidth={"100%"}
-        minHeight={"100%"}
-        onClick={onClick}
-        alt="img"
-        objectFit={"cover"}
-      />
-    </Box>
-  )
-}
+//   return (
+//     <Box h={"100%"}>
+//       <Image
+//         style={imgStyle}
+//         url={url}
+//         width={"auto"}
+//         height={"auto"}
+//         maxWidth={"100%"}
+//         maxHeight={"100%"}
+//         minWidth={"100%"}
+//         minHeight={"100%"}
+//         onClick={onClick}
+//         alt="img"
+//         objectFit={"cover"}
+//       />
+//     </Box>
+//   )
+// }
 
 export const SortablePhoto = (props) => {
   const {
@@ -89,26 +89,25 @@ export const SortablePhoto = (props) => {
   }
 
   return (
-    <Box h={"100%"} key={key} style={contStyle}>
-      <Image
-        style={onClick ? { ...imgStyle, ...imgWithClick } : imgStyle}
+    <div className="h-full" key={key} style={contStyle}>
+      <img
+        className="h-full"
         src={image.url}
-        width={"auto"}
-        height={"100%"}
-        objectFit={"cover"}
         onClick={onClick ? handleClick : () => {}}
-        alt="img"
+        // alt="img"
       />
 
-      <Box
+      <div
         style={overlayDeleteStyle}
         onClick={() => {
           setDeleted(true)
           onDelete(Number(key))
         }}
       >
-        <CloseButton bg={"rgba(255,255,255,.5)"} />
-      </Box>
-    </Box>
+        <button className="bg-gray-100 opacity-50 hover:opacity-100 hover:bg-gray-100 text-gray-700 font-bold px-2 rounded-full">
+          X
+        </button>
+      </div>
+    </div>
   )
 }

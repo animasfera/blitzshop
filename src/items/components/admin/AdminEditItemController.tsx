@@ -7,6 +7,7 @@ import { AdminItemForm } from "./AdminItemForm"
 import Link from "next/link"
 import { Routes } from "@blitzjs/next"
 import { SortableGalleryWithDropzone } from "./SortableGalleryWithDropzone"
+import deleteImage from "src/images/mutations/deleteImage"
 
 interface AdminEditItemControllerProps {
   id: number | undefined
@@ -16,18 +17,15 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
   const { id } = props
   const [item, { setQueryData, refetch }] = useQuery(getItem, { id: id })
   const [updateItemMutation] = useMutation(updateItem)
+  const [deleteImageMutation] = useMutation(deleteImage)
 
   const handleUpload = async (image) => {
-    const updatedImages = [...item.images, image]
-    await Promise.all([
-      setQueryData((oldData: any) => ({ ...oldData, images: updatedImages }), { refetch: false }),
-      updateItemMutation({
-        id: item.id,
-        images: {
-          create: { image: { create: { url: image.src } }, order: item.images.length + 1 },
-        },
-      }),
-    ])
+    await updateItemMutation({
+      id: item.id,
+      images: {
+        create: { image: { create: { url: image.src } }, order: item.images.length + 1 },
+      },
+    })
     void refetch()
   }
 
@@ -49,10 +47,8 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
   const handleDelete = async (items, index) => {
     await Promise.all([
       setQueryData((oldData: any) => ({ ...oldData, images: items }), { refetch: false }),
-      updateItemMutation({
-        id: item.id,
-        images: { delete: { id: item.images[index]?.id } },
-      }),
+      deleteImageMutation({ id: item.images[index]!.imageId }),
+
       Promise.all(
         items.map((image, i) =>
           updateItemMutation({
@@ -89,7 +85,8 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
         initialValues={item ? { ...item } : {}}
         onSubmit={async (data) => {
           try {
-            updateItemMutation({ id: item?.id, ...data })
+            const { images, ...formData } = data
+            updateItemMutation({ id: item?.id, ...formData })
           } catch (error: any) {
             console.error("error")
             return {
