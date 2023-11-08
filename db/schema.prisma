@@ -224,13 +224,14 @@ model Image {
   title          String?
   description    String?
   url            String
+  uploaded       Boolean         @default(false)
   imageToItems   ImageToItem[]
   purchasedItems PurchasedItem[]
 }
 
 model ImageToItem {
   id         Int    @id @default(autoincrement())
-  image      Image  @relation(fields: [imageId], references: [id])
+  image      Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
   imageId    Int
   item       Item?  @relation(fields: [itemId], references: [id])
   itemId     Int?
@@ -282,6 +283,9 @@ model Item {
   purchasedItems PurchasedItem[]
   invoices       Invoice[]
   cartToItems    CartToItem[]
+  width          Int?
+  height         Int?
+  lenght         Int?
 }
 
 model CartToItem {

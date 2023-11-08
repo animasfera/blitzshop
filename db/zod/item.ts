@@ -21,6 +21,9 @@ export const ItemModel = z.object({
   userId: z.number().int().nullish(),
   locationId: z.number().int().nullish(),
   chatRoomId: z.number().int().nullish(),
+  width: z.number().int().nullish(),
+  height: z.number().int().nullish(),
+  lenght: z.number().int().nullish(),
 })
 
 export interface CompleteItem extends z.infer<typeof ItemModel> {

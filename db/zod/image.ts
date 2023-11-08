@@ -8,6 +8,7 @@ export const ImageModel = z.object({
   title: z.string().nullish(),
   description: z.string().nullish(),
   url: z.string(),
+  uploaded: z.boolean(),
 })
 
 export interface CompleteImage extends z.infer<typeof ImageModel> {
