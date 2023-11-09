@@ -36,6 +36,7 @@ export const UpdateItemSchema = ItemModel.pick({
   width: true,
   height: true,
   length: true,
+  price: true,
 })
   .partial({
     title: true,
@@ -54,6 +55,7 @@ export const UpdateItemSchema = ItemModel.pick({
     width: true,
     height: true,
     length: true,
+    price: true,
   })
   .extend({
     images: z.any().optional(),

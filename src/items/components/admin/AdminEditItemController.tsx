@@ -86,11 +86,11 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
       <AdminItemForm
         item={item}
         submitText="Сохранить"
-        initialValues={item ? { ...item } : {}}
+        initialValues={item ? { ...item, price: item.price / 100 } : {}}
         onSubmit={async (data) => {
           try {
             const { images, ...formData } = data
-            updateItemMutation({ id: item?.id, ...formData })
+            updateItemMutation({ id: item?.id, ...formData, price: formData.price * 100 })
           } catch (error: any) {
             console.error("error")
             return {

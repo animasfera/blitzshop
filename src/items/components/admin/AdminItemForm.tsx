@@ -14,6 +14,7 @@ export interface AdminItemFormProps<S> extends FormProps<any> {
 }
 export function AdminItemForm<S extends z.ZodType<any, any>>(props: AdminItemFormProps<S>) {
   const { item } = props
+
   const { t, i18n } = useTranslation(["item"])
   let _itemStatuses = [] as { value: string; label: string }[]
   for (let key in ItemStatusEnum) {
@@ -33,19 +34,9 @@ export function AdminItemForm<S extends z.ZodType<any, any>>(props: AdminItemFor
         <Form<S> {...props}>
           <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-2 sm:grid-cols-12 lg:gap-x-8">
             <div className="sm:col-span-8 lg:col-span-7">
-              <LabeledTextField
-                name="title"
-                type="text"
-                label="Название"
-                placeholder={item.title}
-              />
+              <LabeledTextField name="title" type="text" label="Название" />
 
-              {/* <LabeledTextField
-                name="amount"
-                type="text"
-                label="Цена"
-                placeholder={(item.amount.amount / 100).toString()}
-              /> */}
+              <LabeledTextField name="price" type="number" label="Цена" />
               <LabeledTextareaField
                 name="description"
                 type="text"

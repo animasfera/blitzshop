@@ -32,7 +32,6 @@ const createDataItems = async (obj: ItemSeed) => {
       price: obj.price,
       currency: CurrencyEnum.EUR,
       categoryId: category.id,
-      images: { connect: { id: imageToItem.id } },
     },
   })
 
