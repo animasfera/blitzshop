@@ -13,12 +13,8 @@ export default resolver.pipe(resolver.zod(GetTransaction), resolver.authorize(),
   const transaction = await db.transaction.findFirst({
     where: { id },
     include: {
-      amount: true,
-      feeTotal: true,
       invoice: true,
-      net: true,
       paymentMethod: true,
-      user: true,
     },
   })
 

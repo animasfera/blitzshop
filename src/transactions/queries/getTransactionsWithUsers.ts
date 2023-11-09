@@ -27,12 +27,8 @@ export default resolver.pipe(
             status: TransactionStatusEnum.FINISHED,
           },
           include: {
-            amount: true,
-            feeTotal: true,
             invoice: true,
-            net: true,
             paymentMethod: true,
-            user: true,
           },
           orderBy: {
             id: "desc",

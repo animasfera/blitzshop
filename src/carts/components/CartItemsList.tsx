@@ -1,16 +1,8 @@
-import { CartToItem, Image, ImageToItem, Item, Price } from "db"
-
 import { CartItemsListItem } from "src/carts/components/CartItemsListItem"
+import { CartItemWithItem } from "../../../types"
 
 interface CartItemsListProps {
-  cartToItems: (CartToItem & {
-    item: Item & {
-      amount: Price
-      coverImage: ImageToItem & {
-        image: Image
-      }
-    }
-  })[]
+  cartToItems: CartItemWithItem[]
   isLoading: boolean
 
   onUpdateCartToItem: ({ id, qty }: { id: number; qty: number }) => Promise<void>

@@ -83,7 +83,7 @@ export const CheckoutController = () => {
 
   return (
     <Checkout
-      cart={cartClient}
+      cartClient={cartClient}
       deliveryMethods={deliveryMethods}
       deliveryMethod={selectedDeliveryMethod}
       countries={countries}

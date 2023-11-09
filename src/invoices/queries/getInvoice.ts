@@ -13,12 +13,9 @@ export default resolver.pipe(resolver.zod(GetInvoice), resolver.authorize(), asy
   const invoice = await db.invoice.findFirst({
     where: { id },
     include: {
-      amount: true,
       creditNotes: true,
       order: { include: { user: true } },
       originalInvoice: true,
-      parentItem: { include: { user: true } },
-      paymentMethod: true,
       transactions: true,
     },
   })

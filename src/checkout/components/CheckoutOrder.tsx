@@ -3,14 +3,17 @@ import { useTranslation } from "react-i18next"
 
 import { CheckoutOrderInfo } from "src/checkout/components/CheckoutOrderInfo"
 import { CheckoutOrderItemsList } from "src/checkout/components/CheckoutOrderItemsList"
-import { cartClient } from "src/core/hooks/useCart"
+import { PreOrderItem } from "types"
 
 interface CheckoutOrderProps {
-  cart: cartClient
+  items: PreOrderItem[]
+  subtotal: number
+  total: number
+  shipping?: number
 }
 
 export const CheckoutOrder = (props: CheckoutOrderProps) => {
-  const { cart } = props
+  const { items, subtotal, shipping, total } = props
 
   const { t } = useTranslation(["pages.checkout"])
 
@@ -19,8 +22,8 @@ export const CheckoutOrder = (props: CheckoutOrderProps) => {
       <div className="mx-auto max-w-2xl px-4 xl:max-w-none xl:px-0">
         <h2 className="sr-only">{t("order.title")}</h2>
 
-        <CheckoutOrderInfo cart={cart}>
-          <CheckoutOrderItemsList items={cart.cart.cartToItems} />
+        <CheckoutOrderInfo subtotal={subtotal} total={total} shipping={shipping}>
+          <CheckoutOrderItemsList items={items} />
         </CheckoutOrderInfo>
       </div>
     </section>

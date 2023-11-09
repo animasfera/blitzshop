@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useTranslation } from "react-i18next"
 import { useMediaQuery } from "react-responsive"
-import { Order, Price, ShippingMethod } from "db"
+import { Order, ShippingMethod } from "db"
 
 import { Money } from "src/core/components/Money"
 import { DateWithTime } from "src/core/components/Date"
@@ -11,14 +11,13 @@ import { Routes } from "@blitzjs/next"
 interface AdminOrdersListItemProps {
   order: Order & {
     user: { id: number; email: string; username: string }
-    amount: Price
     shippingMethod: ShippingMethod | null
   }
 }
 
 export const AdminOrdersListItem = (props: AdminOrdersListItemProps) => {
   const { order } = props
-  const { id, createdAt, amount, status, user } = order
+  const { id, createdAt, status, user } = order
 
   const isMobileScreen = useMediaQuery({ query: "(max-width: 560px)" })
   const isSmScreen = useMediaQuery({ query: "(min-width: 460px)" })
@@ -64,7 +63,7 @@ export const AdminOrdersListItem = (props: AdminOrdersListItemProps) => {
         {status}
       </td>
       <td className="px-3 py-4 text-xs sm:text-sm text-gray-500">
-        <Money amount={amount.amount} currency={amount.currency} />
+        <Money amount={order.total} currency={order.currency} />
       </td>
       <td className="py-4 pl-3 pr-4 text-right text-xs sm:text-sm font-medium md:pr-0">
         <Link href={Routes.AdminOrderPage({ orderId: id }).href}>

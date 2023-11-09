@@ -1,10 +1,9 @@
-import { Price, PurchasedItem, Category, Image, Item } from "db"
+import { PurchasedItem, Category, Image, Item } from "db"
 
 import { OrdersListProductsListItem } from "src/orders/components/OrdersListProductsListItem"
 
 interface OrderListProductsListProps {
   items: (PurchasedItem & {
-    amount: Price
     category: Category | null
     item: Item & {
       user: {

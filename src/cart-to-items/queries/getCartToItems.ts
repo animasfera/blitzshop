@@ -23,7 +23,7 @@ export default resolver.pipe(
           where,
           orderBy,
           include: {
-            item: { include: { amount: true, coverImage: { include: { image: true } } } },
+            item: { include: { images: true } },
           },
         }),
     })

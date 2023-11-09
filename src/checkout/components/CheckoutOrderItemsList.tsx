@@ -1,17 +1,10 @@
 import React from "react"
-import { Price, CartToItem, Item, ImageToItem, Image } from "db"
 
 import { CheckoutOrderItemsListItem } from "src/checkout/components/CheckoutOrderItemsListItem"
+import { PreOrderItem } from "types"
 
 interface CheckoutOrderItemsListProps {
-  items: (CartToItem & {
-    item: Item & {
-      amount: Price
-      coverImage: ImageToItem & {
-        image: Image
-      }
-    }
-  })[]
+  items: PreOrderItem[]
 }
 
 export const CheckoutOrderItemsList = (props: CheckoutOrderItemsListProps) => {
@@ -20,7 +13,7 @@ export const CheckoutOrderItemsList = (props: CheckoutOrderItemsListProps) => {
   return (
     <ul role="list" className="divide-y divide-white divide-opacity-10 text-sm font-medium">
       {items.map((item) => (
-        <CheckoutOrderItemsListItem key={item.id} item={item} />
+        <CheckoutOrderItemsListItem key={item.itemId} item={item} currency={"EUR"} />
       ))}
     </ul>
   )

@@ -72,5 +72,14 @@
         }
       }
     }
+  },
+  "chooseMethod": "Choose shipping method",
+  "paymentCurrency": {
+    "title": "Payment currency",
+    "description": "We use different payment gateways for different currencies. Please select your card's currency.",
+    "options": {
+      "EUR": "Another currency",
+      "RUB": "₽ (Russian Ruble)"
+    }
   }
 }

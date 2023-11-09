@@ -1,8 +1,8 @@
 import { resolver } from "@blitzjs/rpc"
-import db, { Cart, CartToItem, Image, ImageToItem, Item, Price } from "db"
+import db, { Cart, CartToItem, Image, ImageToItem, Item } from "db"
 import { z } from "zod"
-import { NotFoundError } from "blitz"
 import createCart from "../mutations/createCart"
+import { CartItemWithItem, CartWithCartToItem } from "../../../types"
 
 const GetCart = z.object({
   id: z.number().optional(),
@@ -16,25 +16,24 @@ export default resolver.pipe(resolver.zod(GetCart), async (input, ctx) => {
       id: sessPriv.cartId,
     }
   }
-  let cart:
-    | (Cart & {
-        amount: Price
-        cartToItems: (CartToItem & {
-          item: Item & { amount: Price; coverImage: ImageToItem & { image: Image } }
-        })[]
-      })
-    | null = null
+  let cart: CartWithCartToItem | null = null
   if (input.userId || input.id) {
     cart = await db.cart.findFirst({
       where: input,
       include: {
         cartToItems: {
           include: {
-            item: { include: { amount: true, coverImage: { include: { image: true } } } },
+            item: {
+              include: {
+                images: {
+                  take: 1,
+                  include: { image: true },
+                },
+              },
+            },
           },
           take: 250,
         },
-        amount: true,
       },
     })
   }

@@ -13,7 +13,7 @@ const AdminItemsControllerHeader = (props: AdminItemsControllerHeaderProps) => {
       </div>
       {onCreateButtonClick && (
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <Button buttonText={"Новый товар"} handleClick={onCreateButtonClick} />
+          <Button buttonText={"Новый товар"} onClick={onCreateButtonClick} />
         </div>
       )}
     </div>

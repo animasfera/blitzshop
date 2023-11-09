@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { OrderStatusEnum } from "@prisma/client"
-import { CompletePrice, RelatedPriceModel, CompleteOrderLog, RelatedOrderLogModel, CompleteShippingMethod, RelatedShippingMethodModel, CompleteUser, RelatedUserModel, CompleteShippingAddress, RelatedShippingAddressModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteRefund, RelatedRefundModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
+import { OrderStatusEnum, CurrencyEnum } from "@prisma/client"
+import { CompleteOrderLog, RelatedOrderLogModel, CompleteShippingMethod, RelatedShippingMethodModel, CompleteUser, RelatedUserModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteShippingAddress, RelatedShippingAddressModel, CompleteRefund, RelatedRefundModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
 
 export const OrderModel = z.object({
   id: z.number().int(),
@@ -9,22 +9,26 @@ export const OrderModel = z.object({
   couponCode: z.string().nullish(),
   notes: z.string().nullish(),
   status: z.nativeEnum(OrderStatusEnum),
-  amountId: z.number().int(),
-  orderLogId: z.number().int(),
+  subtotal: z.number().int(),
+  shippingFee: z.number().int(),
+  total: z.number().int(),
+  net: z.number().int(),
+  currency: z.nativeEnum(CurrencyEnum),
+  logId: z.number().int(),
   shippingMethodId: z.number().int().nullish(),
   userId: z.number().int(),
   shippingAddressId: z.number().int().nullish(),
+  invoiceId: z.number().int(),
 })
 
 export interface CompleteOrder extends z.infer<typeof OrderModel> {
-  amount: CompletePrice
-  orderLog: CompleteOrderLog
+  log: CompleteOrderLog
   shippingMethod?: CompleteShippingMethod | null
   user: CompleteUser
+  items: CompletePurchasedItem[]
   shippingAddress?: CompleteShippingAddress | null
-  purchasedItems: CompletePurchasedItem[]
   refunds: CompleteRefund[]
-  invoices: CompleteInvoice[]
+  invoice: CompleteInvoice
 }
 
 /**
@@ -33,12 +37,11 @@ export interface CompleteOrder extends z.infer<typeof OrderModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedOrderModel: z.ZodSchema<CompleteOrder> = z.lazy(() => OrderModel.extend({
-  amount: RelatedPriceModel,
-  orderLog: RelatedOrderLogModel,
+  log: RelatedOrderLogModel,
   shippingMethod: RelatedShippingMethodModel.nullish(),
   user: RelatedUserModel,
+  items: RelatedPurchasedItemModel.array(),
   shippingAddress: RelatedShippingAddressModel.nullish(),
-  purchasedItems: RelatedPurchasedItemModel.array(),
   refunds: RelatedRefundModel.array(),
-  invoices: RelatedInvoiceModel.array(),
+  invoice: RelatedInvoiceModel,
 }))

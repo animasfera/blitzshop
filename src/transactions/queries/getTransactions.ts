@@ -24,12 +24,8 @@ export default resolver.pipe(
           where,
           orderBy,
           include: {
-            amount: true,
-            feeTotal: true,
             invoice: true,
-            net: true,
             paymentMethod: true,
-            user: true,
           },
         }),
     })

@@ -1,17 +1,15 @@
-import { Price } from "db"
-
 import { Money } from "src/core/components/Money"
+import { CurrencyEnum } from "@prisma/client"
 
 interface CartItemsListItemInfoProps {
-  amount: Price
+  amount: number
+  currency: CurrencyEnum
 }
 
-export const CartItemsListItemPrice = (props: CartItemsListItemInfoProps) => {
-  const { amount } = props
-
+export const CartItemsListItemPrice = ({ amount, currency }: CartItemsListItemInfoProps) => {
   return (
     <p className="text-sm font-medium text-gray-900">
-      <Money amount={amount.amount} currency={amount.currency} />
+      <Money amount={amount} currency={currency} />
     </p>
   )
 }

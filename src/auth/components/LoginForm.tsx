@@ -15,6 +15,7 @@ import { Login } from "src/auth/schemas"
 
 interface LoginFormProps {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void
+  onNavigate?: (link: string) => void
 }
 
 export const LoginForm = (props: LoginFormProps) => {
@@ -54,7 +55,7 @@ export const LoginForm = (props: LoginFormProps) => {
       onSubmit={async (values) => {
         try {
           const user = await loginMutation({ ...values })
-          void i18n.changeLanguage(user.locale || LocaleEnum.EN)
+          void i18n.changeLanguage(user.locale || LocaleEnum.en)
 
           await invalidateQuery(getCart)
           onSuccess?.(user)

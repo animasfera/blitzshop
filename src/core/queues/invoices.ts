@@ -9,7 +9,6 @@ import {
 } from "@prisma/client"
 
 import createMockContext, { createAdminMockContext } from "src/auth/components/CreateMockContext"
-import startRefundPayment from "src/invoices/mutations/startRefundPayment"
 import { GlobalRef } from "../index"
 
 /**
@@ -26,7 +25,6 @@ export const processInvoicesCronJob = async (job) => {
     const { ctx } = await createMockContext({ user })
 
     const invoices = await db.invoice.findMany({
-      include: { parentItem: true },
       where: {
         status: RefundStatusEnum.PENDING,
         transactions: {
@@ -45,33 +43,18 @@ export const processInvoicesCronJob = async (job) => {
       },
     })
 
-    invoices.forEach((invoice) => {
-      // ??? invoice.type
-      switch (invoice.status) {
-        // ?? сase PaymentType.refund:
-        case InvoiceStatusEnum.REFUNDED:
-          void InvoicesQueue.add("processRefundInvoice", { id: invoice.id })
-          break
-        // ?? case PaymentType.sale:
-        case InvoiceStatusEnum.COMPLETED:
-          // Sale invoices are handled during booking
-          break
-        default:
-          break
-      }
-    })
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-const processRefundInvoice = async (job) => {
-  console.log("Запуск processRefundInvoice")
-  const { id } = job.data
-
-  try {
-    const ctx = await createAdminMockContext()
-    await startRefundPayment({ invoice: { id } }, ctx)
+    // invoices.forEach((invoice) => {
+    //   // ??? invoice.type
+    //   switch (invoice.status) {
+    //     // ?? сase PaymentType.refund:
+    //     case InvoiceStatusEnum.REFUNDED:
+    //       void InvoicesQueue.add("processRefundInvoice", { id: invoice.id })
+    //       break
+    //     // ?? case PaymentType.sale:
+    //     default:
+    //       break
+    //   }
+    // })
   } catch (e) {
     console.error(e)
   }
@@ -83,7 +66,6 @@ export const initInvoicesQueue = () => {
   const invoicesQueue = new Queue("invoices")
 
   void invoicesQueue.process("cronFindInvoicesToStart", processInvoicesCronJob)
-  void invoicesQueue.process("processRefundInvoice", processRefundInvoice)
 
   return invoicesQueue
 }

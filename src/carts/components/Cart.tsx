@@ -1,6 +1,4 @@
 import { useTranslation } from "react-i18next"
-import { Cart as CartDb, CartToItem, Image, ImageToItem, Item, Price } from "db"
-
 import { HeadingPage } from "src/core/tailwind-ui/headings/HeadingPage"
 import { CartItemsListController } from "src/carts/components/CartItemsListController"
 import { CartTotal } from "src/carts/components/CartTotal"

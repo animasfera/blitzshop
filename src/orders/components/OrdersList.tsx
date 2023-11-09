@@ -1,4 +1,4 @@
-import { Order, Price, ShippingMethod, PurchasedItem, Category, Image, Item } from "db"
+import { Order, ShippingMethod, PurchasedItem, Category, Image, Item } from "db"
 
 import { OrdersListItem } from "src/orders/components/OrdersListItem"
 import { OrdersListProductsList } from "src/orders/components/OrdersListProductsList"
@@ -10,10 +10,8 @@ interface OrderListProps {
       email: string
       username: string
     }
-    amount: Price
     shippingMethod: ShippingMethod | null
-    purchasedItems: (PurchasedItem & {
-      amount: Price
+    items: (PurchasedItem & {
       category: Category | null
       item: Item & {
         user: {
@@ -36,7 +34,7 @@ export const OrdersList = (props: OrderListProps) => {
         <section key={order.id} aria-labelledby={`${order.id}-heading`}>
           <OrdersListItem order={order} />
 
-          <OrdersListProductsList items={order.purchasedItems} />
+          <OrdersListProductsList items={order.items} />
         </section>
       ))}
     </div>

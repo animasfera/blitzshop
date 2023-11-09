@@ -33,7 +33,7 @@ export const users = {
     firstName: "Роман",
     lastName: "Степанов",
     role: UserRoleEnum.ADMIN,
-    locale: LocaleEnum.EN,
+    locale: LocaleEnum.ru,
     country: { id: "ID", titleEn: "Indonesia", titleRu: "Индонезия" },
     location: {
       lat: -6.2290269,
@@ -52,7 +52,7 @@ export const users = {
     firstName: "Роман",
     lastName: "Палыч",
     role: UserRoleEnum.ADMIN,
-    locale: LocaleEnum.RU,
+    locale: LocaleEnum.ru,
     country: { id: "RU", titleEn: "Russian Federation", titleRu: "Российская Федерация" },
     location: {
       lat: 55.7901789,
@@ -71,7 +71,7 @@ export const users = {
     firstName: "Михаил",
     lastName: "Корюков",
     role: UserRoleEnum.ADMIN,
-    locale: LocaleEnum.RU,
+    locale: LocaleEnum.ru,
     country: { id: "ME", titleEn: "Montenegro", titleRu: "Черногория" },
     location: {
       lat: 42.4533527,
@@ -92,7 +92,7 @@ export const users = {
     firstName: "Сергей",
     lastName: "Сергеев",
     role: UserRoleEnum.MODERATOR,
-    locale: LocaleEnum.EN,
+    locale: LocaleEnum.ru,
     country: { id: "NL", titleEn: "Netherlands", titleRu: "Нидерланды" },
     location: {
       lat: 52.0988899,
@@ -113,7 +113,7 @@ export const users = {
     firstName: "Иван",
     lastName: "Иванов",
     role: UserRoleEnum.USER,
-    locale: LocaleEnum.RU,
+    locale: LocaleEnum.ru,
     country: { id: "US", titleEn: "United States", titleRu: "США" },
     location: {
       lat: 38.9242497,

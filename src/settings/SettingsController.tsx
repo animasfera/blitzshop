@@ -12,7 +12,7 @@ export const SettingsController = () => {
       <Button
         px={0}
         onClick={() => {
-          i18n.changeLanguage(LocaleEnum.EN)
+          i18n.changeLanguage(LocaleEnum.en)
         }}
         bg={"none"}
         style={{ fontWeight: i18n.resolvedLanguage === "en" ? "bold" : "normal" }}
@@ -23,7 +23,7 @@ export const SettingsController = () => {
         px={0}
         ml={1}
         onClick={() => {
-          i18n.changeLanguage(LocaleEnum.RU)
+          i18n.changeLanguage(LocaleEnum.ru)
         }}
         bg={"none"}
         style={{ fontWeight: i18n.resolvedLanguage === "ru" ? "bold" : "normal" }}

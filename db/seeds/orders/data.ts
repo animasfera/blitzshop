@@ -19,41 +19,41 @@ export const orders = [
     status: OrderStatusEnum.DELIVERED,
     user: users.mkdir,
   },
-  {
-    items: [items.bubing, items.vayoMini],
-    status: OrderStatusEnum.ON_HOLD,
-    user: users.mkdir,
-  },
-  {
-    items: [items.jalaBig],
-    status: OrderStatusEnum.PARTIALLY_COMPLETED,
-    user: users.moderator,
-  },
-  {
-    items: [items.jalaMini, items.venge],
-    status: OrderStatusEnum.PENDING,
-    user: users.moderator,
-  },
-  {
-    items: [items.leela],
-    status: OrderStatusEnum.PROCESSING,
-    user: users.moderator,
-  },
-  {
-    items: [items.master, items.yamunaMini],
-    status: OrderStatusEnum.REFUNDED,
-    user: users.user,
-  },
-  {
-    items: [items.moryoniyDub],
-    status: OrderStatusEnum.REFUND_APPROVED,
-    user: users.user,
-  },
-  {
-    items: [items.paduk, items.yantar],
-    status: OrderStatusEnum.REFUND_REJECTED,
-    user: users.user,
-  },
+  // {
+  //   items: [items.bubing, items.vayoMini],
+  //   status: OrderStatusEnum.ON_HOLD,
+  //   user: users.mkdir,
+  // },
+  // {
+  //   items: [items.jalaBig],
+  //   status: OrderStatusEnum.PARTIALLY_COMPLETED,
+  //   user: users.moderator,
+  // },
+  // {
+  //   items: [items.jalaMini, items.venge],
+  //   status: OrderStatusEnum.PENDING,
+  //   user: users.moderator,
+  // },
+  // {
+  //   items: [items.leela],
+  //   status: OrderStatusEnum.PROCESSING,
+  //   user: users.moderator,
+  // },
+  // {
+  //   items: [items.master, items.yamunaMini],
+  //   status: OrderStatusEnum.REFUNDED,
+  //   user: users.user,
+  // },
+  // {
+  //   items: [items.moryoniyDub],
+  //   status: OrderStatusEnum.REFUND_APPROVED,
+  //   user: users.user,
+  // },
+  // {
+  //   items: [items.paduk, items.yantar],
+  //   status: OrderStatusEnum.REFUND_REJECTED,
+  //   user: users.user,
+  // },
   {
     items: [items.prithviBig],
     status: OrderStatusEnum.REFUND_REQUESTED,

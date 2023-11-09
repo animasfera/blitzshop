@@ -1,12 +1,11 @@
-import { Item, Price } from "db"
+import { Image, ImageToItem, Item } from "db"
 
 import { ItemsListItemTitle } from "src/items/components/ItemsListItemTitle"
 import { ItemsListItemColor } from "src/items/components/ItemsListItemColor"
 import { ItemsListItemPrice } from "src/items/components/ItemsListItemPrice"
-import { Money } from "src/core/components/Money"
 
 interface ItemsListItemInfoProps {
-  item: Item & { amount: Price }
+  item: Item & { images: (ImageToItem & { image: Image })[] }
 }
 
 export const ItemsListItemInfo = (props: ItemsListItemInfoProps) => {
@@ -19,7 +18,7 @@ export const ItemsListItemInfo = (props: ItemsListItemInfoProps) => {
         <ItemsListItemColor item={item} />
       </div>
 
-      <ItemsListItemPrice amount={item.amount} ceil />
+      <ItemsListItemPrice price={item.price} currency={item.currency} ceil />
     </div>
   )
 }

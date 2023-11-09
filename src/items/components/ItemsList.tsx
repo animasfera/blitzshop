@@ -1,19 +1,15 @@
-import { Category, ImageToItem, Image, Item, Price, Prisma, Cart, CartToItem } from "db"
+import { Category, ImageToItem, Image, Item, Prisma, Cart, CartToItem } from "db"
 
 import { ItemsListItem } from "src/items/components/itemsListItem"
 
 interface ItemsListProps {
-  items: (Item & {
-    amount: Price
+  items: (Item & { images: (ImageToItem & { image: Image })[] } & {
     category: Category | null
     _count: Prisma.ItemCountOutputType
-    coverImage: ImageToItem & {
-      image: Image
-    }
   })[]
   isLoading: boolean
 
-  handleClick: (item: Item & { amount: Price }) => Promise<void>
+  handleClick: (item: Item) => Promise<void>
 }
 
 export const ItemsList = (props: ItemsListProps) => {
@@ -22,7 +18,7 @@ export const ItemsList = (props: ItemsListProps) => {
   return (
     <ul className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 px-2">
       {items.map((item) => (
-        <ItemsListItem key={item.id} item={item} isLoading={isLoading} handleClick={handleClick} />
+        <ItemsListItem key={item.id} item={item} isLoading={isLoading} />
       ))}
     </ul>
   )

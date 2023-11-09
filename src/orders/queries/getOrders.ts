@@ -30,12 +30,10 @@ export default resolver.pipe(
           where,
           orderBy,
           include: {
-            amount: true,
             shippingMethod: true,
             user: { select: { id: true, email: true, username: true } },
-            purchasedItems: {
+            items: {
               include: {
-                amount: true,
                 category: true,
                 coverImage: true,
                 item: {

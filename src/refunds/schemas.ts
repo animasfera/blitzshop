@@ -10,6 +10,7 @@ export const CreateRefundSchema = RefundModel.pick({
   processedById: true,
   orderId: true,
   userId: true,
+  invoiceId: true,
 })
 
 export const UpdateRefundSchema = z.object({

@@ -1,14 +1,14 @@
 import { useTranslation } from "react-i18next"
-import { Price, OrderStatusEnum } from "db"
 
 import { Money } from "src/core/components/Money"
+import { Order } from "@prisma/client"
 
 interface AdminOrderSummeryPriceProps {
-  amount: Price
+  order: Order
 }
 
 export const AdminOrderSummeryPrice = (props: AdminOrderSummeryPriceProps) => {
-  const { amount } = props
+  const { order } = props
 
   const { t } = useTranslation(["pages.admin.orderId"])
 
@@ -17,19 +17,19 @@ export const AdminOrderSummeryPrice = (props: AdminOrderSummeryPriceProps) => {
       <div className="flex items-center justify-between">
         <dt className="text-sm">Subtotal</dt>
         <dd className="text-sm font-medium text-gray-900">
-          <Money amount={amount.amount} currency={amount.currency} />
+          <Money amount={order.subtotal} currency={order.currency} />
         </dd>
       </div>
       <div className="flex items-center justify-between">
         <dt className="text-sm">Shipping</dt>
         <dd className="text-sm font-medium text-gray-900">
-          <Money amount={0} currency={amount.currency} />
+          <Money amount={order.shippingFee} currency={order.currency} />
         </dd>
       </div>
       <div className="flex items-center justify-between border-t border-gray-200 pt-6">
         <dt className="text-base font-medium">Total</dt>
         <dd className="text-base font-medium text-gray-900">
-          <Money amount={amount.amount + 0} currency={amount.currency} />
+          <Money amount={order.total} currency={order.currency} />
         </dd>
       </div>
     </dl>

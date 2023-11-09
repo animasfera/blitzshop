@@ -24,7 +24,7 @@ export const AdminOrderController = () => {
 
   const shippingOptions: OptionSelectField[] = Object.values(OrderStatusesArray).map(
     ({ value, nameEn, nameRu }) => ({
-      label: i18n.resolvedLanguage === LocaleEnum.RU ? nameRu : nameEn,
+      label: i18n.resolvedLanguage === LocaleEnum.ru ? nameRu : nameEn,
       value: value,
     })
   )
@@ -34,7 +34,7 @@ export const AdminOrderController = () => {
       shippingOptions.find((el) => status === el.value) ?? {
         value: OrderStatusesEnum[status].value,
         label:
-          i18n.resolvedLanguage === LocaleEnum.RU
+          i18n.resolvedLanguage === LocaleEnum.ru
             ? OrderStatusesEnum[status].nameRu
             : OrderStatusesEnum[status].nameEn,
       }
@@ -53,13 +53,13 @@ export const AdminOrderController = () => {
 
     if (isExistStatus) {
       const res = await updateOrderMutation({ id: order.id, ...values })
-      await updateOrderLogMutation({ id: order.orderLogId, ...values })
+      await updateOrderLogMutation({ id: order.logId, ...values })
 
       setStatusOrder(handleStatusOrder(res.status))
     } else if (isExistOrder) {
       await updateOrderMutation({ id: order.id, ...values })
     } else if (isExistOrderLog) {
-      await updateOrderLogMutation({ id: order.orderLogId, ...values })
+      await updateOrderLogMutation({ id: order.logId, ...values })
     } else {
       await updateShippingAddressMutation({ id: order.shippingAddressId, ...values })
     }

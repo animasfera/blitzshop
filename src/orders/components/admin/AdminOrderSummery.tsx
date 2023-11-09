@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next"
 import {
   Order,
-  Price,
   ShippingAddress,
   ShippingMethod,
   PurchasedItem,
@@ -28,18 +27,15 @@ interface AdminOrderSummeryProps {
       lastName: string | null
       phone: string | null
     }
-    amount: Price
     shippingMethod: ShippingMethod | null
     shippingAddress:
       | (ShippingAddress & {
           country: Country
         })
       | null
-    purchasedItems: (PurchasedItem & {
-      amount: Price
+    items: (PurchasedItem & {
       category: Category | null
       item: Item & {
-        amount: Price
         user: {
           email: string
           id: number
@@ -67,8 +63,8 @@ export const AdminOrderSummery = (props: AdminOrderSummeryProps) => {
       <HeadingSection title={t("summary.title")} />
 
       <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
-        <AdminOrderSummeryList purchasedItems={order.purchasedItems} />
-        <AdminOrderSummeryPrice amount={order.amount} />
+        <AdminOrderSummeryList purchasedItems={order.items} />
+        <AdminOrderSummeryPrice order={order} />
 
         {/*
         <Select

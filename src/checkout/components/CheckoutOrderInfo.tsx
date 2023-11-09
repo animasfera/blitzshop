@@ -2,15 +2,16 @@ import React, { ReactElement } from "react"
 import { useTranslation } from "react-i18next"
 
 import { Money } from "src/core/components/Money"
-import { cartClient } from "src/core/hooks/useCart"
 
 interface CheckoutOrderInfoProps {
-  cart: cartClient
   children: ReactElement | ReactElement[]
+  subtotal: number
+  shipping?: number
+  total: number
 }
 
 export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
-  const { cart, children } = props
+  const { children, total, subtotal, shipping } = props
 
   const { t } = useTranslation(["pages.checkout"])
 
@@ -32,12 +33,7 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
       <dl>
         <dt className="text-sm font-medium">{t("order.total")}</dt>
         <dd className="mt-1 text-3xl font-bold tracking-tight text-white">
-          <Money
-            // TODO: в корзине не записывается сумма товаров
-            // TODO: cart.getTotal() возвращает только сумму без валюты
-            amount={cart.cart.amount.amount}
-            currency={cart.cart.amount.currency}
-          />
+          <Money amount={total} currency={"EUR"} />
         </dd>
       </dl>
 
@@ -47,29 +43,39 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
         <div className="flex items-center justify-between">
           <dt>{t("order.subtotal")}</dt>
           <dd>
-            <Money amount={cart.getTotal()} currency={"EUR"} />
+            <Money
+              // $570.00
+              amount={subtotal}
+              currency={"EUR"}
+            />
           </dd>
         </div>
 
         <div className="flex items-center justify-between">
           <dt>{t("order.shipping")}</dt>
           <dd>
-            <Money amount={2500} currency={"EUR"} />
+            {shipping ? (
+              <Money
+                // $25.00
+                amount={shipping}
+                currency={"EUR"}
+              />
+            ) : (
+              "?"
+            )}
           </dd>
         </div>
 
-        {/*
-        <div className="flex items-center justify-between">
-          <dt>{t("order.taxes")}</dt>
-          <dd>
-            <Money
-              // $47.60
-              amount={4760}
-              currency={"USD"}
-            />
-          </dd>
-        </div>
-        */}
+        {/*<div className="flex items-center justify-between">*/}
+        {/*  <dt>{t("order.taxes")}</dt>*/}
+        {/*  <dd>*/}
+        {/*    <Money*/}
+        {/*      // $47.60*/}
+        {/*      amount={4760}*/}
+        {/*      currency={"USD"}*/}
+        {/*    />*/}
+        {/*  </dd>*/}
+        {/*</div>*/}
 
         {/*
         <div className="flex items-center justify-between border-t border-white border-opacity-10 pt-6 text-white">
@@ -77,8 +83,8 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
           <dd className="text-base">
             <Money
               // $642.60
-              amount={64260}
-              currency={"USD"}
+              amount={total}
+              currency={"EUR"}
             />
           </dd>
         </div>

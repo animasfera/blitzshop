@@ -14,28 +14,18 @@ export const CreateInvoiceSchema = InvoiceModel.pick({
   originalInvoiceId: true,
 })
 
-export const UpdateInvoiceSchema = z.object({
-  id: z.number(),
-  data: InvoiceModel.pick({
-    status: true,
-    amount: true,
-  })
-    .partial()
-    .merge(withIdOfSchema(InvoiceModel)),
+export const UpdateInvoiceSchema = InvoiceModel.pick({
+  status: true,
+  notes: true,
 })
+  .partial({
+    status: true,
+    notes: true,
+  })
+  .merge(withIdOfSchema(InvoiceModel))
 
 export const DeleteInvoiceSchema = z.object({
   id: z.number(),
 })
 
-export const StartRefundSchema = z.object({
-  invoice: InvoiceModel.pick({ id: true }),
-  transaction: TransactionModel.pick({
-    amount: true,
-    amountId: true,
-    feeTotal: true,
-  }).optional(),
-})
-
-export type StartRefundType = z.infer<typeof StartRefundSchema>
 export type UpdateInvoiceType = z.infer<typeof UpdateInvoiceSchema>
