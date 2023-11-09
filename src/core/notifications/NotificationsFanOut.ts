@@ -1,6 +1,6 @@
-import { NotificationsQueue } from "../queues"
+// import { NotificationsQueue } from "../queues"
 import { ChannelsType, UserFiltered } from "./types"
-import { LocaleType } from "../../../types"
+// import { LocaleType } from "../../../types"
 
 const channelToField = {
   telegram: "telegramBotChatId",
@@ -9,11 +9,12 @@ const channelToField = {
 }
 
 export const NotificationFanOut = (data: {
-  locale: LocaleType
-  users: UserFiltered[]
-  channels: ChannelsType
+  // locale: LocaleType
+  // users: UserFiltered[]
+  // channels: ChannelsType
 }) => {
   try {
+    /*
     // get data for all channels
     // send data to each queue by channel
     for (var channelType in data.channels) {
@@ -36,4 +37,7 @@ export const NotificationFanOut = (data: {
   } catch (e) {
     console.error(e)
   }
+
+     */
+  } catch (e) {}
 }

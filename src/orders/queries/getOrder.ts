@@ -13,8 +13,7 @@ export default resolver.pipe(resolver.zod(GetOrder), resolver.authorize(), async
   const order = await db.order.findFirst({
     where: { id },
     include: {
-      amount: true,
-      orderLog: true,
+      log: true,
       shippingMethod: true,
       shippingAddress: {
         include: { country: true },
@@ -29,13 +28,12 @@ export default resolver.pipe(resolver.zod(GetOrder), resolver.authorize(), async
           phone: true,
         },
       },
-      purchasedItems: {
+      items: {
         include: {
-          amount: true,
           category: true,
           coverImage: true,
           item: {
-            include: { user: { select: { email: true, id: true, username: true } }, amount: true },
+            include: { user: { select: { email: true, id: true, username: true } } },
           },
         },
       },

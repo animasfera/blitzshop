@@ -1,7 +1,6 @@
 import { LocaleEnum, NotificationTypeEnum } from "@prisma/client"
 
 import { mailer } from "src/core/mailer/Mailer"
-import createNotification from "src/notifications/mutations/createNotification"
 import createMockContext from "src/auth/components/CreateMockContext"
 import { MailerOptions, mailSenderWithQueue } from "./index"
 import { UserMailProps } from "types"
@@ -17,7 +16,7 @@ export function confirmEmailAddressMailer(
 ) {
   return mailSenderWithQueue("confirmEmailAddressMailer", params, options || {}, async () => {
     const { user, token } = params
-    const lang = user.locale || options?.lang || LocaleEnum.EN
+    const lang = user.locale || options?.lang || LocaleEnum.en
 
     const origin = process.env.SITE_URL || ""
     const siteName = process.env.SITE_NAME || ""
@@ -34,19 +33,6 @@ export function confirmEmailAddressMailer(
     } as any
 
     const { ctx } = await createMockContext({ user })
-
-    await createNotification(
-      {
-        userId: user.id,
-        type: NotificationTypeEnum.WARNING,
-        message: `Для завершения регистрации, пожалуйста, <a href="${confirmEmailUrl}">подтвердите ваш e-mail</a>.`,
-        isHtml: true,
-        jsonData: JSON.parse(
-          `Для завершения регистрации, пожалуйста, <a href="${confirmEmailUrl}">подтвердите ваш e-mail</a>.`
-        ),
-      },
-      ctx
-    )
 
     const message = await mailer.translate("confirmEmailAddressMailer", mailParams, lang)
 

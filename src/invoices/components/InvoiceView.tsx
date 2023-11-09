@@ -99,7 +99,7 @@ export const InvoiceView = (props: {
               invoice.order.status === OrderStatusEnum.COMPLETED && (
                 <>
                   <GridItem fontWeight={"bold"}>{t("order")} #</GridItem>
-                  <GridItem>{invoice.orderId}</GridItem>
+                  <GridItem>{invoice.order.id}</GridItem>
                 </>
               )
             }
@@ -112,7 +112,7 @@ export const InvoiceView = (props: {
                   OrderStatusEnum.REFUND_REQUESTED) && (
                 <>
                   <GridItem fontWeight={"bold"}>{t("order")} #</GridItem>
-                  <GridItem>{invoice.orderId}</GridItem>
+                  <GridItem>{invoice.order.id}</GridItem>
                 </>
               )
             }

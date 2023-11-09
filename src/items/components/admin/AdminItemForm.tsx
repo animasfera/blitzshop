@@ -60,7 +60,7 @@ export function AdminItemForm<S extends z.ZodType<any, any>>(props: AdminItemFor
             <div className="sm:col-span-4 lg:col-span-5">
               <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
                 <img
-                  src={item.coverImage.image.url}
+                  src={item.images[0]?.image.url}
                   alt={item.title}
                   className="object-cover object-center"
                 />

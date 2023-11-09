@@ -9,7 +9,6 @@ import {
 } from "@prisma/client"
 
 import createMockContext, { createAdminMockContext } from "src/auth/components/CreateMockContext"
-import startRefundPayment from "src/invoices/mutations/startRefundPayment"
 import { GlobalRef } from "../index"
 
 /**
@@ -61,25 +60,12 @@ export const processInvoicesCronJob = async (job) => {
   }
 }
 
-const processRefundInvoice = async (job) => {
-  console.log("Запуск processRefundInvoice")
-  const { id } = job.data
-
-  try {
-    const ctx = await createAdminMockContext()
-    await startRefundPayment({ invoice: { id } }, ctx)
-  } catch (e) {
-    console.error(e)
-  }
-}
-
 export const initInvoicesQueue = () => {
   console.log("Started Invoices Queue")
 
   const invoicesQueue = new Queue("invoices")
 
   void invoicesQueue.process("cronFindInvoicesToStart", processInvoicesCronJob)
-  void invoicesQueue.process("processRefundInvoice", processRefundInvoice)
 
   return invoicesQueue
 }

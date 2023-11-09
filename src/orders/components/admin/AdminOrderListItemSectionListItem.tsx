@@ -79,7 +79,7 @@ export const AdminOrderListItemSectionListItem = (
             variant={"link"}
             size={"sm"}
             buttonText={!value ? t("translation:create") : t("translation:edit")}
-            handleClick={() => {
+            onClick={() => {
               setChange(!isChange)
             }}
           />

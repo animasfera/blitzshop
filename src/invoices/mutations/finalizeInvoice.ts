@@ -57,7 +57,6 @@ export const finalizeInvoiceDbQuery = async ({ id }, ctx, $db: PrismaDbType) => 
       creditNotes: true,
       order: true,
       originalInvoice: true,
-      paymentMethod: true,
       transactions: true,
     },
   })

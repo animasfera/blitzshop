@@ -62,14 +62,10 @@ export type ItemFull = Item & {
   _count: Prisma.ItemCountOutputType
   price: number
   currency: CurrencyEnum
-  cartToItems: CartToItem[]
   category: Category | null
-  chatRoom: ChatRoom | null
   images: (ImageToItem & { image: Image })[]
-  invoices: Invoice[]
   location: Location | null
   user: User | null
-  purchasedItems: PurchasedItem[]
   reviews: Review[]
 }
 

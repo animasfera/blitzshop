@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { useTranslation } from "react-i18next"
-import { Order, Price, ShippingMethod, PurchasedItem, Category, Image, Item } from "db"
+import { Order, ShippingMethod, PurchasedItem, Category, Image, Item } from "db"
 import { Routes } from "@blitzjs/next"
 
 interface OrderListItemProps {
@@ -10,10 +10,8 @@ interface OrderListItemProps {
       email: string
       username: string
     }
-    amount: Price
     shippingMethod: ShippingMethod | null
-    purchasedItems: (PurchasedItem & {
-      amount: Price
+    items: (PurchasedItem & {
       category: Category | null
       item: Item & {
         user: {

@@ -1,9 +1,6 @@
 import { useTranslation } from "react-i18next"
-import { RadioGroup } from "@headlessui/react"
-import { CheckCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
 import {
   Order,
-  Price,
   ShippingAddress,
   ShippingMethod,
   PurchasedItem,
@@ -21,9 +18,7 @@ import { HeadingPage } from "src/core/tailwind-ui/headings/HeadingPage"
 import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { AdminOrderList } from "src/orders/components/admin/AdminOrderList"
 import { AdminOrderSummery } from "src/orders/components/admin/AdminOrderSummery"
-import { ShippingsFeeTypeEnum } from "src/core/enums/ShippingFeeTypeEnum"
 import { OrderStatusesEnum } from "src/core/enums/OrderStatusEnum"
-import { SelectSubmit } from "src/core/tailwind-ui/application-ui/forms/SelectSubmit"
 
 interface AdminOrderProps {
   order: Order & {
@@ -35,19 +30,16 @@ interface AdminOrderProps {
       lastName: string | null
       phone: string | null
     }
-    amount: Price
-    orderLog: OrderLog
+    log: OrderLog
     shippingMethod: ShippingMethod | null
     shippingAddress:
       | (ShippingAddress & {
           country: Country
         })
       | null
-    purchasedItems: (PurchasedItem & {
-      amount: Price
+    items: (PurchasedItem & {
       category: Category | null
       item: Item & {
-        amount: Price
         user: {
           email: string
           id: number
@@ -95,15 +87,15 @@ export const AdminOrder = (props: AdminOrderProps) => {
   const { t, i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
   const orderStatus =
-    i18n.resolvedLanguage === LocaleEnum.RU
+    i18n.resolvedLanguage === LocaleEnum.ru
       ? OrderStatusesEnum[order.status].nameRu
       : OrderStatusesEnum[order.status].nameEn
 
-  const feeType = order.shippingMethod?.feeType
-    ? i18n.resolvedLanguage === LocaleEnum.RU
-      ? ShippingsFeeTypeEnum[order.shippingMethod?.feeType].nameRu
-      : ShippingsFeeTypeEnum[order.shippingMethod?.feeType].nameEn
-    : null
+  // const feeType = order.shippingMethod?.feeType
+  //   ? i18n.resolvedLanguage === LocaleEnum.ru
+  //     ? ShippingsFeeTypeEnum[order.shippingMethod?.feeType].nameRu
+  //     : ShippingsFeeTypeEnum[order.shippingMethod?.feeType].nameEn
+  //   : null
 
   const orderData: ItemList[] = [
     {
@@ -121,7 +113,7 @@ export const AdminOrder = (props: AdminOrderProps) => {
     },
     {
       label: t("order.data.comment.label"),
-      value: order.orderLog.comment,
+      value: order.log.comment,
       button: { id: "comment" },
     },
   ]
@@ -165,7 +157,7 @@ export const AdminOrder = (props: AdminOrderProps) => {
     {
       label: t("order.shipping.list.country.label"),
       value:
-        i18n.resolvedLanguage === LocaleEnum.RU
+        i18n.resolvedLanguage === LocaleEnum.ru
           ? order.shippingAddress?.country.titleRu
           : order.shippingAddress?.country.titleEn,
     },
@@ -186,25 +178,25 @@ export const AdminOrder = (props: AdminOrderProps) => {
     },
   ]
 
-  const delivery: ItemList[] = [
-    {
-      label: t("order.delivery.list.title.label"),
-      value: order.shippingMethod?.title,
-    },
-    {
-      label: t("order.delivery.list.description.label"),
-      value: order.shippingMethod?.description,
-    },
-    {
-      label: t("order.delivery.list.feeType.label"),
-      value: feeType,
-    },
-    {
-      label: t("order.delivery.list.fee.label"),
-      // !!! поправить когда будет готова сумма доставки
-      value: feeType ? `${order.shippingMethod?.fee}` : null,
-    },
-  ]
+  // const delivery: ItemList[] = [
+  //   {
+  //     label: t("order.delivery.list.title.label"),
+  //     value: order.shippingMethod?.title,
+  //   },
+  //   {
+  //     label: t("order.delivery.list.description.label"),
+  //     value: order.shippingMethod?.description,
+  //   },
+  //   {
+  //     label: t("order.delivery.list.feeType.label"),
+  //     value: feeType,
+  //   },
+  //   {
+  //     label: t("order.delivery.list.fee.label"),
+  //     // !!! поправить когда будет готова сумма доставки
+  //     value: feeType ? `${order.shippingMethod?.fee}` : null,
+  //   },
+  // ]
 
   const sections = [
     {
@@ -218,10 +210,10 @@ export const AdminOrder = (props: AdminOrderProps) => {
       title: t("order.shipping.title"),
       list: shipping,
     },
-    {
-      title: t("order.delivery.title"),
-      list: delivery,
-    },
+    // {
+    //   title: t("order.delivery.title"),
+    //   list: delivery,
+    // },
   ]
 
   return (

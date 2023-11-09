@@ -33,9 +33,11 @@ function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
   let CertainAuthForm = authForm === "login" ? LoginForm : SignupForm
 
   if (error instanceof AuthenticationError) {
-    <Suspense fallback={<>"Loading..."</>}>
-      <CertainAuthForm onSuccess={resetErrorBoundary} onNavigate={(link) => setAuthForm(link)} />
-    </Suspense>
+    return (
+      <Suspense fallback={<>"Loading..."</>}>
+        <CertainAuthForm onSuccess={resetErrorBoundary} onNavigate={(link) => setAuthForm(link)} />
+      </Suspense>
+    )
   } else if (error instanceof AuthorizationError) {
     return (
       <Layout title={`${error.statusCode}: ${t("authorized.header.title")}`}>

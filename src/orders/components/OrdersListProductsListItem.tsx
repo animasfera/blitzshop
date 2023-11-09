@@ -1,14 +1,13 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useTranslation } from "react-i18next"
-import { Price, PurchasedItem, Category, Image as ImageDb, Item, LocaleEnum } from "db"
+import { PurchasedItem, Category, Image as ImageDb, Item, LocaleEnum } from "db"
 import { Routes } from "@blitzjs/next"
 
 import { Money } from "src/core/components/Money"
 
 interface OrderListProductsListItemProps {
   item: PurchasedItem & {
-    amount: Price
     category: Category | null
     item: Item & {
       user: {
@@ -44,12 +43,12 @@ export const OrdersListProductsListItem = (props: OrderListProductsListItemProps
             <span>{item.description}</span>{" "}
             {item.category && (
               <span>
-                {i18n.language === LocaleEnum.RU ? item.category.titleRu : item.category.titleEn}
+                {i18n.language === LocaleEnum.ru ? item.category.titleRu : item.category.titleEn}
               </span>
             )}
           </p>
           <p className="mt-1 font-medium text-gray-900">
-            <Money amount={item.amount.amount} currency={item.amount.currency} />
+            <Money amount={item.price} currency={item.currency} />
           </p>
         </div>
       </div>

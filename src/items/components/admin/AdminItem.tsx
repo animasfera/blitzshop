@@ -19,7 +19,7 @@ const AdminItem = (props: IAdminItem) => {
             <button onClick={() => onItemClick(item)}>
               <img
                 className="h-20 w-20 rounded-md object-cover object-center"
-                src={item.coverImage.image.url}
+                src={item.images[0]?.image.url}
                 alt=""
               />
             </button>
@@ -37,10 +37,7 @@ const AdminItem = (props: IAdminItem) => {
             {item.qty}
           </td>
           <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-            <Button
-              buttonText={"Редактировать"}
-              handleClick={() => onEditClick && onEditClick(item)}
-            />
+            <Button buttonText={"Редактировать"} onClick={() => onEditClick && onEditClick(item)} />
           </td>
         </tr>
       )}

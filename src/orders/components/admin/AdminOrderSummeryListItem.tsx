@@ -3,20 +3,14 @@ import Image from "next/image"
 import { Routes } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 import { useMediaQuery } from "react-responsive"
-import { RadioGroup } from "@headlessui/react"
-import { CheckCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
-import { Price, PurchasedItem, Category, Item, Image as ImageDb, LocaleEnum } from "db"
+import { PurchasedItem, Category, Item, Image as ImageDb } from "db"
 
 import { Money } from "src/core/components/Money"
-import { ShippingsArray } from "src/core/enums/ShippingFeeTypeEnum"
-import { SelectSubmit } from "src/core/tailwind-ui/application-ui/forms/SelectSubmit"
 
 interface AdminOrderSummeryListItemProps {
   purchasedItem: PurchasedItem & {
-    amount: Price
     category: Category | null
     item: Item & {
-      amount: Price
       user: {
         email: string
         id: number
@@ -33,7 +27,6 @@ export const AdminOrderSummeryListItem = (props: AdminOrderSummeryListItemProps)
 
   const { i18n } = useTranslation(["pages.admin.orderId"])
   const isFullScreen = useMediaQuery({ query: "(min-width: 1100px)" })
-
 
   return (
     <li
@@ -83,7 +76,7 @@ export const AdminOrderSummeryListItem = (props: AdminOrderSummeryListItemProps)
 
         <div className="flex flex-1 items-end justify-between pt-2">
           <p className="mt-1 text-sm font-medium text-gray-900">
-            <Money amount={item.amount.amount} currency={item.amount.currency} />
+            <Money amount={item.price} currency={item.currency} />
           </p>
 
           {/*

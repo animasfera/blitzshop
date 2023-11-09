@@ -1,8 +1,6 @@
 import React, { PropsWithChildren, useState } from "react"
 import { useTranslation } from "react-i18next"
 
-import { ShippingForm } from "src/checkout/components/ShippingForm"
-
 interface CheckoutPaymentProps extends PropsWithChildren {}
 
 export const CheckoutPayment = (props: CheckoutPaymentProps) => {

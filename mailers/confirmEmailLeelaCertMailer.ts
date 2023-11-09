@@ -17,7 +17,7 @@ export function confirmEmailLeelaCertMailer(
 ) {
   return mailSenderWithQueue("confirmEmailLeelaCertMailer", params, options || {}, async () => {
     const { user, token } = params
-    const lang = user.locale || options?.lang || LocaleEnum.EN
+    const lang = user.locale || options?.lang || LocaleEnum.en
 
     const origin = process.env.SITE_URL
     const siteName = process.env.SITE_NAME

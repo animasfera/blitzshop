@@ -17,8 +17,8 @@ export const OrderModel = z.object({
   logId: z.number().int(),
   shippingMethodId: z.number().int().nullish(),
   userId: z.number().int(),
-  invoiceId: z.number().int(),
   shippingAddressId: z.number().int().nullish(),
+  invoiceId: z.number().int(),
 })
 
 export interface CompleteOrder extends z.infer<typeof OrderModel> {
@@ -26,7 +26,7 @@ export interface CompleteOrder extends z.infer<typeof OrderModel> {
   shippingMethod?: CompleteShippingMethod | null
   user: CompleteUser
   items: CompletePurchasedItem[]
-  shippingAddresses: CompleteShippingAddress[]
+  shippingAddress?: CompleteShippingAddress | null
   refunds: CompleteRefund[]
   invoice: CompleteInvoice
 }
@@ -41,7 +41,7 @@ export const RelatedOrderModel: z.ZodSchema<CompleteOrder> = z.lazy(() => OrderM
   shippingMethod: RelatedShippingMethodModel.nullish(),
   user: RelatedUserModel,
   items: RelatedPurchasedItemModel.array(),
-  shippingAddresses: RelatedShippingAddressModel.array(),
+  shippingAddress: RelatedShippingAddressModel.nullish(),
   refunds: RelatedRefundModel.array(),
   invoice: RelatedInvoiceModel,
 }))

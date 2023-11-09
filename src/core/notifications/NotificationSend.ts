@@ -1,12 +1,7 @@
 import db from "db"
 import { NotificationFanOut } from "./NotificationsFanOut"
-import { NotificationsChannel } from "@prisma/client"
-import {
-  NewNotificationParams,
-  CreateNotificationType,
-  UserFiltered,
-  CreateNotificationWithReceiver,
-} from "./types"
+// import { NotificationsChannel } from "@prisma/client"
+import { UserFiltered, CreateNotificationWithReceiver } from "./types"
 import { NotificationRenderByChannel } from "./NotificationRenderByChannel"
 
 export const NotificationSend = async ({
@@ -14,6 +9,7 @@ export const NotificationSend = async ({
   channels,
   data,
 }: CreateNotificationWithReceiver) => {
+  /*
   const notificationsByChannel = await NotificationRenderByChannel(data, channels)
   let users = await db.user.findMany({
     where: {
@@ -60,4 +56,5 @@ export const NotificationSend = async ({
       users: usersByLocale[localeNotifications.locale],
     })
   })
+   */
 }

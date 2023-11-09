@@ -45,16 +45,7 @@ export const finalizeTransactionDbQuery = async (
   let data = {
     lastUpdated: { increment: 1 },
     status: TransactionStatusEnum.FINISHED,
-    moneyAccount: {
-      update: {
-        balance: {
-          increment: transaction.netId,
-        },
-      },
-    },
   } as Prisma.TransactionUpdateInput
-
-  console.log("Will finalize transaction")
 
   if (remoteTransactionId) {
     data.remoteTransactionId = remoteTransactionId + "" // To string conversion

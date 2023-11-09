@@ -13,7 +13,7 @@ export const CheckoutOrderItemsList = (props: CheckoutOrderItemsListProps) => {
   return (
     <ul role="list" className="divide-y divide-white divide-opacity-10 text-sm font-medium">
       {items.map((item) => (
-        <CheckoutOrderItemsListItem key={item.itemId} item={item} />
+        <CheckoutOrderItemsListItem key={item.itemId} item={item} currency={"EUR"} />
       ))}
     </ul>
   )
