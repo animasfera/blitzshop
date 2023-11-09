@@ -19,13 +19,12 @@ export const finalizeInvoiceDbQuery = async ({ id }, ctx, $db: PrismaDbType) => 
   if (!invoice) {
     throw new NotFoundError()
   }
-  console.log("invoice was found again")
 
   if (
     invoice.status !== InvoiceStatusEnum.PARTIALLY_PAID &&
     invoice.status !== InvoiceStatusEnum.PENDING
   ) {
-    throw new Error(`${cantFinalizeErrorMsg} no transactions are found`)
+    throw new Error(`${cantFinalizeErrorMsg} invoice is not in pending status`)
   }
 
   if (!invoice.transactions || invoice.transactions.length === 0) {
@@ -43,26 +42,21 @@ export const finalizeInvoiceDbQuery = async ({ id }, ctx, $db: PrismaDbType) => 
   const invoiceUpdateResult = await $db.invoice.updateMany({
     where: {
       id: invoice.id,
-      // lastUpdated: invoice.lastUpdated,
     },
     data: {
-      // lastUpdated: { increment: 1 },
-      status: InvoiceStatusEnum.PARTIALLY_PAID,
+      status: InvoiceStatusEnum.PAID,
     },
   })
   if (!invoiceUpdateResult.count) {
-    throw new Error("Can't update invoice - the data has changed")
+    throw new Error("Can't update invoice")
   }
 
   const invoiceUpdated = await $db.invoice.findUnique({
     where: { id },
     include: {
-      amount: true,
       creditNotes: true,
       order: true,
       originalInvoice: true,
-      parentItem: true,
-      paymentMethod: true,
       transactions: true,
     },
   })

@@ -2,19 +2,9 @@ import db from "db"
 
 import { items } from "./data"
 import { ItemSeed } from "./types"
+import { CurrencyEnum } from "@prisma/client"
 
 const createDataItems = async (obj: ItemSeed) => {
-  let coverImage = await db.image.findFirst({
-    where: {
-      AND: { title: obj.coverImage.image.title, url: obj.coverImage.image.url },
-    },
-    select: { id: true, title: true, description: true, url: true },
-  })
-
-  let imageToItem = coverImage
-    ? await db.imageToItem.findFirst({ where: { imageId: coverImage?.id } })
-    : null
-
   let category
 
   if (!!obj?.category?.titleEn && !!obj?.category?.titleRu) {
@@ -22,24 +12,6 @@ const createDataItems = async (obj: ItemSeed) => {
       where: { OR: { titleEn: obj.category.titleEn, titleRu: obj.category.titleRu } },
     })
   }
-
-  if (!coverImage) {
-    coverImage = await db.image.create({
-      data: obj.coverImage.image,
-      select: { id: true, title: true, description: true, url: true },
-    })
-  }
-
-  if (!imageToItem) {
-    imageToItem = await db.imageToItem.create({
-      data: { imageId: coverImage.id },
-    })
-  }
-
-  const amount = await db.price.create({
-    data: obj.amount,
-    select: { id: true, amount: true, currency: true },
-  })
 
   if (!category && !!obj.category) {
     category = await db.category.create({ data: { ...obj.category, numItems: 1 } })
@@ -50,8 +22,15 @@ const createDataItems = async (obj: ItemSeed) => {
       title: obj.title,
       access: obj.access ?? undefined,
       status: obj.status ?? null,
-      coverImageId: imageToItem.id,
-      amountId: amount.id,
+      images: {
+        create: {
+          image: {
+            create: obj.image,
+          },
+        },
+      },
+      price: obj.price,
+      currency: CurrencyEnum.EUR,
       categoryId: category.id,
       images: { connect: { id: imageToItem.id } },
     },

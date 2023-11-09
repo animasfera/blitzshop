@@ -1,9 +1,7 @@
 import { Prisma, Item } from "db"
+import { CurrencyEnum } from "@prisma/client"
 
 export type ItemSeed = Item & {
-  coverImage: Prisma.ImageToItemCreateInput & {
-    image: Prisma.ImageCreateInput
-  }
-  amount: Prisma.PriceCreateInput
+  image: Prisma.ImageCreateInput
   category: Prisma.CategoryCreateInput
 }

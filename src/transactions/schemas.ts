@@ -11,12 +11,19 @@ export const CreateTransactionSchema = TransactionModel.pick({
   receiptUrl: true,
   status: true,
   type: true,
-  amountId: true,
-  feeTotalId: true,
-  netId: true,
+  amount: true,
+  feeTotal: true,
+  net: true,
   paymentMethodId: true,
   invoiceId: true,
-  userId: true,
+}).partial({
+  metadata: true,
+  description: true,
+  status: true,
+  feeTotal: true,
+  net: true,
+  paymentMethodId: true,
+  invoiceId: true,
 })
 
 export const UpdateTransactionSchema = z.object({

@@ -11,7 +11,6 @@ export const ImageToItemModel = z.object({
 export interface CompleteImageToItem extends z.infer<typeof ImageToItemModel> {
   image: CompleteImage
   item?: CompleteItem | null
-  itemCovers: CompleteItem[]
 }
 
 /**
@@ -22,5 +21,4 @@ export interface CompleteImageToItem extends z.infer<typeof ImageToItemModel> {
 export const RelatedImageToItemModel: z.ZodSchema<CompleteImageToItem> = z.lazy(() => ImageToItemModel.extend({
   image: RelatedImageModel,
   item: RelatedItemModel.nullish(),
-  itemCovers: RelatedItemModel.array(),
 }))

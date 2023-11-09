@@ -1,5 +1,4 @@
 import * as z from "zod"
-import { OrderStatusEnum } from "@prisma/client"
 import { CompleteOrder, RelatedOrderModel } from "./index"
 
 export const OrderLogModel = z.object({
@@ -7,7 +6,6 @@ export const OrderLogModel = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   comment: z.string().nullish(),
-  status: z.nativeEnum(OrderStatusEnum),
 })
 
 export interface CompleteOrderLog extends z.infer<typeof OrderLogModel> {

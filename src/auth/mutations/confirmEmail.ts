@@ -4,7 +4,6 @@ import db from "db"
 import { TokenTypeEnum, UserStatusEnum } from "@prisma/client"
 
 import { ConfirmEmail } from "../schemas"
-import deleteNotificationsByRef from "src/notifications/mutations/deleteNotificationsByRef"
 
 export class ConfirmEmailError extends Error {
   name = "ConfirmEmailError"
@@ -39,14 +38,6 @@ export default resolver.pipe(
         emailConfirmed: true,
       },
     })
-
-    await deleteNotificationsByRef(
-      {
-        userId: savedToken.userId,
-        // ref: "confirmEmail",
-      },
-      ctx
-    )
 
     return true
   }

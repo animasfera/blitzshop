@@ -5,7 +5,13 @@ export default resolver.pipe(resolver.authorize(), async ({ configs: configsUpda
   let transactions = [] as any
 
   for (var key in configsUpdatedData) {
-    const value = "" + configsUpdatedData[key]
+
+    let value = "" + configsUpdatedData[key]
+    if (value === "true") {
+      value = "1"
+    } else if (value === "false") {
+      value = "0"
+    }
     transactions.push(
       db.config.upsert({
         where: { key: key },

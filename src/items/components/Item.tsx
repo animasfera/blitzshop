@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { Category, Image, ImageToItem, Item as ItemDb, Price, Prisma, Review, User } from "db"
+import { Category, Image, ImageToItem, Item as ItemDb, Prisma, Review, User } from "db"
 
 import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
 import { ItemImages } from "src/items/components/ItemImages"
@@ -11,12 +11,8 @@ import { ItemPolicies } from "src/items/components/ItemPolicies"
 
 interface ItemProps {
   item: ItemDb & {
-    amount: Price
     category: Category | null
     _count: Prisma.ItemCountOutputType
-    coverImage: ImageToItem & {
-      image: Image
-    }
     images: (ImageToItem & {
       image: Image
     })[]
@@ -26,11 +22,11 @@ interface ItemProps {
   }
   isLoading: boolean
 
-  handleAddProductToCart: () => Promise<void>
+  onAddProductToCart: () => Promise<void>
 }
 
 export const Item = (props: ItemProps) => {
-  const { item, isLoading, handleAddProductToCart } = props
+  const { item, isLoading, onAddProductToCart } = props
 
   const { t } = useTranslation(["pages.products"])
 
@@ -42,7 +38,7 @@ export const Item = (props: ItemProps) => {
             <div className="lg:col-span-5 lg:col-start-8">
               <div className="flex justify-between">
                 <ItemTitle item={item} />
-                <ItemPrice amount={item.amount} />
+                <ItemPrice price={item.price} currency={item.currency} />
               </div>
               {
                 // <ItemReviews item={item} />
@@ -50,10 +46,10 @@ export const Item = (props: ItemProps) => {
             </div>
 
             <ItemImages
-              coverImage={item.coverImage}
+              coverImage={item.images[0]}
               // TODO: add images in seed
               // images={item.images}
-              images={[item.coverImage, item.coverImage, item.coverImage]}
+              images={item.images}
             />
 
             <div className="mt-8 lg:col-span-5">
@@ -64,7 +60,7 @@ export const Item = (props: ItemProps) => {
                 buttonText={t("buttons.add")}
                 disabled={isLoading}
                 styles={"w-full justify-center"}
-                handleClick={handleAddProductToCart}
+                onClick={onAddProductToCart}
               />
               <ItemDetails item={item} />
 

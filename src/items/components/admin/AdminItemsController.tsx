@@ -29,6 +29,7 @@ const AdminItemsController = () => {
       <Modal size="lg:w-1/2 sm:w-5/6" isOpen={showItemCard} onClose={() => setShowItemCard(false)}>
         <AdminItemCard item={currentItem} />
       </Modal>
+
       <AdminItemsControllerHeader />
       <ListOrNotFoundMessage
         countObjects={count}

@@ -1,15 +1,14 @@
 import { AuthenticationError, Ctx } from "blitz"
 import { SecurePassword } from "@blitzjs/auth/secure-password"
 import { resolver } from "@blitzjs/rpc"
-import db from "db"
-import { LocaleEnum, UserRoleEnum, UserStatusEnum } from "@prisma/client"
+import db, { LocaleEnum, UserRoleEnum, UserStatusEnum } from "db"
 
-import { Login } from "../schemas"
+import { Login } from "src/auth/schemas"
 import { LoginProhibitedError } from "src/core/errors/Errors"
 import getConfigs from "src/configs/queries/getConfigs"
-import getCart from "../../carts/queries/getCart"
-import createCart from "../../carts/mutations/createCart"
-import mergeCarts from "../../carts/mutations/mergeCarts"
+import getCart from "src/carts/queries/getCart"
+import createCart from "src/carts/mutations/createCart"
+import mergeCarts from "src/carts/mutations/mergeCarts"
 
 interface AuthenticateUserParams {
   rawEmail: string
@@ -86,7 +85,7 @@ export default resolver.pipe(
         lastName: user.lastName,
         avatarUrl: user.avatarUrl,
         timezone: user.timezone ?? "Etc/Greenwich",
-        locale: user.locale || LocaleEnum.EN,
+        locale: user.locale || LocaleEnum.en,
         currency: user.currency,
         buyingInCountries: user.buyingInCountries,
       },

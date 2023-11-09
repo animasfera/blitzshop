@@ -1,38 +1,24 @@
 import { useState } from "react"
-import { useSession } from "@blitzjs/auth"
-import { useMutation, useQuery, invalidateQuery } from "@blitzjs/rpc"
+import { useQuery } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
-
 import { Item } from "src/items/components/Item"
-import { useCurrency } from "src/core/hooks/useCurrency"
 import getItem from "src/items/queries/getItem"
-import getCart from "src/carts/queries/getCart"
-import addItemToCart from "../../cart-to-items/mutations/addItemToCart"
+import { useCart } from "../../core/hooks/useCart"
 
 export const ItemController = () => {
-  const sessionId = localStorage.getItem("sessionId")
-
   const [isLoading, setLoading] = useState(false)
-  const session = useSession()
-  const currency = useCurrency()
   const itemId = useParam("itemId", "number")
   const [item] = useQuery(getItem, { id: itemId })
-  const [cart] = useQuery(getCart, {})
-  const [addProductToCartMutation] = useMutation(addItemToCart)
+  const cartClient = useCart()
 
-  const isExistItem = cart ? cart.cartToItems.some((el) => el.itemId === item.id) : false
-
-  const handleAddProductToCart = async () => {
+  const onAddProductToCart = async () => {
     setLoading(true)
-
-    const res = await addProductToCartMutation({
-      itemId: item.id,
-    })
-    await invalidateQuery(getCart)
+    await cartClient.addItem({ itemId: item.id })
+    await cartClient.reloadCart()
     setLoading(false)
   }
 
-  return <Item item={item} isLoading={isLoading} handleAddProductToCart={handleAddProductToCart} />
+  return <Item item={item} isLoading={isLoading} onAddProductToCart={onAddProductToCart} />
 }
 
 export default ItemController

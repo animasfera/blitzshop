@@ -14,6 +14,7 @@ export default resolver.pipe(
     // TODO add types
     let _configs = {} as {
       allowLogin: boolean
+      allowSales: boolean
       allowAddSlots: boolean
       allowPaidGames: boolean
       allowPaymentsSgd: boolean
@@ -25,8 +26,7 @@ export default resolver.pipe(
       _configs[config.key] = formatConfig(config)
     })
 
-    return {
-      configs: _configs,
-    }
+  return {
+    configs: _configs,
   }
-)
+})

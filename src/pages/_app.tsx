@@ -22,27 +22,21 @@ import { useQueryErrorResetBoundary } from "@blitzjs/rpc"
 import { HeaderController } from "src/core/components/sections/Header/HeaderController"
 import Footer from "../core/components/sections/Footer"
 import { ErrorSection } from "src/core/components/sections/Error/ErrorSection"
+import LoginForm from "../auth/components/LoginForm"
+import SignupForm from "../auth/components/SignupForm"
 
 ReactGA.initialize("G-34Y9N908L5")
 
-function RootErrorFallback({ error }: ErrorFallbackProps) {
+function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
   const { t } = useTranslation(["pages.errors"])
+  const [authForm, setAuthForm] = useState("login")
+  let CertainAuthForm = authForm === "login" ? LoginForm : SignupForm
 
-  console.error("RootErrorFallback", error)
   if (error instanceof AuthenticationError) {
     return (
-      <Layout title={`${error.statusCode}: ${t("authentication.header.title")}`}>
-        <Loading>
-          <ErrorSection
-            header={{
-              statusCode: error.statusCode,
-              title: t("authentication.header.title"),
-              message: t("authentication.header.message"),
-            }}
-            link={{ href: Routes.LoginPage().href, text: t("main.links.signin") }}
-          />
-        </Loading>
-      </Layout>
+      <Suspense fallback={<>"Loading..."</>}>
+        <CertainAuthForm onSuccess={resetErrorBoundary} onNavigate={(link) => setAuthForm(link)} />
+      </Suspense>
     )
   } else if (error instanceof AuthorizationError) {
     return (

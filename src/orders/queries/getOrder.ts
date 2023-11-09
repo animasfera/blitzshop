@@ -10,7 +10,35 @@ const GetOrder = z.object({
 
 export default resolver.pipe(resolver.zod(GetOrder), resolver.authorize(), async ({ id }) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const order = await db.order.findFirst({ where: { id } })
+  const order = await db.order.findFirst({
+    where: { id },
+    include: {
+      log: true,
+      shippingMethod: true,
+      shippingAddress: {
+        include: { country: true },
+      },
+      user: {
+        select: {
+          id: true,
+          username: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phone: true,
+        },
+      },
+      items: {
+        include: {
+          category: true,
+          coverImage: true,
+          item: {
+            include: { user: { select: { email: true, id: true, username: true } } },
+          },
+        },
+      },
+    },
+  })
 
   if (!order) throw new NotFoundError()
 

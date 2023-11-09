@@ -1,21 +1,48 @@
 import { z } from "zod"
-import { OrderModel } from "db/zod"
+import { OrderModel, PurchasedItemModel } from "db/zod"
+import { withIdOfSchema } from "../../db/zodCore"
 
 export const CreateOrderSchema = OrderModel.pick({
+  shippingFee: true,
+  subtotal: true,
+  total: true,
+  shippingMethodId: true,
+}).merge(
+  z.object({
+    items: z.array(
+      PurchasedItemModel.pick({
+        itemId: true,
+        qty: true,
+        price: true,
+      })
+    ),
+    currency: z.enum(["EUR", "RUB"]),
+  })
+)
+
+export type CreateOrderType = z.infer<typeof CreateOrderSchema>
+
+export const UpdateOrderSchema = OrderModel.pick({
+  id: true,
+  shippingFee: true,
+  subtotal: true,
+  total: true,
+  shippingMethodId: true,
   status: true,
   couponCode: true,
   notes: true,
-  amountId: true,
-  orderLogId: true,
+}).partial({
+  notes: true,
+  couponCode: true,
+  shippingFee: true,
+  subtotal: true,
+  total: true,
   shippingMethodId: true,
-  userId: true,
+  status: true,
 })
 
-export const UpdateOrderSchema = z.object({
-  id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
-})
+export type UpdateOrderSchemaType = z.infer<typeof UpdateOrderSchema>
 
-export const DeleteOrderSchema = z.object({
-  id: z.number(),
+export const DeleteOrderSchema = OrderModel.pick({
+  id: true,
 })

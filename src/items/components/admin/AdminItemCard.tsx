@@ -30,7 +30,7 @@ const AdminItemCard = (props: IAdminItemCard) => {
 
                   <div className="text-left">
                     <p className="text-base font-medium text-gray-600">
-                      Цена: <Money amount={item.amount.amount} />
+                      Цена: <Money amount={item.price} currency={"EUR"} />
                     </p>
                   </div>
                   {/* Reviews */}
@@ -75,7 +75,7 @@ const AdminItemCard = (props: IAdminItemCard) => {
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-1 lg:gap-8">
                     <img
-                      src={item.coverImage?.image.url}
+                      src={item.images[0]?.image.url}
                       alt={item.title}
                       className={"lg:col-span-2 lg:row-span-2"}
                     />

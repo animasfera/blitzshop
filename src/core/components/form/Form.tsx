@@ -88,33 +88,38 @@ export function Form<S extends z.ZodType<any, any>>({
               <Autosave setFieldData={form.mutators.setFieldData} save={form.submit()} />
             )}
             {/* form fields supplied as children are rendered here */}
-            <div className="pb-2">{children}</div>
 
-            <div className="relative flex flex-col pb-8 border-t border-gray-200">
-              {submitText && (
-                <div className="flex justify-end pt-6">
-                  <Button
-                    type={"submit"}
-                    buttonText={submitText}
-                    disabled={submitting}
-                    styles={fullBtn ? "w-full justify-center" : ""}
-                  />
-                </div>
-              )}
+            {children}
 
-              {showErrors !== false && submitError && (
-                <div
-                  role="alert"
-                  className="absolute top-[72px] text-sm text-red-500 self-center text-center"
-                >
-                  {typeof submitError === "object"
-                    ? JSON.stringify(submitError)
-                    : submitError.replace("Error: ", "")}
-                </div>
-              )}
-            </div>
+            {submitText || (showErrors !== false && submitError) ? (
+              <div className="relative flex flex-col pb-8 border-t border-gray-200">
+                {submitText && (
+                  <div className="flex justify-end pt-6">
+                    <Button
+                      type={"submit"}
+                      buttonText={submitText}
+                      disabled={submitting}
+                      styles={fullBtn ? "w-full justify-center" : ""}
+                    />
+                  </div>
+                )}
 
-            {debug && <pre>{`JSON.stringify(values)`}</pre>}
+                {showErrors !== false && submitError && (
+                  <div
+                    role="alert"
+                    className="absolute top-[72px] text-sm text-red-500 self-center text-center"
+                  >
+                    {typeof submitError === "object"
+                      ? JSON.stringify(submitError)
+                      : submitError.replace("Error: ", "")}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <></>
+            )}
+
+            {debug && <pre>{JSON.stringify(form.getState().values)}</pre>}
           </form>
         )
       }}

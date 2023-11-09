@@ -12,7 +12,7 @@ export default resolver.pipe(
     let cardToken = await db.cardToken.findUnique({ where: { token: input.token } })
     const cardCountryIsoCode = input.cardCountryIsoCode.toLowerCase()
 
-    if (cardCountryIsoCode !== LocaleEnum.RU) {
+    if (cardCountryIsoCode !== LocaleEnum.ru) {
       throw new Error("Only Russian cards can be attached")
     }
 

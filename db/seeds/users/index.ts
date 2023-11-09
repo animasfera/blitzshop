@@ -1,12 +1,26 @@
 import { SecurePassword } from "@blitzjs/auth/secure-password"
 import db from "db"
 
-import { users, password } from "./data"
+import { users, password, CreateUserSeedDb } from "./data"
+
+export const createUser = async (user: CreateUserSeedDb) => {
+  const hashedPassword = await SecurePassword.hash(password.trim())
+
+  await db.user.create({
+    data: {
+      email: user.email,
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: user.role,
+      locale: user.locale,
+      hashedPassword,
+    },
+  })
+}
 
 export const createUsers = async () => {
   const { roma, videolimiter, mkdir, moderator, user } = users
-
-  const hashedPassword = await SecurePassword.hash(password.trim())
 
   try {
     // create admins
@@ -15,21 +29,15 @@ export const createUsers = async () => {
     const isMkdir = await db.user.findUnique({ where: { username: mkdir.username } })
 
     if (!isRoma) {
-      await db.user.create({
-        data: { ...roma, hashedPassword },
-      })
+      await createUser(roma)
     }
 
     if (!isVideolimiter) {
-      await db.user.create({
-        data: { ...videolimiter, hashedPassword },
-      })
+      await createUser(videolimiter)
     }
 
     if (!isMkdir) {
-      await db.user.create({
-        data: { ...mkdir, hashedPassword },
-      })
+      await createUser(mkdir)
     }
 
     if (process.env.NODE_ENV !== "production") {
@@ -37,18 +45,14 @@ export const createUsers = async () => {
       const isModerator = await db.user.findUnique({ where: { username: moderator.username } })
 
       if (!isModerator) {
-        await db.user.create({
-          data: { ...moderator, hashedPassword },
-        })
+        await createUser(moderator)
       }
 
       // create users
       const isUser = await db.user.findUnique({ where: { username: user.username } })
 
       if (!isUser) {
-        await db.user.create({
-          data: { ...user, hashedPassword },
-        })
+        await createUser(user)
       }
     }
   } catch (err) {

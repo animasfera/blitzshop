@@ -26,7 +26,6 @@ export default resolver.pipe(resolver.zod(AddProductToCartSchema), async ({ item
     select: {
       id: true,
       qty: true,
-      amount: true,
     },
   })
 
@@ -45,7 +44,7 @@ export default resolver.pipe(resolver.zod(AddProductToCartSchema), async ({ item
     update: {
       qty: { increment: 1 },
     },
-    include: { item: { include: { amount: true } }, cart: { include: { amount: true } } },
+    include: { item: true, cart: true },
   })
 
   numCartToItems = await db.cartToItem.count({

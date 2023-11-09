@@ -72,7 +72,7 @@ export const Modal = (props: ModalProps) => {
 
                 <div className="flex justify-end">
                   {bottomClose && (
-                    <Button buttonText="Закрыть" handleClick={() => onClose && onClose()} />
+                    <Button buttonText="Закрыть" onClick={() => onClose && onClose()} />
                   )}
                 </div>
               </div>

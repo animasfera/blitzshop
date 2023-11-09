@@ -1,4 +1,3 @@
-import { Routes } from "@blitzjs/next"
 import { Location, LocaleEnum, User } from "@prisma/client"
 
 import { mailer } from "src/core/mailer/Mailer"
@@ -14,7 +13,7 @@ type AdminBlockUserMailer = {
 export function adminBlockUserMailer(params: AdminBlockUserMailer, options?: MailerOptions) {
   return mailSenderWithQueue("adminBlockUserMailer", params, options || {}, async () => {
     const { user } = params
-    const lang = user.locale || options?.lang || LocaleEnum.EN
+    const lang = user.locale || options?.lang || LocaleEnum.en
 
     const origin = process.env.SITE_URL
     const siteName = process.env.SITE_NAME

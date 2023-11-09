@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { RefundStatusEnum } from "@prisma/client"
-import { CompletePrice, RelatedPriceModel, CompletePaymentMethod, RelatedPaymentMethodModel, CompleteUser, RelatedUserModel, CompleteOrder, RelatedOrderModel, CompleteChatRoom, RelatedChatRoomModel, CompleteItemToRefund, RelatedItemToRefundModel } from "./index"
+import { RefundStatusEnum, CurrencyEnum } from "@prisma/client"
+import { CompleteUser, RelatedUserModel, CompleteOrder, RelatedOrderModel, CompleteChatRoom, RelatedChatRoomModel, CompleteItemToRefund, RelatedItemToRefundModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
 
 export const RefundModel = z.object({
   id: z.number().int(),
@@ -9,22 +9,22 @@ export const RefundModel = z.object({
   notes: z.string().nullish(),
   refundedAt: z.date().nullish(),
   status: z.nativeEnum(RefundStatusEnum),
-  amountId: z.number().int(),
-  refundMethodId: z.number().int(),
-  processedById: z.number().int(),
+  amount: z.number().int(),
+  currency: z.nativeEnum(CurrencyEnum),
+  processedById: z.number().int().nullish(),
   orderId: z.number().int(),
   chatRoomId: z.number().int().nullish(),
   userId: z.number().int(),
+  invoiceId: z.number().int(),
 })
 
 export interface CompleteRefund extends z.infer<typeof RefundModel> {
-  amount: CompletePrice
-  refundMethod: CompletePaymentMethod
-  processedBy: CompleteUser
+  processedBy?: CompleteUser | null
   order: CompleteOrder
   chatRoom?: CompleteChatRoom | null
   user: CompleteUser
   itemToRefund: CompleteItemToRefund[]
+  invoice: CompleteInvoice
 }
 
 /**
@@ -33,11 +33,10 @@ export interface CompleteRefund extends z.infer<typeof RefundModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedRefundModel: z.ZodSchema<CompleteRefund> = z.lazy(() => RefundModel.extend({
-  amount: RelatedPriceModel,
-  refundMethod: RelatedPaymentMethodModel,
-  processedBy: RelatedUserModel,
+  processedBy: RelatedUserModel.nullish(),
   order: RelatedOrderModel,
   chatRoom: RelatedChatRoomModel.nullish(),
   user: RelatedUserModel,
   itemToRefund: RelatedItemToRefundModel.array(),
+  invoice: RelatedInvoiceModel,
 }))
