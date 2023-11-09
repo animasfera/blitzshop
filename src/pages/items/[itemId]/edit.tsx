@@ -45,9 +45,9 @@ export const EditItem = () => {
               try {
                 const updated = await updateItemMutation({
                   id: item.id,
-                  // ...values,
+                  ...values,
                 })
-                await setQueryData(updated)
+                // await setQueryData(updated)
                 await router.push(Routes.ShowItemPage({ itemId: updated.id }))
               } catch (error: any) {
                 console.error(error)

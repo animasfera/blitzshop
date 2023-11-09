@@ -1,8 +1,8 @@
 import { SortableContainer, SortableElement } from "react-sortable-hoc"
-import { PhotoSwipe } from "react-photoswipe"
+
 import { arrayMoveImmutable } from "array-move"
-import { Photo, SortablePhoto } from "./Photo"
-import React, { useState } from "react"
+import { SortablePhoto } from "./Photo"
+import React from "react"
 import { Prisma } from "@prisma/client"
 //import { Box, Flex, Grid, GridItem } from "@chakra-ui/react"
 import "react-photoswipe/lib/photoswipe.css"
@@ -64,13 +64,14 @@ export function MasonryGallery(props) {
     return (
       <div className="flex">
         {items.map((value, index) => (
+          //@ts-ignore
           <SortableItem2 key={`item-${index}`} _key={index} index={index} image={value} />
         ))}
       </div>
     )
   })
+  //@ts-ignore
   return <SortableList2 items={items} onSortEnd={onSortEnd} axis={"xy"} />
-  // return <SortableGallery items={photos} onSortEnd={onSortEnd} axis={"xy"} distance={1} />
 }
 
 // export const _Gallery = (props) => {
