@@ -33,14 +33,14 @@ export const HomeProductListController = (props: HomeProductListControllerProps)
       <section className={classSection}>
         {scroll ? (
           <ProductListHorizontalScroll
-            title={i18n.resolvedLanguage === LocaleEnum.RU ? category.titleRu : category.titleEn}
+            title={i18n.resolvedLanguage === LocaleEnum.ru ? category.titleRu : category.titleEn}
             // TODO: Router
             link={link}
             items={items}
           />
         ) : (
           <ProductList
-            title={i18n.resolvedLanguage === LocaleEnum.RU ? category.titleRu : category.titleEn}
+            title={i18n.resolvedLanguage === LocaleEnum.ru ? category.titleRu : category.titleEn}
             link={link}
             items={items}
           />

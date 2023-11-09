@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
-import { OrderInfoController } from "src/orders/components/OrderInfoController"
+import { OrderController } from "src/orders/components/OrderController"
 
 export const OrderPage = () => {
   const { t } = useTranslation(["pages.orderId"])
@@ -11,7 +11,7 @@ export const OrderPage = () => {
   return (
     <Layout title={t("title")}>
       <Loading>
-        <OrderInfoController />
+        <OrderController />
       </Loading>
     </Layout>
   )

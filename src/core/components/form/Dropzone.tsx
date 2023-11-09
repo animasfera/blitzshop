@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useDropzone } from "react-dropzone"
-import { Box, Button, Text } from "@chakra-ui/react"
+//import { Box, Button, Text } from "@chakra-ui/react"
 import { useTranslation } from "react-i18next"
 
 import { upload } from "src/core/images/frontend"
@@ -61,44 +61,43 @@ export function Dropzone(props: CustomDropzoneProps) {
   })
 
   return (
-    <Box>
-      <Box
+    <div>
+      <div
         {...getRootProps({ className: "dropzone" })}
-        bg={"gray.50"}
-        border={"1px dashed #DDD"}
-        p={15}
-        pt={10}
-        pb={10}
-        mt={4}
-        mb={4}
-        borderRadius={5}
-        color={"gray"}
-        minHeight={"150px"}
+        className="border-4 mb-4 p-15 rounded-xl min-h-[150px]"
       >
         <input {...getInputProps()} />
-        <Text textAlign={"center"} lineHeight={"250%"}>
-          {t("edit.texts.dragNDropPhotos")}
+        <div className="text-center font-medium leading-[250%]">
+          {!isUploading && t("edit.texts.dragNDropPhotos")}
           <br />
-          {t("edit.texts.or")}:
-          <Button
-            as={"a"}
-            isLoading={isUploading}
-            loadingText={t("translation:uploading")}
-            cursor={"pointer"}
-          >
-            {t("edit.texts.chooseFiles")}
-          </Button>
+          {!isUploading && t("edit.texts.or")}
+          <br />
+          <button>
+            {isUploading && (
+              <div
+                className="inline-block h-8 w-8 animate-spin rounded-full border-4
+                border-[#4924FF]
+                border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              >
+                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(255,0,0,0)]">
+                  {t("translation:uploading")}
+                </span>
+              </div>
+            )}
+            {!isUploading && t("edit.texts.chooseFiles")}
+          </button>
           {files.map((file, index) => {
             return (
-              <Box key={index}>
-                <Text>
+              <div key={index}>
+                <div>
                   <b>{file.file.name}:</b> {file.progress}%
-                </Text>
-              </Box>
+                </div>
+              </div>
             )
           })}
-        </Text>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   )
 }

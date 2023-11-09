@@ -44,7 +44,7 @@ export const EditInvoice = () => {
               try {
                 const updated = await updateInvoiceMutation({
                   id: invoice.id,
-                  data: { ...values },
+                  ...values,
                 })
 
                 // @ts-ignore

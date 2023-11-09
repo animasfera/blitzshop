@@ -9,7 +9,7 @@ export const CheckoutPaymentFormInputsBlock = (props: CheckoutPaymentFormInputsB
   const { title, children } = props
 
   return (
-    <div>
+    <div className={"mb-12"}>
       <h3 className="text-lg font-medium text-gray-900">{title}</h3>
       {children}
     </div>

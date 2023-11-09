@@ -6,10 +6,15 @@ export const CreateOrderLogSchema = OrderLogModel.pick({
   comment: true,
 })
 
-export const UpdateOrderLogSchema = z.object({
-  id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
+export const UpdateOrderLogSchema = OrderLogModel.pick({
+  status: true,
+  comment: true,
 })
+  .partial()
+  .extend({
+    id: z.number(),
+  })
+
 
 export const DeleteOrderLogSchema = z.object({
   id: z.number(),

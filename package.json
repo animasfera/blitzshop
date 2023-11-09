@@ -57,6 +57,8 @@
     "@next/mdx": "13.4.5",
     "@prisma/client": "4.6.1",
     "@types/luxon": "3.3.0",
+    "@stripe/react-stripe-js": "1.10.0",
+    "@stripe/stripe-js": "1.35.0",
     "array-move": "4.0.0",
     "aws-s3": "2.0.5",
     "aws-sdk": "2.1397.0",

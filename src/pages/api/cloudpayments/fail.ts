@@ -1,10 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next"
-
 import { api } from "src/blitz-server"
-import failTransaction from "src/transactions/mutations/failTransaction"
 import { ResponseCodes } from "src/core/cloudpayments/ResponseCodes"
+import releaseInvoiceItems from "../../../invoices/mutations/releaseInvoiceItems"
 
-export default api(async (req: NextApiRequest, res: NextApiResponse, сtx) => {
+export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
   let responseData = {} as any
 
   res.setHeader("Content-Type", "application/json")
@@ -17,40 +16,23 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, сtx) => {
   }
   res.statusCode = 200
 
-  let { TransactionId, Amount, OperationType, InvoiceId, AccountId, Data, Reason, ReasonCode } =
-    req.body
-  const LocalTransactionId = Number(InvoiceId)
-  ReasonCode = Number(ReasonCode)
+  let { InvoiceId } = req.body
 
-  if (typeof Data !== "undefined") {
-    Data = JSON.parse(Data)
-  }
+  let result = false
+  const invoiceId = Number(InvoiceId)
 
-  if (
-    typeof Data !== "undefined" &&
-    Data.transactionType &&
-    Data.transactionType === "attachCard"
-  ) {
-    responseData = { code: ResponseCodes.approve }
-  } else {
-    let transaction
+  if (invoiceId) {
+    let { InvoiceId } = req.body
+    const invoiceId = Number(InvoiceId)
 
     try {
-      transaction = await failTransaction(
-        {
-          id: LocalTransactionId,
-          failReason: Reason,
-          failReasonCode: ReasonCode,
-        },
-        сtx
-      )
+      result = await releaseInvoiceItems({ invoiceId }, ctx)
     } catch (e) {
       console.error(e)
-      res.statusCode = 500
     }
-
-    responseData = transaction ? { code: ResponseCodes.approve } : { code: ResponseCodes.reject }
   }
+
+  responseData = result ? { code: ResponseCodes.approve } : { code: ResponseCodes.reject }
 
   res.end(JSON.stringify(responseData))
 })

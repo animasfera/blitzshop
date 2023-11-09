@@ -1,12 +1,9 @@
 import { Ctx } from "@blitzjs/next"
 import { resolver } from "@blitzjs/rpc"
-import db, { CurrencyEnum, Price } from "db"
-import { CartWithCartToItem } from "types"
-
-import { MergedCart } from "src/carts/schemas"
-import { converter } from "src/core/converter"
+import db from "db"
 import { z } from "zod"
-import getCart from "../queries/getCart"
+
+import getCart from "src/carts/queries/getCart"
 
 export default resolver.pipe(
   resolver.zod(
@@ -15,7 +12,6 @@ export default resolver.pipe(
       mergeFromCartId: z.number(),
     })
   ),
-  resolver.authorize(),
   async ({ mergeToCartId, mergeFromCartId }, ctx: Ctx) => {
     // get unlogged cart
     const currentCart = await getCart({}, ctx)

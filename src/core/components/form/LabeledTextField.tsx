@@ -5,7 +5,7 @@ import { Input } from "src/core/tailwind-ui/application-ui/forms/Input"
 
 export interface LabeledTextFieldProps {
   name: string
-  label: string
+  label?: string
   // Field type. Doesn't include radio buttons and checkboxes
   type?: "text" | "password" | "email" | "number"
   placeholder?: string

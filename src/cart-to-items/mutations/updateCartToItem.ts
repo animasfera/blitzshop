@@ -18,7 +18,7 @@ export default resolver.pipe(resolver.zod(UpdateCartToItemSchema), async ({ id, 
   const cartToItemUpdated = await db.cartToItem.update({
     where: { id },
     data: { qty },
-    include: { item: { include: { amount: true } }, cart: { include: { amount: true } } },
+    include: { item: true, cart: true },
   })
 
   return cartToItemUpdated

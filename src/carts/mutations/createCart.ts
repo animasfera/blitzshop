@@ -1,7 +1,7 @@
 import { resolver } from "@blitzjs/rpc"
 import db from "db"
 import { CreateCartSchema } from "../schemas"
-import { CurrencyEnum, Prisma } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 
 export default resolver.pipe(
   resolver.zod(CreateCartSchema),
@@ -22,14 +22,7 @@ export default resolver.pipe(
       throw new Error("Cart already exists")
     }
 
-    let data = {
-      amount: {
-        create: {
-          amount: 0,
-          currency: CurrencyEnum.RUB,
-        },
-      },
-    } as Prisma.CartCreateInput
+    let data = {} as Prisma.CartCreateInput
     if (userId) {
       data.user = {
         connect: { id: userId },
@@ -40,10 +33,9 @@ export default resolver.pipe(
       include: {
         cartToItems: {
           include: {
-            item: { include: { amount: true, coverImage: { include: { image: true } } } },
+            item: { include: { images: { take: 1, include: { image: true } } } },
           },
         },
-        amount: true,
       },
     })
     ctx.session.$setPrivateData({

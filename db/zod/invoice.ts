@@ -1,28 +1,24 @@
 import * as z from "zod"
-import { InvoiceStatusEnum } from "@prisma/client"
-import { CompletePrice, RelatedPriceModel, CompletePaymentMethod, RelatedPaymentMethodModel, CompleteOrder, RelatedOrderModel, CompleteItem, RelatedItemModel, CompleteTransaction, RelatedTransactionModel } from "./index"
+import { InvoiceStatusEnum, CurrencyEnum } from "@prisma/client"
+import { CompleteRefund, RelatedRefundModel, CompleteOrder, RelatedOrderModel, CompleteTransaction, RelatedTransactionModel } from "./index"
 
 export const InvoiceModel = z.object({
   id: z.number().int(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  paidAt: z.date(),
+  paidAt: z.date().nullish(),
   error: z.string().nullish(),
   notes: z.string().nullish(),
   status: z.nativeEnum(InvoiceStatusEnum),
-  amountId: z.number().int(),
-  paymentMethodId: z.number().int(),
-  orderId: z.number().int(),
-  parentItemId: z.number().int(),
-  originalInvoiceId: z.number().int(),
+  amount: z.number().int(),
+  currency: z.nativeEnum(CurrencyEnum),
+  originalInvoiceId: z.number().int().nullish(),
 })
 
 export interface CompleteInvoice extends z.infer<typeof InvoiceModel> {
-  amount: CompletePrice
-  paymentMethod: CompletePaymentMethod
-  order: CompleteOrder
-  parentItem: CompleteItem
   originalInvoice?: CompleteInvoice | null
+  refund?: CompleteRefund | null
+  order?: CompleteOrder | null
   creditNotes: CompleteInvoice[]
   transactions: CompleteTransaction[]
 }
@@ -33,11 +29,9 @@ export interface CompleteInvoice extends z.infer<typeof InvoiceModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedInvoiceModel: z.ZodSchema<CompleteInvoice> = z.lazy(() => InvoiceModel.extend({
-  amount: RelatedPriceModel,
-  paymentMethod: RelatedPaymentMethodModel,
-  order: RelatedOrderModel,
-  parentItem: RelatedItemModel,
   originalInvoice: RelatedInvoiceModel.nullish(),
+  refund: RelatedRefundModel.nullish(),
+  order: RelatedOrderModel.nullish(),
   creditNotes: RelatedInvoiceModel.array(),
   transactions: RelatedTransactionModel.array(),
 }))

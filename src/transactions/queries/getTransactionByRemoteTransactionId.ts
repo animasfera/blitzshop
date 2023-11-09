@@ -14,12 +14,7 @@ export const getTransactionByRemoteTransactionIdDbQuery = async (input, ctx, Pri
   const transaction = await db.transaction.findFirst({
     where: { remoteTransactionId: id },
     include: {
-      amount: true,
-      feeTotal: true,
-      invoice: true,
-      net: true,
       paymentMethod: true,
-      user: true,
     },
   })
 

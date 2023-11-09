@@ -34,7 +34,7 @@ export const resizeAndUpload = async (props: any) => {
     return s3
       .upload(
         {
-          Bucket: process.env.S3_BUCKET ?? "", // Add bucket name here
+          Bucket: process.env.NEXT_PUBLIC_S3_BUCKET || "", // Add bucket name here
           ACL: "public-read", // Specify whether anyone with link can access the file
           Key: getS3Key(s3Key), // Specify folder and file name
           Body: outputBuffer,

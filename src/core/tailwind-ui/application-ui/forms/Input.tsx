@@ -4,7 +4,7 @@ import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/2
 
 export interface InputProps {
   name: string
-  label: string
+  label?: string
   input: FieldInputProps<any, HTMLElement>
   // Field type. Doesn't include radio buttons and checkboxes
   type?: "text" | "password" | "email" | "number"
@@ -50,14 +50,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
   return (
     <div className="relative mb-7" {...outerProps}>
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium leading-6 text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis"
-        {...labelProps}
-      >
-        {`${label}`}
-        {required && <span className="text-red-600">{required && " *"}</span>}
-      </label>
+      {label && (
+        <label
+          htmlFor={name}
+          className="block text-sm font-medium leading-6 text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis"
+          {...labelProps}
+        >
+          {`${label}`}
+          {required && <span className="text-red-600">{required && " *"}</span>}
+        </label>
+      )}
       <div className="mt-2 flex rounded-md shadow-sm relative mt-2 rounded-md shadow-sm">
         <input
           {...props}

@@ -1,0 +1,34 @@
+{
+  "title": "Shipping address",
+  "fields": {
+    "title": "Shipping address",
+    "firstName": {
+      "label": "First name"
+    },
+    "lastName": {
+      "label": "Last name"
+    },
+    "email": {
+      "label": "E-mail"
+    },
+    "phone": {
+      "label": "Phone"
+    },
+    "country": {
+      "label": "Country"
+    },
+    "address": {
+      "label": "Address",
+      "placeholder": "Street, apartment, suite, etc."
+    },
+    "city": {
+      "label": "City"
+    },
+    "province": {
+      "label": "State / Province"
+    },
+    "postalCode": {
+      "label": "Postal code"
+    }
+  }
+}

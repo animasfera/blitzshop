@@ -11,16 +11,16 @@ export const ShippingAddressModel = z.object({
   instructions: z.string().nullish(),
   address: z.string(),
   city: z.string(),
+  province: z.string(),
   postalCode: z.string(),
   countryId: z.string(),
   userId: z.number().int(),
-  orderId: z.number().int(),
 })
 
 export interface CompleteShippingAddress extends z.infer<typeof ShippingAddressModel> {
   country: CompleteCountry
   user: CompleteUser
-  order: CompleteOrder
+  orders: CompleteOrder[]
 }
 
 /**
@@ -31,5 +31,5 @@ export interface CompleteShippingAddress extends z.infer<typeof ShippingAddressM
 export const RelatedShippingAddressModel: z.ZodSchema<CompleteShippingAddress> = z.lazy(() => ShippingAddressModel.extend({
   country: RelatedCountryModel,
   user: RelatedUserModel,
-  order: RelatedOrderModel,
+  orders: RelatedOrderModel.array(),
 }))

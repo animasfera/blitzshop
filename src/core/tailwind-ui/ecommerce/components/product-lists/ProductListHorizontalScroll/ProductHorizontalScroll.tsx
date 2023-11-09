@@ -11,19 +11,21 @@ interface ProductProps {
 
 export const ProductHorizontalScroll = (props: ProductProps) => {
   const { item } = props
-  const { id, coverImage, color, title, amount } = item
+  const { id, images, color, title, price, currency } = item
 
   return (
     <li className="inline-flex w-64 flex-col text-center lg:w-auto">
       <div className="group relative">
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200">
-          <Image
-            src={coverImage.image.url}
-            alt={coverImage.image.title ?? ""}
-            width={200}
-            height={200}
-            className="w-full h-[230px] object-cover object-center group-hover:opacity-75"
-          />
+          {images[0] && (
+            <Image
+              src={images[0].image.url}
+              alt={images[0].image.title ?? ""}
+              width={200}
+              height={200}
+              className="w-full h-[230px] object-cover object-center group-hover:opacity-75"
+            />
+          )}
         </div>
         <div className="mt-4">
           {color && <p className="mb-1 text-sm text-gray-500">{color}</p>}
@@ -38,7 +40,7 @@ export const ProductHorizontalScroll = (props: ProductProps) => {
           </h3>
 
           <p className="mt-1 text-sm text-gray-500">
-            <Money amount={amount.amount} currency={amount.currency} />
+            <Money amount={price} currency={currency} />
           </p>
         </div>
       </div>

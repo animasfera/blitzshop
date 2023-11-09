@@ -8,10 +8,6 @@ import { handleCpApiError } from "src/core/cloudpayments/handleCpApiError"
 import { cpGetTransactionByLocalTransactionId } from "src/cloudpayments-api/cpGetTransactionByInvoice"
 import { finalizeTransactionServiceDbQuery } from "../mutations/finalizeTransactionService"
 
-import { initTransactionServiceDbQuery } from "./initTransaction"
-import { cancelTransactionDbQuery } from "./cancelTransaction"
-import { failTransactionDbQuery } from "./failTransaction"
-
 import { PrismaDbType } from "types"
 
 const SyncTransaction = z.object({
@@ -28,9 +24,6 @@ export const syncTransactionWithRemoteDbQuery = async (
   if (!transaction) {
     throw new NotFoundError()
   }
-  // if (!transaction.invoiceId) {
-  //   throw new Error("Не указан номер транзакции")
-  // }
 
   console.log("Начата синхронизация транзакции ID=" + transaction.id)
 
@@ -63,11 +56,6 @@ export const syncTransactionWithRemoteDbQuery = async (
         if (!asyncTransaction) {
           let error =
             "Transaction was not received by the remote server. Failing local transaction."
-          await failTransactionDbQuery(
-            { id: transaction.id, failReason: "NotReceivedByRemoteServer" },
-            ctx,
-            $db
-          )
           console.error(error)
           throw new Error(error)
         }
@@ -75,14 +63,6 @@ export const syncTransactionWithRemoteDbQuery = async (
         switch (asyncTransaction.Status) {
           case "Authorized":
             if (transaction.status === TransactionStatusEnum.PENDING) {
-              await initTransactionServiceDbQuery(
-                {
-                  id: transaction.id,
-                  remoteTransactionId: asyncTransaction.TransactionId,
-                },
-                ctx,
-                $db
-              )
             }
             break
           case "Completed":
@@ -97,18 +77,8 @@ export const syncTransactionWithRemoteDbQuery = async (
             )
             break
           case "Canceled":
-            await cancelTransactionDbQuery({ id: transaction.id }, ctx, $db)
             break
           case "Declined":
-            await failTransactionDbQuery(
-              {
-                id: transaction.id,
-                failReason: asyncTransaction.Reason,
-                failReasonCode: asyncTransaction.ReasonCode,
-              },
-              ctx,
-              $db
-            )
             break
           default:
             null

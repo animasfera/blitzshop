@@ -5,9 +5,13 @@ import { CreateShippingAddressSchema } from "../schemas"
 export default resolver.pipe(
   resolver.zod(CreateShippingAddressSchema),
   resolver.authorize(),
-  async (input) => {
+  async (input, ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const shippingAddress = await db.shippingAddress.create({ data: input })
+    let data = {
+      userId: ctx.session.userId,
+      ...input,
+    }
+    const shippingAddress = await db.shippingAddress.create({ data })
 
     return shippingAddress
   }

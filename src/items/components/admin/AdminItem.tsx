@@ -22,7 +22,7 @@ const AdminItem = (props: IAdminItem) => {
             <button onClick={() => onItemClick(item)}>
               <img
                 className="h-20 w-20 rounded-md object-cover object-center"
-                src={item.coverImage.image.url}
+                src={item.images[0]?.image.url}
                 alt=""
               />
             </button>

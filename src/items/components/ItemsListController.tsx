@@ -1,11 +1,9 @@
 import { useState } from "react"
-import { useSession } from "@blitzjs/auth"
 import { usePaginatedQuery, useMutation, useQuery, invalidateQuery } from "@blitzjs/rpc"
-import { Item, Price } from "db"
+import { Item } from "db"
 
 import { ListOrNotFoundMessage } from "src/core/components/ListOrNotFoundMessage"
 import { ItemsList } from "src/items/components/ItemsList"
-import { useCurrency } from "src/core/hooks/useCurrency"
 import { usePagination } from "src/core/hooks/usePagination"
 import addItemToCart from "../../cart-to-items/mutations/addItemToCart"
 
@@ -25,7 +23,7 @@ export const ItemsListController = () => {
     take: ITEMS_PER_PAGE,
   })
 
-  const handleClick = async (item: Item & { amount: Price }) => {
+  const handleClick = async (item: Item) => {
     setLoading(true)
 
     const res = await addProductToCartMutation({

@@ -1,21 +1,15 @@
 import { useEffect, useState } from "react"
 import { CheckIcon, ClockIcon, XMarkIcon } from "@heroicons/react/20/solid"
-import { CartToItem, Image as ImageDb, ImageToItem, Item, Price } from "db"
+import { CartToItem, Image as ImageDb, ImageToItem, Item } from "db"
 
 import { OptionSelectField, Select } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { ButtonCircular } from "src/core/tailwind-ui/application-ui/elements/buttons/ButtonCircular"
 import { CartItemsListItemImage } from "src/carts/components/CartItemsListItem/CartItemsListItemImage"
 import { CartItemsListItemInfo } from "src/carts/components/CartItemsListItem/CartItemsListItemInfo"
+import { CartItemWithItem } from "../../../types"
 
 interface CartItemsListItemProps {
-  cartToItem: CartToItem & {
-    item: Item & {
-      amount: Price
-      coverImage: ImageToItem & {
-        image: ImageDb
-      }
-    }
-  }
+  cartToItem: CartItemWithItem
   isLoading: boolean
 
   onUpdateCartToItem: ({ id, qty }: { id: number; qty: number }) => Promise<void>
@@ -24,7 +18,6 @@ interface CartItemsListItemProps {
 
 // TODO: сделать количество значений в зависимости от количества товара
 const quantityItemsOptions: OptionSelectField[] = [
-  { label: "0", value: 0 },
   { label: "1", value: 1 },
   { label: "2", value: 2 },
   { label: "3", value: 3 },
@@ -46,10 +39,12 @@ export const CartItemsListItem = (props: CartItemsListItemProps) => {
 
   return (
     <li className="flex flex-row xs:flex-col md:flex-row lg:flex-col xl:flex-row gap-4 py-4">
-      <CartItemsListItemImage
-        src={cartToItem.item.coverImage.image.url}
-        alt={cartToItem.item.coverImage.image.title || cartToItem.item.title || ""}
-      />
+      {cartToItem.item.images[0] && (
+        <CartItemsListItemImage
+          src={cartToItem.item.images[0]?.image.url}
+          alt={cartToItem.item.images[0]?.image.title || cartToItem.item.title || ""}
+        />
+      )}
 
       <div className="relative flex flex-1 flex-col gap-y-2">
         <CartItemsListItemInfo cartToItem={cartToItem} />

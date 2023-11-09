@@ -27,6 +27,7 @@ i18n
   .init({
     debug: false,
     fallbackLng: "RU",
+    lng: "RU",
     react: { useSuspense: false },
     /*
     resources: {

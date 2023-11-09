@@ -3,7 +3,6 @@ import { hash256 } from "@blitzjs/auth"
 import db from "db"
 import { LocaleEnum, TokenTypeEnum, UserRoleEnum } from "@prisma/client"
 import { UpdateUserSchema } from "../schemas"
-import deleteNotificationsByRef from "src/notifications/mutations/deleteNotificationsByRef"
 import getUser from "../queries/getUser"
 import i18n from "src/core/i18n"
 import { confirmEmailLeelaCertMailer } from "mailers/confirmEmailLeelaCertMailer"
@@ -89,15 +88,6 @@ export default resolver.pipe(
       ).send()
     }
 
-    if (user.timezone) {
-      await deleteNotificationsByRef(
-        {
-          userId: user.id,
-          // ref: "wrongTimezone",
-        },
-        ctx
-      )
-    }
     if (user.locale) {
       i18n.changeLanguage(user.locale)
     }
@@ -115,7 +105,7 @@ export default resolver.pipe(
           lastName: user.lastName,
           avatarUrl: user.avatarUrl,
           timezone: user.timezone ?? "Etc/Greenwich",
-          locale: user.locale || LocaleEnum.EN,
+          locale: user.locale || LocaleEnum.en,
           currency: user.currency,
           buyingInCountries: user.buyingInCountries,
         },

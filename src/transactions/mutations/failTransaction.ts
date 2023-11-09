@@ -1,16 +1,7 @@
 import { resolver } from "@blitzjs/rpc"
 import db from "db"
-import {
-  // PaymentMethodName,
-  // PaymentMethodType,
-  // PaymentStatus,
-  InvoiceStatusEnum,
-  TransactionStatusEnum,
-  // TransactionType,
-} from "@prisma/client"
+import { InvoiceStatusEnum, TransactionStatusEnum } from "@prisma/client"
 import { z } from "zod"
-import { Ctx } from "blitz"
-// import { payoutCardIsInvalidMailer } from "mailers/payoutCardIsInvalidMailer"
 import { PrismaDbType } from "types"
 
 const FailTransaction = z.object({
@@ -49,7 +40,7 @@ export const failTransactionDbQuery = async (
     },
   })
 
-  if (!transaction || typeof transaction.userId === "undefined" || transaction.userId === null) {
+  if (!transaction) {
     throw new Error("Некорректная транзакция")
   }
 
@@ -78,22 +69,10 @@ export const failTransactionDbQuery = async (
       where: { id: transaction.invoice.id },
       data: {
         // status: PaymentStatus.failed,
-        status: InvoiceStatusEnum.FAILED,
+        status: InvoiceStatusEnum.CANCELLED,
       },
     })
   }
-
-  const invalidatePaymentMethodDetail = $db.paymentMethod.update({
-    where: {
-      // id: transaction.paymentMethodDetail?.id,
-      id: transaction.paymentMethodId,
-    },
-    data: {
-      // valid: false,
-      // active: false,
-      // invalidReason: failReason,
-    },
-  })
 
   // If doing payout, invalidate card token
   /*

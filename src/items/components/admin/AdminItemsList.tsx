@@ -6,7 +6,7 @@ export interface IAdminItemsList {
   onItemClick: (item: IAdminItem["item"]) => void
 }
 const AdminItemsList = (props: IAdminItemsList) => {
-  const { items, onItemClick, onEditClick } = props
+  const { items, onItemClick } = props
   return (
     <div className="sm:px-0 lg:px-4">
       <div className="lg:mt-8 sm:mt-0 sm:-mx-0">
