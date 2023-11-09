@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { LocaleEnum, UserRoleEnum, UserStatusEnum, CountryFilterEnum, CurrencyEnum } from "@prisma/client"
-import { CompleteLocation, RelatedLocationModel, CompleteToken, RelatedTokenModel, CompleteSession, RelatedSessionModel, CompleteCardToken, RelatedCardTokenModel, CompleteNotification, RelatedNotificationModel, CompleteReview, RelatedReviewModel, CompleteItem, RelatedItemModel, CompleteCart, RelatedCartModel, CompleteOrder, RelatedOrderModel, CompleteShippingAddress, RelatedShippingAddressModel, CompleteRefund, RelatedRefundModel, CompleteTransaction, RelatedTransactionModel, CompleteMessage, RelatedMessageModel, CompleteUserToChatRoom, RelatedUserToChatRoomModel, CompleteConfig, RelatedConfigModel } from "./index"
+import { CompleteLocation, RelatedLocationModel, CompleteToken, RelatedTokenModel, CompleteSession, RelatedSessionModel, CompleteCardToken, RelatedCardTokenModel, CompleteNotification, RelatedNotificationModel, CompleteReview, RelatedReviewModel, CompleteItem, RelatedItemModel, CompleteCart, RelatedCartModel, CompleteOrder, RelatedOrderModel, CompleteShippingAddress, RelatedShippingAddressModel, CompleteRefund, RelatedRefundModel, CompleteMessage, RelatedMessageModel, CompleteUserToChatRoom, RelatedUserToChatRoomModel, CompleteConfig, RelatedConfigModel } from "./index"
 
 export const UserModel = z.object({
   id: z.number().int(),
@@ -37,7 +37,6 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
   shippingAddresses: CompleteShippingAddress[]
   refundProcessedByUser: CompleteRefund[]
   refunds: CompleteRefund[]
-  transactions: CompleteTransaction[]
   messages: CompleteMessage[]
   messageRooms: CompleteUserToChatRoom[]
   configs: CompleteConfig[]
@@ -61,7 +60,6 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() => UserMode
   shippingAddresses: RelatedShippingAddressModel.array(),
   refundProcessedByUser: RelatedRefundModel.array(),
   refunds: RelatedRefundModel.array(),
-  transactions: RelatedTransactionModel.array(),
   messages: RelatedMessageModel.array(),
   messageRooms: RelatedUserToChatRoomModel.array(),
   configs: RelatedConfigModel.array(),

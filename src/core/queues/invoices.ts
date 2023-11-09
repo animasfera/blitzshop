@@ -26,7 +26,6 @@ export const processInvoicesCronJob = async (job) => {
     const { ctx } = await createMockContext({ user })
 
     const invoices = await db.invoice.findMany({
-      include: { parentItem: true },
       where: {
         status: RefundStatusEnum.PENDING,
         transactions: {
@@ -45,21 +44,18 @@ export const processInvoicesCronJob = async (job) => {
       },
     })
 
-    invoices.forEach((invoice) => {
-      // ??? invoice.type
-      switch (invoice.status) {
-        // ?? сase PaymentType.refund:
-        case InvoiceStatusEnum.REFUNDED:
-          void InvoicesQueue.add("processRefundInvoice", { id: invoice.id })
-          break
-        // ?? case PaymentType.sale:
-        case InvoiceStatusEnum.COMPLETED:
-          // Sale invoices are handled during booking
-          break
-        default:
-          break
-      }
-    })
+    // invoices.forEach((invoice) => {
+    //   // ??? invoice.type
+    //   switch (invoice.status) {
+    //     // ?? сase PaymentType.refund:
+    //     case InvoiceStatusEnum.REFUNDED:
+    //       void InvoicesQueue.add("processRefundInvoice", { id: invoice.id })
+    //       break
+    //     // ?? case PaymentType.sale:
+    //     default:
+    //       break
+    //   }
+    // })
   } catch (e) {
     console.error(e)
   }

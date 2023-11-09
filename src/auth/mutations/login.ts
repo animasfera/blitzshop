@@ -85,7 +85,7 @@ export default resolver.pipe(
         lastName: user.lastName,
         avatarUrl: user.avatarUrl,
         timezone: user.timezone ?? "Etc/Greenwich",
-        locale: user.locale || LocaleEnum.EN,
+        locale: user.locale || LocaleEnum.en,
         currency: user.currency,
         buyingInCountries: user.buyingInCountries,
       },

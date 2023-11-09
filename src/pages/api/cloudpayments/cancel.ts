@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse, NextApiHandler } from "next"
-
+import { NextApiRequest, NextApiResponse } from "next"
 import { api } from "src/blitz-server"
-import cancelTransaction from "src/transactions/mutations/cancelTransaction"
+import releaseInvoiceItems from "src/invoices/mutations/releaseInvoiceItems"
+import { ResponseCodes } from "../../../core/cloudpayments/ResponseCodes"
 
 export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
   let responseData = {} as any
@@ -15,21 +15,23 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
     res.end(JSON.stringify(responseData))
   }
 
-  let { TransactionId, Amount, OperationType, InvoiceId, AccountId, Data, Reason, ReasonCode } =
-    req.body
+  let { InvoiceId } = req.body
 
-  const LocalTransactionId = Number(InvoiceId)
+  const invoiceId = Number(InvoiceId)
+  let result
 
-  if (LocalTransactionId) {
-    await cancelTransaction(
-      {
-        id: LocalTransactionId,
-      },
-      ctx
-    )
+  if (invoiceId) {
+    let { InvoiceId } = req.body
+    const invoiceId = Number(InvoiceId)
+
+    try {
+      result = await releaseInvoiceItems({ invoiceId }, ctx)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
-  responseData = { code: 0 }
+  responseData = result ? { code: ResponseCodes.approve } : { code: ResponseCodes.reject }
   res.statusCode = 200
   res.end(JSON.stringify(responseData))
 })

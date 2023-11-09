@@ -1,0 +1,33 @@
+{
+  "title": "Адрес доставки",
+  "fields": {
+    "firstName": {
+      "label": "Имя"
+    },
+    "lastName": {
+      "label": "Фамилия"
+    },
+    "email": {
+      "label": "E-mail"
+    },
+    "phone": {
+      "label": "Телефон"
+    },
+    "country": {
+      "label": "Страна"
+    },
+    "address": {
+      "label": "Адрес",
+      "placeholder": "Улица, дом, корпус, квартира"
+    },
+    "city": {
+      "label": "Город"
+    },
+    "province": {
+      "label": "Область"
+    },
+    "postalCode": {
+      "label": "Почтовый индекс"
+    }
+  }
+}

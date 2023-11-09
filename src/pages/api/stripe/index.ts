@@ -1,11 +1,10 @@
 import { getSession } from "@blitzjs/auth"
-import { NextApiRequest, NextApiResponse, NextApiHandler } from "next"
-import { TransactionStatusEnum, User } from "@prisma/client"
+import { NextApiRequest, NextApiResponse } from "next"
+import { TransactionStatusEnum, TransactionTypeEnum, User, UserRoleEnum } from "@prisma/client"
 import getRawBody from "raw-body"
 import db from "db"
-
 import { api } from "src/blitz-server"
-import finalizeTransactionService from "src/transactions/mutations/finalizeTransactionService"
+import createTransactionService from "src/transactions/mutations/createTransactionService"
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
@@ -26,9 +25,6 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
   let event
 
   try {
-    // const requestBuffer = await buffer(req)
-    // console.log("requestBuffer:")
-    // console.log(requestBuffer.toString())
     event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_ENDPOINT_SECRET)
   } catch (err) {
     console.log(err)
@@ -39,7 +35,7 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
 
   let paymentIntent
 
-  const user = (await db.user.findFirst({ where: { username: "omkar" } })) as User
+  const user = (await db.user.findFirst({ where: { role: UserRoleEnum.ADMIN } })) as User
   const session = await getSession(req, res)
   Object.assign(session.$publicData, {
     userId: user.id,
@@ -84,14 +80,20 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
         // Then define and call a function to handle the event payment_intent.succeeded
         // const localTransaction = await invokeWithMiddleware(getTransactionByRemoteTransactionId, {id: paymentIntent.id}, {req, res})
 
-        const localTransactionId = Number(paymentIntent.metadata.transactionId)
-        const transactionFinished = await finalizeTransactionService(
-          { id: localTransactionId, remoteTransactionId: paymentIntent.id },
+        const invoiceId = Number(paymentIntent.metadata.invoiceId)
+        const amount = Number(paymentIntent.amount) // amount comes in cents
+        const transaction = await createTransactionService(
+          {
+            amount,
+            invoiceId,
+            remoteTransactionId: paymentIntent.id,
+            type: TransactionTypeEnum.SALE,
+            status: TransactionStatusEnum.FINISHED,
+          },
           ctx
         )
 
-        // @ts-ignore
-        if (transactionFinished.status !== TransactionStatusEnum.FINISHED) {
+        if (!transaction) {
           res.statusCode = 500
         }
 
@@ -103,7 +105,7 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
         const charge = event.data.object
         const paymentIntentId = charge.payment_intent
         if (paymentIntentId) {
-          let transactionId
+          let invoiceId
           let lastRefund
 
           const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
@@ -111,28 +113,27 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
             charge: charge.id,
           })
 
-          console.log("refunds", refunds)
-
           if (refunds && refunds.data) {
             lastRefund = refunds.data.pop()
-            console.log(lastRefund)
 
-            const transactionId = lastRefund.metadata.transactionId
-              ? Number(lastRefund.metadata.transactionId)
-              : null
-            if (!transactionId) {
+            invoiceId = lastRefund.metadata.invoiceId ? Number(lastRefund.metadata.invoiceId) : null
+            if (!invoiceId) {
               console.error("No transaction ID provided")
               res.statusCode = 500
             } else {
-              console.log("finalize REFUND transaction")
-
-              const transactionFinalized = await finalizeTransactionService(
-                { id: transactionId, remoteTransactionId: lastRefund.id },
+              const amount = -Number(lastRefund.amount) * 100
+              const transaction = await createTransactionService(
+                {
+                  amount,
+                  invoiceId,
+                  remoteTransactionId: lastRefund.id,
+                  type: TransactionTypeEnum.REFUND,
+                  status: TransactionStatusEnum.FINISHED,
+                },
                 ctx
               )
 
-              // @ts-ignore
-              if (transactionFinalized.status !== TransactionStatusEnum.FINISHED) {
+              if (!transaction) {
                 res.statusCode = 500
               }
             }

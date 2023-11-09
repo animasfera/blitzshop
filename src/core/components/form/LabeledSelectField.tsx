@@ -24,7 +24,7 @@ export interface LabeledSelectFieldProps {
 
 export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSelectFieldProps>(
   (props, ref) => {
-    const {
+    let {
       name,
       label,
       placeholder,
@@ -54,6 +54,9 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
 
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
     const showError = touched && normalizedError
+
+    selected = options.find((o) => o.value === input.value)
+
     return (
       <Select
         ref={ref}
@@ -61,7 +64,7 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
         label={label}
         input={input}
         placeholder={placeholder}
-        selected={options.find((o) => o.value === input.value)}
+        selected={selected}
         defaultValue={defaultValue}
         required={required}
         disabled={disabled || submitting}

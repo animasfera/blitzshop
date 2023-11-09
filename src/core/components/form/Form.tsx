@@ -119,7 +119,7 @@ export function Form<S extends z.ZodType<any, any>>({
               <></>
             )}
 
-            {debug && <pre>{`JSON.stringify(values)`}</pre>}
+            {debug && <pre>{JSON.stringify(form.getState().values)}</pre>}
           </form>
         )
       }}

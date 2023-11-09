@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { TransactionStatusEnum, TransactionTypeEnum } from "@prisma/client"
-import { CompletePrice, RelatedPriceModel, CompletePaymentMethod, RelatedPaymentMethodModel, CompleteInvoice, RelatedInvoiceModel, CompleteUser, RelatedUserModel } from "./index"
+import { TransactionStatusEnum, TransactionTypeEnum, CurrencyEnum } from "@prisma/client"
+import { CompletePaymentMethod, RelatedPaymentMethodModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
 
 // Helper schema for JSON fields
 type Literal = boolean | number | string
@@ -13,28 +13,24 @@ export const TransactionModel = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   remoteTransactionId: z.string().nullish(),
-  description: z.string(),
+  description: z.string().nullish(),
   failureReason: z.string().nullish(),
   failReasonCode: z.number().int().nullish(),
   metadata: jsonSchema,
   receiptUrl: z.string().nullish(),
   status: z.nativeEnum(TransactionStatusEnum),
   type: z.nativeEnum(TransactionTypeEnum),
-  amountId: z.number().int(),
-  feeTotalId: z.number().int(),
-  netId: z.number().int(),
-  paymentMethodId: z.number().int(),
-  invoiceId: z.number().int(),
-  userId: z.number().int(),
+  amount: z.number().int(),
+  net: z.number().int(),
+  feeTotal: z.number().int(),
+  currency: z.nativeEnum(CurrencyEnum),
+  paymentMethodId: z.number().int().nullish(),
+  invoiceId: z.number().int().nullish(),
 })
 
 export interface CompleteTransaction extends z.infer<typeof TransactionModel> {
-  amount: CompletePrice
-  feeTotal: CompletePrice
-  net: CompletePrice
-  paymentMethod: CompletePaymentMethod
-  invoice: CompleteInvoice
-  user: CompleteUser
+  paymentMethod?: CompletePaymentMethod | null
+  invoice?: CompleteInvoice | null
 }
 
 /**
@@ -43,10 +39,6 @@ export interface CompleteTransaction extends z.infer<typeof TransactionModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedTransactionModel: z.ZodSchema<CompleteTransaction> = z.lazy(() => TransactionModel.extend({
-  amount: RelatedPriceModel,
-  feeTotal: RelatedPriceModel,
-  net: RelatedPriceModel,
-  paymentMethod: RelatedPaymentMethodModel,
-  invoice: RelatedInvoiceModel,
-  user: RelatedUserModel,
+  paymentMethod: RelatedPaymentMethodModel.nullish(),
+  invoice: RelatedInvoiceModel.nullish(),
 }))

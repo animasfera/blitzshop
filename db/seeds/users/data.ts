@@ -71,7 +71,7 @@ export const users = {
     firstName: "Михаил",
     lastName: "Корюков",
     role: UserRoleEnum.ADMIN,
-    locale: LocaleEnum.RU,
+    locale: LocaleEnum.ru,
     country: { id: "ME", titleEn: "Montenegro", titleRu: "Черногория" },
     location: {
       lat: 42.4533527,

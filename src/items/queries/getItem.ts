@@ -17,9 +17,7 @@ export default resolver.pipe(
       where: { id },
       include: {
         _count: true,
-        amount: true,
         category: true,
-        coverImage: { include: { image: true } },
         images: { include: { image: true } },
         reviews: { include: { sender: true } },
       },

@@ -10,7 +10,6 @@ import {
   Item,
   Location,
   Message,
-  Price,
   Prisma,
   PrismaClient,
   PurchasedItem,
@@ -19,6 +18,7 @@ import {
   UserRoleEnum,
   UserToChatRoom,
 } from "db"
+import { CurrencyEnum } from "@prisma/client"
 
 declare module "@blitzjs/auth" {
   export interface Session {
@@ -60,12 +60,12 @@ export type UserMailProps = Partial<User> & Pick<User, "email" | "id" | "usernam
 
 export type ItemFull = Item & {
   _count: Prisma.ItemCountOutputType
-  amount: Price
+  price: number
+  currency: CurrencyEnum
   cartToItems: CartToItem[]
   category: Category | null
-  coverImage: ImageToItem & { image: Image }
   chatRoom: ChatRoom | null
-  images: ImageToItem[]
+  images: (ImageToItem & { image: Image })[]
   invoices: Invoice[]
   location: Location | null
   user: User | null
@@ -78,4 +78,16 @@ export type ChatRoomWithFirstMessage = ChatRoom & {
   messages: (Message & { sender: UserMain })[]
 }
 
-export type CartWithCartToItem = Cart & { amount: Price; cartToItems: CartToItem[] }
+export type CartItemWithItem = CartToItem & {
+  item: Item & {
+    images: (ImageToItem & {
+      image: Image
+    })[]
+  }
+}
+
+export type PreOrderItem = Pick<PurchasedItem, "title" | "itemId" | "qty" | "price"> & {
+  imageUrl?: string
+}
+
+export type CartWithCartToItem = Cart & { cartToItems: CartItemWithItem[] }

@@ -17,7 +17,6 @@ export const startRefundPaymentDbQuery = async (
     where: { id: _invoice.id },
     include: {
       // receiver: true,
-      amount: true,
       transactions: true,
       originalInvoice: {
         select: {
