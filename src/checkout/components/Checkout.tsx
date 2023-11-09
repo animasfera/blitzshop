@@ -1,23 +1,21 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useMutation } from "@blitzjs/rpc"
+import { CurrencyEnum, Invoice, ShippingAddress } from "@prisma/client"
 import { useTranslation } from "react-i18next"
+import { z } from "zod"
+
+import { PreOrderItem } from "src/../types"
 import { CheckoutOrder } from "src/checkout/components/CheckoutOrder"
 import { CheckoutPayment } from "src/checkout/components/CheckoutPayment"
-import { cartClient } from "../../core/hooks/useCart"
-import { CurrencyEnum, Invoice, ShippingAddress } from "@prisma/client"
+import { cartClient } from "src/core/hooks/useCart"
+import createOrder from "src/orders/mutations/createOrder"
+import { StripeCheckoutFormWithElements, useStripe } from "src/core/hooks/useStripe"
 import CheckoutPaymentFormInputsBlock from "./CheckoutPaymentFormInputsBlock"
-import { useMutation, useQuery } from "@blitzjs/rpc"
 import { ShippingAddressChoiceController } from "./ShippingAddressChoiceController"
-import getShippingMethodWithPrice from "../../shipping-methods/mutations/getShippingMethodWithPrice"
-import createOrder from "../../orders/mutations/createOrder"
-import { StripeCheckoutFormWithElements, useStripe } from "../../core/hooks/useStripe"
-import {
-  OrderWithItemsAndUserAndInvoice,
-  useCloudpayments,
-} from "../../core/hooks/useCloudpayments"
-import { CreateOrderType } from "../../orders/schemas"
+import getShippingMethodWithPrice from "src/shipping-methods/mutations/getShippingMethodWithPrice"
+import { OrderWithItemsAndUserAndInvoice, useCloudpayments } from "src/core/hooks/useCloudpayments"
+import { CreateOrderType } from "src/orders/schemas"
 import PaymentCurrencyForm from "./PaymentCurrencyForm"
-import { z } from "zod"
-import { PreOrderItem } from "../../../types"
 
 interface CheckoutProps {
   cartClient: cartClient
