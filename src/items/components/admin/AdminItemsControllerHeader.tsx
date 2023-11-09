@@ -1,3 +1,4 @@
+import { Routes } from "@blitzjs/next"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
@@ -14,11 +15,12 @@ const AdminItemsControllerHeader = (props: AdminItemsControllerHeaderProps) => {
         <h1 className="text-base font-semibold leading-6 text-gray-900">Все товары</h1>
         <p className="mt-2 text-sm text-gray-700">Список всех товаров площадки</p>
       </div>
-      {onCreateButtonClick && (
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <Button buttonText={"Новый товар"} onClick={onCreateButtonClick} />
-        </div>
-      )}
+
+      <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+        <Link href={Routes.AdminNewItemPage().href}>
+          <Button buttonText={"Новый товар"} />
+        </Link>
+      </div>
     </div>
   )
 }
