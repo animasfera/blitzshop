@@ -8,6 +8,8 @@ import Link from "next/link"
 import { Routes } from "@blitzjs/next"
 import { SortableGalleryWithDropzone } from "./SortableGalleryWithDropzone"
 import deleteImage from "src/images/mutations/deleteImage"
+import updateImage from "src/images/mutations/updateImage"
+import createImageToItem from "src/image-to-items/mutations/createImageToItem"
 
 interface AdminEditItemControllerProps {
   id: number | undefined
@@ -17,15 +19,17 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
   const { id } = props
   const [item, { setQueryData, refetch }] = useQuery(getItem, { id: id })
   const [updateItemMutation] = useMutation(updateItem)
+  const [createItemToImageMutation] = useMutation(createImageToItem)
+  const [updateImageMutation] = useMutation(updateImage)
   const [deleteImageMutation] = useMutation(deleteImage)
 
   const handleUpload = async (image) => {
-    await updateItemMutation({
-      id: item.id,
-      images: {
-        create: { image: { create: { url: image.src } }, order: item.images.length + 1 },
-      },
+    await createItemToImageMutation({
+      itemId: item.id,
+      imageId: image.image.id,
+      order: item.images.length + 1,
     })
+    await updateImageMutation({ id: image.image.id, uploaded: true })
     void refetch()
   }
 
@@ -67,8 +71,8 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
         <title>Admin | Редактирование {item.title}</title>
       </Head>
       <div className="mb-4 font-medium underline flex justify-between	">
-        <Link href={Routes.ProductPage({ itemId: item.id })}> Посмотреть товар в магазине</Link>
         <Link href={Routes.AdminItemsPage()}>Список товаров</Link>
+        <Link href={Routes.ProductPage({ itemId: item.id })}> Посмотреть товар в магазине</Link>
       </div>
 
       <SortableGalleryWithDropzone

@@ -7,6 +7,7 @@ import LabeledSelectField from "src/core/components/form/LabeledSelectField"
 import { AccessTypeEnum, ItemStatusEnum } from "@prisma/client"
 import { useTranslation } from "react-i18next"
 import { ItemAccess } from "src/core/enums/ItemEnums"
+import LabeledTextareaField from "src/core/components/form/LabeledTextareaField"
 
 export interface AdminItemFormProps<S> extends FormProps<any> {
   item: ItemFull | null
@@ -45,7 +46,7 @@ export function AdminItemForm<S extends z.ZodType<any, any>>(props: AdminItemFor
                 label="Цена"
                 placeholder={(item.amount.amount / 100).toString()}
               /> */}
-              <LabeledTextField
+              <LabeledTextareaField
                 name="description"
                 type="text"
                 label="Описание"

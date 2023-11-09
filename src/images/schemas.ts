@@ -7,10 +7,13 @@ export const CreateImageSchema = ImageModel.pick({
   url: true,
 }).partial({ title: true, description: true })
 
-export const UpdateImageSchema = z.object({
-  id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
-})
+export const UpdateImageSchema = ImageModel.pick({
+  id: true,
+  title: true,
+  description: true,
+  url: true,
+  uploaded: true,
+}).partial({ title: true, description: true, url: true, uploaded: true })
 
 export const DeleteImageSchema = z.object({
   id: z.number(),
