@@ -24,6 +24,7 @@ export const ItemModel = z.object({
   width: z.number().int().nullish(),
   height: z.number().int().nullish(),
   length: z.number().int().nullish(),
+  deleted: z.boolean(),
 })
 
 export interface CompleteItem extends z.infer<typeof ItemModel> {

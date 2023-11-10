@@ -7,7 +7,7 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["interactiveTransactions"]
 }
 
@@ -213,12 +213,12 @@ model Image {
 }
 
 model ImageToItem {
-  id         Int    @id @default(autoincrement())
-  image      Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
-  imageId    Int
-  item       Item?  @relation(fields: [itemId], references: [id])
-  itemId     Int?
-  order      Int @default(0)
+  id      Int   @id @default(autoincrement())
+  image   Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId Int
+  item    Item? @relation(fields: [itemId], references: [id])
+  itemId  Int?
+  order   Int   @default(0)
 }
 
 enum ItemStatusEnum {
@@ -250,8 +250,8 @@ model Item {
   access         AccessTypeEnum  @default(PUBLIC)
   category       Category?       @relation(fields: [categoryId], references: [id])
   categoryId     Int?
-  price          Int @default(0)
-  currency       CurrencyEnum @default(EUR)
+  price          Int             @default(0)
+  currency       CurrencyEnum    @default(EUR)
   user           User?           @relation(fields: [userId], references: [id])
   userId         Int?
   location       Location?       @relation(fields: [locationId], references: [id])
@@ -265,6 +265,7 @@ model Item {
   width          Int?
   height         Int?
   length         Int?
+  deleted        Boolean         @default(false)
 }
 
 model CartToItem {
@@ -285,7 +286,7 @@ model Cart {
   numItems     Int          @default(0)
   sessionId    String?
   mergedCartId Int?
-  amount       Int  @default(0)
+  amount       Int          @default(0)
   currency     CurrencyEnum @default(EUR)
   user         User?        @relation(fields: [userId], references: [id])
   userId       Int?
@@ -293,9 +294,9 @@ model Cart {
 }
 
 model OrderLog {
-  id        Int             @id @default(autoincrement())
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   comment   String?
   orders    Order[]
 }
@@ -316,12 +317,11 @@ enum OrderStatusEnum {
 }
 
 model ShippingMethod {
-  id          Int                 @id @default(autoincrement())
-  titleRu     String
-  titleEn     String
-  orders      Order[]
+  id      Int     @id @default(autoincrement())
+  titleRu String
+  titleEn String
+  orders  Order[]
 }
-
 
 model Order {
   id                Int              @id @default(autoincrement())
@@ -329,24 +329,24 @@ model Order {
   updatedAt         DateTime         @updatedAt
   couponCode        String?
   notes             String?
-  status            OrderStatusEnum   @default(PENDING)
+  status            OrderStatusEnum  @default(PENDING)
   subtotal          Int
   shippingFee       Int
   total             Int
   net               Int
-  currency          CurrencyEnum @default(EUR)
-  log               OrderLog          @relation(fields: [logId], references: [id])
+  currency          CurrencyEnum     @default(EUR)
+  log               OrderLog         @relation(fields: [logId], references: [id])
   logId             Int
-  shippingMethod    ShippingMethod?   @relation(fields: [shippingMethodId], references: [id])
+  shippingMethod    ShippingMethod?  @relation(fields: [shippingMethodId], references: [id])
   shippingMethodId  Int?
   user              User             @relation(fields: [userId], references: [id])
   userId            Int
   items             PurchasedItem[]
-  shippingAddress ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
   shippingAddressId Int?
   refunds           Refund[]
-  invoice           Invoice              @relation(fields: [invoiceId], references: [id])
-  invoiceId         Int @unique
+  invoice           Invoice          @relation(fields: [invoiceId], references: [id])
+  invoiceId         Int              @unique
 }
 
 model Country {
@@ -364,9 +364,9 @@ model PurchasedItem {
   qty           Int            @default(0)
   title         String
   description   String
-  price         Int  @default(0)
+  price         Int            @default(0)
   net           Int?
-  currency      CurrencyEnum @default(EUR)
+  currency      CurrencyEnum   @default(EUR)
   item          Item           @relation(fields: [itemId], references: [id])
   itemId        Int
   category      Category?      @relation(fields: [categoryId], references: [id])
@@ -406,25 +406,25 @@ model PaymentMethod {
 }
 
 model Refund {
-  id             Int              @id @default(autoincrement())
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  notes          String?
-  refundedAt     DateTime?
-  status         RefundStatusEnum @default(PENDING)
-  amount         Int  @default(0)
-  currency       CurrencyEnum @default(EUR)
-  processedBy    User?             @relation(name: "ProcessedByUser", fields: [processedById], references: [id])
-  processedById  Int?
-  order          Order            @relation(fields: [orderId], references: [id])
-  orderId        Int
-  chatRoom       ChatRoom?        @relation(fields: [chatRoomId], references: [id])
-  chatRoomId     Int?             @unique
-  user           User             @relation(name: "RefundUser", fields: [userId], references: [id])
-  userId         Int
-  itemToRefund   ItemToRefund[]
-  invoice        Invoice              @relation(fields: [invoiceId], references: [id])
-  invoiceId      Int @unique
+  id            Int              @id @default(autoincrement())
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  notes         String?
+  refundedAt    DateTime?
+  status        RefundStatusEnum @default(PENDING)
+  amount        Int              @default(0)
+  currency      CurrencyEnum     @default(EUR)
+  processedBy   User?            @relation(name: "ProcessedByUser", fields: [processedById], references: [id])
+  processedById Int?
+  order         Order            @relation(fields: [orderId], references: [id])
+  orderId       Int
+  chatRoom      ChatRoom?        @relation(fields: [chatRoomId], references: [id])
+  chatRoomId    Int?             @unique
+  user          User             @relation(name: "RefundUser", fields: [userId], references: [id])
+  userId        Int
+  itemToRefund  ItemToRefund[]
+  invoice       Invoice          @relation(fields: [invoiceId], references: [id])
+  invoiceId     Int              @unique
 }
 
 enum RefundStatusEnum {
@@ -453,8 +453,8 @@ model Invoice {
   error             String?
   notes             String?
   status            InvoiceStatusEnum @default(PENDING)
-  amount            Int  @default(0)
-  currency          CurrencyEnum @default(EUR)
+  amount            Int               @default(0)
+  currency          CurrencyEnum      @default(EUR)
   originalInvoice   Invoice?          @relation(name: "CreditNotes", fields: [originalInvoiceId], references: [id])
   originalInvoiceId Int?
   refund            Refund?
@@ -482,13 +482,13 @@ model Transaction {
   receiptUrl          String?
   status              TransactionStatusEnum @default(PENDING)
   type                TransactionTypeEnum
-  amount              Int  @default(0)
-  net                 Int  @default(0)
-  feeTotal            Int  @default(0)
-  currency            CurrencyEnum @default(EUR)
-  paymentMethod       PaymentMethod?         @relation(fields: [paymentMethodId], references: [id])
+  amount              Int                   @default(0)
+  net                 Int                   @default(0)
+  feeTotal            Int                   @default(0)
+  currency            CurrencyEnum          @default(EUR)
+  paymentMethod       PaymentMethod?        @relation(fields: [paymentMethodId], references: [id])
   paymentMethodId     Int?
-  invoice             Invoice?               @relation(fields: [invoiceId], references: [id])
+  invoice             Invoice?              @relation(fields: [invoiceId], references: [id])
   invoiceId           Int?
 }
 

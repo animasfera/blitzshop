@@ -8,6 +8,7 @@ import { classNames } from "src/core/helpers/classNames"
 import { Money } from "src/core/components/Money"
 import { Weight } from "src/core/components/Weight"
 import { IAdminItem } from "./AdminItem"
+import { Routes } from "@blitzjs/next"
 interface IAdminItemCard {
   item: IAdminItem["item"]
 }
@@ -92,7 +93,7 @@ const AdminItemCard = (props: IAdminItemCard) => {
             </div>
 
             <div className="flex justify-end">
-              <Link href={router.pathname + "/" + item.id + "/edit"}>
+              <Link href={Routes.AdminEditItemPage({ itemId: item.id }).href}>
                 <Button buttonText={"Редактировать"} />
               </Link>
             </div>
