@@ -19,7 +19,7 @@ export default resolver.pipe(async ({ where, orderBy, skip = 0, take = 100 }: Ge
     query: (paginateArgs) =>
       db.item.findMany({
         ...paginateArgs,
-        where,
+        where: { ...where, deleted: false },
         orderBy,
         include: {
           _count: true,

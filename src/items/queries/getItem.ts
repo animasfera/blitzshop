@@ -15,7 +15,7 @@ export default resolver.pipe(
     const isAdmin = ctx.session.$isAuthorized(UserRoleEnum.ADMIN)
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const item = await db.item.findFirst({
-      where: { id },
+      where: { id, deleted: false },
       include: {
         _count: true,
         category: true,

@@ -10,6 +10,8 @@ import { SortableGalleryWithDropzone } from "./SortableGalleryWithDropzone"
 import deleteImage from "src/images/mutations/deleteImage"
 import updateImage from "src/images/mutations/updateImage"
 import createImageToItem from "src/image-to-items/mutations/createImageToItem"
+import Button from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
+import { useRouter } from "next/router"
 
 interface AdminEditItemControllerProps {
   id: number | undefined
@@ -22,7 +24,7 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
   const [createItemToImageMutation] = useMutation(createImageToItem)
   const [updateImageMutation] = useMutation(updateImage)
   const [deleteImageMutation] = useMutation(deleteImage)
-
+  const router = useRouter()
   const handleUpload = async (image) => {
     await createItemToImageMutation({
       itemId: item.id,
@@ -96,6 +98,16 @@ const AdminEditItemController = (props: AdminEditItemControllerProps) => {
             return {
               [FORM_ERROR]: error.toString(),
             }
+          }
+        }}
+      />
+      <Button
+        buttonText={"Удалить товар"}
+        variant={"secondary"}
+        onClick={async () => {
+          if (confirm("Удалить товар?")) {
+            await updateItemMutation({ id: item.id, deleted: true })
+            router.push(Routes.AdminItemsPage().href)
           }
         }}
       />

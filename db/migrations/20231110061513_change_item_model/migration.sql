@@ -5,7 +5,8 @@ ALTER TABLE "ImageToItem" DROP CONSTRAINT "ImageToItem_imageId_fkey";
 ALTER TABLE "Image" ADD COLUMN     "uploaded" BOOLEAN NOT NULL DEFAULT false;
 
 -- AlterTable
-ALTER TABLE "Item" ADD COLUMN     "height" INTEGER,
+ALTER TABLE "Item" ADD COLUMN     "deleted" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "height" INTEGER,
 ADD COLUMN     "length" INTEGER,
 ADD COLUMN     "width" INTEGER;
 
