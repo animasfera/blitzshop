@@ -88,10 +88,9 @@ export default function Header(props) {
 
   const [selected, setSelected] = useState<OptionSelectField>(
     // @ts-ignore
-    Object.values(CurrenciesEnum).map(({ name, flag }) => ({
+    Object.values(CurrenciesEnum).map(({ name }) => ({
       label: name,
       value: name,
-      img: flag,
     }))[0]
   )
   return (
@@ -121,10 +120,9 @@ export default function Header(props) {
 
         <SelectSubmit
           name="currency"
-          options={Object.values(CurrenciesEnum).map(({ name, flag }) => ({
+          options={Object.values(CurrenciesEnum).map(({ name }) => ({
             label: name,
             value: name,
-            img: flag,
           }))}
           selected={selected}
           handleChange={(value) => setSelected(value)}

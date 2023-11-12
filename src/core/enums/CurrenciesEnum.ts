@@ -6,7 +6,7 @@ export const CurrenciesEnum = {
     name: CurrencyEnum.RUB,
     value: "RU",
     symbol: "₽",
-    flag: getUrlСountryFlag({ country: "ru" }),
+    // flag: getUrlСountryFlag({ country: "ru" }),
   },
   // USD: {
   //   name: CurrencyEnum.USD,
@@ -18,7 +18,7 @@ export const CurrenciesEnum = {
     name: CurrencyEnum.EUR,
     value: "EU",
     symbol: "€",
-    flag: getUrlСountryFlag({ country: "eu" }),
+    // flag: getUrlСountryFlag({ country: "eu" }),
   },
 }
 

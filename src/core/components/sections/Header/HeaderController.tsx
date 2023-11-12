@@ -28,10 +28,9 @@ interface HeaderControllerProps {
 export const HeaderController = (props: HeaderControllerProps) => {
   const { path } = props
 
-  const currencies: CurrencyOption[] = CurrenciesArray.map(({ name, flag, symbol }) => ({
+  const currencies: CurrencyOption[] = CurrenciesArray.map(({ name, symbol }) => ({
     label: symbol,
     value: name,
-    img: flag,
   }))
 
   const { t } = useTranslation(["translation"])
