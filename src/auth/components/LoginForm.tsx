@@ -12,6 +12,7 @@ import { LoginProhibitedError } from "src/core/errors/Errors"
 import login from "src/auth/mutations/login"
 import getCart from "src/carts/queries/getCart"
 import { Login } from "src/auth/schemas"
+import Container from "src/core/tailwind-ui/application-ui/Container"
 
 interface LoginFormProps {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void
@@ -48,42 +49,44 @@ export const LoginForm = (props: LoginFormProps) => {
   }, [])
 
   return (
-    <Form
-      submitText={t("loginForm.buttons.enter")}
-      schema={Login}
-      initialValues={{ email: "", password: "", timezone: timezone }}
-      onSubmit={async (values) => {
-        try {
-          const user = await loginMutation({ ...values })
-          void i18n.changeLanguage(user.locale || LocaleEnum.en)
+    <Container styles="max-w-xl" size="sm">
+      <Form
+        submitText={t("loginForm.buttons.enter")}
+        schema={Login}
+        initialValues={{ email: "", password: "", timezone: timezone }}
+        onSubmit={async (values) => {
+          try {
+            const user = await loginMutation({ ...values })
+            void i18n.changeLanguage(user.locale || LocaleEnum.en)
 
-          await invalidateQuery(getCart)
-          onSuccess?.(user)
-        } catch (error: any) {
-          if (error instanceof AuthenticationError) {
-            return { [FORM_ERROR]: t("loginForm.errors.authErr") }
-          } else if (error instanceof LoginProhibitedError) {
-            return { [FORM_ERROR]: t("loginForm.errors.prohibitedErr") }
-          } else {
-            return {
-              [FORM_ERROR]: `${t("loginForm.errors.unknown")} - ` + error.toString(),
+            await invalidateQuery(getCart)
+            onSuccess?.(user)
+          } catch (error: any) {
+            if (error instanceof AuthenticationError) {
+              return { [FORM_ERROR]: t("loginForm.errors.authErr") }
+            } else if (error instanceof LoginProhibitedError) {
+              return { [FORM_ERROR]: t("loginForm.errors.prohibitedErr") }
+            } else {
+              return {
+                [FORM_ERROR]: `${t("loginForm.errors.unknown")} - ` + error.toString(),
+              }
             }
           }
-        }
-      }}
-      fullBtn
-    >
-      {loginLabeleds.map(({ name, label, type, placeholder, required }) => (
-        <LabeledTextField
-          key={`${type}-${name}`}
-          name={name}
-          label={label}
-          type={type}
-          placeholder={placeholder}
-          required={required}
-        />
-      ))}
-    </Form>
+        }}
+        fullBtn
+      >
+        {loginLabeleds.map(({ name, label, type, placeholder, required }) => (
+          <LabeledTextField
+            key={`${type}-${name}`}
+            name={name}
+            label={label}
+            type={type}
+            placeholder={placeholder}
+            required={required}
+          />
+        ))}
+      </Form>
+    </Container>
   )
 }
 
