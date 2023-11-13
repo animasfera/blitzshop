@@ -18,5 +18,68 @@
       "EUR": "Another currency",
       "RUB": "₽ (Russian Ruble)"
     }
+  },
+  "delivery": {
+    "title": "Delivery merhod",
+    "merhods": {
+      "door": "To the door",
+      "point": "To the order pick-up point"
+    }
+  },
+  "payment": {
+    "title": "Payment and shipping details",
+    "form": {
+      "contact": {
+        "title": "Contact information",
+        "email": {
+          "label": "Email address"
+        }
+      },
+      "details": {
+        "title": "Payment details",
+        "cardNum": {
+          "label": "Card number"
+        },
+        "exp": {
+          "label": "Expiration date (MM/YY)"
+        },
+        "cvc": {
+          "label": "CVC"
+        }
+      },
+      "shipping": {
+        "title": "Shipping address",
+        "country": {
+          "label": "Сountry"
+        },
+        "address": {
+          "label": "Address",
+          "placeholder": "Street, apartment, suite, etc."
+        },
+        "city": {
+          "label": "City",
+          "placeholder": "City"
+        },
+        "region": {
+          "label": "State / Province",
+          "placeholder": "State / Province"
+        },
+        "postal": {
+          "label": "Postal code",
+          "placeholder": "Code"
+        }
+      },
+      "billing": {
+        "title": "Billing information",
+        "sameAsShipping": {
+          "label": "Same as shipping information"
+        }
+      },
+      "submit": {
+        "button": {
+          "text": "Pay now"
+        }
+      }
+    }
   }
 }

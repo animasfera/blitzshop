@@ -3,9 +3,11 @@ import { useTranslation } from "react-i18next"
 
 import { CheckoutOrderInfo } from "src/checkout/components/CheckoutOrderInfo"
 import { CheckoutOrderItemsList } from "src/checkout/components/CheckoutOrderItemsList"
+import { cartClient } from "src/core/hooks/useCart"
 import { PreOrderItem } from "types"
 
 interface CheckoutOrderProps {
+  cart: cartClient
   items: PreOrderItem[]
   subtotal: number
   total: number

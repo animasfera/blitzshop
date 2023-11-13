@@ -19,6 +19,8 @@ export interface InputProps {
 
   labelProps?: ComponentPropsWithoutRef<"label">
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
+
+  // onChange?: (values: any) => void
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
@@ -38,6 +40,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
     labelProps,
     outerProps,
+
+    // onChange,
   } = props
 
   const [isShowPass, setShowPass] = useState(false)
@@ -82,11 +86,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 : `text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-indigo-600
                 focus-visible:ring-indigo-600 focus-visible:ring-indigo-600:focus-visible`
             }
+            ${disabled ? "cursor-not-allowed" : "cursor-pointer"}
             `}
           autoComplete={autoComplete}
           aria-invalid="true"
           aria-describedby={`${name}-error`}
           required={required}
+          /*
+          onChange={(v) => {
+            onChange ? onChange(v) : input?.onChange(v)
+          }}
+          */
         />
         {showError && (
           <div
