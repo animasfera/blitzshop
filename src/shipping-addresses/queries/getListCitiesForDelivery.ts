@@ -7,7 +7,7 @@ import getBoxberryListCities from "src/boxberry/queries/getBoxberryListCities"
 
 const GetListCitiesForDelivery = z.object({
   deliveryMethod: z.number(),
-  country_code: z.string().optional(),
+  country_code: z.string().or(z.number()).optional(),
   region: z.string().or(z.number()).optional(),
 })
 
@@ -15,7 +15,7 @@ export default resolver.pipe(
   resolver.zod(GetListCitiesForDelivery),
   resolver.authorize(),
   async ({ deliveryMethod, country_code, region }, ctx: Ctx) => {
-    let regions: { value: string | number; label: string }[] = []
+    let cities: { value: string | number; label: string }[] = []
 
     if (!country_code || !region || deliveryMethod > 2) return []
 
@@ -23,15 +23,30 @@ export default resolver.pipe(
       // TODO: add text err + translate
       if (typeof region !== "number") throw new Error()
 
-      regions = await getCdekListCities({ country_code, region_code: region }, ctx)
+      console.log(
+        "GetListCitiesForDelivery GetListCitiesForDelivery GetListCitiesForDeliveryGetListCitiesForDelivery GetListCitiesForDelivery",
+        {
+          deliveryMethod,
+          country_code,
+          region,
+        }
+      )
+      cities = await getCdekListCities({ country_code, region_code: region }, ctx)
     } else {
       // TODO: add text err + translate
       if (typeof region !== "string") throw new Error()
 
-      regions = await getBoxberryListCities({ deliveryMethod, country_code, region }, ctx)
+      cities = await getBoxberryListCities(
+        {
+          deliveryMethod,
+          country_code,
+          region,
+        },
+        ctx
+      )
     }
 
-    return regions.sort((a, b) => {
+    return cities.sort((a, b) => {
       if (a.label < b.label) return -1
       if (a.label > b.label) return 1
 

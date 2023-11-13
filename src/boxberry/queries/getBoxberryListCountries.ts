@@ -9,6 +9,7 @@ import { getUrlСountryFlag } from "src/core/helpers/getUrlСountryFlag"
 const GetBoxberryListCountries = z.object({
   // This accepts type of undefined, but is required at runtime
   // id: z.number().optional().refine(Boolean, "Required"),
+  deliveryMethod: z.number(),
 })
 
 interface BoxberryCountry {
@@ -27,7 +28,7 @@ interface BoxberryCountry {
 export default resolver.pipe(
   resolver.zod(GetBoxberryListCountries),
   resolver.authorize(),
-  async ({}, ctx: Ctx) => {
+  async ({ deliveryMethod }, ctx: Ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
 
     const token = process.env.BOXBERRY_PRIVAT_TOKEN
@@ -57,19 +58,25 @@ export default resolver.pipe(
           throw new Error(`Error code: ${res.error.errorCode}. Message: ${res.error.errorMessage}`)
         }
 
-        const countryList = res.result.map((el) => {
-          const country = Countries.find(
-            (country) => country.name.toLowerCase() === el.NameEng.toLowerCase()
-          )
+        const countryList = res.result
+          .filter((country) => {
+            const exist = country.DeliveryTypes.some((type) => type === deliveryMethod)
 
-          const img = country?.code ? getUrlСountryFlag({ country: country.code }) : ""
+            if (exist) return country
+          })
+          .map((el) => {
+            const country = Countries.find(
+              (country) => country.name.toLowerCase() === el.NameEng.toLowerCase()
+            )
 
-          return {
-            value: el.Code,
-            label: ctx.session.user?.locale === LocaleEnum.RU ? el.NameRu : el.NameEng,
-            img,
-          }
-        })
+            const img = country?.code ? getUrlСountryFlag({ country: country.code }) : ""
+
+            return {
+              value: el.Code,
+              label: ctx.session.user?.locale === LocaleEnum.RU ? el.NameRu : el.NameEng,
+              img,
+            }
+          })
 
         const otherCountries = [
           {

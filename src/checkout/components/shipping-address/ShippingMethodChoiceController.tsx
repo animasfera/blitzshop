@@ -2,7 +2,7 @@ import React from "react"
 import { useQuery } from "@blitzjs/rpc"
 import { ShippingAddress } from "@prisma/client"
 import ShippingMethodForm from "./ShippingMethodForm"
-import { ShippingMethodWithPrice } from "../../shipping-methods/schemas"
+import { ShippingMethodWithPrice } from "../../../shipping-methods/schemas"
 
 type ShippingAddressChoiceControllerProps = {
   address: ShippingAddress

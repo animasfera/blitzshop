@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next"
 import { Form, FormProps } from "src/core/components/form/Form"
 import { z } from "zod"
 import { CurrencyEnum } from "@prisma/client"
-import RadioSelectedCardsField from "../../core/components/form/RadioSelectedCardsField"
-import { Money } from "../../core/components/Money"
-import { ShippingMethodWithPrice } from "../../shipping-methods/schemas"
+import RadioSelectedCardsField from "../../../core/components/form/RadioSelectedCardsField"
+import { Money } from "../../../core/components/Money"
+import { ShippingMethodWithPrice } from "../../../shipping-methods/schemas"
 
 interface CheckoutPaymentFormProps<S> extends FormProps<any> {
   methods: ShippingMethodWithPrice[]

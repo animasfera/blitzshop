@@ -18,7 +18,7 @@ export const CheckoutDeliveryMethod = (props: CheckoutDeliveryMethodProps) => {
   const { t } = useTranslation(["pages.checkout"])
 
   return (
-    <section className="py-16 xl:col-start-1 xl:row-start-1 xl:mx-auto xl:w-full xl:max-w-xl xl:pb-10 xl:py-0">
+    <section className="pt-16 xl:col-start-1 xl:row-start-1 xl:mx-auto xl:w-full xl:max-w-xl xl:pb-10 xl:py-0">
       <h2 className="sr-only">{t("delivery.title")}</h2>
 
       <div>

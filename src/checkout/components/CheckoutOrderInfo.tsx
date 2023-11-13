@@ -15,6 +15,8 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
 
   const { t } = useTranslation(["pages.checkout"])
 
+  console.log("shipping", shipping)
+
   return (
     <>
       {/*

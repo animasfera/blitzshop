@@ -8,14 +8,17 @@ import getBoxberryListCountries from "src/boxberry/queries/getBoxberryListCountr
 
 const GetListCountriesForDelivery = z.object({
   // This accepts type of undefined, but is required at runtime
+  deliveryMethod: z.number(),
 })
 
 export default resolver.pipe(
   resolver.zod(GetListCountriesForDelivery),
   resolver.authorize(),
-  async ({}, ctx: Ctx) => {
+  async ({ deliveryMethod }, ctx: Ctx) => {
+    if (deliveryMethod > 2) return []
+
     const cdekCountries = await getCdekListCountries({}, ctx)
-    const boxberryCountries = await getBoxberryListCountries({}, ctx)
+    const boxberryCountries = await getBoxberryListCountries({ deliveryMethod }, ctx)
 
     return [...cdekCountries, ...boxberryCountries].sort((a, b) => {
       if (a.label < b.label) return -1

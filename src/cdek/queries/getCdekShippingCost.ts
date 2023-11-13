@@ -19,7 +19,7 @@ const GetCdekShippingCost = z.object({
   deliveryMethod: z.number(),
   shippingAddress: z.object({
     country_code: z.string(),
-    city_code: z.number().optional(),
+    city_code: z.number().or(z.string()).optional(),
     city: z.string().optional(),
     postal_code: z.string().optional(),
     address: z.string().optional(),
@@ -39,21 +39,6 @@ export default resolver.pipe(
   resolver.authorize(),
   async ({ deliveryMethod, shippingAddress, packages }) => {
     const { country_code, city_code, city, postal_code, address } = shippingAddress
-
-    const cdek = new Cdek({
-      account: process.env.CDEK_CLIENT_ID ?? "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
-      password: process.env.CDEK_CLIENT_SECRET ?? "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG",
-      url_base: "https://api.cdek.ru/v2",
-      // TODO: api.edu.cdek.ru - не все методы работают
-      /*
-      process.env.NODE_ENV === "production"
-        ? "https://api.cdek.ru/v2"
-        : "https://api.edu.cdek.ru/v2",
-      */
-    })
-
-    // TODO: add text err + translate
-    if (!cdek) throw new AuthenticationError()
 
     const id = process.env.CDEK_CLIENT_ID ?? "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI"
     const secret = process.env.CDEK_CLIENT_SECRET ?? "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG"
@@ -112,8 +97,8 @@ export default resolver.pipe(
               address	Полная строка адреса 	string(255)
               */
               code: city_code,
-              postal_code,
               country_code,
+              postal_code,
               city,
               address,
             },
@@ -121,10 +106,15 @@ export default resolver.pipe(
           }),
         })
 
-        if (!res.ok) throw new NotFoundError()
+        if (!res.ok)
+          throw new NotFoundError(`Errrrrrrrrrrrrrrrrrrrrrrrrrror: ${JSON.stringify(res)}`)
 
         const cdekShippingCost: CdekShippingCost = await res.json()
-        return cdekShippingCost
+
+        return {
+          delivery_sum: cdekShippingCost.delivery_sum * 100,
+          currency: cdekShippingCost.currency,
+        }
       } catch (err) {
         if (err instanceof ApiError) {
           // returned in case of Api Error like invalid data, contains api message
@@ -204,7 +194,11 @@ export default resolver.pipe(
         if (!res.ok) throw new NotFoundError()
 
         const cdekShippingCost: CdekShippingCost = await res.json()
-        return cdekShippingCost
+
+        return {
+          delivery_sum: cdekShippingCost.delivery_sum * 100,
+          currency: cdekShippingCost.currency,
+        }
       } catch (err) {
         if (err instanceof ApiError) {
           // returned in case of Api Error like invalid data, contains api message

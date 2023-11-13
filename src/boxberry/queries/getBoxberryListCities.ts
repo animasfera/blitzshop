@@ -23,7 +23,7 @@ interface BoxberryCity {
 
 const GetBoxberryListRegions = z.object({
   deliveryMethod: z.number(),
-  country_code: z.string().optional(),
+  country_code: z.string().or(z.number()).optional(),
   region: z.string().optional(),
 })
 
@@ -35,12 +35,16 @@ export default resolver.pipe(
 
     if (!country_code || !region || deliveryMethod > 2) return []
 
-    /*
+    const isCountryCIS =
+      country_code === "417" ||
+      country_code === "051" ||
+      country_code === "762" ||
+      country_code === "860"
+
+    if (!isCountryCIS) return []
+
     const token = process.env.BOXBERRY_OPEN_TOKEN
     const url = process.env.BOXBERRY_OPEN_URL
-    */
-    const token = process.env.BOXBERRY_PRIVAT_TOKEN
-    const url = process.env.BOXBERRY_PRIVAT_URL
 
     if (!token) {
       // TODO: add translate text err
@@ -54,22 +58,28 @@ export default resolver.pipe(
 
     try {
       const data = await fetch(
-        deliveryMethod === 1
-          ? `${url}/export-api?token=${token}&method=DepartCities`
-          : `${url}/export-api?token=${token}&method=ListCitiesFull&CountryCode=${country_code}`,
+        `${url}?token=${token}&method=ListCitiesFull&CountryCode=${country_code}`,
         {}
       )
 
       if (data.ok) {
-        // : BoxberryCity[]
-        const res = await data.json()
+        const res: BoxberryCity[] = await data.json()
+        const arr = res.filter((el) => region === el?.Region)
 
-        const cities: { value: string; label: string }[] = res.result
-          .filter((el) => el.Region === region)
-          .map((el) => ({
-            value: el.CityCode, // el.Code,
-            label: el.UniqName,
-          }))
+        let cities: { value: string; label: string }[] = []
+
+        for (let index = 0; index < arr.length; index++) {
+          const element = arr[index]
+
+          const exist = cities.some((el) => el.value === element?.Code)
+
+          if (!exist && !!element?.Code && !!element?.UniqName) {
+            cities.push({
+              value: element.Code,
+              label: element.UniqName,
+            })
+          }
+        }
 
         return cities
       }

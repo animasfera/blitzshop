@@ -5,18 +5,19 @@ import { Cdek, ApiError, HttpError } from "cdek"
 import { z } from "zod"
 import { LocaleEnum } from "db"
 
-const GetCdekLocationCities = z.object({
+const GetCdekListAddresses = z.object({
   country_code: z.string().or(z.number()).optional(),
   region_code: z.number().optional(),
+  city_code: z.number().optional(),
 })
 
 export default resolver.pipe(
-  resolver.zod(GetCdekLocationCities),
+  resolver.zod(GetCdekListAddresses),
   resolver.authorize(),
-  async ({ country_code, region_code }, ctx: Ctx) => {
+  async ({ country_code, region_code, city_code }, ctx: Ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
 
-    if (!country_code || !region_code) return []
+    if (!country_code || !region_code || !city_code) return []
 
     const id = process.env.CDEK_CLIENT_ID ?? "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI"
     const secret = process.env.CDEK_CLIENT_SECRET ?? "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG"
@@ -75,22 +76,19 @@ export default resolver.pipe(
         }
       }[] = await res.json()
 
-      const cities = arr.filter((el) => el.location.country_code === country_code)
+      const address = arr.filter((el) => el.location.city_code === city_code)
 
-      let result: { value: number; label: string }[] = []
+      let result: { value: string; label: string }[] = []
 
-      for (let index = 0; index < cities.length; index++) {
-        const element = cities[index]
+      for (let index = 0; index < address.length; index++) {
+        const element = address[index]
 
-        const exist =
-          result.length === 0
-            ? false
-            : result.some((el) => el.value === element?.location.city_code)
+        const exist = result.length === 0 ? false : result.some((el) => el.value === element?.code)
 
-        if (!exist && element && region_code === element.location.region_code) {
+        if (!exist && element) {
           result.push({
-            value: element.location.city_code,
-            label: element.location.city,
+            value: element.code,
+            label: element.location.address,
           })
         }
       }

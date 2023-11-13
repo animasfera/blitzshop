@@ -12,30 +12,21 @@ import { cartClient } from "src/core/hooks/useCart"
 import createOrder from "src/orders/mutations/createOrder"
 import { StripeCheckoutFormWithElements, useStripe } from "src/core/hooks/useStripe"
 import CheckoutPaymentFormInputsBlock from "./CheckoutPaymentFormInputsBlock"
-import { ShippingAddressChoiceController } from "./ShippingAddressChoiceController"
+import { ShippingAddressChoiceController } from "./shipping-address/ShippingAddressChoiceController"
 import getShippingMethodWithPrice from "src/shipping-methods/mutations/getShippingMethodWithPrice"
 import { OrderWithItemsAndUserAndInvoice, useCloudpayments } from "src/core/hooks/useCloudpayments"
 import { CreateOrderType } from "src/orders/schemas"
-import PaymentCurrencyForm from "./PaymentCurrencyForm"
+import PaymentCurrencyForm from "./payment-currency/PaymentCurrencyForm"
+import { GetShippingCostType } from "src/shipping-addresses/schemas"
 
 interface CheckoutProps {
   cartClient: cartClient
   deliveryMethods: { value: 1 | 2; label: string }[]
   deliveryMethod: { value: 1 | 2; label: string }
-  countries: { value: string; label: string; img: string }[]
-  country?: { value: string; label: string; img: string }
-  regions: { value: number | string; label: string }[]
-  region?: { value: number | string; label: string }
-  cities: { value: number | string; label: string }[]
-  city?: { value: number | string; label: string }
-  postalCodes: { value: string; label: string }[]
-  selectedPostalCode?: { value: string; label: string }
+  deliveryCost: { delivery_sum: number; currency: CurrencyEnum } | undefined
 
   handleDeliveryMethod: (el: { value: 1 | 2; label: string }) => void
-  handleCountry: (el: { value: string; label: string; img: string }) => void
-  handleRegion: (el: { value: number | string; label: string }) => void
-  handleCity: (el: { value: number | string; label: string }) => void
-  handlePostalCodes: (el: { value: string; label: string }) => void
+  handleDeliveryCost: (value: { delivery_sum: number; currency: CurrencyEnum } | undefined) => void
 }
 
 export const Checkout = (props: CheckoutProps) => {
@@ -43,20 +34,10 @@ export const Checkout = (props: CheckoutProps) => {
     cartClient,
     deliveryMethods,
     deliveryMethod,
-    countries,
-    country,
-    regions,
-    region,
-    cities,
-    city,
-    postalCodes,
-    selectedPostalCode,
+    deliveryCost,
 
     handleDeliveryMethod,
-    handleCountry,
-    handleRegion,
-    handleCity,
-    handlePostalCodes,
+    handleDeliveryCost,
   } = props
 
   const stripe = useStripe()
@@ -64,6 +45,7 @@ export const Checkout = (props: CheckoutProps) => {
 
   const { t } = useTranslation(["pages.checkout", "shippingAddress"])
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress | undefined>()
+
   const [getShippingMethodWithPriceMutation] = useMutation(getShippingMethodWithPrice)
   const [order, setOrder] = useState<{
     id?: number
@@ -132,22 +114,25 @@ export const Checkout = (props: CheckoutProps) => {
         <CheckoutOrder
           items={order.items}
           subtotal={order.subtotal}
-          shipping={order.shippingFee}
+          shipping={deliveryCost?.delivery_sum ?? order.shippingFee}
           total={order.total}
         />
 
-        <CheckoutDeliveryMethod
-          deliveryMethods={deliveryMethods}
-          deliveryMethod={deliveryMethod}
-          handleDeliveryMethod={handleDeliveryMethod}
-        />
-
         <div>
+          <CheckoutDeliveryMethod
+            deliveryMethods={deliveryMethods}
+            deliveryMethod={deliveryMethod}
+            handleDeliveryMethod={handleDeliveryMethod}
+          />
+
           <CheckoutPayment>
             <CheckoutPaymentFormInputsBlock title={t("shippingAddress:title")}>
               <ShippingAddressChoiceController
+                deliveryMethod={deliveryMethod}
                 shippingAddress={shippingAddress}
                 onSelect={async (address) => {
+                  console.log("ShippingAddressChoiceController address", address)
+
                   setShippingAddress(address)
                   const shippingWithPrice = await getShippingMethodWithPriceMutation({
                     address,
@@ -157,6 +142,7 @@ export const Checkout = (props: CheckoutProps) => {
                     shippingFee: shippingWithPrice.price,
                   })
                 }}
+                handleDeliveryCost={handleDeliveryCost}
               />
             </CheckoutPaymentFormInputsBlock>
 

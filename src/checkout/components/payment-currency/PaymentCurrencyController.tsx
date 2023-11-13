@@ -1,7 +1,7 @@
 import React from "react"
 import { CurrencyEnum } from "@prisma/client"
 import PaymentCurrencyForm from "./PaymentCurrencyForm"
-import getPaymentMethods from "../../payment-methods/queries/getPaymentMethods"
+import getPaymentMethods from "../../../payment-methods/queries/getPaymentMethods"
 import { useQuery } from "@blitzjs/rpc"
 import { z } from "zod"
 

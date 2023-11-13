@@ -23,7 +23,7 @@ const GetBoxberryShippingCost = z.object({
   deliveryMethod: z.number(),
   shippingAddress: z.object({
     country_code: z.string(),
-    city_code: z.number().optional(),
+    city_code: z.number().or(z.string()).optional(),
     city: z.string().optional(),
     postal_code: z.string().optional(),
     address: z.string().optional(),
@@ -127,7 +127,12 @@ export default resolver.pipe(
       if (data.ok) {
         const res: BoxberryShippingCost = await data.json()
 
-        return res
+        if (res.error.isError) throw new Error(`${res.error.errorCode}: ${res.error.errorMessage}`)
+
+        return {
+          delivery_sum: ((res.DutyAmount ?? 0) + res.ServiceCost) * 100,
+          currency: res.Currency,
+        }
       }
       throw new Error(`Error code: ${data.status}. Message: ${data.statusText}`)
     } catch (err) {
