@@ -70,9 +70,6 @@ export const ShippingAddressChoiceController = (props: ShippingAddressChoiceCont
     }
   )
 
-  console.log("params", { country, province, city, address })
-  if (!!shippingCost) console.log("shippingCost", shippingCost)
-
   const handleSubmit = (data) => {
     onSelect(data)
     setIsEditing(false)

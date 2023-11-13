@@ -45,8 +45,6 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
     handleAddress,
   } = props
 
-  // console.log("ShippingAddressForm", { deliveryMethod, country, province, city })
-
   const { t } = useTranslation(["shippingAddress"])
 
   return (

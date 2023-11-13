@@ -131,8 +131,6 @@ export const Checkout = (props: CheckoutProps) => {
                 deliveryMethod={deliveryMethod}
                 shippingAddress={shippingAddress}
                 onSelect={async (address) => {
-                  console.log("ShippingAddressChoiceController address", address)
-
                   setShippingAddress(address)
                   const shippingWithPrice = await getShippingMethodWithPriceMutation({
                     address,
