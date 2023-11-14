@@ -35,7 +35,7 @@ export default resolver.pipe(
       const res = await cdek.getPickupPoints({
         country_code,
         city_code,
-        lang: ctx.session.user?.locale === LocaleEnum.RU ? "rus" : "eng",
+        lang: ctx.session.user?.locale === LocaleEnum.ru ? "rus" : "eng",
       })
 
       if (!res) throw new NotFoundError()

@@ -1,5 +1,4 @@
 import React from "react"
-import { Price, CartToItem, Item, ImageToItem, Image } from "db"
 
 import { CheckoutOrderItemsListItem } from "src/checkout/components/CheckoutOrderItemsListItem"
 import { PreOrderItem } from "types"

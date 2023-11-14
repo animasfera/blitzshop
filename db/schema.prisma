@@ -311,14 +311,6 @@ enum OrderStatusEnum {
   PARTIALLY_COMPLETED // Заказ частично выполнен, если в нем есть несколько товаров, и не все из них были доставлены или выполнены
 }
 
-model ShippingMethod {
-  id          Int                 @id @default(autoincrement())
-  titleRu     String
-  titleEn     String
-  orders      Order[]
-}
-
-
 model Order {
   id                Int              @id @default(autoincrement())
   createdAt         DateTime         @default(now())
@@ -327,22 +319,33 @@ model Order {
   notes             String?
   status            OrderStatusEnum   @default(PENDING)
   subtotal          Int
-  shippingFee       Int
   total             Int
   net               Int
   currency          CurrencyEnum @default(EUR)
   log               OrderLog          @relation(fields: [logId], references: [id])
   logId             Int
-  shippingMethod    ShippingMethod?   @relation(fields: [shippingMethodId], references: [id])
-  shippingMethodId  Int?
   user              User             @relation(fields: [userId], references: [id])
   userId            Int
   items             PurchasedItem[]
-  shippingAddress ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
-  shippingAddressId Int?
   refunds           Refund[]
   invoice           Invoice              @relation(fields: [invoiceId], references: [id])
   invoiceId         Int @unique
+  shippingFee       Int
+  shippingDutyFee  Int?
+  shippingInsuranceFee  Int?
+  shippingPackageFee  Int?
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId Int?
+  shippingDutyPayment DutyPaymentEnum?
+  shippingInsurance  Boolean @default(false)
+  shippingTrackingId String?
+  shippingCompany   ShippingCompanyEnum?
+}
+
+
+enum DutyPaymentEnum {
+  DDU
+  DDP
 }
 
 model Country {
@@ -378,19 +381,34 @@ model ShippingAddress {
   id           Int      @id @default(autoincrement())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  deliveryMethod DeliveryMethodEnum
+  company      ShippingCompanyEnum
   firstName    String
   lastName     String
   phone        String
   instructions String?
   address      String
   city         String
+  cityId       Int?
   province     String   @default("")
+  provinceId   Int?
   postalCode   String
   country      Country  @relation(fields: [countryId], references: [id])
   countryId    String   @db.Char(2)
   user         User     @relation(fields: [userId], references: [id])
   userId       Int
   orders       Order[]
+  metadata     Json?
+}
+
+enum ShippingCompanyEnum {
+  SDEK
+  BOXBERRY
+}
+
+enum DeliveryMethodEnum {
+  DOOR
+  PICKUP
 }
 
 model PaymentMethod {

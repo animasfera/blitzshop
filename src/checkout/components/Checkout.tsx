@@ -17,56 +17,37 @@ import getShippingMethodWithPrice from "src/shipping-methods/mutations/getShippi
 import { OrderWithItemsAndUserAndInvoice, useCloudpayments } from "src/core/hooks/useCloudpayments"
 import { CreateOrderType } from "src/orders/schemas"
 import PaymentCurrencyForm from "./PaymentCurrencyForm"
+import { usePayment } from "../../core/hooks/usePayment"
+import { useRouter } from "next/router"
+import { Routes } from "@blitzjs/next"
 
 interface CheckoutProps {
   items: any[]
-  cart: cartClient
-  deliveryMethods: { value: 1 | 2; label: string }[]
-  deliveryMethod: { value: 1 | 2; label: string }
-  countries: { value: string; label: string; img: string }[]
-  country?: { value: string; label: string; img: string }
-  regions: { value: number | string; label: string }[]
-  region?: { value: number | string; label: string }
-  cities: { value: number | string; label: string }[]
-  city?: { value: number | string; label: string }
-  postalCodes: { value: string; label: string }[]
-  selectedPostalCode?: { value: string; label: string }
-
-  handleDeliveryMethod: (el: { value: 1 | 2; label: string }) => void
-  handleCountry: (el: { value: string; label: string; img: string }) => void
-  handleRegion: (el: { value: number | string; label: string }) => void
-  handleCity: (el: { value: number | string; label: string }) => void
-  handlePostalCodes: (el: { value: string; label: string }) => void
-
+  cartClient: cartClient
+  // deliveryMethods: { value: 1 | 2; label: string }[]
+  // deliveryMethod: { value: 1 | 2; label: string }
+  // countries: { value: string; label: string; img: string }[]
+  // country?: { value: string; label: string; img: string }
+  // regions: { value: number | string; label: string }[]
+  // region?: { value: number | string; label: string }
+  // cities: { value: number | string; label: string }[]
+  // city?: { value: number | string; label: string }
+  // postalCodes: { value: string; label: string }[]
+  // selectedPostalCode?: { value: string; label: string }
+  //
+  // handleDeliveryMethod: (el: { value: 1 | 2; label: string }) => void
+  // handleCountry: (el: { value: string; label: string; img: string }) => void
+  // handleRegion: (el: { value: number | string; label: string }) => void
+  // handleCity: (el: { value: number | string; label: string }) => void
+  // handlePostalCodes: (el: { value: string; label: string }) => void
 }
 
 export const Checkout = (props: CheckoutProps) => {
-  const {
-    cartClient,
-    items,
-    cart,
-    deliveryMethods,
-    deliveryMethod,
-    countries,
-    country,
-    regions,
-    region,
-    cities,
-    city,
-    postalCodes,
-    selectedPostalCode,
-
-    handleDeliveryMethod,
-    handleCountry,
-    handleRegion,
-    handleCity,
-    handlePostalCodes,
-  } = props
-
-  const stripe = useStripe()
-  const cloudpayments = useCloudpayments()
+  const { cartClient } = props
 
   const { t } = useTranslation(["pages.checkout", "shippingAddress"])
+  const { pay, stripePaymentIntent } = usePayment()
+  const router = useRouter()
 
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress | undefined>()
   const [getShippingMethodWithPriceMutation] = useMutation(getShippingMethodWithPrice)
@@ -99,30 +80,6 @@ export const Checkout = (props: CheckoutProps) => {
     "address"
   )
 
-  useEffect(() => {
-    if (step === "shippingMethod" && shippingAddress) {
-      if (["ru", "by", "kz"].includes(shippingAddress.countryId)) {
-      }
-    }
-  }, [step])
-
-  const [stripePayment, setStripePayment] = useState<any>()
-
-  const initPayment = async (order: OrderWithItemsAndUserAndInvoice) => {
-    if (!order.invoice) {
-      return false
-    }
-    switch (order.invoice.currency) {
-      case CurrencyEnum.RUB:
-        cloudpayments.pay(order)
-        break
-      case CurrencyEnum.EUR:
-        const paymentIntent = await stripe.pay(order)
-        setStripePayment(paymentIntent)
-        break
-    }
-  }
-
   return (
     <div className="bg-white relative">
       <div className="absolute left-0 hidden h-full w-1/2 bg-white xl:block" aria-hidden="true" />
@@ -133,50 +90,29 @@ export const Checkout = (props: CheckoutProps) => {
 
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-x-16 xl:grid-cols-2 xl:px-8 xl:pt-16">
         <h1 className="sr-only">{t("index.title")}</h1>
-
-        <CheckoutDeliveryMethod
-          deliveryMethods={deliveryMethods}
-          deliveryMethod={deliveryMethod}
-          handleDeliveryMethod={handleDeliveryMethod}
-        />
-
-
         <CheckoutOrder
           items={order.items}
           subtotal={order.subtotal}
           shipping={order.shippingFee}
           total={order.total}
         />
-
-        <CheckoutPayment
-          deliveryMethod={deliveryMethod}
-          countries={countries}
-          country={country}
-          regions={regions}
-          region={region}
-          cities={cities}
-          city={city}
-          postalCodes={postalCodes}
-          selectedPostalCode={selectedPostalCode}
-          handleCountry={handleCountry}
-          handleRegion={handleRegion}
-          handleCity={handleCity}
-          handlePostalCodes={handlePostalCodes}
-        >
+        <CheckoutPayment>
           <CheckoutPaymentFormInputsBlock title={t("shippingAddress:title")}>
-            <ShippingAddressChoiceController
-              shippingAddress={shippingAddress}
-              onSelect={async (address) => {
-                setShippingAddress(address)
-                const shippingWithPrice = await getShippingMethodWithPriceMutation({
-                  address,
-                })
-                setOrder({
-                  ...order,
-                  shippingFee: shippingWithPrice.price,
-                })
-              }}
-            />
+            <>
+              <ShippingAddressChoiceController
+                shippingAddress={shippingAddress}
+                onSelect={async (address) => {
+                  setShippingAddress(address)
+                  // const shippingWithPrice = await getShippingMethodWithPriceMutation({
+                  //   address,
+                  // })
+                  // setOrder({
+                  //   ...order,
+                  //   shippingFee: shippingWithPrice.price,
+                  // })
+                }}
+              />
+            </>
           </CheckoutPaymentFormInputsBlock>
 
           {shippingAddress && (
@@ -197,21 +133,27 @@ export const Checkout = (props: CheckoutProps) => {
                       const orderCreated = await createOrderMutation(
                         newOrderData as CreateOrderType
                       )
-                      setOrder(orderCreated)
-                      await initPayment(orderCreated)
+                      router.push(Routes.OrderPage({ orderId: orderCreated.id }))
+                      // setOrder(orderCreated)
+                      // TODO платежи тут пока не делаем, оплата будет на странице заказа
+                      // await pay(orderCreated)
                     }
                   }}
                 />
               </CheckoutPaymentFormInputsBlock>
-              {order.id && order.invoice && order.invoice.currency === CurrencyEnum.EUR && (
-                <StripeCheckoutFormWithElements
-                  orderId={order.id}
-                  paymentIntentInstance={stripePayment}
-                />
-              )}
+              {/*{stripePaymentIntent &&*/}
+              {/*  order.id &&*/}
+              {/*  order.invoice &&*/}
+              {/*  order.invoice.currency === CurrencyEnum.EUR && (*/}
+              {/*    <StripeCheckoutFormWithElements*/}
+              {/*      orderId={order.id}*/}
+              {/*      paymentIntentInstance={stripePaymentIntent}*/}
+              {/*    />*/}
+              {/*  )}*/}
             </>
           )}
-        </CheckoutPayment>      </div>
+        </CheckoutPayment>
+      </div>
     </div>
   )
 }

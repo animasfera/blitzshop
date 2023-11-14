@@ -66,7 +66,7 @@ export default resolver.pipe(
 
           return {
             value: el.Code,
-            label: ctx.session.user?.locale === LocaleEnum.RU ? el.NameRu : el.NameEng,
+            label: ctx.session.user?.locale === LocaleEnum.ru ? el.NameRu : el.NameEng,
             img,
           }
         })
@@ -74,17 +74,17 @@ export default resolver.pipe(
         const otherCountries = [
           {
             value: "051",
-            label: ctx.session.user?.locale === LocaleEnum.RU ? "Армения" : "Armenia",
+            label: ctx.session.user?.locale === LocaleEnum.ru ? "Армения" : "Armenia",
             img: getUrlСountryFlag({ country: "AM" }) ?? "",
           },
           {
             value: "417",
-            label: ctx.session.user?.locale === LocaleEnum.RU ? "Киргизия" : "Kyrgyzstan",
+            label: ctx.session.user?.locale === LocaleEnum.ru ? "Киргизия" : "Kyrgyzstan",
             img: getUrlСountryFlag({ country: "KG" }) ?? "",
           },
           {
             value: "762",
-            label: ctx.session.user?.locale === LocaleEnum.RU ? "Таджикистан" : "Tajikistan",
+            label: ctx.session.user?.locale === LocaleEnum.ru ? "Таджикистан" : "Tajikistan",
             img: getUrlСountryFlag({ country: "TJ" }) ?? "",
           },
         ]

@@ -39,7 +39,7 @@ export default resolver.pipe(
 
       const res = await cdek.getCities({
         ...params,
-        lang: ctx.session.user?.locale === LocaleEnum.RU ? "rus" : "eng",
+        lang: ctx.session.user?.locale === LocaleEnum.ru ? "rus" : "eng",
       })
 
       if (!res) throw new NotFoundError()

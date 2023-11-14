@@ -20,7 +20,7 @@ export const OrderHead = (props: OrderHeadProps) => {
 
       <dl className="mt-12 text-sm font-medium">
         <dt className="text-gray-900">{t("head.info.title")}</dt>
-        <dd className="mt-2 text-indigo-600">51547878755545848512</dd>
+        <dd className="mt-2 text-indigo-600">{order.trackingId}</dd>
       </dl>
     </section>
   )

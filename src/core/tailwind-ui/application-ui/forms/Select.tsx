@@ -31,7 +31,7 @@ export interface SelectProps {
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
 
-  onChange?: (values: OptionSelectField | OptionSelectField[]) => void
+  onChange?: (value: string | number) => void
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
@@ -67,7 +67,8 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
         value={selected ?? input?.value}
         defaultValue={defaultValue}
         onChange={(v) => {
-          onChange ? onChange(v) : input?.onChange(v.value)
+          input?.onChange(v.value)
+          onChange && onChange(v.value)
         }}
         multiple={multiple}
         disabled={disabled}

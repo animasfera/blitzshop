@@ -30,14 +30,16 @@ export const ShippingAddressChoiceController = (props: ShippingAddressChoiceCont
   return (
     <>
       {isEditing ? (
-        <ShippingAddressForm
-          submitText={shippingAddress ? t("translation:update") : t("translation:next")}
-          initialValues={shippingAddress}
-          schema={CreateShippingAddressSchema}
-          onSubmit={(address) => {
-            handleSubmit(address)
-          }}
-        />
+        <>
+          <ShippingAddressForm
+            submitText={shippingAddress ? t("translation:update") : t("translation:next")}
+            initialValues={shippingAddress}
+            schema={CreateShippingAddressSchema}
+            onSubmit={(address) => {
+              handleSubmit(address)
+            }}
+          />
+        </>
       ) : (
         <>
           {shippingAddress && (

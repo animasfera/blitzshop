@@ -7,7 +7,6 @@ import { cartClient } from "src/core/hooks/useCart"
 import { PreOrderItem } from "types"
 
 interface CheckoutOrderProps {
-  cart: cartClient
   items: PreOrderItem[]
   subtotal: number
   total: number

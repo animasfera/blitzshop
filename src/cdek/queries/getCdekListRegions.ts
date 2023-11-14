@@ -41,7 +41,7 @@ export default resolver.pipe(
         region_code: number
       }[] = await cdek.getRegions({
         country_codes: country_code ? [country_code] : [],
-        lang: ctx.session.user?.locale === LocaleEnum.RU ? "rus" : "eng",
+        lang: ctx.session.user?.locale === LocaleEnum.ru ? "rus" : "eng",
       })
 
       if (!regions) throw new NotFoundError()

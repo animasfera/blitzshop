@@ -5,7 +5,6 @@ import { Money } from "src/core/components/Money"
 import { cartClient } from "src/core/hooks/useCart"
 
 interface CheckoutOrderInfoProps {
-  cart: cartClient
   children: ReactElement | ReactElement[]
   subtotal: number
   shipping?: number
@@ -13,7 +12,7 @@ interface CheckoutOrderInfoProps {
 }
 
 export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
-  const { cart, children, total, subtotal, shipping } = props
+  const { children, total, subtotal, shipping } = props
 
   const { t } = useTranslation(["pages.checkout"])
 
@@ -54,7 +53,6 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
             )}
           </dd>
         </div>
-        */}
 
         {/*<div className="flex items-center justify-between">*/}
         {/*  <dt>{t("order.taxes")}</dt>*/}
@@ -77,7 +75,6 @@ export const CheckoutOrderInfo = (props: CheckoutOrderInfoProps) => {
             />
           </dd>
         </div>
-        */}
       </dl>
     </>
   )
