@@ -7,7 +7,7 @@ import { Layout } from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
 import { SettingsMenu } from "src/settings/components/SettingsMenu"
 
-export const SettingsPage: BlitzPage = () => {
+export const SettingsProfilePage: BlitzPage = () => {
   const { t } = useTranslation(["pages.settings"])
 
   return (
@@ -15,7 +15,7 @@ export const SettingsPage: BlitzPage = () => {
       <Loading>
         <SettingsMenu>
           <>
-            <p>Основные</p>
+            <p>Профиль</p>
           </>
         </SettingsMenu>
       </Loading>
@@ -23,7 +23,7 @@ export const SettingsPage: BlitzPage = () => {
   )
 }
 
-SettingsPage.authenticate = true
-
 export { getServerSideProps } from "src/core/getServerSideProps"
-export default SettingsPage
+SettingsProfilePage.authenticate = true
+
+export default SettingsProfilePage
