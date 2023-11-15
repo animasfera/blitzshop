@@ -2,12 +2,7 @@ import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Form, FormProps } from "src/core/components/form/Form"
 import { z } from "zod"
-import { CurrencyEnum, PaymentMethod } from "@prisma/client"
 import RadioSelectedCardsField from "../../core/components/form/RadioSelectedCardsField"
-import { Money } from "../../core/components/Money"
-import { ShippingMethodWithPrice } from "../../shipping-methods/schemas"
-import RadioButtonsField from "../../core/components/form/RadioButtonsField"
-import PaymentMethods from "../../pages/payment-methods"
 import { currencyFormat } from "../../core/helpers/Helpers"
 
 interface CheckoutPaymentFormProps<S> extends FormProps<any> {

@@ -35,6 +35,7 @@ function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
     return (
       <Suspense fallback={<>"Loading..."</>}>
+        {/*ts-ignore*/}
         <CertainAuthForm onSuccess={resetErrorBoundary} onNavigate={(link) => setAuthForm(link)} />
       </Suspense>
     )

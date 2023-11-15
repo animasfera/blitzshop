@@ -106,29 +106,29 @@ export const Checkout = (props: CheckoutProps) => {
           {shippingAddress && order.id && (
             <>
               <CheckoutPaymentFormInputsBlock title={t("pages.checkout:paymentCurrency.title")}>
-                <PaymentCurrencyForm
-                  schema={z.object({
-                    currency: z.enum(["RUB", "EUR"]),
-                  })}
-                  submitText={t("translation:next")}
-                  onSubmit={async (values) => {
-                    if (!order.id) {
-                      return
-                    }
-                    let newInvoiceData = {
-                      orderId: order.id,
-                      currency: values.currency,
-                    }
+                {/*<PaymentCurrencyForm*/}
+                {/*  schema={z.object({*/}
+                {/*    currency: z.enum(["RUB", "EUR"]),*/}
+                {/*  })}*/}
+                {/*  submitText={t("translation:next")}*/}
+                {/*  onSubmit={async (values) => {*/}
+                {/*    if (!order.id) {*/}
+                {/*      return*/}
+                {/*    }*/}
+                {/*    let newInvoiceData = {*/}
+                {/*      orderId: order.id,*/}
+                {/*      currency: values.currency,*/}
+                {/*    }*/}
 
-                    if (typeof newInvoiceData.currency !== "undefined") {
-                      const invoiceCreated = await createInvoiceMutation(newInvoiceData)
-                      // router.push(Routes.OrderPage({ orderId: orderCreated.id }))
-                      // setOrder(orderCreated)
-                      // TODO платежи тут пока не делаем, оплата будет на странице заказа
-                      // await pay(orderCreated)
-                    }
-                  }}
-                />
+                {/*    if (typeof newInvoiceData.currency !== "undefined") {*/}
+                {/*      const invoiceCreated = await createInvoiceMutation(newInvoiceData)*/}
+                {/*      // router.push(Routes.OrderPage({ orderId: orderCreated.id }))*/}
+                {/*      // setOrder(orderCreated)*/}
+                {/*      // TODO платежи тут пока не делаем, оплата будет на странице заказа*/}
+                {/*      // await pay(orderCreated)*/}
+                {/*    }*/}
+                {/*  }}*/}
+                {/*/>*/}
               </CheckoutPaymentFormInputsBlock>
               {/*{stripePaymentIntent &&*/}
               {/*  order.id &&*/}

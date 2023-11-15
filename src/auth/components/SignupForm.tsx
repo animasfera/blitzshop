@@ -25,9 +25,7 @@ export const SignupForm = (props: SignupFormProps) => {
 
   const [signupMutation] = useMutation(signup)
   const [timezone, setTimezone] = useState("")
-  const [country, setCountry] = useState<{ value: string; label: string; img: string } | undefined>(
-    undefined
-  )
+  const [country, setCountry] = useState<string>("ru")
   const { t, i18n } = useTranslation(["pages.signup", "zod"])
   z.setErrorMap(makeZodI18nMap({ t }))
 
@@ -79,7 +77,7 @@ export const SignupForm = (props: SignupFormProps) => {
         password: "",
         timezone,
         locale: i18n.resolvedLanguage?.toUpperCase() as LocaleEnum,
-        countryIsoCode: country?.value ?? "us",
+        countryIsoCode: country ?? "ru",
       }}
       onSubmit={async (values) => {
         try {
@@ -117,11 +115,11 @@ export const SignupForm = (props: SignupFormProps) => {
               key={name}
               name={name}
               label={label}
-              selected={country}
+              // selected={country}
               placeholder={placeholder}
               options={options ?? []}
-              handleChange={(obj: { value: string; label: string; img: string }) => {
-                setCountry(obj)
+              handleChange={(value: string) => {
+                setCountry(value)
               }}
             />
           )

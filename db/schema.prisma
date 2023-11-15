@@ -383,8 +383,8 @@ model ShippingAddress {
   id           Int      @id @default(autoincrement())
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  deliveryMethod DeliveryMethodEnum
-  company      ShippingCompanyEnum
+  deliveryMethod DeliveryMethodEnum?
+  company      ShippingCompanyEnum?
   firstName    String
   lastName     String
   phone        String

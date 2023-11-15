@@ -1,5 +1,4 @@
-import { LocaleEnum } from "@prisma/client"
-import db, { Country, ShippingMethod } from "db"
+import db, { Country } from "db"
 
 import { orders } from "db/seeds/orders/data"
 import { converter } from "src/core/converter"
@@ -24,7 +23,6 @@ export const createOrders = async () => {
         if (!!items && items.length > 0) {
           let amount: number = 0
           let country: Country | null = null
-          let shippingMethod: ShippingMethod | null = null
 
           for (let index = 0; index < items.length; index++) {
             const item = items[index]
