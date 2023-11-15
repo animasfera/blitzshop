@@ -1,7 +1,7 @@
 // const withTM = require("next-transpile-modules")(["three"])
 
 // @ts-check
-const { withBlitz } = require("@blitzjs/next")
+const {withBlitz} = require("@blitzjs/next")
 
 /*
 const withMDX = require("@next/mdx")({
@@ -47,6 +47,10 @@ const config = {
         pathname: "/**",
       },
     ],
+  },
+  experimental: {
+    mdxRs: true,
+    instrumentationHook: true,
   },
   // distDir: process.env.BUILD_DIR || ".next",
   // pageExtensions: ["ts", "tsx", "md", "mdx"],

@@ -1,9 +1,10 @@
-import { AuthorizationError } from "blitz"
-import { NextApiRequest, NextApiResponse, NextApiHandler } from "next"
-import { UserRoleEnum } from "@prisma/client"
-
 import { api } from "src/blitz-server"
+import { NextApiRequest, NextApiResponse, NextApiHandler } from "next"
 import * as Queues from "src/core/queues"
+
+import { UserRoleEnum } from "@prisma/client"
+import { AuthorizationError } from "blitz"
+import { initMailsQueue } from "src/core/queues/mails"
 
 export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
   let {
@@ -14,8 +15,8 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
     throw new AuthorizationError()
   }
 
-  Queues.init()
-
+  Queues.initCron()
+  initMailsQueue()
   res.statusCode = 200
   res.setHeader("Content-Type", "application/json")
   res.end(JSON.stringify({ status: "OK" }))

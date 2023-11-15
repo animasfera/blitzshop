@@ -1,5 +1,7 @@
 import * as mailers from "mailers/merge"
 import Queue from "bull"
+
+// import { sendMailsNewsletter } from "mailers/newsletterMailer"
 import { GlobalRef } from "../index"
 
 type SendMailParams = {
@@ -27,13 +29,22 @@ const sendMail = async (job: SendMailParams) => {
 
 export const initMailsQueue = () => {
   console.log("init Mails queue")
+
   const mailsQ = new Queue("mails")
-  void mailsQ.process(sendMail)
+  void mailsQ.process("sendMail", sendMail)
+  // void mailsQ.process("sendMailsNewsletter", sendMailsNewsletter)
+
   return mailsQ
 }
 
-let queueRef = new GlobalRef<Queue.Queue<any>>(`leela.queue.mails`)
+let queueRef = new GlobalRef<Queue.Queue<any>>(`omkarashop.queue.mails`)
 if (!queueRef.value) {
   queueRef.value = initMailsQueue()
 }
 export const MailsQueue = queueRef.value
+
+export const initMailsCron = (): void => {
+  console.log("initMailsNewsletterCron")
+
+  void MailsQueue.add("sendMailsNewsletter", {}, { repeat: { cron: "* * * * *" } })
+}

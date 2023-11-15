@@ -2,6 +2,7 @@
 // import { initTransactionsCron } from "./transactions"
 // import { initReportsCron } from "./reports"
 import { initInvoicesCron } from "./invoices"
+import { initMailsQueue } from "./mails"
 import { initMailsNewsletterCron } from "./mailsNewsletter"
 
 export { MailsQueue } from "./mails"
@@ -21,6 +22,7 @@ export const initCron = () => {
   // initSlotsCron()
   // initTransactionsCron()
   // initReportsCron()
-  initInvoicesCron()
-  initMailsNewsletterCron()
+  initMailsQueue()
+  // initInvoicesCron()
+  // initMailsNewsletterCron()
 }
