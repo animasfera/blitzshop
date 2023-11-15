@@ -5,6 +5,7 @@ import { Elements } from "@stripe/react-stripe-js"
 import createStripePaymentIntent from "../stripe/mutations/createStripePaymentIntent"
 import { useMutation } from "@blitzjs/rpc"
 import { OrderWithItemsAndUserAndInvoice } from "./useCloudpayments"
+import { CurrencyEnum, Invoice } from "@prisma/client"
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || "")
 
 export const StripeCheckoutFormWithElements = ({ orderId, paymentIntentInstance }) => {
@@ -44,16 +45,15 @@ export const useStripe = () => {
   }, [paymentIntentInstance])
 
   return {
-    pay: async (order: OrderWithItemsAndUserAndInvoice) => {
-      if (!order.invoice) {
-        return
+    pay: async (invoice: Invoice) => {
+      if (invoice.currency !== CurrencyEnum.EUR) {
+        return false
       }
-
       const paymentIntent = await createPaymentIntentMutation({
-        amount: order.invoice.amount,
+        amount: invoice.amount,
         currency: "EUR",
         metadata: {
-          invoiceId: order.invoice.id,
+          invoiceId: invoice.id,
         },
       })
       return paymentIntent

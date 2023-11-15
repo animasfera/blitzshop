@@ -1,20 +1,11 @@
-import { useTranslation } from "react-i18next"
-
-import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
-import { AdminOrderListItemSection } from "src/orders/components/admin/AdminOrderListItemSection"
+import { AdminOrderSectionsListItem } from "src/orders/components/admin/AdminOrderSectionsListItem"
 import { OrderFull } from "src/orders/schemas"
+import { EditableField } from "./AdminOrder"
 
-interface AdminOrderListProps {
+interface AdminOrderSectionsListProps {
   sections: {
     title?: string
-    list: {
-      label: string
-      value?: string | null
-      button?: {
-        id: string
-        select?: boolean
-      }
-    }[]
+    list: EditableField[]
   }[]
   order: OrderFull
   isLoading: boolean
@@ -22,13 +13,13 @@ interface AdminOrderListProps {
   handleUpdateOrder: (values: any) => Promise<void>
 }
 
-export const AdminOrderList = (props: AdminOrderListProps) => {
+export const AdminOrderSectionsList = (props: AdminOrderSectionsListProps) => {
   const { sections, isLoading, order, handleUpdateOrder } = props
 
   return (
     <ul className="space-y-6 xl:w-2/4">
       {sections.map(({ title, list }, index) => (
-        <AdminOrderListItemSection
+        <AdminOrderSectionsListItem
           key={`${index}-${title}`}
           title={title}
           list={list}
@@ -41,4 +32,4 @@ export const AdminOrderList = (props: AdminOrderListProps) => {
   )
 }
 
-export default AdminOrderList
+export default AdminOrderSectionsList

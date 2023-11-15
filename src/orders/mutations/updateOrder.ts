@@ -23,7 +23,10 @@ export const updateOrderDbQuery = async (
   if (!order) {
     throw new NotFoundError(`Order #${id} not found`)
   }
-  const data = { ...rest } as Prisma.OrderUpdateInput
+  let data = { ...rest } as Prisma.OrderUpdateInput
+  if (data.shippingFee && typeof data.shippingFee === "number") {
+    data.total = order.subtotal + data.shippingFee
+  }
   if (input.status) {
     data.log = {
       create: {

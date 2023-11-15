@@ -42,30 +42,12 @@ export const CreateOrderSchema = OrderModel.pick({
         price: true,
       })
     ),
-    currency: z.enum(["EUR", "RUB"]),
   })
 )
 
 export type CreateOrderType = z.infer<typeof CreateOrderSchema>
 
-export const UpdateOrderSchema = OrderModel.pick({
-  id: true,
-  shippingFee: true,
-  subtotal: true,
-  total: true,
-  shippingMethodId: true,
-  status: true,
-  couponCode: true,
-  notes: true,
-}).partial({
-  notes: true,
-  couponCode: true,
-  shippingFee: true,
-  subtotal: true,
-  total: true,
-  shippingMethodId: true,
-  status: true,
-})
+export const UpdateOrderSchema = OrderModel.partial().merge(withIdOfSchema(OrderModel))
 
 export type UpdateOrderSchemaType = z.infer<typeof UpdateOrderSchema>
 
@@ -82,7 +64,7 @@ export type OrderFull = Order & {
     lastName: string | null
     phone: string | null
   }
-  invoice: Invoice
+  invoice: Invoice | null
   log: OrderLog
   shippingAddress:
     | (ShippingAddress & {

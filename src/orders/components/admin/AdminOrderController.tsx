@@ -1,17 +1,14 @@
 import { useState } from "react"
-import { invalidateQuery, useMutation, useQuery } from "@blitzjs/rpc"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 
 import { useParam } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
-import { LocaleEnum, OrderStatusEnum } from "db"
-
-import { OrderStatusesArray, OrderStatusesEnum } from "src/core/enums/OrderStatusEnum"
-import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { AdminOrder } from "src/orders/components/admin/AdminOrder"
 import getOrder from "src/orders/queries/getOrder"
 import updateOrder from "src/orders/mutations/updateOrder"
 import updateShippingAddress from "src/shipping-addresses/mutations/updateShippingAddress"
 import updateOrderLog from "src/order-logs/mutations/updateOrderLog"
+import { OrderFull } from "../../schemas"
 
 export const AdminOrderController = () => {
   const orderId = useParam("orderId", "number")
@@ -24,32 +21,34 @@ export const AdminOrderController = () => {
 
   const [isLoading, setLoading] = useState(false)
 
-  const handleUpdateOrder = async (values: any) => {
+  const handleUpdateOrder = async (values: Partial<OrderFull>) => {
     setLoading(true)
 
-    const isExistStatus = Object.keys(values).some((el) => el === "status")
-    const isExistOrder = Object.keys(values).some((el) => el === "notes")
-    const isExistOrderLog = Object.keys(values).some((el) => el === "comment")
+    let { shippingAddress, ...restOrder } = values
 
-    let updatedOrder
-    if (isExistStatus) {
-      updatedOrder = await updateOrderMutation({ id: order.id, ...values })
-    } else if (isExistOrder) {
-      updatedOrder = await updateOrderMutation({ id: order.id, ...values })
-    } else {
-      const shippingAddress = await updateShippingAddressMutation({
-        id: order.shippingAddressId,
-        ...values,
-      })
-      await setQueryData((oldData) => {
-        return { ...order, ...{ shippingAddress: shippingAddress } }
-      })
+    if (restOrder.shippingFee) {
+      restOrder.shippingFee = Math.round(restOrder.shippingFee * 100)
     }
 
-    if (updatedOrder) {
-      await setQueryData((oldData) => {
-        return { ...oldData, ...updatedOrder }
+    let updatedOrder
+    if (shippingAddress && order.shippingAddressId) {
+      const { id, ...restAShippingAddress } = shippingAddress
+      const shippingAddressUpdated = await updateShippingAddressMutation({
+        id: order.shippingAddressId,
+        ...restAShippingAddress,
       })
+      if (shippingAddressUpdated) {
+        await setQueryData((oldData) => {
+          return { ...order, ...{ shippingAddress: shippingAddressUpdated } }
+        })
+      }
+    } else {
+      updatedOrder = await updateOrderMutation({ id: order.id, ...restOrder })
+      if (updatedOrder) {
+        await setQueryData((oldData) => {
+          return { ...oldData, ...updatedOrder }
+        })
+      }
     }
 
     setLoading(false)

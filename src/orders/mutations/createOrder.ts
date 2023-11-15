@@ -13,7 +13,7 @@ import { NotFoundError } from "blitz"
 export default resolver.pipe(
   resolver.zod(CreateOrderSchema),
   resolver.authorize(),
-  async ({ items, currency, shippingAddress, ...rest }, ctx) => {
+  async ({ items, shippingAddress, ...rest }, ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     // TODO if currency!==EUR - convert rest.total to currency
     const session = await ctx.session.$getPrivateData()
@@ -49,13 +49,13 @@ export default resolver.pipe(
           // },
         },
       },
-      invoice: {
-        create: {
-          amount: rest.total,
-          status: InvoiceStatusEnum.PENDING,
-          currency,
-        },
-      },
+      // invoice: {
+      //   create: {
+      //     amount: rest.total,
+      //     status: InvoiceStatusEnum.PENDING,
+      //     currency,
+      //   },
+      // },
       items: {
         createMany: { data: [] },
       },

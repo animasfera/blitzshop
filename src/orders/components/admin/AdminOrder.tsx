@@ -1,38 +1,32 @@
 import { useTranslation } from "react-i18next"
-import {
-  Order,
-  ShippingAddress,
-  PurchasedItem,
-  Category,
-  Item,
-  Image,
-  Country,
-  LocaleEnum,
-  OrderLog,
-} from "db"
+import { LocaleEnum } from "db"
 
 import { dateFormat } from "src/core/helpers/Helpers"
 import { HeadingPage } from "src/core/tailwind-ui/headings/HeadingPage"
 import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
-import { AdminOrderList } from "src/orders/components/admin/AdminOrderList"
+import { AdminOrderSectionsList } from "src/orders/components/admin/AdminOrderSectionsList"
 import { AdminOrderSummery } from "src/orders/components/admin/AdminOrderSummery"
-import { OrderStatusesEnum } from "src/core/enums/OrderStatusEnum"
+import { OrderStatusesArray, OrderStatusesEnum } from "src/core/enums/OrderStatusEnum"
 import { OrderFull } from "src/orders/schemas"
+import { DutyPaymentEnum, ShippingCompanyEnum } from "@prisma/client"
+
+export type EditableFieldButton = {
+  id: string
+  options?: OptionSelectField[]
+  selected?: string | number | boolean
+  type?: "number" | "string" | "select" | "boolean"
+}
+export type EditableField = {
+  label: string
+  value?: string | null | boolean | number
+  button?: EditableFieldButton
+}
 
 interface AdminOrderProps {
   order: OrderFull
   isLoading: boolean
 
   handleUpdateOrder: (values: any) => Promise<void>
-}
-
-interface ItemList {
-  label: string
-  value?: string | null
-  button?: {
-    id: string
-    select?: boolean
-  }
 }
 
 const handleFullname = ({
@@ -56,24 +50,22 @@ export const AdminOrder = (props: AdminOrderProps) => {
 
   const { t, i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
-  const orderStatus =
-    i18n.resolvedLanguage === LocaleEnum.ru
-      ? OrderStatusesEnum[order.status].nameRu
-      : OrderStatusesEnum[order.status].nameEn
+  const statusOptions: OptionSelectField[] = Object.values(OrderStatusesArray).map(
+    ({ value, nameEn, nameRu }) => ({
+      label: i18n.resolvedLanguage === LocaleEnum.ru ? nameRu : nameEn,
+      value: value,
+    })
+  )
 
-  // const feeType = order.shippingMethod?.feeType
-  //   ? i18n.resolvedLanguage === LocaleEnum.ru
-  //     ? ShippingsFeeTypeEnum[order.shippingMethod?.feeType].nameRu
-  //     : ShippingsFeeTypeEnum[order.shippingMethod?.feeType].nameEn
-  //   : null
-
-  const orderData: ItemList[] = [
+  const orderData: EditableField[] = [
     {
       label: t("order.data.status.label"),
-      value: orderStatus,
+      value: order.status,
       button: {
         id: "status",
-        select: true,
+        type: "select",
+        options: statusOptions,
+        selected: order.status,
       },
     },
     {
@@ -88,7 +80,7 @@ export const AdminOrder = (props: AdminOrderProps) => {
     },
   ]
 
-  const contacts: ItemList[] = [
+  const contacts: EditableField[] = [
     {
       label: t("order.contacts.list.customer.label"),
       value: handleFullname({ firstName: order.user.firstName, lastName: order.user.lastName }),
@@ -103,26 +95,26 @@ export const AdminOrder = (props: AdminOrderProps) => {
     },
   ]
 
-  const shipping: ItemList[] = [
+  const shipping: EditableField[] = [
     {
       label: t("order.shipping.list.firstname.label"),
       value: order.shippingAddress?.firstName,
-      button: { id: "firstName" },
+      button: { id: "shippingAddress.firstName" },
     },
     {
       label: t("order.shipping.list.lastname.label"),
       value: order.shippingAddress?.lastName,
-      button: { id: "lastName" },
+      button: { id: "shippingAddress.lastName" },
     },
     {
       label: t("order.contacts.list.phone.label"),
       value: order.shippingAddress?.phone,
-      button: { id: "phone" },
+      button: { id: "shippingAddress.phone" },
     },
     {
       label: t("order.shipping.list.postalCode.label"),
       value: order.shippingAddress?.postalCode,
-      button: { id: "postalCode" },
+      button: { id: "shippingAddress.postalCode" },
     },
     {
       label: t("order.shipping.list.country.label"),
@@ -134,43 +126,85 @@ export const AdminOrder = (props: AdminOrderProps) => {
     {
       label: t("order.shipping.list.city.label"),
       value: order.shippingAddress?.city,
-      button: { id: "city" },
+      button: { id: "shippingAddress.city" },
     },
     {
       label: t("order.shipping.list.address.label"),
       value: order.shippingAddress?.address,
-      button: { id: "address" },
+      button: { id: "shippingAddress.address" },
     },
     {
       label: t("order.shipping.list.instructions.label"),
       value: order.shippingAddress?.instructions,
-      button: { id: "instructions" },
+      button: { id: "shippingAddress.instructions" },
     },
   ]
 
-  // const delivery: ItemList[] = [
-  //   {
-  //     label: t("order.delivery.list.title.label"),
-  //     value: order.shippingMethod?.title,
-  //   },
-  //   {
-  //     label: t("order.delivery.list.description.label"),
-  //     value: order.shippingMethod?.description,
-  //   },
-  //   {
-  //     label: t("order.delivery.list.feeType.label"),
-  //     value: feeType,
-  //   },
-  //   {
-  //     label: t("order.delivery.list.fee.label"),
-  //     // !!! поправить когда будет готова сумма доставки
-  //     value: feeType ? `${order.shippingMethod?.fee}` : null,
-  //   },
-  // ]
+  const delivery: EditableField[] = [
+    {
+      label: t("order.data.shippingCompany.label"),
+      value: order.shippingCompany,
+      button: {
+        id: "shippingCompany",
+        type: "select",
+        options: [
+          { label: "...", value: null },
+          { label: ShippingCompanyEnum.SDEK, value: ShippingCompanyEnum.SDEK },
+          { label: ShippingCompanyEnum.BOXBERRY, value: ShippingCompanyEnum.BOXBERRY },
+        ],
+        selected: order.shippingCompany || undefined,
+      },
+    },
+    {
+      label: t("order.data.shippingDutyPayment.label"),
+      value: order.shippingDutyPayment,
+      button: {
+        id: "shippingDutyPayment",
+        type: "select",
+        options: [
+          { label: "...", value: null },
+          { label: DutyPaymentEnum.DDP, value: DutyPaymentEnum.DDP },
+          { label: DutyPaymentEnum.DDU, value: DutyPaymentEnum.DDU },
+        ],
+        selected: order.shippingDutyPayment || undefined,
+      },
+    },
+    {
+      label: t("order.data.shippingInsurance.label"),
+      value: order.shippingInsurance,
+      button: {
+        id: "shippingInsurance",
+        type: "select",
+        options: [
+          { label: "...", value: null },
+          { label: "Со страховкой", value: true },
+          { label: "Без страховки", value: false },
+        ],
+        selected: order.shippingInsurance,
+      },
+    },
+    // {
+    //   label: t("order.data.feeType.label"),
+    //   value: order.shippingInsuranceFee ? order.shippingInsuranceFee.toString() : "",
+    // },
+    {
+      label: t("order.data.shippingFee.label"),
+      // !!! поправить когда будет готова сумма доставки
+      value: order.shippingFee / 100,
+      button: {
+        id: "shippingFee",
+        type: "number",
+      },
+    },
+  ]
 
   const sections = [
     {
       list: orderData,
+    },
+    {
+      title: t("order.delivery.title"),
+      list: delivery,
     },
     {
       title: t("order.contacts.title"),
@@ -180,10 +214,6 @@ export const AdminOrder = (props: AdminOrderProps) => {
       title: t("order.shipping.title"),
       list: shipping,
     },
-    // {
-    //   title: t("order.delivery.title"),
-    //   list: delivery,
-    // },
   ]
 
   return (
@@ -196,7 +226,7 @@ export const AdminOrder = (props: AdminOrderProps) => {
       </div>
 
       <div className="flex flex-col gap-x-6 gap-y-2 xl:flex-row">
-        <AdminOrderList
+        <AdminOrderSectionsList
           sections={sections}
           order={order}
           isLoading={isLoading}

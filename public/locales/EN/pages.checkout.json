@@ -15,8 +15,8 @@
     "title": "Payment currency",
     "description": "We use different payment gateways for different currencies. Please select your card's currency.",
     "options": {
-      "EUR": "Another currency",
-      "RUB": "₽ (Russian Ruble)"
+      "EUR": "Euro or any another currency (the amount will be converted to Euro): ",
+      "RUB": "Russian Ruble: "
     }
   },
   "delivery": {

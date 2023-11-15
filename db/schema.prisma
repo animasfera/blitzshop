@@ -330,8 +330,8 @@ model Order {
   userId            Int
   items             PurchasedItem[]
   refunds           Refund[]
-  invoice           Invoice              @relation(fields: [invoiceId], references: [id])
-  invoiceId         Int @unique
+  invoice           Invoice?              @relation(fields: [invoiceId], references: [id])
+  invoiceId         Int? @unique
   shippingFee       Int
   shippingDutyFee  Int?
   shippingInsuranceFee  Int?

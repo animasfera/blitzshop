@@ -16,6 +16,7 @@ import PaymentCurrencyForm from "./PaymentCurrencyForm"
 import { usePayment } from "../../core/hooks/usePayment"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
+import createInvoiceForOrder from "../../invoices/mutations/createInvoiceForOrder"
 
 interface CheckoutProps {
   items: any[]
@@ -54,6 +55,7 @@ export const Checkout = (props: CheckoutProps) => {
   })
 
   const [createOrderMutation] = useMutation(createOrder)
+  const [createInvoiceMutation] = useMutation(createInvoiceForOrder)
 
   const [step, setStep] = useState<"address" | "shippingMethod" | "paymentCountry" | "payment">(
     "address"
@@ -81,7 +83,14 @@ export const Checkout = (props: CheckoutProps) => {
               <ShippingAddressChoiceController
                 shippingAddress={shippingAddress}
                 onSelect={async (address) => {
-                  setShippingAddress(address)
+                  let newOrderData = {
+                    ...order,
+                    shippingAddress: address,
+                  }
+                  const orderCreated = await createOrderMutation(newOrderData as CreateOrderType)
+                  router.push(Routes.OrderPage({ orderId: orderCreated.id }))
+
+                  // setShippingAddress(address)
                   // const shippingWithPrice = await getShippingMethodWithPriceMutation({
                   //   address,
                   // })
@@ -94,7 +103,7 @@ export const Checkout = (props: CheckoutProps) => {
             </>
           </CheckoutPaymentFormInputsBlock>
 
-          {shippingAddress && (
+          {shippingAddress && order.id && (
             <>
               <CheckoutPaymentFormInputsBlock title={t("pages.checkout:paymentCurrency.title")}>
                 <PaymentCurrencyForm
@@ -103,17 +112,17 @@ export const Checkout = (props: CheckoutProps) => {
                   })}
                   submitText={t("translation:next")}
                   onSubmit={async (values) => {
-                    let newOrderData = {
-                      ...order,
-                      shippingAddress,
+                    if (!order.id) {
+                      return
+                    }
+                    let newInvoiceData = {
+                      orderId: order.id,
                       currency: values.currency,
                     }
 
-                    if (typeof newOrderData.currency !== "undefined") {
-                      const orderCreated = await createOrderMutation(
-                        newOrderData as CreateOrderType
-                      )
-                      router.push(Routes.OrderPage({ orderId: orderCreated.id }))
+                    if (typeof newInvoiceData.currency !== "undefined") {
+                      const invoiceCreated = await createInvoiceMutation(newInvoiceData)
+                      // router.push(Routes.OrderPage({ orderId: orderCreated.id }))
                       // setOrder(orderCreated)
                       // TODO платежи тут пока не делаем, оплата будет на странице заказа
                       // await pay(orderCreated)

@@ -88,3 +88,5 @@ export type PreOrderItem = Pick<PurchasedItem, "title" | "itemId" | "qty" | "pri
 }
 
 export type CartWithCartToItem = Cart & { cartToItems: CartItemWithItem[] }
+
+export type SelectFieldOption = { label: string; value: number | string }

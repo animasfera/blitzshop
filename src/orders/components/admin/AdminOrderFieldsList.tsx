@@ -1,32 +1,23 @@
 import React from "react"
-import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
-
-import { AdminOrderListItemSectionListItem } from "src/orders/components/admin/AdminOrderListItemSectionListItem"
+import { AdminOrderFieldsListItem } from "src/orders/components/admin/AdminOrderFieldsListItem"
 import { OrderFull } from "../../schemas"
+import { EditableField } from "./AdminOrder"
 
-interface AdminOrderListItemSectionListProps {
-  list: {
-    label: string
-    value?: string | null
-    button?: {
-      id: string
-      select?: boolean
-    }
-  }[]
+interface AdminOrderFieldsListProps {
+  list: EditableField[]
   order: OrderFull
   isLoading: boolean
-
   handleUpdateOrder: (values: any) => Promise<void>
 }
 
-export const AdminOrderListItemSectionList = (props: AdminOrderListItemSectionListProps) => {
+export const AdminOrderFieldsList = (props: AdminOrderFieldsListProps) => {
   const { list, order, isLoading, handleUpdateOrder } = props
 
   return (
     <dl>
       <ul className="my-2 pb-6 flex flex-col gap-y-2 border-b border-gray-200 text-sm leading-6">
         {list.map(({ label, value, button }) => (
-          <AdminOrderListItemSectionListItem
+          <AdminOrderFieldsListItem
             key={`${value}-${label}`}
             label={label}
             value={value}
@@ -41,4 +32,4 @@ export const AdminOrderListItemSectionList = (props: AdminOrderListItemSectionLi
   )
 }
 
-export default AdminOrderListItemSectionList
+export default AdminOrderFieldsList

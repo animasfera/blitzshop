@@ -9,7 +9,7 @@ import { classNames } from "src/core/helpers/classNames"
 
 export interface OptionSelectField {
   label: string
-  value: string | number
+  value: string | number | null | boolean
   description?: string | number
   img?: string
 }
@@ -104,7 +104,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                     Array.isArray(selected) ? (
                       <ul className="flex gap-4">
                         {selected.map((el) => (
-                          <li key={el.value} className="flex items-center cursor-pointer">
+                          <li key={"" + el.value} className="flex items-center cursor-pointer">
                             {el?.img && (
                               <Image
                                 width={200}
@@ -177,7 +177,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
 
                     return (
                       <Listbox.Option
-                        key={option.value}
+                        key={option.value + ""}
                         className={() =>
                           classNames(
                             isCheck

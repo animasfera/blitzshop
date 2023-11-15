@@ -32,10 +32,7 @@ export const createTransactionServiceDbQuery = async (
         throw new Error(`Invoice #${transaction.invoiceId} not found`)
       }
       let sumOfTransactions = sum(invoice.transactions, "amount")
-      console.log("sumOfTransactions")
-      console.log(sumOfTransactions)
-      console.log(invoice.amount)
-      console.log(sumOfTransactions === invoice.amount)
+
       let needToChangeInvoiceStatusTo: null | InvoiceStatusEnum = null
       if (sumOfTransactions === invoice.amount) {
         needToChangeInvoiceStatusTo = InvoiceStatusEnum.PAID

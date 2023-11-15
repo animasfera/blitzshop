@@ -1,23 +1,17 @@
 import { HeadingSection } from "src/core/tailwind-ui/headings/HeadingSection"
-import { AdminOrderListItemSectionList } from "src/orders/components/admin/AdminOrderListItemSectionList"
+import { AdminOrderFieldsList } from "src/orders/components/admin/AdminOrderFieldsList"
 import { OrderFull } from "../../schemas"
+import { EditableField } from "./AdminOrder"
 
-interface AdminOrderListItemSectionProps {
+interface AdminOrderSectionsListItemProps {
   title?: string
-  list: {
-    label: string
-    value?: string | null
-    button?: {
-      id: string
-      select?: boolean
-    }
-  }[]
+  list: EditableField[]
   order: OrderFull
   isLoading: boolean
   handleUpdateOrder: (values: any) => Promise<void>
 }
 
-export const AdminOrderListItemSection = (props: AdminOrderListItemSectionProps) => {
+export const AdminOrderSectionsListItem = (props: AdminOrderSectionsListItemProps) => {
   const { title, list, order, isLoading, handleUpdateOrder } = props
 
   return (
@@ -25,7 +19,7 @@ export const AdminOrderListItemSection = (props: AdminOrderListItemSectionProps)
       {title && <HeadingSection title={title} />}
 
       {list && list.length > 0 && (
-        <AdminOrderListItemSectionList
+        <AdminOrderFieldsList
           list={list}
           order={order}
           isLoading={isLoading}
@@ -36,4 +30,4 @@ export const AdminOrderListItemSection = (props: AdminOrderListItemSectionProps)
   )
 }
 
-export default AdminOrderListItemSection
+export default AdminOrderSectionsListItem
