@@ -1,13 +1,12 @@
 import { useTranslation } from "react-i18next"
 import { useMediaQuery } from "react-responsive"
-import { Order, ShippingMethod } from "db"
+import { Order } from "db"
 
 import { AdminOrdersListItem } from "src/orders/components/admin/AdminOrdersListItem"
 
 interface AdminOrdersListProps {
   orders: (Order & {
     user: { id: number; email: string; username: string }
-    shippingMethod: ShippingMethod | null
   })[]
 }
 

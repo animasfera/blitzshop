@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useMutation } from "@blitzjs/rpc"
-import { CurrencyEnum, Invoice, ShippingAddress } from "@prisma/client"
+import { Invoice, ShippingAddress } from "@prisma/client"
 import { useTranslation } from "react-i18next"
 import { z } from "zod"
 
 import { PreOrderItem } from "src/../types"
 import { CheckoutOrder } from "src/checkout/components/CheckoutOrder"
-import { CheckoutDeliveryMethod } from "src/checkout/components/CheckoutDeliveryMethod"
 import { CheckoutPayment } from "src/checkout/components/CheckoutPayment"
 import { cartClient } from "src/core/hooks/useCart"
 import createOrder from "src/orders/mutations/createOrder"
-import { StripeCheckoutFormWithElements, useStripe } from "src/core/hooks/useStripe"
 import CheckoutPaymentFormInputsBlock from "./CheckoutPaymentFormInputsBlock"
 import { ShippingAddressChoiceController } from "./ShippingAddressChoiceController"
-import getShippingMethodWithPrice from "src/shipping-methods/mutations/getShippingMethodWithPrice"
-import { OrderWithItemsAndUserAndInvoice, useCloudpayments } from "src/core/hooks/useCloudpayments"
 import { CreateOrderType } from "src/orders/schemas"
 import PaymentCurrencyForm from "./PaymentCurrencyForm"
 import { usePayment } from "../../core/hooks/usePayment"
@@ -24,22 +20,6 @@ import { Routes } from "@blitzjs/next"
 interface CheckoutProps {
   items: any[]
   cartClient: cartClient
-  // deliveryMethods: { value: 1 | 2; label: string }[]
-  // deliveryMethod: { value: 1 | 2; label: string }
-  // countries: { value: string; label: string; img: string }[]
-  // country?: { value: string; label: string; img: string }
-  // regions: { value: number | string; label: string }[]
-  // region?: { value: number | string; label: string }
-  // cities: { value: number | string; label: string }[]
-  // city?: { value: number | string; label: string }
-  // postalCodes: { value: string; label: string }[]
-  // selectedPostalCode?: { value: string; label: string }
-  //
-  // handleDeliveryMethod: (el: { value: 1 | 2; label: string }) => void
-  // handleCountry: (el: { value: string; label: string; img: string }) => void
-  // handleRegion: (el: { value: number | string; label: string }) => void
-  // handleCity: (el: { value: number | string; label: string }) => void
-  // handlePostalCodes: (el: { value: string; label: string }) => void
 }
 
 export const Checkout = (props: CheckoutProps) => {
@@ -50,7 +30,6 @@ export const Checkout = (props: CheckoutProps) => {
   const router = useRouter()
 
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress | undefined>()
-  const [getShippingMethodWithPriceMutation] = useMutation(getShippingMethodWithPrice)
   const [order, setOrder] = useState<{
     id?: number
     items: PreOrderItem[]
@@ -126,10 +105,11 @@ export const Checkout = (props: CheckoutProps) => {
                   onSubmit={async (values) => {
                     let newOrderData = {
                       ...order,
+                      shippingAddress,
                       currency: values.currency,
                     }
 
-                    if (typeof newOrderData.currency !== "undefined" && newOrderData.shippingFee) {
+                    if (typeof newOrderData.currency !== "undefined") {
                       const orderCreated = await createOrderMutation(
                         newOrderData as CreateOrderType
                       )

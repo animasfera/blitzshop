@@ -1,0 +1,17 @@
+{
+  "address": "Address",
+  "shippingMethod": "Shipping method",
+  "paymentMethod": "Payment method",
+  "subtotal": "Subtotal",
+  "discount": "Discount",
+  "shipping": "Shipping",
+  "total": "Total",
+  "shippingCompanies": {
+    "SDEK": "SDEK",
+    "BOXBERRY": "Boxberry"
+  },
+  "deliveryMethods": {
+    "DOOR": "Door delivery",
+    "PICKUP": "Pick up"
+  }
+}

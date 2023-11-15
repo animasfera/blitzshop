@@ -10,6 +10,7 @@ export default resolver.pipe(
     const shippingAddress = await db.shippingAddress.update({
       where: { id },
       data,
+      include: { country: true },
     })
 
     return shippingAddress

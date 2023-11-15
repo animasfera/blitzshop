@@ -15,34 +15,14 @@ import updateOrderLog from "src/order-logs/mutations/updateOrderLog"
 
 export const AdminOrderController = () => {
   const orderId = useParam("orderId", "number")
-  const [order] = useQuery(getOrder, { id: orderId })
+  const [order, { setQueryData }] = useQuery(getOrder, { id: orderId })
   const [updateOrderMutation] = useMutation(updateOrder)
   const [updateShippingAddressMutation] = useMutation(updateShippingAddress)
   const [updateOrderLogMutation] = useMutation(updateOrderLog)
 
   const { i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
-  const shippingOptions: OptionSelectField[] = Object.values(OrderStatusesArray).map(
-    ({ value, nameEn, nameRu }) => ({
-      label: i18n.resolvedLanguage === LocaleEnum.ru ? nameRu : nameEn,
-      value: value,
-    })
-  )
-
-  const handleStatusOrder = (status: OrderStatusEnum): OptionSelectField => {
-    return (
-      shippingOptions.find((el) => status === el.value) ?? {
-        value: OrderStatusesEnum[status].value,
-        label:
-          i18n.resolvedLanguage === LocaleEnum.ru
-            ? OrderStatusesEnum[status].nameRu
-            : OrderStatusesEnum[status].nameEn,
-      }
-    )
-  }
-
   const [isLoading, setLoading] = useState(false)
-  const [statusOrder, setStatusOrder] = useState<OptionSelectField>(handleStatusOrder(order.status))
 
   const handleUpdateOrder = async (values: any) => {
     setLoading(true)
@@ -51,33 +31,31 @@ export const AdminOrderController = () => {
     const isExistOrder = Object.keys(values).some((el) => el === "notes")
     const isExistOrderLog = Object.keys(values).some((el) => el === "comment")
 
+    let updatedOrder
     if (isExistStatus) {
-      const res = await updateOrderMutation({ id: order.id, ...values })
-      await updateOrderLogMutation({ id: order.logId, ...values })
-
-      setStatusOrder(handleStatusOrder(res.status))
+      updatedOrder = await updateOrderMutation({ id: order.id, ...values })
     } else if (isExistOrder) {
-      await updateOrderMutation({ id: order.id, ...values })
-    } else if (isExistOrderLog) {
-      await updateOrderLogMutation({ id: order.logId, ...values })
+      updatedOrder = await updateOrderMutation({ id: order.id, ...values })
     } else {
-      await updateShippingAddressMutation({ id: order.shippingAddressId, ...values })
+      const shippingAddress = await updateShippingAddressMutation({
+        id: order.shippingAddressId,
+        ...values,
+      })
+      await setQueryData((oldData) => {
+        return { ...order, ...{ shippingAddress: shippingAddress } }
+      })
     }
 
-    await invalidateQuery(getOrder)
+    if (updatedOrder) {
+      await setQueryData((oldData) => {
+        return { ...oldData, ...updatedOrder }
+      })
+    }
 
     setLoading(false)
   }
 
-  return (
-    <AdminOrder
-      order={order}
-      statusOrder={statusOrder}
-      shippingOptions={shippingOptions}
-      isLoading={isLoading}
-      handleUpdateOrder={handleUpdateOrder}
-    />
-  )
+  return <AdminOrder order={order} isLoading={isLoading} handleUpdateOrder={handleUpdateOrder} />
 }
 
 export default AdminOrderController

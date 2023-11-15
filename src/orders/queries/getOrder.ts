@@ -14,7 +14,7 @@ export default resolver.pipe(resolver.zod(GetOrder), resolver.authorize(), async
     where: { id },
     include: {
       log: true,
-      shippingMethod: true,
+      invoice: true,
       shippingAddress: {
         include: { country: true },
       },

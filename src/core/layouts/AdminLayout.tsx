@@ -3,7 +3,12 @@ import Head from "next/head"
 import { BlitzLayout, Routes } from "@blitzjs/next"
 import { useSession } from "@blitzjs/auth"
 import AdminSidebar from "../tailwind-ui/application-ui/admin/AdminSidebar"
-import { HomeIcon, CircleStackIcon, ShoppingCartIcon, AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline"
+import {
+  HomeIcon,
+  CircleStackIcon,
+  ShoppingCartIcon,
+  AdjustmentsHorizontalIcon,
+} from "@heroicons/react/24/outline"
 import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
 import { UserRoleEnum } from "db"
@@ -71,7 +76,7 @@ export const AdminLayout: BlitzLayout<AdminLayoutProps> = (props) => {
     <Loading>
       <Head>
         <title>{title || "Administration"}</title>
-        <link rel="icon" href="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" />
+        <link rel="icon" href="/images/logo.jpg" />
       </Head>
 
       {session.isLoading || session.role !== UserRoleEnum.ADMIN ? (

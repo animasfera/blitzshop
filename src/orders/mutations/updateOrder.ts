@@ -1,7 +1,7 @@
 import { resolver } from "@blitzjs/rpc"
 import db from "db"
 import { UpdateOrderSchema, UpdateOrderSchemaType } from "../schemas"
-import { OrderStatusEnum, UserRoleEnum } from "@prisma/client"
+import { OrderStatusEnum, Prisma, UserRoleEnum } from "@prisma/client"
 import { AuthorizationError, Ctx, NotFoundError } from "blitz"
 import { PrismaDbType } from "../../../types"
 import { NotificationsTransactionType } from "../../core/notifications/NotificationsTransaction"
@@ -23,7 +23,15 @@ export const updateOrderDbQuery = async (
   if (!order) {
     throw new NotFoundError(`Order #${id} not found`)
   }
-  const orderUpdated = await db.order.update({ where: { id }, data: input })
+  const data = { ...rest } as Prisma.OrderUpdateInput
+  if (input.status) {
+    data.log = {
+      create: {
+        status: input.status,
+      },
+    }
+  }
+  const orderUpdated = await db.order.update({ where: { id }, data })
   if (input.status && input.status !== orderUpdated.status) {
     switch (orderUpdated.status) {
       case OrderStatusEnum.SHIPPED:

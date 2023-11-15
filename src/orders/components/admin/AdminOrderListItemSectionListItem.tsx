@@ -6,6 +6,9 @@ import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/But
 import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { SelectSubmit } from "src/core/tailwind-ui/application-ui/forms/SelectSubmit"
 import { AdminOrderListItemSectionListItemForm } from "src/orders/components/admin/AdminOrderListItemSectionListItemForm"
+import { LocaleEnum, OrderStatusEnum } from "../../../../db"
+import { OrderStatusesArray, OrderStatusesEnum } from "../../../core/enums/OrderStatusEnum"
+import { OrderFull } from "../../schemas"
 
 interface AdminOrderListItemSectionListItemProps {
   label: string
@@ -14,21 +17,37 @@ interface AdminOrderListItemSectionListItemProps {
     id: string
     select?: boolean
   }
-  statusOrder: OptionSelectField
-  shippingOptions: OptionSelectField[]
   isLoading: boolean
-
+  order: OrderFull
   handleUpdateOrder: (values: any) => Promise<void>
 }
 
 export const AdminOrderListItemSectionListItem = (
   props: AdminOrderListItemSectionListItemProps
 ) => {
-  const { label, value, button, statusOrder, shippingOptions, isLoading, handleUpdateOrder } = props
+  const { label, order, value, button, isLoading, handleUpdateOrder } = props
 
-  const { t } = useTranslation(["pages.admin.orderId"])
+  const { t, i18n } = useTranslation(["pages.admin.orderId"])
   const [isChange, setChange] = useState(false)
   const isFullScreen = useMediaQuery({ query: "(min-width: 900px)" })
+  const shippingOptions: OptionSelectField[] = Object.values(OrderStatusesArray).map(
+    ({ value, nameEn, nameRu }) => ({
+      label: i18n.resolvedLanguage === LocaleEnum.ru ? nameRu : nameEn,
+      value: value,
+    })
+  )
+
+  const getStatusOrder = (status: OrderStatusEnum): OptionSelectField => {
+    return (
+      shippingOptions.find((el) => status === el.value) ?? {
+        value: OrderStatusesEnum[status].value,
+        label:
+          i18n.resolvedLanguage === LocaleEnum.ru
+            ? OrderStatusesEnum[status].nameRu
+            : OrderStatusesEnum[status].nameEn,
+      }
+    )
+  }
 
   return (
     <li
@@ -90,7 +109,7 @@ export const AdminOrderListItemSectionListItem = (
             <SelectSubmit
               name={button.id ?? `select-${value}`}
               options={shippingOptions}
-              selected={statusOrder}
+              selected={getStatusOrder(order.status)}
               handleChange={async (values) => {
                 let obj = {}
                 obj[button.id] = values.value

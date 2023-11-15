@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next"
 import {
   Order,
   ShippingAddress,
-  ShippingMethod,
   PurchasedItem,
   Category,
   Item,
@@ -10,7 +9,6 @@ import {
   Country,
   LocaleEnum,
   OrderLog,
-  OrderStatusEnum,
 } from "db"
 
 import { dateFormat } from "src/core/helpers/Helpers"
@@ -19,38 +17,10 @@ import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Sel
 import { AdminOrderList } from "src/orders/components/admin/AdminOrderList"
 import { AdminOrderSummery } from "src/orders/components/admin/AdminOrderSummery"
 import { OrderStatusesEnum } from "src/core/enums/OrderStatusEnum"
+import { OrderFull } from "src/orders/schemas"
 
 interface AdminOrderProps {
-  order: Order & {
-    user: {
-      email: string
-      id: number
-      username: string
-      firstName: string | null
-      lastName: string | null
-      phone: string | null
-    }
-    log: OrderLog
-    shippingMethod: ShippingMethod | null
-    shippingAddress:
-      | (ShippingAddress & {
-          country: Country
-        })
-      | null
-    items: (PurchasedItem & {
-      category: Category | null
-      item: Item & {
-        user: {
-          email: string
-          id: number
-          username: string
-        } | null
-      }
-      coverImage: Image
-    })[]
-  }
-  statusOrder: OptionSelectField
-  shippingOptions: OptionSelectField[]
+  order: OrderFull
   isLoading: boolean
 
   handleUpdateOrder: (values: any) => Promise<void>
@@ -82,7 +52,7 @@ const handleFullname = ({
 }
 
 export const AdminOrder = (props: AdminOrderProps) => {
-  const { order, statusOrder, shippingOptions, isLoading, handleUpdateOrder } = props
+  const { order, isLoading, handleUpdateOrder } = props
 
   const { t, i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
@@ -129,7 +99,7 @@ export const AdminOrder = (props: AdminOrderProps) => {
     },
     {
       label: t("order.contacts.list.phone.label"),
-      value: order.user.phone,
+      value: order.shippingAddress?.phone,
     },
   ]
 
@@ -228,8 +198,7 @@ export const AdminOrder = (props: AdminOrderProps) => {
       <div className="flex flex-col gap-x-6 gap-y-2 xl:flex-row">
         <AdminOrderList
           sections={sections}
-          statusOrder={statusOrder}
-          shippingOptions={shippingOptions}
+          order={order}
           isLoading={isLoading}
           handleUpdateOrder={handleUpdateOrder}
         />

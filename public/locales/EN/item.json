@@ -9,5 +9,7 @@
   "weight":{
     "kg":"Kg",
     "g":"g"
-  }
+  },
+  "qty": "Quantity",
+  "price": "Price"
 }

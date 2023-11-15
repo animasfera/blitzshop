@@ -1,6 +1,6 @@
 import * as z from "zod"
-import { OrderStatusEnum, CurrencyEnum } from "@prisma/client"
-import { CompleteOrderLog, RelatedOrderLogModel, CompleteShippingMethod, RelatedShippingMethodModel, CompleteUser, RelatedUserModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteShippingAddress, RelatedShippingAddressModel, CompleteRefund, RelatedRefundModel, CompleteInvoice, RelatedInvoiceModel } from "./index"
+import { OrderStatusEnum, CurrencyEnum, DutyPaymentEnum, ShippingCompanyEnum } from "@prisma/client"
+import { CompleteOrderLog, RelatedOrderLogModel, CompleteUser, RelatedUserModel, CompletePurchasedItem, RelatedPurchasedItemModel, CompleteRefund, RelatedRefundModel, CompleteInvoice, RelatedInvoiceModel, CompleteShippingAddress, RelatedShippingAddressModel } from "./index"
 
 export const OrderModel = z.object({
   id: z.number().int(),
@@ -10,25 +10,30 @@ export const OrderModel = z.object({
   notes: z.string().nullish(),
   status: z.nativeEnum(OrderStatusEnum),
   subtotal: z.number().int(),
-  shippingFee: z.number().int(),
   total: z.number().int(),
   net: z.number().int(),
   currency: z.nativeEnum(CurrencyEnum),
   logId: z.number().int(),
-  shippingMethodId: z.number().int().nullish(),
   userId: z.number().int(),
-  shippingAddressId: z.number().int().nullish(),
   invoiceId: z.number().int(),
+  shippingFee: z.number().int(),
+  shippingDutyFee: z.number().int().nullish(),
+  shippingInsuranceFee: z.number().int().nullish(),
+  shippingPackageFee: z.number().int().nullish(),
+  shippingAddressId: z.number().int().nullish(),
+  shippingDutyPayment: z.nativeEnum(DutyPaymentEnum).nullish(),
+  shippingInsurance: z.boolean(),
+  shippingTrackingId: z.string().nullish(),
+  shippingCompany: z.nativeEnum(ShippingCompanyEnum).nullish(),
 })
 
 export interface CompleteOrder extends z.infer<typeof OrderModel> {
   log: CompleteOrderLog
-  shippingMethod?: CompleteShippingMethod | null
   user: CompleteUser
   items: CompletePurchasedItem[]
-  shippingAddress?: CompleteShippingAddress | null
   refunds: CompleteRefund[]
   invoice: CompleteInvoice
+  shippingAddress?: CompleteShippingAddress | null
 }
 
 /**
@@ -38,10 +43,9 @@ export interface CompleteOrder extends z.infer<typeof OrderModel> {
  */
 export const RelatedOrderModel: z.ZodSchema<CompleteOrder> = z.lazy(() => OrderModel.extend({
   log: RelatedOrderLogModel,
-  shippingMethod: RelatedShippingMethodModel.nullish(),
   user: RelatedUserModel,
   items: RelatedPurchasedItemModel.array(),
-  shippingAddress: RelatedShippingAddressModel.nullish(),
   refunds: RelatedRefundModel.array(),
   invoice: RelatedInvoiceModel,
+  shippingAddress: RelatedShippingAddressModel.nullish(),
 }))

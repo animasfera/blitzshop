@@ -2,6 +2,7 @@ import React from "react"
 import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
 
 import { AdminOrderListItemSectionListItem } from "src/orders/components/admin/AdminOrderListItemSectionListItem"
+import { OrderFull } from "../../schemas"
 
 interface AdminOrderListItemSectionListProps {
   list: {
@@ -12,15 +13,14 @@ interface AdminOrderListItemSectionListProps {
       select?: boolean
     }
   }[]
-  statusOrder: OptionSelectField
-  shippingOptions: OptionSelectField[]
+  order: OrderFull
   isLoading: boolean
 
   handleUpdateOrder: (values: any) => Promise<void>
 }
 
 export const AdminOrderListItemSectionList = (props: AdminOrderListItemSectionListProps) => {
-  const { list, statusOrder, shippingOptions, isLoading, handleUpdateOrder } = props
+  const { list, order, isLoading, handleUpdateOrder } = props
 
   return (
     <dl>
@@ -31,8 +31,7 @@ export const AdminOrderListItemSectionList = (props: AdminOrderListItemSectionLi
             label={label}
             value={value}
             button={button}
-            statusOrder={statusOrder}
-            shippingOptions={shippingOptions}
+            order={order}
             isLoading={isLoading}
             handleUpdateOrder={handleUpdateOrder}
           />

@@ -292,12 +292,14 @@ model OrderLog {
   id        Int             @id @default(autoincrement())
   createdAt DateTime        @default(now())
   updatedAt DateTime        @updatedAt
+  status    OrderStatusEnum?
   comment   String?
   orders    Order[]
 }
 
 enum OrderStatusEnum {
   PENDING // Заказ создан, но еще не обработан
+  PAYMENT // Заказ находится в ожидании оплаты
   PROCESSING // Заказ находится в процессе обработки и подготовки к доставке
   COMPLETED // Заказ успешно выполнен и доставлен клиенту
   CANCELLED // Заказ отменен по какой-либо причине

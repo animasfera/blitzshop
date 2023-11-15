@@ -9,12 +9,7 @@ interface HeaderLogoProps {
 }
 
 export const HeaderLogo = (props: HeaderLogoProps) => {
-  const {
-    title = "shop",
-    href = "/",
-    src = "https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600",
-    alt = "logo",
-  } = props
+  const { title = "shop", href = "/", src = "/images/logo.jpg", alt = "logo" } = props
 
   return (
     <Link href={href} className="flex flex-shrink-0 items-center">
@@ -22,7 +17,7 @@ export const HeaderLogo = (props: HeaderLogoProps) => {
       {src.indexOf("svg") !== -1 ? (
         <img src={src} alt={alt} className="h-8 w-auto" />
       ) : (
-        <Image width={200} height={200} src={src} alt={alt} className="h-8 w-auto" />
+        <Image width={200} height={200} src={src} alt={alt} className="h-11 w-auto" />
       )}
     </Link>
   )
