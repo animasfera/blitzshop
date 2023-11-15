@@ -5,7 +5,7 @@ import React, { ReactElement } from "react"
 import { useTranslation } from "react-i18next"
 import Sidebar from "src/core/tailwind-ui/application-ui/application-shells/sidebar/Sidebar"
 import { Routes } from "@blitzjs/next"
-import { UserCircleIcon } from "@heroicons/react/20/solid"
+import { AdjustmentsHorizontalIcon, UserCircleIcon } from "@heroicons/react/20/solid"
 
 type SettingsMenuProps = {
   children: ReactElement | ReactElement[]
@@ -23,7 +23,7 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
     {
       name: t("navigation.general"),
       href: Routes.SettingsPage().href,
-      icon: UserCircleIcon,
+      icon: AdjustmentsHorizontalIcon,
       current: routerPathname === Routes.SettingsPage().href,
     },
     {
