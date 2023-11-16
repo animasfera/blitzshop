@@ -26,13 +26,13 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
 
   const { t } = useTranslation(["shippingAddress"])
   const [form, setForm] = useState<FormApi<z.TypeOf<S>, Partial<z.TypeOf<S>>>>()
-  const [countries] = useQuery(getListCountriesForDelivery, { staleTime: Infinity })
+  // const [countries] = useQuery(getListCountriesForDelivery, { staleTime: Infinity })
 
   return (
     <>
       <Form<S>
         subscription={{ submitting: true, pristine: true }}
-        debug={true}
+        // debug={true}
         {...props}
         getInstance={(formA) => {
           !form && setForm(formA)
@@ -123,6 +123,7 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
             {/*<Condition when={"countryId"} not={["RU", "KZ", "BY"]}>*/}
             <LabeledSelectField
               name={"countryId"}
+              label={t("shippingAddress:fields.country.label")}
               options={CountriesOptions}
               outerProps={{
                 className: "sm:col-span-4 md:col-span-3 lg:col-span-5 xl:col-span-4 xxl:col-span-5",

@@ -10,12 +10,22 @@ export type OrderWithItemsAndUserAndInvoice = Order & {
 
 export const useCloudpayments = () => {
   const [cpScriptLoaded, setCpScriptLoaded] = useState(false)
+  const [delayedPayment, setDelayedPayment] = useState<
+    | {
+        invoice: Invoice
+        order: OrderWithItemsAndUserAndInvoice
+      }
+    | undefined
+  >()
 
   useScript("https://widget.cloudpayments.ru/bundles/cloudpayments.js", () => {
     setCpScriptLoaded(true)
+    if (delayedPayment) {
+      payByWidget(delayedPayment.invoice, delayedPayment.order)
+    }
   })
 
-  const pay = (invoice: Invoice, order: OrderWithItemsAndUserAndInvoice) => {
+  const payByWidget = (invoice: Invoice, order: OrderWithItemsAndUserAndInvoice) => {
     const receipt = {
       Items: order.items.map((item) => {
         return {
@@ -89,6 +99,15 @@ export const useCloudpayments = () => {
 
   return {
     cloudpaymentsApiloaded: cpScriptLoaded,
-    pay,
+    pay: (invoice: Invoice, order: OrderWithItemsAndUserAndInvoice) => {
+      if (!cpScriptLoaded) {
+        setDelayedPayment({
+          invoice,
+          order,
+        })
+      } else {
+        payByWidget(invoice, order)
+      }
+    },
   }
 }

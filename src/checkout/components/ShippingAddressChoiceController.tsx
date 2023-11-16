@@ -23,9 +23,6 @@ export const ShippingAddressChoiceController = (props: ShippingAddressChoiceCont
 
   const [isEditing, setIsEditing] = useState(true)
   const { t } = useTranslation(["pages.checkout", "translation"])
-  // const [{ shippingAddresses }] = useQuery(getCurrentUserShippingAddresses, {})
-  // const [createShippingAddressMutation] = useMutation(createShippingAddress)
-  // const [updateShippingAddressMutation] = useMutation(updateShippingAddress)
   // TODO get shipping addresses
   // TODO create shipping address
   // TODO edit shipping address

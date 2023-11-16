@@ -100,5 +100,6 @@
     "settings": "Settings",
     "logout": "Logout"
   },
-  "next": "Next"
+  "next": "Next",
+  "loadingPaymentWidget": "Loading payment module..."
 }

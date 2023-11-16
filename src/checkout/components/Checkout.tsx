@@ -27,7 +27,7 @@ export const Checkout = (props: CheckoutProps) => {
   const { cartClient } = props
 
   const { t } = useTranslation(["pages.checkout", "shippingAddress"])
-  const { pay, stripePaymentIntent } = usePayment()
+  // const { pay, stripePaymentIntent } = usePayment()
   const router = useRouter()
 
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress | undefined>()

@@ -13,6 +13,7 @@ import PaymentCurrencyForm from "../../checkout/components/PaymentCurrencyForm"
 import getFxRate from "../../fx-rates/queries/getFxRate"
 import { Money } from "src/core/components/Money"
 import HeadingBlock from "../../core/tailwind-ui/headings/HeadingBlock"
+import { currencyFormat } from "../../core/helpers/Helpers"
 interface OrderHeadProps {
   order: OrderFull
   onPayClick?: () => void
@@ -55,7 +56,7 @@ export const OrderHead = (props: OrderHeadProps) => {
                 RUB: fxRate * order.total,
                 EUR: order.total,
               }}
-              submitText={t("translation:next")}
+              // submitText={t("translation:next")}
               onSubmit={async (values) => {
                 if (!order.id) {
                   return
@@ -77,7 +78,10 @@ export const OrderHead = (props: OrderHeadProps) => {
         {stripePaymentIntent && order.id && invoice && invoice.currency === CurrencyEnum.EUR && (
           <>
             <h2 className="mb-5 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-              <Money amount={invoice.amount} currency={invoice.currency} />
+              {currencyFormat({
+                num: invoice.amount,
+                currency: invoice.currency,
+              })}
             </h2>
             <StripeCheckoutFormWithElements
               orderId={order.id}
