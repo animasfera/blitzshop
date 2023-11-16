@@ -1,15 +1,15 @@
 import { Order } from "@prisma/client"
 import { MailerOptions, mailSenderWithQueue } from "./index"
 
-type OrderProcessingMailer = {
+type OrderPendingMailer = {
   order: Order
 }
 
-export function orderProcessingMailer(params: OrderProcessingMailer, options?: MailerOptions) {
+export function orderPendingMailer(params: OrderPendingMailer, options?: MailerOptions) {
   const { order } = params
 
   return {
-    key: "orderProcessingMailer",
+    key: "orderPendingMailer",
     data: {
       orderId: order.id,
     },

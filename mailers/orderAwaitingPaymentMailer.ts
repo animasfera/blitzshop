@@ -1,29 +1,20 @@
-import { LocaleEnum, NotificationTypeEnum } from "@prisma/client"
-
-import { mailer } from "src/core/mailer/Mailer"
-import createMockContext from "src/auth/components/CreateMockContext"
+import { Order } from "@prisma/client"
 import { MailerOptions, mailSenderWithQueue } from "./index"
-import { UserMailProps } from "types"
 
-type OrderShippedMailer = {
-  user: UserMailProps
-  token: string
+type OrderAwaitingPaymentMailer = {
+  order: Order
 }
 
-export function orderShippedMailer(params: OrderShippedMailer, options?: MailerOptions) {
-  return mailSenderWithQueue("orderShippedMailer", params, options || {}, async () => {
-    const { user } = params
-    const lang = user.locale || options?.lang || LocaleEnum.en
+export function orderAwaitingPaymentMailer(
+  params: OrderAwaitingPaymentMailer,
+  options?: MailerOptions
+) {
+  const { order } = params
 
-    let mailParams = {} as any
-
-    const { ctx } = await createMockContext({ user })
-
-    const message = await mailer.translate("orderShippedMailer", mailParams, lang)
-
-    return mailer.send({
-      to: user.email,
-      ...message,
-    })
-  })
+  return {
+    key: "orderAwaitingPaymentMailer",
+    data: {
+      orderId: order.id,
+    },
+  }
 }

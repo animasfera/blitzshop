@@ -2,7 +2,7 @@ import { api } from "src/blitz-server"
 import { NextApiRequest, NextApiResponse, NextApiHandler } from "next"
 import * as Queues from "src/core/queues"
 
-import { UserRole } from "@prisma/client"
+import { UserRoleEnum } from "@prisma/client"
 import { AuthorizationError } from "blitz"
 import { initCron } from "src/core/queues"
 
@@ -11,7 +11,7 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
     query: { secret },
   } = req
 
-  if (secret !== "1ee1a" && !ctx.session.$isAuthorized(UserRole.admin)) {
+  if (secret !== "1ee1a" && !ctx.session.$isAuthorized(UserRoleEnum.ADMIN)) {
     throw new AuthorizationError()
   }
 

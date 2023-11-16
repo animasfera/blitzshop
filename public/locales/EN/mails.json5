@@ -257,8 +257,8 @@
          \
     Please <a href="{{slotUrl}}">do it now</a>, otherwise your event participants won\'t be able to join it.',
   },
-  orderConfirmationMailer: {
-    subject: "orderConfirmationMailer",
+  orderPendingMailer: {
+    subject: "orderPendingMailer",
     html: "text",
   },
   orderProcessingMailer: {

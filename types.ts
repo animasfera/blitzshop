@@ -43,7 +43,7 @@ declare module "@blitzjs/auth" {
     }
   }
 }
-
+export type LocaleType = "en" | "ru"
 export type PrismaDbType =
   | PrismaClient<Prisma.PrismaClientOptions, any, any>
   | Omit<
