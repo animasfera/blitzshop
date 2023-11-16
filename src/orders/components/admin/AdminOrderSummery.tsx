@@ -1,60 +1,16 @@
 import { useTranslation } from "react-i18next"
-import {
-  Order,
-  ShippingAddress,
-  ShippingMethod,
-  PurchasedItem,
-  Category,
-  Item,
-  Image,
-  Country,
-  OrderStatusEnum,
-} from "db"
 
 import { HeadingSection } from "src/core/tailwind-ui/headings/HeadingSection"
-import { OptionSelectField, Select } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { AdminOrderSummeryList } from "./AdminOrderSummeryList"
 import { AdminOrderSummeryPrice } from "./AdminOrderSummeryPrice"
-import { SelectSubmit } from "src/core/tailwind-ui/application-ui/forms/SelectSubmit"
+import { OrderFull } from "../../schemas"
 
 interface AdminOrderSummeryProps {
-  order: Order & {
-    user: {
-      email: string
-      id: number
-      username: string
-      firstName: string | null
-      lastName: string | null
-      phone: string | null
-    }
-    shippingMethod: ShippingMethod | null
-    shippingAddress:
-      | (ShippingAddress & {
-          country: Country
-        })
-      | null
-    items: (PurchasedItem & {
-      category: Category | null
-      item: Item & {
-        user: {
-          email: string
-          id: number
-          username: string
-        } | null
-      }
-      coverImage: Image
-    })[]
-  }
+  order: OrderFull
 }
 
 export const AdminOrderSummery = (props: AdminOrderSummeryProps) => {
   const { order } = props
-
-  /*
-  const [selectedProductsQty, setSelectedProductsQty] = useState<OptionSelectField>(
-    quantityItemsOptions.find((el) => cartToItem.qty === el.value) ?? { label: "0", value: 0 }
-  )
-  */
 
   const { t } = useTranslation(["pages.admin.orderId"])
 

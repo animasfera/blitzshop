@@ -9,7 +9,13 @@ export const Condition = (props) => {
         if (defined) {
           cond = !!value
         } else {
-          cond = typeof not === "undefined" ? value === is : value !== not
+          if (typeof is === "object" && Array.isArray(is)) {
+            cond = is.indexOf(value) !== -1
+          } else if (typeof not === "object" && Array.isArray(not)) {
+            cond = not.indexOf(value) === -1
+          } else {
+            cond = typeof not === "undefined" ? value === is : value !== not
+          }
         }
 
         return cond ? children : null

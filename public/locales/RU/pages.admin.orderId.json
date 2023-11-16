@@ -13,6 +13,18 @@
       },
       "comment": {
         "label": "Комментарий"
+      },
+      "shippingCompany": {
+        "label": "Способ доставки"
+      },
+      "shippingFee": {
+        "label": "Стоимость доставки (EUR)"
+      },
+      "shippingInsurance": {
+        "label": "Страховка"
+      },
+      "shippingDutyPayment": {
+        "label": "Пошлины"
       }
     },
     "contacts": {
@@ -58,7 +70,7 @@
     "delivery": {
       "title": "Способ доставки",
       "list": {
-        "title": {
+        "company": {
           "label": "Наименование"
         },
         "description": {

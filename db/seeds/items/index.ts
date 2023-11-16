@@ -19,7 +19,7 @@ const createDataItems = async (obj: ItemSeed) => {
 
   await db.item.create({
     data: {
-      title: obj.title,
+      title: obj.title || "",
       access: obj.access ?? undefined,
       status: obj.status ?? null,
       images: {

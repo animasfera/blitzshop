@@ -6,6 +6,11 @@ export const OrderStatusesEnum = {
     nameEn: "Pending",
     nameRu: "В ожидании",
   },
+  PAYMENT: {
+    value: OrderStatusEnum.PAYMENT,
+    nameEn: "Payment",
+    nameRu: "В ожидании оплаты",
+  },
   PROCESSING: {
     value: OrderStatusEnum.PROCESSING,
     nameEn: "Processing",

@@ -33,8 +33,8 @@ const quantityItemsOptions: OptionSelectField[] = [
 export const CartItemsListItem = (props: CartItemsListItemProps) => {
   const { cartToItem, isLoading, onUpdateCartToItem, onDeleteCartToItem } = props
 
-  const [selectedProductsQty, setSelectedProductsQty] = useState<OptionSelectField>(
-    quantityItemsOptions.find((el) => cartToItem.qty === el.value) ?? { label: "0", value: 0 }
+  const [selectedProductsQty, setSelectedProductsQty] = useState<number>(
+    Number(quantityItemsOptions?.find((el) => cartToItem.qty === el.value)?.value) || 0
   )
 
   return (
@@ -52,11 +52,11 @@ export const CartItemsListItem = (props: CartItemsListItemProps) => {
         <div className="max-w-[200px]">
           <Select
             name={`quantity-${cartToItem.itemId}`}
-            defaultValue={selectedProductsQty}
-            selected={selectedProductsQty}
+            defaultValue={quantityItemsOptions.find((item) => item.value === selectedProductsQty)}
+            selected={quantityItemsOptions.find((item) => item.value === selectedProductsQty)}
             options={quantityItemsOptions}
-            onChange={async (value: { value: number; label: string }) => {
-              await onUpdateCartToItem({ id: cartToItem.id, qty: value.value })
+            onChange={async (value: number) => {
+              await onUpdateCartToItem({ id: cartToItem.id, qty: value })
               setSelectedProductsQty(value)
             }}
             disabled={isLoading}

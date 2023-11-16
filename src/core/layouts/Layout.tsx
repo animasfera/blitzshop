@@ -23,7 +23,7 @@ export const Layout: BlitzLayout<LayoutProps> = (props) => {
     <div>
       <Head>
         <title>{title || "shop"}</title>
-        <link rel="icon" href="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" />
+        <link rel="icon" href="/images/logo.jpg" />
       </Head>
 
       <main>

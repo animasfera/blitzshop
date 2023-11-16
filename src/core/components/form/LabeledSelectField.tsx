@@ -4,6 +4,7 @@ import { useField, UseFieldConfig } from "react-final-form"
 import { OptionSelectField, Select } from "src/core/tailwind-ui/application-ui/forms/Select"
 
 export interface LabeledSelectFieldProps {
+  format?: "value" | "object"
   name: string
   label?: string
   placeholder?: string
@@ -19,12 +20,13 @@ export interface LabeledSelectFieldProps {
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
 
-  handleChange?: (values: OptionSelectField | OptionSelectField[]) => void
+  handleChange?: (value: string | number) => void
 }
 
 export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSelectFieldProps>(
   (props, ref) => {
     let {
+      format = "value",
       name,
       label,
       placeholder,
@@ -47,7 +49,10 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
       input,
       meta: { touched, error, submitError, submitting },
     } = useField(name, {
-      parse: (v) => v,
+      parse: (v) => {
+        console.log(v)
+        return format === "value" ? v : options.find((o) => o.value === v)
+      },
       format: (v) => v,
       ...fieldProps,
     })
@@ -55,7 +60,16 @@ export const LabeledSelectField = React.forwardRef<HTMLSelectElement, LabeledSel
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
     const showError = touched && normalizedError
 
-    selected = options.find((o) => o.value === input.value)
+    selected = options.find((o) => {
+      console.log(input.value, name)
+      return (
+        o.value ===
+        (format === "value"
+          ? input.value
+          : //@ts-ignore
+            input.value?.value)
+      )
+    })
 
     return (
       <Select

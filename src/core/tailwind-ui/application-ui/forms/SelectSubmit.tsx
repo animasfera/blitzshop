@@ -81,7 +81,7 @@ export const SelectSubmit = React.forwardRef<HTMLSelectElement, SelectSubmitProp
                 px-3 py-2 text-white shadow-sm ${disabled ? "bg-gray-400" : "bg-indigo-600"}
                 `}
                 >
-                  {selected?.img ? (
+                  {selected?.img && (
                     <Image
                       src={selected?.img ?? ""}
                       alt={selected?.label ?? ""}
@@ -89,11 +89,11 @@ export const SelectSubmit = React.forwardRef<HTMLSelectElement, SelectSubmitProp
                       height={200}
                       className="h-5 w-5 flex-none rounded-md object-cover object-center"
                     />
-                  ) : (
-                    <CheckIcon className="-ml-0.5 h-5 w-5" aria-hidden="true" />
                   )}
 
-                  {selected && <p className="text-sm font-semibold">{selected.label}</p>}
+                  {selected && (
+                    <p className="text-sm font-semibold whitespace-nowrap">{selected.label}</p>
+                  )}
                 </div>
                 <Listbox.Button
                   className={`
@@ -124,7 +124,7 @@ export const SelectSubmit = React.forwardRef<HTMLSelectElement, SelectSubmitProp
                   {options.map((option) => {
                     return (
                       <Listbox.Option
-                        key={option.value}
+                        key={option.value + ""}
                         className={() =>
                           classNames(
                             selected?.value === option.value
@@ -178,7 +178,8 @@ export const SelectSubmit = React.forwardRef<HTMLSelectElement, SelectSubmitProp
                               <p
                                 className={classNames(
                                   data.active ? "text-indigo-200" : "text-gray-500",
-                                  "mt-2"
+                                  "mt-2",
+                                  "whitespace-nowrap"
                                 )}
                               >
                                 {option.description}

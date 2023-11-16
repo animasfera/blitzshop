@@ -1,10 +1,12 @@
 import * as z from "zod"
+import { OrderStatusEnum } from "@prisma/client"
 import { CompleteOrder, RelatedOrderModel } from "./index"
 
 export const OrderLogModel = z.object({
   id: z.number().int(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  status: z.nativeEnum(OrderStatusEnum).nullish(),
   comment: z.string().nullish(),
 })
 

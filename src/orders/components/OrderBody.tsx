@@ -1,10 +1,9 @@
-import { Order } from "db"
-
 import { OrderItems } from "src/orders/components/OrderItems"
 import { OrderDetails } from "src/orders/components/OrderDetails"
+import { OrderFull } from "../schemas"
 
 interface OrderBodyProps {
-  order: Order
+  order: OrderFull
 }
 
 export const OrderBody = (props: OrderBodyProps) => {
@@ -12,8 +11,6 @@ export const OrderBody = (props: OrderBodyProps) => {
 
   return (
     <section className="mt-10 border-t border-gray-200">
-      <h2 className="sr-only">Your order</h2>
-
       <OrderItems order={order} />
       <OrderDetails order={order} />
     </section>

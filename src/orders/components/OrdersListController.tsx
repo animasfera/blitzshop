@@ -17,7 +17,7 @@ export const OrdersListController = () => {
   const pagination = usePagination()
 
   const [{ orders, hasMore, count }] = usePaginatedQuery(getOrders, {
-    orderBy: { id: "asc" },
+    orderBy: { id: "desc" },
     skip: ORDERS_PER_PAGE * pagination.page,
     take: ORDERS_PER_PAGE,
     where: userId ? { userId } : {},

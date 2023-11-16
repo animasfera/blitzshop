@@ -1,4 +1,4 @@
-import { ReactNode, PropsWithoutRef } from "react"
+import React, { ReactNode, PropsWithoutRef } from "react"
 import { formatZodError, validateZodSchema } from "blitz"
 import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form"
 export { FORM_ERROR } from "final-form"
@@ -7,6 +7,7 @@ import { z } from "zod"
 
 import Autosave from "src/core/components/form/Autosave"
 import { Button } from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
+import { FormApi } from "final-form"
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
@@ -17,7 +18,7 @@ export interface FormProps<S extends z.ZodType<any, any>>
   fullBtn?: boolean
   styles?: string
   schema?: S
-  getInstance?: any
+  getInstance?: (form: FormApi<z.TypeOf<S>, Partial<z.TypeOf<S>>>) => void
   initialValues?: FinalFormProps<z.infer<S>>["initialValues"]
   game?: any
   mutators?: any
@@ -51,6 +52,7 @@ export function Form<S extends z.ZodType<any, any>>({
   showErrors,
   enableReinitialize,
   keepDirtyOnReinitialize,
+  subscription,
   _autoSave,
 
   onSubmit,
@@ -73,22 +75,25 @@ export function Form<S extends z.ZodType<any, any>>({
           return formatZodError(error)
         }
       }}
+      subscription={subscription}
       onSubmit={onSubmit}
       mutators={{
         ...mutators,
         ...arrayMutators,
       }}
-      render={({ form, submitting, submitError, handleSubmit }) => {
+      render={({ form, values, submitting, submitError, handleSubmit }) => {
         {
           getInstance && getInstance(form)
         }
         return (
+          // @ts-ignore
           <form onSubmit={handleSubmit} className={`form w-full ${styles}`} {...props}>
             {_autoSave && (
               <Autosave setFieldData={form.mutators.setFieldData} save={form.submit()} />
             )}
             {/* form fields supplied as children are rendered here */}
 
+            {/*@ts-ignore*/}
             {children}
 
             {submitText || (showErrors !== false && submitError) ? (

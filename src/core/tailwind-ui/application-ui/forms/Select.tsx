@@ -9,7 +9,7 @@ import { classNames } from "src/core/helpers/classNames"
 
 export interface OptionSelectField {
   label: string
-  value: string | number
+  value: string | number | null | boolean
   description?: string | number
   img?: string
 }
@@ -31,7 +31,7 @@ export interface SelectProps {
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
 
-  onChange?: (values: OptionSelectField | OptionSelectField[]) => void
+  onChange?: (value: string | number) => void
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
@@ -68,6 +68,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
         defaultValue={defaultValue}
         onChange={(v) => {
           input?.onChange(v.value)
+          onChange && onChange(v.value)
         }}
         multiple={multiple}
         disabled={disabled}
@@ -103,14 +104,14 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                     Array.isArray(selected) ? (
                       <ul className="flex gap-4">
                         {selected.map((el) => (
-                          <li key={el.value} className="flex items-center cursor-pointer">
+                          <li key={"" + el.value} className="flex items-center cursor-pointer">
                             {el?.img && (
                               <Image
                                 width={200}
                                 height={200}
                                 src={el?.img}
                                 alt={el?.label ?? ""}
-                                className="h-4 w-4 mr-1 flex-shrink-0 rounded-full"
+                                className="h-4 w-4 mr-1 flex-shrink-0 rounded-full overflow-hidden"
                               />
                             )}
                             <span className="block truncate">{el?.label}</span>
@@ -128,7 +129,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                             height={200}
                             src={selected?.img}
                             alt={selected?.label ?? ""}
-                            className="h-5 w-5 mr-3 flex-shrink-0 rounded-full"
+                            className="h-5 w-5 mr-3 flex-shrink-0 rounded-full overflow-hidden"
                           />
                         )}
                         <span className="block truncate">{selected?.label}</span>
@@ -176,7 +177,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
 
                     return (
                       <Listbox.Option
-                        key={option.value}
+                        key={option.value + ""}
                         className={() =>
                           classNames(
                             isCheck
@@ -196,7 +197,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                                   height={200}
                                   src={option.img}
                                   alt={option.label ?? ""}
-                                  className="h-5 w-5 mr-3 flex-shrink-0 rounded-full"
+                                  className="h-5 w-5 mr-3 flex-shrink-0 rounded-full overflow-hidden"
                                 />
                               )}
                               <span

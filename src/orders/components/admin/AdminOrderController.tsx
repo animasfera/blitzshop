@@ -1,83 +1,60 @@
 import { useState } from "react"
-import { invalidateQuery, useMutation, useQuery } from "@blitzjs/rpc"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 
 import { useParam } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
-import { LocaleEnum, OrderStatusEnum } from "db"
-
-import { OrderStatusesArray, OrderStatusesEnum } from "src/core/enums/OrderStatusEnum"
-import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { AdminOrder } from "src/orders/components/admin/AdminOrder"
 import getOrder from "src/orders/queries/getOrder"
 import updateOrder from "src/orders/mutations/updateOrder"
 import updateShippingAddress from "src/shipping-addresses/mutations/updateShippingAddress"
 import updateOrderLog from "src/order-logs/mutations/updateOrderLog"
+import { OrderFull } from "../../schemas"
 
 export const AdminOrderController = () => {
   const orderId = useParam("orderId", "number")
-  const [order] = useQuery(getOrder, { id: orderId })
+  const [order, { setQueryData }] = useQuery(getOrder, { id: orderId })
   const [updateOrderMutation] = useMutation(updateOrder)
   const [updateShippingAddressMutation] = useMutation(updateShippingAddress)
   const [updateOrderLogMutation] = useMutation(updateOrderLog)
 
   const { i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
-  const shippingOptions: OptionSelectField[] = Object.values(OrderStatusesArray).map(
-    ({ value, nameEn, nameRu }) => ({
-      label: i18n.resolvedLanguage === LocaleEnum.ru ? nameRu : nameEn,
-      value: value,
-    })
-  )
-
-  const handleStatusOrder = (status: OrderStatusEnum): OptionSelectField => {
-    return (
-      shippingOptions.find((el) => status === el.value) ?? {
-        value: OrderStatusesEnum[status].value,
-        label:
-          i18n.resolvedLanguage === LocaleEnum.ru
-            ? OrderStatusesEnum[status].nameRu
-            : OrderStatusesEnum[status].nameEn,
-      }
-    )
-  }
-
   const [isLoading, setLoading] = useState(false)
-  const [statusOrder, setStatusOrder] = useState<OptionSelectField>(handleStatusOrder(order.status))
 
-  const handleUpdateOrder = async (values: any) => {
+  const handleUpdateOrder = async (values: Partial<OrderFull>) => {
     setLoading(true)
 
-    const isExistStatus = Object.keys(values).some((el) => el === "status")
-    const isExistOrder = Object.keys(values).some((el) => el === "notes")
-    const isExistOrderLog = Object.keys(values).some((el) => el === "comment")
+    let { shippingAddress, ...restOrder } = values
 
-    if (isExistStatus) {
-      const res = await updateOrderMutation({ id: order.id, ...values })
-      await updateOrderLogMutation({ id: order.logId, ...values })
-
-      setStatusOrder(handleStatusOrder(res.status))
-    } else if (isExistOrder) {
-      await updateOrderMutation({ id: order.id, ...values })
-    } else if (isExistOrderLog) {
-      await updateOrderLogMutation({ id: order.logId, ...values })
-    } else {
-      await updateShippingAddressMutation({ id: order.shippingAddressId, ...values })
+    if (restOrder.shippingFee) {
+      restOrder.shippingFee = Math.round(restOrder.shippingFee * 100)
     }
 
-    await invalidateQuery(getOrder)
+    let updatedOrder
+    if (shippingAddress && order.shippingAddressId) {
+      const { id, ...restAShippingAddress } = shippingAddress
+      const shippingAddressUpdated = await updateShippingAddressMutation({
+        id: order.shippingAddressId,
+        ...restAShippingAddress,
+      })
+      if (shippingAddressUpdated) {
+        await setQueryData((oldData) => {
+          return { ...order, ...{ shippingAddress: shippingAddressUpdated } }
+        })
+      }
+    } else {
+      updatedOrder = await updateOrderMutation({ id: order.id, ...restOrder })
+      if (updatedOrder) {
+        await setQueryData((oldData) => {
+          return { ...oldData, ...updatedOrder }
+        })
+      }
+    }
 
     setLoading(false)
   }
 
-  return (
-    <AdminOrder
-      order={order}
-      statusOrder={statusOrder}
-      shippingOptions={shippingOptions}
-      isLoading={isLoading}
-      handleUpdateOrder={handleUpdateOrder}
-    />
-  )
+  return <AdminOrder order={order} isLoading={isLoading} handleUpdateOrder={handleUpdateOrder} />
 }
 
 export default AdminOrderController

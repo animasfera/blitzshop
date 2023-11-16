@@ -2,6 +2,7 @@ import React, { ReactElement } from "react"
 import { useTranslation } from "react-i18next"
 
 import { Money } from "src/core/components/Money"
+import { cartClient } from "src/core/hooks/useCart"
 
 interface CheckoutOrderInfoProps {
   children: ReactElement | ReactElement[]

@@ -1,11 +1,10 @@
-import { Order } from "db"
-
 import { OrderAddresses } from "src/orders/components/OrderAddresses"
 import { OrderPayment } from "src/orders/components/OrderPayment"
 import { OrderSummary } from "src/orders/components/OrderSummary"
+import { OrderFull } from "../schemas"
 
 interface OrderDetailsProps {
-  order: Order
+  order: OrderFull
 }
 
 export const OrderDetails = (props: OrderDetailsProps) => {

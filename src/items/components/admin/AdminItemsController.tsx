@@ -21,7 +21,7 @@ const ITEMS_PER_PAGE = 10
 const AdminItemsController = () => {
   const pagination = usePagination()
   const [{ items, hasMore, count }] = usePaginatedQuery(getItems, {
-    orderBy: { id: "asc" },
+    orderBy: { id: "desc" },
     skip: ITEMS_PER_PAGE * pagination.page,
     take: ITEMS_PER_PAGE,
   })

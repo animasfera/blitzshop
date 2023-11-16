@@ -30,8 +30,23 @@ export default resolver.pipe(
           where,
           orderBy,
           include: {
-            shippingMethod: true,
-            user: { select: { id: true, email: true, username: true } },
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+                phone: true,
+                id: true,
+                email: true,
+                username: true,
+              },
+            },
+            invoice: true,
+            log: true,
+            shippingAddress: {
+              include: {
+                country: true,
+              },
+            },
             items: {
               include: {
                 category: true,

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useTranslation } from "react-i18next"
 import { useMediaQuery } from "react-responsive"
-import { Order, ShippingMethod } from "db"
+import { Order } from "db"
 
 import { Money } from "src/core/components/Money"
 import { DateWithTime } from "src/core/components/Date"
@@ -11,7 +11,6 @@ import { Routes } from "@blitzjs/next"
 interface AdminOrdersListItemProps {
   order: Order & {
     user: { id: number; email: string; username: string }
-    shippingMethod: ShippingMethod | null
   }
 }
 

@@ -1,28 +1,9 @@
-import { Order, ShippingMethod, PurchasedItem, Category, Image, Item } from "db"
-
 import { OrdersListItem } from "src/orders/components/OrdersListItem"
 import { OrdersListProductsList } from "src/orders/components/OrdersListProductsList"
+import { OrderFull } from "../schemas"
 
 interface OrderListProps {
-  orders: (Order & {
-    user: {
-      id: number
-      email: string
-      username: string
-    }
-    shippingMethod: ShippingMethod | null
-    items: (PurchasedItem & {
-      category: Category | null
-      item: Item & {
-        user: {
-          email: string
-          id: number
-          username: string
-        } | null
-      }
-      coverImage: Image
-    })[]
-  })[]
+  orders: OrderFull[]
 }
 
 export const OrdersList = (props: OrderListProps) => {

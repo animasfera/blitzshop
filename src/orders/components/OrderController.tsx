@@ -1,12 +1,14 @@
-import { useQuery } from "@blitzjs/rpc"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
 import Order from "src/orders/components/Order"
 import getOrder from "src/orders/queries/getOrder"
+import { usePayment } from "../../core/hooks/usePayment"
+import createInvoiceForOrder from "../../invoices/mutations/createInvoiceForOrder"
 
 export const OrderController = () => {
   const orderId = useParam("orderId", "number")
-  const [order] = useQuery(getOrder, { id: orderId })
+  const [order, { refetch }] = useQuery(getOrder, { id: orderId })
 
   return <Order order={order} />
 }

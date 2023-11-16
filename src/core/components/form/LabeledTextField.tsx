@@ -13,7 +13,7 @@ export interface LabeledTextFieldProps {
   disabled?: boolean
   autoComplete?: string
   helperText?: string
-  defaultValue?: string | number
+  defaultValue?: string | number | boolean | null
 
   fieldProps?: UseFieldConfig<string>
   labelProps?: ComponentPropsWithoutRef<"label">
@@ -60,7 +60,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
         input={input}
         type={type}
         placeholder={placeholder}
-        defaultValue={defaultValue}
+        defaultValue={typeof defaultValue === "boolean" || !defaultValue ? "" : defaultValue}
         required={required}
         disabled={disabled || submitting}
         autoComplete={autoComplete}

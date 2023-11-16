@@ -1,0 +1,16 @@
+{
+  "address": "Адрес",
+  "shippingMethod": "Способ доставки",
+  "subtotal": "Предварительный итог",
+  "discount": "Скидка",
+  "shipping": "Доставка",
+  "total": "Итого",
+  "shippingCompanies": {
+    "SDEK": "СДЭК",
+    "BOXBERRY": "Боксберри"
+  },
+  "deliveryMethods": {
+    "DOOR": "Доставка до двери",
+    "PICKUP": "Самовывоз из пункта выдачи"
+  }
+}

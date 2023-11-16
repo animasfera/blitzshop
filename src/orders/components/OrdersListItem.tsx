@@ -1,28 +1,10 @@
 import Link from "next/link"
 import { useTranslation } from "react-i18next"
-import { Order, ShippingMethod, PurchasedItem, Category, Image, Item } from "db"
 import { Routes } from "@blitzjs/next"
+import { OrderFull } from "../schemas"
 
 interface OrderListItemProps {
-  order: Order & {
-    user: {
-      id: number
-      email: string
-      username: string
-    }
-    shippingMethod: ShippingMethod | null
-    items: (PurchasedItem & {
-      category: Category | null
-      item: Item & {
-        user: {
-          email: string
-          id: number
-          username: string
-        } | null
-      }
-      coverImage: Image
-    })[]
-  }
+  order: OrderFull
 }
 
 export const OrdersListItem = (props: OrderListItemProps) => {
