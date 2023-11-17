@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { LocaleEnum, UserRoleEnum, UserStatusEnum, CountryFilterEnum, CurrencyEnum } from "@prisma/client"
-import { CompleteLocation, RelatedLocationModel, CompleteToken, RelatedTokenModel, CompleteSession, RelatedSessionModel, CompleteCardToken, RelatedCardTokenModel, CompleteNotification, RelatedNotificationModel, CompleteReview, RelatedReviewModel, CompleteItem, RelatedItemModel, CompleteCart, RelatedCartModel, CompleteOrder, RelatedOrderModel, CompleteShippingAddress, RelatedShippingAddressModel, CompleteRefund, RelatedRefundModel, CompleteMessage, RelatedMessageModel, CompleteUserToChatRoom, RelatedUserToChatRoomModel, CompleteConfig, RelatedConfigModel } from "./index"
+import { CompleteLocation, RelatedLocationModel, CompleteToken, RelatedTokenModel, CompleteSession, RelatedSessionModel, CompleteCardToken, RelatedCardTokenModel, CompleteNotification, RelatedNotificationModel, CompleteReview, RelatedReviewModel, CompleteItem, RelatedItemModel, CompleteCart, RelatedCartModel, CompleteOrder, RelatedOrderModel, CompleteShippingAddress, RelatedShippingAddressModel, CompleteRefund, RelatedRefundModel, CompleteMessage, RelatedMessageModel, CompleteUserToChatRoom, RelatedUserToChatRoomModel, CompleteConfig, RelatedConfigModel, CompleteOrderLog, RelatedOrderLogModel } from "./index"
 
 export const UserModel = z.object({
   id: z.number().int(),
@@ -40,6 +40,7 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
   messages: CompleteMessage[]
   messageRooms: CompleteUserToChatRoom[]
   configs: CompleteConfig[]
+  orderLog: CompleteOrderLog[]
 }
 
 /**
@@ -63,4 +64,5 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() => UserMode
   messages: RelatedMessageModel.array(),
   messageRooms: RelatedUserToChatRoomModel.array(),
   configs: RelatedConfigModel.array(),
+  orderLog: RelatedOrderLogModel.array(),
 }))

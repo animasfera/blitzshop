@@ -63,9 +63,10 @@ export type OrderFull = Order & {
     firstName: string | null
     lastName: string | null
     phone: string | null
+    avatarUrl: string | null
   }
   invoice: Invoice | null
-  log: OrderLog
+  log: OrderLog[]
   shippingAddress:
     | (ShippingAddress & {
         country: Country

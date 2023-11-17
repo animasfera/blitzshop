@@ -9,6 +9,7 @@ import { AdminOrderSummery } from "src/orders/components/admin/AdminOrderSummery
 import { OrderStatusesArray, OrderStatusesEnum } from "src/core/enums/OrderStatusEnum"
 import { OrderFull } from "src/orders/schemas"
 import { DutyPaymentEnum, ShippingCompanyEnum } from "@prisma/client"
+import AdminOrderLog from "./AdminOrderLog"
 
 export type EditableFieldButton = {
   id: string
@@ -225,14 +226,17 @@ export const AdminOrder = (props: AdminOrderProps) => {
         />
       </div>
 
-      <div className="flex flex-col gap-x-6 gap-y-2 xl:flex-row">
+      <div className="flex flex-col gap-x-6 gap-y-2 xl:flex-row  ">
         <AdminOrderSectionsList
           sections={sections}
           order={order}
           isLoading={isLoading}
           handleUpdateOrder={handleUpdateOrder}
         />
-        <AdminOrderSummery order={order} />
+        <div className="basis-1/2">
+          <AdminOrderSummery order={order} />
+          <AdminOrderLog order={order} />
+        </div>
       </div>
     </div>
   )

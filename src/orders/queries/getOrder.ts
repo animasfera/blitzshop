@@ -26,6 +26,7 @@ export default resolver.pipe(resolver.zod(GetOrder), resolver.authorize(), async
           lastName: true,
           email: true,
           phone: true,
+          avatarUrl: true,
         },
       },
       items: {

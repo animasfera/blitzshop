@@ -1,6 +1,6 @@
 import * as z from "zod"
 import { OrderStatusEnum } from "@prisma/client"
-import { CompleteOrder, RelatedOrderModel } from "./index"
+import { CompleteOrder, RelatedOrderModel, CompleteUser, RelatedUserModel } from "./index"
 
 export const OrderLogModel = z.object({
   id: z.number().int(),
@@ -8,10 +8,13 @@ export const OrderLogModel = z.object({
   updatedAt: z.date(),
   status: z.nativeEnum(OrderStatusEnum).nullish(),
   comment: z.string().nullish(),
+  orderId: z.number().int(),
+  userId: z.number().int().nullish(),
 })
 
 export interface CompleteOrderLog extends z.infer<typeof OrderLogModel> {
-  orders: CompleteOrder[]
+  orders: CompleteOrder
+  user?: CompleteUser | null
 }
 
 /**
@@ -20,5 +23,6 @@ export interface CompleteOrderLog extends z.infer<typeof OrderLogModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedOrderLogModel: z.ZodSchema<CompleteOrderLog> = z.lazy(() => OrderLogModel.extend({
-  orders: RelatedOrderModel.array(),
+  orders: RelatedOrderModel,
+  user: RelatedUserModel.nullish(),
 }))
