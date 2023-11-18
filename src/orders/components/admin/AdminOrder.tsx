@@ -26,7 +26,6 @@ export type EditableField = {
 interface AdminOrderProps {
   order: OrderFull
   isLoading: boolean
-
   handleUpdateOrder: (values: any) => Promise<void>
 }
 
@@ -76,7 +75,7 @@ export const AdminOrder = (props: AdminOrderProps) => {
     },
     {
       label: t("order.data.comment.label"),
-      value: order.log.comment,
+      value: order.notes,
       button: { id: "comment" },
     },
   ]

@@ -38,6 +38,7 @@ export default resolver.pipe(
                 id: true,
                 email: true,
                 username: true,
+                avatarUrl: true,
               },
             },
             invoice: true,

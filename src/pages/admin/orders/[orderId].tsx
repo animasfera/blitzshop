@@ -1,12 +1,12 @@
 "use client"
-import { useParam } from "@blitzjs/next"
+import { BlitzPage, useParam } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
 import { AdminLayout } from "src/core/layouts/AdminLayout"
 import { Loading } from "src/core/components/Loading"
 import { AdminOrderController } from "src/orders/components/admin/AdminOrderController"
 
-export const AdminOrderPage = () => {
+export const AdminOrderPage: BlitzPage = () => {
   const orderId = useParam("orderId", "number")
   const { t } = useTranslation(["pages.admin.orderId"])
 
