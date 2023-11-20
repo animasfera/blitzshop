@@ -16,7 +16,7 @@ import getCart from "src/carts/queries/getCart"
 import { useCart } from "../../../hooks/useCart"
 
 export interface CurrencyOption {
-  label: CurrencyEnum
+  label: string
   value: CurrencyEnum
   img?: string
 }
@@ -28,10 +28,9 @@ interface HeaderControllerProps {
 export const HeaderController = (props: HeaderControllerProps) => {
   const { path } = props
 
-  const currencies: CurrencyOption[] = CurrenciesArray.map(({ name, flag }) => ({
-    label: name,
+  const currencies: CurrencyOption[] = CurrenciesArray.map(({ name, symbol }) => ({
+    label: symbol,
     value: name,
-    img: flag,
   }))
 
   const { t } = useTranslation(["translation"])

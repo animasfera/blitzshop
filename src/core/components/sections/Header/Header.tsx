@@ -1,10 +1,10 @@
 import { ClientSession } from "@blitzjs/auth"
-import { Bars3Icon, ShoppingBagIcon } from "@heroicons/react/24/outline"
+import { Bars3Icon } from "@heroicons/react/24/outline"
 import { Cart, CartToItem } from "db"
 
 import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { ButtonCircular } from "src/core/tailwind-ui/application-ui/elements/buttons/ButtonCircular"
-import { SelectSubmit } from "src/core/tailwind-ui/application-ui/forms/SelectSubmit"
+import { SelectSubmitLight } from "src/core/tailwind-ui/application-ui/forms/SelectSubmitLight"
 import { HeaderNavigation } from "src/core/components/sections/Header/HeaderNavigation"
 import { HeaderLogo } from "src/core/components/sections/Header/HeaderLogo"
 import { HeaderAuth } from "src/core/components/sections/Header/HeaderAuth"
@@ -65,7 +65,7 @@ export const Header = (props: HeaderProps) => {
 
             <div className="ml-auto flex items-center gap-x-4">
               {/* <div className="hidden md:block">СМЕНА ЯЗЫКА</div> */}
-              <SelectSubmit
+              <SelectSubmitLight
                 name="currency"
                 options={currencies}
                 selected={currency}

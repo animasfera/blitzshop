@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
 import { useTranslation } from "react-i18next"
 import { Dialog } from "@headlessui/react"
@@ -7,11 +6,9 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 
 import logout from "src/auth/mutations/logout"
 
-import { SelectSubmit } from "src/core/tailwind-ui/application-ui/forms/SelectSubmit"
 import { OptionSelectField } from "src/core/tailwind-ui/application-ui/forms/Select"
 import { CurrenciesEnum } from "src/core/enums/CurrenciesEnum"
 import { useCurrentUser } from "src/core/hooks/useCurrentUser"
-import { useCurrency } from "src/core/hooks/useCurrency"
 
 // TODO: remove component
 import { Button } from "@chakra-ui/react"
@@ -88,10 +85,9 @@ export default function Header(props) {
 
   const [selected, setSelected] = useState<OptionSelectField>(
     // @ts-ignore
-    Object.values(CurrenciesEnum).map(({ name, flag }) => ({
+    Object.values(CurrenciesEnum).map(({ name }) => ({
       label: name,
       value: name,
-      img: flag,
     }))[0]
   )
   return (
@@ -114,17 +110,16 @@ export default function Header(props) {
           </button>
         </div>
 
-        <SelectSubmit
-          name="currency"
-          options={Object.values(CurrenciesEnum).map(({ name, flag }) => ({
-            label: name,
-            value: name,
-            img: flag,
-          }))}
-          selected={selected}
-          handleChange={(value) => setSelected(value)}
-          outerProps={{ className: "m-0" }}
-        />
+        {/*<SelectSubmitLight*/}
+        {/*  name="currency"*/}
+        {/*  options={Object.values(CurrenciesEnum).map(({ name }) => ({*/}
+        {/*    label: name + "asads",*/}
+        {/*    value: name,*/}
+        {/*  }))}*/}
+        {/*  selected={selected}*/}
+        {/*  handleChange={(value) => setSelected(value)}*/}
+        {/*  outerProps={{ className: "m-0" }}*/}
+        {/*/>*/}
 
         <div className="hidden lg:flex lg:gap-x-12">
           {navigation.map((item) => (
