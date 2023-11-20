@@ -67,6 +67,7 @@ export type OrderShort = Order & {
   }
   invoice: Invoice | null
   log: OrderLog[]
+
   shippingAddress:
     | (ShippingAddress & {
         country: Country
