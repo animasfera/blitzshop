@@ -15,7 +15,7 @@ export const AdminOrderSummery = (props: AdminOrderSummeryProps) => {
   const { t } = useTranslation(["pages.admin.orderId"])
 
   return (
-    <section className="mt-4 xl:mt-0 xl:w-2/4">
+    <section className="mt-4 xl:mt-0">
       <HeadingSection title={t("summary.title")} />
 
       <div className="rounded-lg border border-gray-200 bg-white shadow-sm">

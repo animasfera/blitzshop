@@ -27,6 +27,7 @@ interface AdminOrderProps {
   order: OrderFull
   isLoading: boolean
   handleUpdateOrder: (values: any) => Promise<void>
+  deleteOrderLog: (id) => void
 }
 
 const handleFullname = ({
@@ -46,7 +47,7 @@ const handleFullname = ({
 }
 
 export const AdminOrder = (props: AdminOrderProps) => {
-  const { order, isLoading, handleUpdateOrder } = props
+  const { order, isLoading, handleUpdateOrder, deleteOrderLog } = props
 
   const { t, i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
@@ -232,9 +233,9 @@ export const AdminOrder = (props: AdminOrderProps) => {
           isLoading={isLoading}
           handleUpdateOrder={handleUpdateOrder}
         />
-        <div className="basis-1/2">
+        <div className="basis-1/4">
           <AdminOrderSummery order={order} />
-          <AdminOrderLog order={order} />
+          <AdminOrderLog order={order} trashButtonClick={(id) => deleteOrderLog(id)} />
         </div>
       </div>
     </div>

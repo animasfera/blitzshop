@@ -4,9 +4,11 @@ import { OrderFull } from "../../schemas"
 import { classNames } from "src/core/helpers/classNames"
 import { OrderStatusEnum } from "@prisma/client"
 import { useSession } from "@blitzjs/auth"
+import { TrashIcon } from "@heroicons/react/24/outline"
 
 interface AdminOrderLogProps {
   order: OrderFull
+  trashButtonClick: (orderLogId: number) => void
 }
 export interface AdminOrderLogActivityItem {
   id: number
@@ -24,7 +26,7 @@ export interface AdminOrderLogActivityItem {
 }
 
 export const AdminOrderLog = (props: AdminOrderLogProps) => {
-  const { order } = props
+  const { order, trashButtonClick } = props
   const session = useSession()
   const activity: AdminOrderLogActivityItem[] = order.log.map((orderLog) => ({
     id: orderLog.id,
@@ -37,10 +39,10 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
 
   return (
     <>
-      <div className="mt-8 xl:w-2/4">
+      <div className="mt-8">
         <ul role="list" className="space-y-6">
           {activity.map((activityItem, activityItemIdx) => (
-            <li key={activityItem.id} className="relative flex gap-x-4">
+            <li key={activityItem.id} className="group relative flex h-8 gap-x-4 text-gray-400">
               <div
                 className={classNames(
                   activityItemIdx === activity.length - 1 ? "h-6" : "-bottom-6",
@@ -50,7 +52,7 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
                 <div className="w-px bg-gray-200" />
               </div>
               {activityItem.person ? (
-                <>
+                <div className="w-6">
                   {activityItem.person.avatarUrl ? (
                     <img
                       src={activityItem.person.avatarUrl}
@@ -64,9 +66,9 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
                       </span>
                     </div>
                   )}
-                </>
+                </div>
               ) : (
-                <>
+                <div>
                   <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
                     {activityItemIdx === 0 ? (
                       activityItem.type === OrderStatusEnum.COMPLETED ? (
@@ -85,7 +87,7 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
                       />
                     )}
                   </div>
-                </>
+                </div>
               )}
 
               <p
@@ -106,8 +108,20 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
                 <span className="font-medium text-gray-400 mr-2">
                   {activityItem.person ? activityItem.person.username : ""}
                 </span>
+
                 {activityItem.dateTime.toLocaleString()}
               </time>
+              <div
+                className="absolute flex flex-row outline outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
+                shadow-indigo-400/50 "
+              >
+                <button
+                  className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
+                  onClick={() => trashButtonClick(activityItem.id)}
+                >
+                  <TrashIcon />
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -136,7 +150,8 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
                 rows={2}
                 name="comment"
                 id="comment"
-                className="block w-full resize-none border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 ml-2"
+                className="block w-full resize-none border-0 bg-transparent py-1.5
+                text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 ml-2"
                 placeholder="Add your comment..."
                 defaultValue={""}
               />
@@ -145,7 +160,8 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
             <div className="absolute inset-x-0 bottom-0 flex justify-end py-2 pl-3 pr-2">
               <button
                 type="submit"
-                className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-200
+                shadow-sm ring-1 ring-inset ring-gray-300 hover:text-black"
               >
                 Comment
               </button>

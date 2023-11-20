@@ -12,11 +12,11 @@
       "CANCELLED": "отменен",
       "ON_HOLD": "приостановлен",
       "DELIVERED": "доставлен",
-      "REFUND_REQUESTED": ": запрошен возврат",
-      "REFUND_REJECTED": ": возврат отклонен",
-      "REFUND_APPROVED": ": возврат одобрен",
-      "REFUNDED": ": произведен возврат",
-      "PARTIALLY_COMPLETED": ": частично выполнен"
+      "REFUND_REQUESTED": "запрошен возврат",
+      "REFUND_REJECTED": "возврат отклонен",
+      "REFUND_APPROVED": "возврат одобрен",
+      "REFUNDED": "произведен возврат",
+      "PARTIALLY_COMPLETED": "частично выполнен"
     },
     "message": "Номер заказа: {{orderId}}",
     "info": {

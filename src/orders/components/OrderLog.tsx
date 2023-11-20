@@ -33,7 +33,7 @@ export const OrderLog = (props: OrderLogProps) => {
 
   return (
     <>
-      <div className="mt-8 xl:w-2/4">
+      <div className="mt-8">
         <ul role="list" className="space-y-6">
           {activity.map((activityItem, activityItemIdx) => (
             <li key={activityItem.id} className="relative flex gap-x-4">
@@ -53,11 +53,15 @@ export const OrderLog = (props: OrderLogProps) => {
                       <div
                         className={"h-1.5 w-1.5 rounded-full bg-green-100 ring-1 ring-green-300"}
                       />
-                    ) : (
+                    ) : activityItem.type !== OrderStatusEnum.CANCELLED ? (
                       <span className="relative flex h-3 w-3">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
                       </span>
+                    ) : (
+                      <div
+                        className={"h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300"}
+                      />
                     )
                   ) : (
                     <div className={"h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300"} />
@@ -68,7 +72,7 @@ export const OrderLog = (props: OrderLogProps) => {
               <p
                 className={classNames(
                   "flex-auto py-0.5 leading-5 text-xs",
-                  activityItemIdx === 0
+                  activityItemIdx === 0 && activityItem.type !== OrderStatusEnum.CANCELLED
                     ? activityItem.type !== OrderStatusEnum.COMPLETED
                       ? "font-bold text-indigo-500"
                       : "font-medium text-green-500"
@@ -80,7 +84,7 @@ export const OrderLog = (props: OrderLogProps) => {
                 </span>
               </p>
               <time className="flex-none text-xs leading-5 text-gray-500">
-                {activityItem.dateTime.toLocaleString()}
+                {activityItem.dateTime.toLocaleDateString("ru-RU", { timeZone: "UTC" })}
               </time>
             </li>
           ))}

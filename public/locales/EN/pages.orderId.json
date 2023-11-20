@@ -1,11 +1,26 @@
 {
-  "title": "Information about order",
+  "title": "Order information",
   "head": {
-    "title": "Thank you!",
-    "subtitle": "It's on the way!",
-    "message": "Your order #{{orderId}} has shipped and will be with you soon.",
+    "title": "Thank you for your order!",
+    "subtitle": "Your order",
+    "status": {
+      "PENDING": "in processing",
+      "PAYMENT": "awaiting payment",
+      "PROCESSING": "preparing for shipment",
+      "SHIPPED": "on the way!",
+      "COMPLETED": "delivered",
+      "CANCELLED": "canceled",
+      "ON_HOLD": "suspended",
+      "DELIVERED": "delivered",
+      "REFUND_REQUESTED": "refund requested",
+      "REFUND_REJECTED": "refund rejected",
+      "REFUND_APPROVED": "refund approved",
+      "REFUNDED": "refund made",
+      "PARTIALLY_COMPLETED": "partially completed"
+    },
+    "message": "Order number: {{OrderID}}",
     "info": {
-      "title": "Tracking number"
+      "title": "Tracking number for tracking the parcel"
     }
   }
 }
