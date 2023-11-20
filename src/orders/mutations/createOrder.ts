@@ -4,6 +4,7 @@ import { CreateOrderSchema } from "../schemas"
 import {
   DeliveryMethodEnum,
   InvoiceStatusEnum,
+  OrderStatusEnum,
   Prisma,
   PurchasedItem,
   ShippingCompanyEnum,
@@ -40,7 +41,12 @@ export default resolver.pipe(
 
     let orderData = {
       ...rest,
-      log: { create: {} },
+      log: {
+        create: {
+          status: OrderStatusEnum.PENDING,
+          userId: ctx.session.user ? ctx.session.user.id : null,
+        },
+      },
       shippingAddress: {
         create: {
           ...address,
