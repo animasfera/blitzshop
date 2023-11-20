@@ -1,9 +1,9 @@
 import { OrdersListItem } from "src/orders/components/OrdersListItem"
 import { OrdersListProductsList } from "src/orders/components/OrdersListProductsList"
-import { OrderFull } from "../schemas"
+import { OrderFull, OrderShort } from "../schemas"
 
 interface OrderListProps {
-  orders: OrderFull[]
+  orders: OrderShort[]
 }
 
 export const OrdersList = (props: OrderListProps) => {

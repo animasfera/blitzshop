@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"
 
-import { OrderFull, OrderStatus } from "../../schemas"
+import { OrderFull } from "../../schemas"
 import { classNames } from "src/core/helpers/classNames"
 import { OrderStatusEnum } from "@prisma/client"
 import { useSession } from "@blitzjs/auth"
@@ -33,7 +33,7 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
     type: orderLog.status,
   }))
 
-  const { t } = useTranslation(["pages.admin.orderId"])
+  const { t } = useTranslation(["pages.admin.orderId", "pages.orderId"])
 
   return (
     <>
@@ -99,7 +99,7 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
                 )}
               >
                 <span className="text-xs leading-5">
-                  {activityItem.type ? OrderStatus[activityItem.type] : ""}
+                  {activityItem.type ? t("pages.orderId:head.status." + activityItem.type) : ""}
                 </span>
               </p>
               <time className="flex-none text-xs leading-5 text-gray-500">

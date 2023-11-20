@@ -18,6 +18,6 @@ export const OrdersPage: BlitzPage = () => {
     </Layout>
   )
 }
-
+OrdersPage.authenticate = true
 export { getServerSideProps } from "src/core/getServerSideProps"
 export default OrdersPage

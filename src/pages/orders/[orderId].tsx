@@ -1,11 +1,12 @@
 "use client"
+import { BlitzPage } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
 
 import Layout from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
 import { OrderController } from "src/orders/components/OrderController"
 
-export const OrderPage = () => {
+export const OrderPage: BlitzPage = () => {
   const { t } = useTranslation(["pages.orderId"])
 
   return (
@@ -17,6 +18,6 @@ export const OrderPage = () => {
   )
 }
 
-// OrderPage.authenticate = true
+OrderPage.authenticate = true
 export { getServerSideProps } from "src/core/getServerSideProps"
 export default OrderPage
