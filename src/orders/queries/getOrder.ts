@@ -15,19 +15,6 @@ export default resolver.pipe(resolver.zod(GetOrder), resolver.authorize(), async
     include: {
       log: {
         orderBy: { createdAt: "desc" },
-        include: {
-          user: {
-            select: {
-              id: true,
-              username: true,
-              firstName: true,
-              lastName: true,
-              email: true,
-              phone: true,
-              avatarUrl: true,
-            },
-          },
-        },
       },
       invoice: true,
       shippingAddress: {

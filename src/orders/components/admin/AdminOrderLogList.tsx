@@ -2,16 +2,19 @@ import { useTranslation } from "react-i18next"
 
 import { OrderFull } from "../../schemas"
 import { classNames } from "src/core/helpers/classNames"
-import { OrderStatusEnum } from "@prisma/client"
+import { OrderLog, OrderStatusEnum } from "@prisma/client"
 import { useSession } from "@blitzjs/auth"
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline"
 import Form from "src/core/components/form/Form"
 import LabeledTextField from "src/core/components/form/LabeledTextField"
 import LabeledTextareaField from "src/core/components/form/LabeledTextareaField"
 import { DateTime } from "luxon"
+import { UserPublicInfoType } from "src/users/schemas"
 
-interface AdminOrderLogProps {
-  order: OrderFull
+interface AdminOrderLogListProps {
+  orderLogs: (OrderLog & {
+    user?: UserPublicInfoType | null
+  })[]
   trashButtonClick: (orderLogId: number) => void
 }
 
@@ -23,30 +26,17 @@ enum AdminOrderLogActivityItemType {
 export interface AdminOrderLogActivityItem {
   id: number
   dateTime: string | null
-  person?: {
-    email: string
-    id: number
-    username: string
-    firstName: string | null
-    lastName: string | null
-    phone: string | null
-    avatarUrl: string | null
-  } | null
+  person?: UserPublicInfoType | null
   status: OrderStatusEnum | null
   type: AdminOrderLogActivityItemType
   comment: string | null
 }
 
-export const AdminOrderLog = (props: AdminOrderLogProps) => {
-  const { order, trashButtonClick } = props
+export const AdminOrderLogList = (props: AdminOrderLogListProps) => {
+  const { orderLogs, trashButtonClick } = props
   const session = useSession()
-  const rtf = new Intl.RelativeTimeFormat("ru", {
-    localeMatcher: "best fit", // other values: "lookup"
-    numeric: "always", // other values: "auto"
-    style: "long", // other values: "short" or "narrow"
-  })
 
-  const activity: AdminOrderLogActivityItem[] = order.log.map((orderLog) => ({
+  const activity: AdminOrderLogActivityItem[] = orderLogs.map((orderLog) => ({
     id: orderLog.id,
     dateTime: DateTime.fromJSDate(orderLog.createdAt).toRelative(),
     person: orderLog.user,
@@ -87,7 +77,7 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
                   ) : (
                     <div className="relative flex h-6 w-6 rounded-full justify-center bg-gray-500">
                       <span className="font-small text-center text-gray-100">
-                        {activityItem.person.username.charAt(0).toUpperCase()}
+                        {activityItem.person.username?.charAt(0).toUpperCase()}
                       </span>
                     </div>
                   )}
@@ -224,4 +214,4 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
   )
 }
 
-export default AdminOrderLog
+export default AdminOrderLogList

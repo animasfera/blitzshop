@@ -3,11 +3,11 @@ import { resolver } from "@blitzjs/rpc"
 import db, { Prisma } from "db"
 
 interface GetOrderLogsInput
-  extends Pick<Prisma.OrderLogFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
+  extends Pick<Prisma.OrderLogFindManyArgs, "where" | "orderBy" | "skip" | "take" | "include"> {}
 
 export default resolver.pipe(
   resolver.authorize(),
-  async ({ where, orderBy, skip = 0, take = 100 }: GetOrderLogsInput) => {
+  async ({ where, orderBy, include, skip = 0, take = 100 }: GetOrderLogsInput) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const {
       items: orderLogs,
@@ -18,7 +18,7 @@ export default resolver.pipe(
       skip,
       take,
       count: () => db.orderLog.count({ where }),
-      query: (paginateArgs) => db.orderLog.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) => db.orderLog.findMany({ ...paginateArgs, where, orderBy, include }),
     })
 
     return {

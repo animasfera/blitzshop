@@ -26,7 +26,6 @@ export const OrderLog = (props: OrderLogProps) => {
   const activity: OrderLogActivityItem[] = order.log.map((orderLog) => ({
     id: orderLog.id,
     dateTime: orderLog.createdAt,
-    person: orderLog.user,
     type: orderLog.status,
   }))
   const { t } = useTranslation(["pages.orderId"])

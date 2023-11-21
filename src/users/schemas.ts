@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { CurrencyEnum, CountryFilterEnum } from "@prisma/client"
+import { CurrencyEnum, CountryFilterEnum, User } from "@prisma/client"
 import { UserModel, LocationModel } from "db/zod"
 
 export const email = z
@@ -26,6 +26,23 @@ const telegram = z
     message:
       "В Telegram username допустимы только буквы латинского алфавита (a-z), цифры (0-9), знак нижнего подчеркивания (_) и точка (.)",
   })
+
+export const UserPublicInfoSchema = UserModel.pick({
+  id: true,
+  username: true,
+  firstName: true,
+  lastName: true,
+  avatarUrl: true,
+  locale: true,
+}).partial({
+  id: true,
+  username: true,
+  firstName: true,
+  lastName: true,
+  avatarUrl: true,
+  locale: true,
+})
+export type UserPublicInfoType = z.infer<typeof UserPublicInfoSchema>
 
 export const CreateUserSchema = UserModel.pick({
   username: true,
