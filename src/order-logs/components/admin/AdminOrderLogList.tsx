@@ -12,12 +12,14 @@ import OrderLogStatus from "../OrderLogStatus"
 import OrderLogCirclePulse from "../OrderLogCirclePulse"
 import OrderLogCircleStatic from "../OrderLogCircleStatic"
 import AdminOrderLogAvatar from "./AdminOrderLogAvatar"
+import { TrashIcon } from "@heroicons/react/24/outline"
 
 interface AdminOrderLogListProps {
   orderLogs: (OrderLog & {
     user?: UserPublicInfoType | null
   })[]
   trashButtonClick: (orderLogId: number) => void
+  onCommentChange: (orderLogId: number, comment: string) => void
 }
 
 enum AdminOrderLogActivityItemType {
@@ -37,7 +39,7 @@ export interface AdminOrderLogActivityItem {
 }
 
 export const AdminOrderLogList = (props: AdminOrderLogListProps) => {
-  const { orderLogs, trashButtonClick } = props
+  const { orderLogs, trashButtonClick, onCommentChange } = props
   const session = useSession()
 
   const activity: AdminOrderLogActivityItem[] = orderLogs.map((orderLog) => ({
@@ -64,6 +66,19 @@ export const AdminOrderLogList = (props: AdminOrderLogListProps) => {
               key={activityItem.id}
               className="group relative min-h-fit flex gap-x-4 text-gray-400"
             >
+              {activityItem.person?.id === session.userId && (
+                <div
+                  className="absolute flex flex-row outline outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
+                shadow-indigo-400/50"
+                >
+                  <button
+                    className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
+                    onClick={() => trashButtonClick(activityItem.id)}
+                  >
+                    <TrashIcon />
+                  </button>
+                </div>
+              )}
               <div
                 className={classNames(
                   activityItemIdx === activity.length - 1 ? "h-6" : "-bottom-6",
@@ -116,8 +131,7 @@ export const AdminOrderLogList = (props: AdminOrderLogListProps) => {
                     isEdited={
                       activityItem.updatedAt.toISOString() !== activityItem.createdAt.toISOString()
                     }
-                    trashButtonClick={(orderLogId) => trashButtonClick(orderLogId)}
-                    onChange={(comment) => alert(comment)}
+                    onChange={(comment) => onCommentChange(activityItem.id, comment)}
                   />
                 </>
               ) : (
@@ -131,34 +145,6 @@ export const AdminOrderLogList = (props: AdminOrderLogListProps) => {
             </li>
           ))}
         </ul>
-
-        {/* New comment form */}
-        <div className="mt-6 flex gap-x-3">
-          {session.user?.avatarUrl ? (
-            <img
-              src={session.user?.avatarUrl}
-              alt=""
-              className="h-6 w-6 flex-none rounded-full bg-gray-50"
-            />
-          ) : (
-            <div className="relative flex h-6 w-6 rounded-full justify-center bg-gray-500">
-              <span className="font-small text-center text-gray-100">
-                {session.user?.username.charAt(0).toUpperCase()}
-              </span>
-            </div>
-          )}
-          {/* forma */}
-          <Form
-            submitText="Отправить"
-            onSubmit={async (i) => {
-              alert()
-            }}
-          >
-            <LabeledTextareaField name="comment" label="" placeholder="Ваш комментарий" rows={3} />
-
-            {/* template: <__component__ name="__fieldName__" label="__Field_Name__" placeholder="__Field_Name__"  type="__inputType__" /> */}
-          </Form>
-        </div>
       </div>
     </>
   )

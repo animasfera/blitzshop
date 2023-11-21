@@ -11,7 +11,7 @@ import { OrderFull } from "../../schemas"
 
 export const AdminOrderController = () => {
   const orderId = useParam("orderId", "number")
-  const [order, { setQueryData }] = useQuery(getOrder, { id: orderId })
+  const [order, { setQueryData, refetch }] = useQuery(getOrder, { id: orderId })
   const [updateOrderMutation] = useMutation(updateOrder)
   const [updateShippingAddressMutation] = useMutation(updateShippingAddress)
 
@@ -46,6 +46,7 @@ export const AdminOrderController = () => {
         await setQueryData((oldData) => {
           return { ...oldData, ...updatedOrder }
         })
+        refetch()
       }
     }
 

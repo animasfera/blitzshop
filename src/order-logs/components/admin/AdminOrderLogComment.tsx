@@ -4,6 +4,7 @@ import { UserPublicInfoType } from "src/users/schemas"
 import Form from "src/core/components/form/Form"
 import LabeledTextareaField from "src/core/components/form/LabeledTextareaField"
 import Button from "src/core/tailwind-ui/application-ui/elements/buttons/Button"
+import { nl2br } from "src/core/helpers/Helpers"
 
 interface AdminOrderLogCommentProps {
   id: number
@@ -12,7 +13,6 @@ interface AdminOrderLogCommentProps {
   comment: string | null
   isEditable?: boolean
   isEdited?: boolean
-  trashButtonClick: (orderLogId: number) => void
   onChange?: (comment: string) => void
 }
 const AdminOrderLogComment = (props: AdminOrderLogCommentProps) => {
@@ -22,7 +22,6 @@ const AdminOrderLogComment = (props: AdminOrderLogCommentProps) => {
     createDateTime,
     person,
     comment,
-    trashButtonClick,
     onChange,
     isEditable = false,
     isEdited = false,
@@ -67,13 +66,13 @@ const AdminOrderLogComment = (props: AdminOrderLogCommentProps) => {
                 {createDateTime}
               </time>
             </div>
-            <p className="text-sm leading-6 text-gray-500">{comment}</p>
+            <p className="text-sm leading-6 text-gray-500">{nl2br(comment, false)}</p>
           </div>
         </>
       )}
       {isEditable && !isEditing && (
         <div
-          className="absolute flex flex-row outline outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
+          className="absolute flex flex-row outline mr-6 outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
                 shadow-indigo-400/50"
         >
           <button
@@ -83,12 +82,6 @@ const AdminOrderLogComment = (props: AdminOrderLogCommentProps) => {
             }}
           >
             <PencilIcon />
-          </button>
-          <button
-            className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
-            onClick={() => trashButtonClick(id)}
-          >
-            <TrashIcon />
           </button>
         </div>
       )}
