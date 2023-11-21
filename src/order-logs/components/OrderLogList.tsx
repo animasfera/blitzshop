@@ -1,41 +1,46 @@
-import { OrderStatusEnum } from "@prisma/client"
 import { useTranslation } from "react-i18next"
-import { OrderFull } from "../../orders/schemas"
+
 import { classNames } from "src/core/helpers/classNames"
+import { OrderLog, OrderStatusEnum } from "@prisma/client"
+import { useSession } from "@blitzjs/auth"
 
-interface OrderLogProps {
-  order: OrderFull
+import { DateTime } from "luxon"
+
+import OrderLogStatus from "src/order-logs/components/OrderLogStatus"
+import OrderLogCirclePulse from "src/order-logs/components/OrderLogCirclePulse"
+import OrderLogCircleStatic from "src/order-logs/components/OrderLogCircleStatic"
+
+interface OrderLogListProps {
+  orderLogs: OrderLog[]
 }
-export interface OrderLogListActivityItem {
+
+export interface OrderLogActivityItem {
   id: number
-  dateTime: Date
-  person?: {
-    email: string
-    id: number
-    username: string
-    firstName: string | null
-    lastName: string | null
-    phone: string | null
-    avatarUrl: string | null
-  } | null
-  type: OrderStatusEnum | null
+  createDateTime: string | null
+  status: OrderStatusEnum | null
 }
 
-export const OrderLogList = (props: OrderLogProps) => {
-  const { order } = props
-  const activity: OrderLogListActivityItem[] = order.log.map((orderLog) => ({
+export const OrderLogList = (props: OrderLogListProps) => {
+  const { orderLogs } = props
+  const session = useSession()
+
+  const activity: OrderLogActivityItem[] = orderLogs.map((orderLog) => ({
     id: orderLog.id,
-    dateTime: orderLog.createdAt,
-    type: orderLog.status,
+    createDateTime: DateTime.fromJSDate(orderLog.createdAt).toRelative(),
+    status: orderLog.status || null,
   }))
-  const { t } = useTranslation(["pages.orderId"])
+
+  const { t } = useTranslation(["pages.admin.orderId", "pages.orderId"])
 
   return (
     <>
       <div className="mt-8">
         <ul role="list" className="space-y-6">
           {activity.map((activityItem, activityItemIdx) => (
-            <li key={activityItem.id} className="relative flex gap-x-4">
+            <li
+              key={activityItem.id}
+              className="group relative min-h-fit flex gap-x-4 text-gray-400"
+            >
               <div
                 className={classNames(
                   activityItemIdx === activity.length - 1 ? "h-6" : "-bottom-6",
@@ -45,46 +50,30 @@ export const OrderLogList = (props: OrderLogProps) => {
                 <div className="w-px bg-gray-200" />
               </div>
 
-              <>
+              <div>
                 <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
                   {activityItemIdx === 0 ? (
-                    activityItem.type === OrderStatusEnum.COMPLETED ? (
-                      <div
-                        className={"h-1.5 w-1.5 rounded-full bg-green-100 ring-1 ring-green-300"}
-                      />
-                    ) : activityItem.type !== OrderStatusEnum.CANCELLED ? (
-                      <span className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
-                      </span>
+                    activityItem.status === OrderStatusEnum.COMPLETED ? (
+                      <OrderLogCircleStatic styles="bg-green-100 ring-green-600" />
                     ) : (
-                      <div
-                        className={"h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300"}
-                      />
+                      <>
+                        <OrderLogCirclePulse />
+                      </>
                     )
                   ) : (
-                    <div className={"h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300"} />
+                    <>
+                      <OrderLogCircleStatic />
+                    </>
                   )}
                 </div>
-              </>
+              </div>
 
-              <p
-                className={classNames(
-                  "flex-auto py-0.5 leading-5 text-xs",
-                  activityItemIdx === 0 && activityItem.type !== OrderStatusEnum.CANCELLED
-                    ? activityItem.type !== OrderStatusEnum.COMPLETED
-                      ? "font-bold text-indigo-500"
-                      : "font-medium text-green-500"
-                    : "font-medium text-gray-500"
-                )}
-              >
-                <span className="text-xs leading-5">
-                  {activityItem.type ? t("head.status." + activityItem.type) : ""}
-                </span>
-              </p>
-              <time className="flex-none text-xs leading-5 text-gray-500">
-                {activityItem.dateTime.toLocaleDateString("ru-RU", { timeZone: "UTC" })}
-              </time>
+              <>
+                <OrderLogStatus
+                  status={t("pages.orderId:head.status." + activityItem.status)}
+                  createDateTime={activityItem.createDateTime}
+                />
+              </>
             </li>
           ))}
         </ul>
