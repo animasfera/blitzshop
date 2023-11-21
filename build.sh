@@ -12,9 +12,6 @@ blitz prisma migrate deploy
 
 npx prisma generate
 
-sed -i 's/CountryFilter, CountryFilter, /CountryFilter, /' db/zod/user.ts
-sed -i 's/FeeType, FeeType, /FeeType, /' db/zod/transaction.ts
-
 BUILD_DIR=temp blitz build || exit
 
 if [ ! -d "temp" ]; then
@@ -27,11 +24,7 @@ rm -rf .next
 
 mv temp .next
 
-pm2 reload leela --update-env
-
-sleep 2
-
-# curl https://leela.game/api/queues/?secret=1ee1a
+pm2 reload shop --update-env
 
 echo "Deploy done."
 

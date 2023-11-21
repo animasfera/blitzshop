@@ -48,7 +48,7 @@ const config = {
       },
     ],
   },
-  // distDir: process.env.BUILD_DIR || ".next",
+  distDir: process.env.BUILD_DIR || ".next",
   // pageExtensions: ["ts", "tsx", "md", "mdx"],
   /*
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
