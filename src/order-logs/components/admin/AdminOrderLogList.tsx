@@ -1,15 +1,17 @@
 import { useTranslation } from "react-i18next"
 
-import { OrderFull } from "../../../orders/schemas"
 import { classNames } from "src/core/helpers/classNames"
 import { OrderLog, OrderStatusEnum } from "@prisma/client"
 import { useSession } from "@blitzjs/auth"
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline"
 import Form from "src/core/components/form/Form"
-import LabeledTextField from "src/core/components/form/LabeledTextField"
 import LabeledTextareaField from "src/core/components/form/LabeledTextareaField"
 import { DateTime } from "luxon"
 import { UserPublicInfoType } from "src/users/schemas"
+import AdminOrderLogComment from "./AdminOrderLogComment"
+import OrderLogStatus from "../OrderLogStatus"
+import OrderLogCirclePulse from "../OrderLogCirclePulse"
+import OrderLogCircleStatic from "../OrderLogCircleStatic"
+import AdminOrderLogAvatar from "./AdminOrderLogAvatar"
 
 interface AdminOrderLogListProps {
   orderLogs: (OrderLog & {
@@ -19,13 +21,15 @@ interface AdminOrderLogListProps {
 }
 
 enum AdminOrderLogActivityItemType {
-  "status",
-  "comment",
+  status = "status",
+  comment = "comment",
 }
 
 export interface AdminOrderLogActivityItem {
   id: number
-  dateTime: string | null
+  createDateTime: string | null
+  createdAt: Date
+  updatedAt: Date
   person?: UserPublicInfoType | null
   status: OrderStatusEnum | null
   type: AdminOrderLogActivityItemType
@@ -38,9 +42,11 @@ export const AdminOrderLogList = (props: AdminOrderLogListProps) => {
 
   const activity: AdminOrderLogActivityItem[] = orderLogs.map((orderLog) => ({
     id: orderLog.id,
-    dateTime: DateTime.fromJSDate(orderLog.createdAt).toRelative(),
-    person: orderLog.user,
-    status: orderLog.status,
+    createDateTime: DateTime.fromJSDate(orderLog.createdAt).toRelative(),
+    createdAt: orderLog.createdAt,
+    updatedAt: orderLog.updatedAt,
+    person: orderLog.user || null,
+    status: orderLog.status || null,
     type: orderLog.status
       ? AdminOrderLogActivityItemType.status
       : AdminOrderLogActivityItemType.comment,
@@ -67,39 +73,25 @@ export const AdminOrderLogList = (props: AdminOrderLogListProps) => {
                 <div className="w-px bg-gray-200" />
               </div>
               {activityItem.person ? (
-                <div className="w-6">
-                  {activityItem.person.avatarUrl ? (
-                    <img
-                      src={activityItem.person.avatarUrl}
-                      alt=""
-                      className="relative h-6 w-6 flex-none rounded-full bg-gray-50"
-                    />
-                  ) : (
-                    <div className="relative flex h-6 w-6 rounded-full justify-center bg-gray-500">
-                      <span className="font-small text-center text-gray-100">
-                        {activityItem.person.username?.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                  )}
-                </div>
+                <AdminOrderLogAvatar
+                  username={activityItem.person.username}
+                  avatarUrl={activityItem.person.avatarUrl}
+                />
               ) : (
                 <div>
                   <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
                     {activityItemIdx === 0 ? (
                       activityItem.status === OrderStatusEnum.COMPLETED ? (
-                        <div
-                          className={"h-1.5 w-1.5 rounded-full bg-green-100 ring-1 ring-green-300"}
-                        />
+                        <OrderLogCircleStatic styles="bg-green-100 ring-green-600" />
                       ) : (
-                        <span className="relative flex h-3 w-3">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
-                        </span>
+                        <>
+                          <OrderLogCirclePulse />
+                        </>
                       )
                     ) : (
-                      <div
-                        className={"h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300"}
-                      />
+                      <>
+                        <OrderLogCircleStatic />
+                      </>
                     )}
                   </div>
                 </div>
@@ -107,77 +99,35 @@ export const AdminOrderLogList = (props: AdminOrderLogListProps) => {
 
               {activityItem.type === AdminOrderLogActivityItemType.status ? (
                 <>
-                  <p
-                    className={classNames(
-                      "flex-auto py-0.5 leading-5 text-xs",
-                      activityItemIdx === 0
-                        ? activityItem.status !== OrderStatusEnum.COMPLETED
-                          ? "font-bold text-indigo-500"
-                          : "font-medium text-green-500"
-                        : "font-medium text-gray-500"
-                    )}
-                  >
-                    <span className="font-medium text-gray-400">
-                      {activityItem.person?.username}
-                    </span>{" "}
-                    {activityItem.status
-                      ? t("pages.orderId:head.status." + activityItem.status)
-                      : ""}
-                  </p>
-                  <time className="flex-none text-xs leading-5 text-gray-500">
-                    {activityItem.dateTime}
-                  </time>
-                  {activityItem.person?.id === session.userId && (
-                    <div
-                      className="absolute flex flex-row outline outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
-                shadow-indigo-400/50"
-                    >
-                      <button
-                        className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
-                        onClick={() => trashButtonClick(activityItem.id)}
-                      >
-                        <TrashIcon />
-                      </button>
-                    </div>
-                  )}
+                  <OrderLogStatus
+                    status={t("pages.orderId:head.status." + activityItem.status)}
+                    createDateTime={activityItem.createDateTime}
+                    person={activityItem.person}
+                  />
+                </>
+              ) : activityItem.type === AdminOrderLogActivityItemType.comment ? (
+                <>
+                  <AdminOrderLogComment
+                    id={activityItem.id}
+                    person={activityItem.person}
+                    createDateTime={activityItem.createDateTime}
+                    comment={activityItem.comment}
+                    isEditable={session.userId === activityItem.person?.id}
+                    isEdited={
+                      activityItem.updatedAt.toISOString() !== activityItem.createdAt.toISOString()
+                    }
+                    trashButtonClick={(orderLogId) => trashButtonClick(orderLogId)}
+                    onChange={(comment) => alert(comment)}
+                  />
                 </>
               ) : (
-                <>
-                  <div className="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
-                    <div className="flex justify-between gap-x-4">
-                      <div className="py-0.5 text-xs leading-5 text-gray-500">
-                        <span className="font-medium text-gray-900">
-                          {activityItem.person?.username}
-                        </span>
-                        :
-                      </div>
-                      <time className="flex-none py-0.5 text-xs leading-5 text-gray-500">
-                        {activityItem.dateTime}
-                      </time>
-                    </div>
-                    <p className="text-sm leading-6 text-gray-500">{activityItem.comment}</p>
-                  </div>
-                  {activityItem.person?.id === session.userId && (
-                    <div
-                      className="absolute flex flex-row outline outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
-                shadow-indigo-400/50"
-                    >
-                      <button
-                        className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
-                        onClick={() => {}}
-                      >
-                        <PencilIcon />
-                      </button>
-                      <button
-                        className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
-                        onClick={() => trashButtonClick(activityItem.id)}
-                      >
-                        <TrashIcon />
-                      </button>
-                    </div>
-                  )}
-                </>
+                <></>
               )}
+              <div className="absolute duration-500 right-0 bottom-[-16px] opacity-0 group-hover:opacity-100">
+                <time className="flex-none py-0.5 text-xs leading-5 text-gray-300">
+                  {activityItem.createdAt?.toLocaleString()}
+                </time>
+              </div>
             </li>
           ))}
         </ul>

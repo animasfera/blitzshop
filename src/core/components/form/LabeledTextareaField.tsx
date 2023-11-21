@@ -71,7 +71,7 @@ export const LabeledTextareaField = forwardRef<HTMLTextAreaElement, LabeledTexta
             name={name}
             rows={rows ?? 4}
             className={`
-            block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset
+            block w-full rounded-md border-0 p-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset
             ${
               showError
                 ? `text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500

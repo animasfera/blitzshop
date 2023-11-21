@@ -35,7 +35,6 @@ export const UserPublicInfoSchema = UserModel.pick({
   avatarUrl: true,
   locale: true,
 }).partial({
-  id: true,
   username: true,
   firstName: true,
   lastName: true,

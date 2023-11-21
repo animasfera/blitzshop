@@ -14,6 +14,7 @@ export default resolver.pipe(resolver.zod(GetOrder), resolver.authorize(), async
     where: { id },
     include: {
       log: {
+        where: { comment: null },
         orderBy: { createdAt: "desc" },
       },
       invoice: true,
