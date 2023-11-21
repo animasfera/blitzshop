@@ -4,15 +4,25 @@ import { OrderFull } from "../../schemas"
 import { classNames } from "src/core/helpers/classNames"
 import { OrderStatusEnum } from "@prisma/client"
 import { useSession } from "@blitzjs/auth"
-import { TrashIcon } from "@heroicons/react/24/outline"
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline"
+import Form from "src/core/components/form/Form"
+import LabeledTextField from "src/core/components/form/LabeledTextField"
+import LabeledTextareaField from "src/core/components/form/LabeledTextareaField"
+import { DateTime } from "luxon"
 
 interface AdminOrderLogProps {
   order: OrderFull
   trashButtonClick: (orderLogId: number) => void
 }
+
+enum AdminOrderLogActivityItemType {
+  "status",
+  "comment",
+}
+
 export interface AdminOrderLogActivityItem {
   id: number
-  dateTime: Date
+  dateTime: string | null
   person?: {
     email: string
     id: number
@@ -22,17 +32,29 @@ export interface AdminOrderLogActivityItem {
     phone: string | null
     avatarUrl: string | null
   } | null
-  type: OrderStatusEnum | null
+  status: OrderStatusEnum | null
+  type: AdminOrderLogActivityItemType
+  comment: string | null
 }
 
 export const AdminOrderLog = (props: AdminOrderLogProps) => {
   const { order, trashButtonClick } = props
   const session = useSession()
+  const rtf = new Intl.RelativeTimeFormat("ru", {
+    localeMatcher: "best fit", // other values: "lookup"
+    numeric: "always", // other values: "auto"
+    style: "long", // other values: "short" or "narrow"
+  })
+
   const activity: AdminOrderLogActivityItem[] = order.log.map((orderLog) => ({
     id: orderLog.id,
-    dateTime: orderLog.createdAt,
+    dateTime: DateTime.fromJSDate(orderLog.createdAt).toRelative(),
     person: orderLog.user,
-    type: orderLog.status,
+    status: orderLog.status,
+    type: orderLog.status
+      ? AdminOrderLogActivityItemType.status
+      : AdminOrderLogActivityItemType.comment,
+    comment: orderLog.comment,
   }))
 
   const { t } = useTranslation(["pages.admin.orderId", "pages.orderId"])
@@ -42,7 +64,10 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
       <div className="mt-8">
         <ul role="list" className="space-y-6">
           {activity.map((activityItem, activityItemIdx) => (
-            <li key={activityItem.id} className="group relative flex h-8 gap-x-4 text-gray-400">
+            <li
+              key={activityItem.id}
+              className="group relative min-h-fit flex gap-x-4 text-gray-400"
+            >
               <div
                 className={classNames(
                   activityItemIdx === activity.length - 1 ? "h-6" : "-bottom-6",
@@ -71,7 +96,7 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
                 <div>
                   <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
                     {activityItemIdx === 0 ? (
-                      activityItem.type === OrderStatusEnum.COMPLETED ? (
+                      activityItem.status === OrderStatusEnum.COMPLETED ? (
                         <div
                           className={"h-1.5 w-1.5 rounded-full bg-green-100 ring-1 ring-green-300"}
                         />
@@ -90,38 +115,79 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
                 </div>
               )}
 
-              <p
-                className={classNames(
-                  "flex-auto py-0.5 leading-5 text-xs",
-                  activityItemIdx === 0
-                    ? activityItem.type !== OrderStatusEnum.COMPLETED
-                      ? "font-bold text-indigo-500"
-                      : "font-medium text-green-500"
-                    : "font-medium text-gray-500"
-                )}
-              >
-                <span className="text-xs leading-5">
-                  {activityItem.type ? t("pages.orderId:head.status." + activityItem.type) : ""}
-                </span>
-              </p>
-              <time className="flex-none text-xs leading-5 text-gray-500">
-                <span className="font-medium text-gray-400 mr-2">
-                  {activityItem.person ? activityItem.person.username : ""}
-                </span>
-
-                {activityItem.dateTime.toLocaleString()}
-              </time>
-              <div
-                className="absolute flex flex-row outline outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
-                shadow-indigo-400/50 "
-              >
-                <button
-                  className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
-                  onClick={() => trashButtonClick(activityItem.id)}
-                >
-                  <TrashIcon />
-                </button>
-              </div>
+              {activityItem.type === AdminOrderLogActivityItemType.status ? (
+                <>
+                  <p
+                    className={classNames(
+                      "flex-auto py-0.5 leading-5 text-xs",
+                      activityItemIdx === 0
+                        ? activityItem.status !== OrderStatusEnum.COMPLETED
+                          ? "font-bold text-indigo-500"
+                          : "font-medium text-green-500"
+                        : "font-medium text-gray-500"
+                    )}
+                  >
+                    <span className="font-medium text-gray-400">
+                      {activityItem.person?.username}
+                    </span>{" "}
+                    {activityItem.status
+                      ? t("pages.orderId:head.status." + activityItem.status)
+                      : ""}
+                  </p>
+                  <time className="flex-none text-xs leading-5 text-gray-500">
+                    {activityItem.dateTime}
+                  </time>
+                  {activityItem.person?.id === session.userId && (
+                    <div
+                      className="absolute flex flex-row outline outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
+                shadow-indigo-400/50"
+                    >
+                      <button
+                        className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
+                        onClick={() => trashButtonClick(activityItem.id)}
+                      >
+                        <TrashIcon />
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
+                    <div className="flex justify-between gap-x-4">
+                      <div className="py-0.5 text-xs leading-5 text-gray-500">
+                        <span className="font-medium text-gray-900">
+                          {activityItem.person?.username}
+                        </span>
+                        :
+                      </div>
+                      <time className="flex-none py-0.5 text-xs leading-5 text-gray-500">
+                        {activityItem.dateTime}
+                      </time>
+                    </div>
+                    <p className="text-sm leading-6 text-gray-500">{activityItem.comment}</p>
+                  </div>
+                  {activityItem.person?.id === session.userId && (
+                    <div
+                      className="absolute flex flex-row outline outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
+                shadow-indigo-400/50"
+                    >
+                      <button
+                        className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
+                        onClick={() => {}}
+                      >
+                        <PencilIcon />
+                      </button>
+                      <button
+                        className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
+                        onClick={() => trashButtonClick(activityItem.id)}
+                      >
+                        <TrashIcon />
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
             </li>
           ))}
         </ul>
@@ -141,32 +207,17 @@ export const AdminOrderLog = (props: AdminOrderLogProps) => {
               </span>
             </div>
           )}
-          <form action="#" className="relative flex-auto">
-            <div className="overflow-hidden rounded-lg pb-12 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
-              <label htmlFor="comment" className="sr-only">
-                Add your comment
-              </label>
-              <textarea
-                rows={2}
-                name="comment"
-                id="comment"
-                className="block w-full resize-none border-0 bg-transparent py-1.5
-                text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 ml-2"
-                placeholder="Add your comment..."
-                defaultValue={""}
-              />
-            </div>
+          {/* forma */}
+          <Form
+            submitText="Отправить"
+            onSubmit={async (i) => {
+              alert()
+            }}
+          >
+            <LabeledTextareaField name="comment" label="" placeholder="Ваш комментарий" rows={3} />
 
-            <div className="absolute inset-x-0 bottom-0 flex justify-end py-2 pl-3 pr-2">
-              <button
-                type="submit"
-                className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-200
-                shadow-sm ring-1 ring-inset ring-gray-300 hover:text-black"
-              >
-                Comment
-              </button>
-            </div>
-          </form>
+            {/* template: <__component__ name="__fieldName__" label="__Field_Name__" placeholder="__Field_Name__"  type="__inputType__" /> */}
+          </Form>
         </div>
       </div>
     </>
