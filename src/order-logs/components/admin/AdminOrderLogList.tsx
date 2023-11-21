@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"
 
-import { OrderFull } from "../../schemas"
+import { OrderFull } from "../../../orders/schemas"
 import { classNames } from "src/core/helpers/classNames"
 import { OrderLog, OrderStatusEnum } from "@prisma/client"
 import { useSession } from "@blitzjs/auth"

@@ -1,12 +1,12 @@
 import { OrderStatusEnum } from "@prisma/client"
 import { useTranslation } from "react-i18next"
-import { OrderFull } from "../schemas"
+import { OrderFull } from "../../orders/schemas"
 import { classNames } from "src/core/helpers/classNames"
 
 interface OrderLogProps {
   order: OrderFull
 }
-export interface OrderLogActivityItem {
+export interface OrderLogListActivityItem {
   id: number
   dateTime: Date
   person?: {
@@ -21,9 +21,9 @@ export interface OrderLogActivityItem {
   type: OrderStatusEnum | null
 }
 
-export const OrderLog = (props: OrderLogProps) => {
+export const OrderLogList = (props: OrderLogProps) => {
   const { order } = props
-  const activity: OrderLogActivityItem[] = order.log.map((orderLog) => ({
+  const activity: OrderLogListActivityItem[] = order.log.map((orderLog) => ({
     id: orderLog.id,
     dateTime: orderLog.createdAt,
     type: orderLog.status,
@@ -93,4 +93,4 @@ export const OrderLog = (props: OrderLogProps) => {
   )
 }
 
-export default OrderLog
+export default OrderLogList

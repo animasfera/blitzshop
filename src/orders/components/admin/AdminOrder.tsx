@@ -9,8 +9,8 @@ import { AdminOrderSummery } from "src/orders/components/admin/AdminOrderSummery
 import { OrderStatusesArray, OrderStatusesEnum } from "src/core/enums/OrderStatusEnum"
 import { OrderFull } from "src/orders/schemas"
 import { DutyPaymentEnum, ShippingCompanyEnum } from "@prisma/client"
-import AdminOrderLog from "./AdminOrderLogList"
-import AdminOrderLogController from "./AdminOrderLogController"
+import AdminOrderLog from "../../../order-logs/components/admin/AdminOrderLogList"
+import AdminOrderLogController from "../../../order-logs/components/admin/AdminOrderLogController"
 
 export type EditableFieldButton = {
   id: string
