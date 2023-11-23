@@ -4,7 +4,7 @@ import { CreateItemSchema } from "../schemas"
 
 export default resolver.pipe(
   resolver.zod(CreateItemSchema),
-  resolver.authorize(),
+  resolver.authorize("ADMIN"),
   async (input) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const item = await db.item.create({ data: input })

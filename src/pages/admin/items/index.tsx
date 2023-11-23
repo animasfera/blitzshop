@@ -1,5 +1,6 @@
 import { BlitzPage } from "@blitzjs/next"
-import React from "react"
+import { UserRoleEnum } from "@prisma/client"
+
 import AdminLayout from "src/core/layouts/AdminLayout"
 import AdminItemsController from "src/items/components/admin/AdminItemsController"
 
@@ -14,6 +15,6 @@ const AdminItemsPage: BlitzPage = () => {
 AdminItemsPage.getLayout = (page) => (
   <AdminLayout title={"Товары | Администрирование"}>{page}</AdminLayout>
 )
-AdminItemsPage.authenticate = { role: "ADMIN" }
+AdminItemsPage.authenticate = { role: UserRoleEnum.ADMIN, redirectTo: "/" }
 
 export default AdminItemsPage

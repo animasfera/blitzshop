@@ -45,17 +45,19 @@ export const upload = async (props: ImageUploadProps) => {
   const antiCSRFToken = getAntiCSRFToken()
 
   axios
-    .post("/api/images/upload", formData, {
+    .post("/api/images", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
         "anti-csrf": antiCSRFToken,
       },
     })
     .then((res) => {
-      if (res.status === 200 && res.data.url) {
+      if (res.status === 200 && res.data.url && res.data.image) {
         const fileUrl = res.data.url
+        const image = res.data.image
         onUpload &&
           onUpload({
+            image: image,
             filename: file.name,
             src: fileUrl,
             width: res.data.width,

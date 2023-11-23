@@ -4,7 +4,7 @@ import { UpdateItemSchema } from "../schemas"
 
 export default resolver.pipe(
   resolver.zod(UpdateItemSchema),
-  resolver.authorize(),
+  resolver.authorize("ADMIN"),
   async ({ id, ...data }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const item = await db.item.update({

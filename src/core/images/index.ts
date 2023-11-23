@@ -1,3 +1,5 @@
+import { Image } from "@prisma/client"
+
 export enum versionTypes {
   xs = "xs",
   sm = "sm",
@@ -18,6 +20,7 @@ export type ImageVersions = {
 }
 
 export type UploadingImageProps = {
+  image: Image
   src: number
   filename: string
   width: number
