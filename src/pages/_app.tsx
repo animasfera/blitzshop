@@ -1,3 +1,4 @@
+import React from "react"
 import { useState, useEffect, useRef, startTransition, Suspense } from "react"
 import { useRouter } from "next/router"
 import { AuthenticationError, AuthorizationError } from "blitz"
@@ -24,32 +25,49 @@ import Footer from "../core/components/sections/Footer"
 import { ErrorSection } from "src/core/components/sections/Error/ErrorSection"
 import LoginForm from "../auth/components/LoginForm"
 import SignupForm from "../auth/components/SignupForm"
+import AuthContainer from "src/auth/components/AuthContainer"
 
 ReactGA.initialize("G-34Y9N908L5")
 
 function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
-  const { t } = useTranslation(["pages.errors"])
+  const { t } = useTranslation(["pages.errors", "pages.login", "pages.signup"])
   const [authForm, setAuthForm] = useState("login")
-  let CertainAuthForm = authForm === "login" ? LoginForm : SignupForm
+  const isLogin = authForm === "login"
+  let CertainAuthForm = isLogin ? LoginForm : SignupForm
 
   if (error instanceof AuthenticationError) {
     return (
       <Suspense fallback={<>"Loading..."</>}>
-        {/*ts-ignore*/}
-        <CertainAuthForm onSuccess={resetErrorBoundary} onNavigate={(link) => setAuthForm(link)} />
+        <AuthContainer
+          title={isLogin ? t("pages.login:title") : t("pages.signup:title")}
+          link={{
+            message: isLogin
+              ? t("pages.login:loginForm.texts.noAccount")
+              : t("pages.signup:signupForm.texts.haveAccount"),
+            href: authForm === "login" ? Routes.SignupPage().href : Routes.LoginPage().href,
+            text: isLogin
+              ? t("pages.login:loginForm.links.register")
+              : t("pages.signup:signupForm.links.enter"),
+          }}
+        >
+          <CertainAuthForm
+            onSuccess={resetErrorBoundary}
+            onNavigate={(link) => setAuthForm(link)}
+          />
+        </AuthContainer>
       </Suspense>
     )
   } else if (error instanceof AuthorizationError) {
     return (
-      <Layout title={`${error.statusCode}: ${t("authorized.header.title")}`}>
+      <Layout title={`${error.statusCode}: ${t("pages.errors:authorized.header.title")}`}>
         <Loading>
           <ErrorSection
             header={{
               statusCode: error.statusCode,
-              title: t("authorized.header.title"),
-              message: t("authorized.header.message"),
+              title: t("pages.errors:authorized.header.title"),
+              message: t("pages.errors:authorized.header.message"),
             }}
-            link={{ href: Routes.LoginPage().href, text: t("main.links.signin") }}
+            link={{ href: Routes.LoginPage().href, text: t("pages.errors:main.links.signin") }}
           />
         </Loading>
       </Layout>
