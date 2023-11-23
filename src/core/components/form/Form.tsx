@@ -16,6 +16,7 @@ export interface FormProps<S extends z.ZodType<any, any>>
   /** Text to display in the submit button */
   submitText?: string
   fullBtn?: boolean
+  btnSize?: "xs" | "sm" | "md" | "lg" | "xl"
   styles?: string
   schema?: S
   getInstance?: (form: FormApi<z.TypeOf<S>, Partial<z.TypeOf<S>>>) => void
@@ -43,6 +44,7 @@ export function Form<S extends z.ZodType<any, any>>({
   children,
   submitText,
   fullBtn,
+  btnSize,
   styles,
   schema,
   initialValues,
@@ -102,6 +104,7 @@ export function Form<S extends z.ZodType<any, any>>({
                   <div className="flex justify-end pt-6">
                     <Button
                       type={"submit"}
+                      size={btnSize}
                       buttonText={submitText}
                       disabled={submitting}
                       styles={fullBtn ? "w-full justify-center" : ""}

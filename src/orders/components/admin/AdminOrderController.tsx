@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useMutation, useQuery } from "@blitzjs/rpc"
+import { invalidateQuery, useMutation, usePaginatedQuery, useQuery } from "@blitzjs/rpc"
 
 import { useParam } from "@blitzjs/next"
 import { useTranslation } from "react-i18next"
@@ -7,17 +7,17 @@ import { AdminOrder } from "src/orders/components/admin/AdminOrder"
 import getOrder from "src/orders/queries/getOrder"
 import updateOrder from "src/orders/mutations/updateOrder"
 import updateShippingAddress from "src/shipping-addresses/mutations/updateShippingAddress"
-import updateOrderLog from "src/order-logs/mutations/updateOrderLog"
 import { OrderFull } from "../../schemas"
-import deleteOrderLog from "src/order-logs/mutations/deleteOrderLog"
+import getOrderLogs from "src/order-logs/queries/getOrderLogs"
 
 export const AdminOrderController = () => {
   const orderId = useParam("orderId", "number")
-  const [order, { setQueryData }] = useQuery(getOrder, { id: orderId })
+  const [order, { setQueryData, refetch }] = useQuery(getOrder, { id: orderId })
+  const [{ orderLogs, hasMore }, { refetch: refetchOrderLogs }] = usePaginatedQuery(getOrderLogs, {
+    where: { orderId: order.id },
+  })
   const [updateOrderMutation] = useMutation(updateOrder)
   const [updateShippingAddressMutation] = useMutation(updateShippingAddress)
-  const [updateOrderLogMutation] = useMutation(updateOrderLog)
-  const [deleteOrderLogMutation] = useMutation(deleteOrderLog)
 
   const { i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
@@ -47,28 +47,18 @@ export const AdminOrderController = () => {
     } else {
       updatedOrder = await updateOrderMutation({ id: order.id, ...restOrder })
       if (updatedOrder) {
+        invalidateQuery(getOrderLogs)
         await setQueryData((oldData) => {
           return { ...oldData, ...updatedOrder }
         })
+        refetch()
       }
     }
 
     setLoading(false)
   }
 
-  return (
-    <AdminOrder
-      order={order}
-      isLoading={isLoading}
-      handleUpdateOrder={handleUpdateOrder}
-      deleteOrderLog={async (id) => {
-        await deleteOrderLogMutation({ id: id })
-        await setQueryData((oldData) => {
-          return { ...order }
-        })
-      }}
-    />
-  )
+  return <AdminOrder order={order} isLoading={isLoading} handleUpdateOrder={handleUpdateOrder} />
 }
 
 export default AdminOrderController
