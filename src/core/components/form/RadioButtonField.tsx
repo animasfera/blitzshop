@@ -17,6 +17,7 @@ export const RadioButtonField = (props: RadioCardProps) => {
       value={option}
       className={({ active, checked }) =>
         classNames(
+          "p-2",
           !option.disabled ? "cursor-pointer focus:outline-none" : "cursor-not-allowed opacity-25",
           active ? "ring-2 ring-indigo-600 ring-offset-2" : "",
           checked
