@@ -1,8 +1,9 @@
 {
   "index": {
-    "title": "User Settings"
+    "title": "Settings"
   },
   "navigation": {
+    "profile": "Profile",
     "general": "General",
     "security": "Security",
     "notifications": "Notifications",

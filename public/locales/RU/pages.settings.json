@@ -1,9 +1,10 @@
 {
   "index": {
-    "title": "Настройки пользователя"
+    "title": "Настройки"
   },
   "navigation": {
     "general": "Основные",
+    "profile": "Профиль",
     "security": "Безопасность",
     "notifications": "Уведомления",
     "plan": "План",

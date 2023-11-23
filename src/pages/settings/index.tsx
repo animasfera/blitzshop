@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next"
 
 import { Layout } from "src/core/layouts/Layout"
 import { Loading } from "src/core/components/Loading"
-import { SettingsUserController } from "src/settings/components/SettingsUserController"
+import { SettingsMenu } from "src/settings/components/SettingsMenu"
 
 export const SettingsPage: BlitzPage = () => {
   const { t } = useTranslation(["pages.settings"])
@@ -13,11 +13,17 @@ export const SettingsPage: BlitzPage = () => {
   return (
     <Layout title={t("index.title")}>
       <Loading>
-        <SettingsUserController />
+        <SettingsMenu>
+          <>
+            <p>Основные</p>
+          </>
+        </SettingsMenu>
       </Loading>
     </Layout>
   )
 }
+
+SettingsPage.authenticate = true
 
 export { getServerSideProps } from "src/core/getServerSideProps"
 export default SettingsPage
