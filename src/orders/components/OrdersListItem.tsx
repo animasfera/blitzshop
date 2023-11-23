@@ -1,10 +1,10 @@
 import Link from "next/link"
 import { useTranslation } from "react-i18next"
 import { Routes } from "@blitzjs/next"
-import { OrderFull } from "../schemas"
+import { OrderShort } from "../schemas"
 
 interface OrderListItemProps {
-  order: OrderFull
+  order: OrderShort
 }
 
 export const OrdersListItem = (props: OrderListItemProps) => {

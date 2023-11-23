@@ -1,0 +1,176 @@
+import { useTranslation } from "react-i18next"
+
+import { OrderFull } from "../../schemas"
+import { classNames } from "src/core/helpers/classNames"
+import { OrderStatusEnum } from "@prisma/client"
+import { useSession } from "@blitzjs/auth"
+import { TrashIcon } from "@heroicons/react/24/outline"
+
+interface AdminOrderLogProps {
+  order: OrderFull
+  trashButtonClick: (orderLogId: number) => void
+}
+export interface AdminOrderLogActivityItem {
+  id: number
+  dateTime: Date
+  person?: {
+    email: string
+    id: number
+    username: string
+    firstName: string | null
+    lastName: string | null
+    phone: string | null
+    avatarUrl: string | null
+  } | null
+  type: OrderStatusEnum | null
+}
+
+export const AdminOrderLog = (props: AdminOrderLogProps) => {
+  const { order, trashButtonClick } = props
+  const session = useSession()
+  const activity: AdminOrderLogActivityItem[] = order.log.map((orderLog) => ({
+    id: orderLog.id,
+    dateTime: orderLog.createdAt,
+    person: orderLog.user,
+    type: orderLog.status,
+  }))
+
+  const { t } = useTranslation(["pages.admin.orderId", "pages.orderId"])
+
+  return (
+    <>
+      <div className="mt-8">
+        <ul role="list" className="space-y-6">
+          {activity.map((activityItem, activityItemIdx) => (
+            <li key={activityItem.id} className="group relative flex h-8 gap-x-4 text-gray-400">
+              <div
+                className={classNames(
+                  activityItemIdx === activity.length - 1 ? "h-6" : "-bottom-6",
+                  "absolute left-0 top-0 flex w-6 justify-center"
+                )}
+              >
+                <div className="w-px bg-gray-200" />
+              </div>
+              {activityItem.person ? (
+                <div className="w-6">
+                  {activityItem.person.avatarUrl ? (
+                    <img
+                      src={activityItem.person.avatarUrl}
+                      alt=""
+                      className="relative h-6 w-6 flex-none rounded-full bg-gray-50"
+                    />
+                  ) : (
+                    <div className="relative flex h-6 w-6 rounded-full justify-center bg-gray-500">
+                      <span className="font-small text-center text-gray-100">
+                        {activityItem.person.username.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
+                    {activityItemIdx === 0 ? (
+                      activityItem.type === OrderStatusEnum.COMPLETED ? (
+                        <div
+                          className={"h-1.5 w-1.5 rounded-full bg-green-100 ring-1 ring-green-300"}
+                        />
+                      ) : (
+                        <span className="relative flex h-3 w-3">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+                        </span>
+                      )
+                    ) : (
+                      <div
+                        className={"h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300"}
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <p
+                className={classNames(
+                  "flex-auto py-0.5 leading-5 text-xs",
+                  activityItemIdx === 0
+                    ? activityItem.type !== OrderStatusEnum.COMPLETED
+                      ? "font-bold text-indigo-500"
+                      : "font-medium text-green-500"
+                    : "font-medium text-gray-500"
+                )}
+              >
+                <span className="text-xs leading-5">
+                  {activityItem.type ? t("pages.orderId:head.status." + activityItem.type) : ""}
+                </span>
+              </p>
+              <time className="flex-none text-xs leading-5 text-gray-500">
+                <span className="font-medium text-gray-400 mr-2">
+                  {activityItem.person ? activityItem.person.username : ""}
+                </span>
+
+                {activityItem.dateTime.toLocaleString()}
+              </time>
+              <div
+                className="absolute flex flex-row outline outline-indigo-100 outline-1 duration-300 group-hover:opacity-100 h-6 rounded top-[-10px] right-0 text-gray-400 bg-white opacity-0 drop-shadow-lg
+                shadow-indigo-400/50 "
+              >
+                <button
+                  className="p-1 h-6 w-6 hover:bg-indigo-200 hover:text-gray-900"
+                  onClick={() => trashButtonClick(activityItem.id)}
+                >
+                  <TrashIcon />
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {/* New comment form */}
+        <div className="mt-6 flex gap-x-3">
+          {session.user?.avatarUrl ? (
+            <img
+              src={session.user?.avatarUrl}
+              alt=""
+              className="h-6 w-6 flex-none rounded-full bg-gray-50"
+            />
+          ) : (
+            <div className="relative flex h-6 w-6 rounded-full justify-center bg-gray-500">
+              <span className="font-small text-center text-gray-100">
+                {session.user?.username.charAt(0).toUpperCase()}
+              </span>
+            </div>
+          )}
+          <form action="#" className="relative flex-auto">
+            <div className="overflow-hidden rounded-lg pb-12 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+              <label htmlFor="comment" className="sr-only">
+                Add your comment
+              </label>
+              <textarea
+                rows={2}
+                name="comment"
+                id="comment"
+                className="block w-full resize-none border-0 bg-transparent py-1.5
+                text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 ml-2"
+                placeholder="Add your comment..."
+                defaultValue={""}
+              />
+            </div>
+
+            <div className="absolute inset-x-0 bottom-0 flex justify-end py-2 pl-3 pr-2">
+              <button
+                type="submit"
+                className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-200
+                shadow-sm ring-1 ring-inset ring-gray-300 hover:text-black"
+              >
+                Comment
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default AdminOrderLog

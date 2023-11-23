@@ -1,6 +1,7 @@
-import db, { Country } from "db"
+import db, { Country, OrderStatusEnum } from "db"
 
 import { orders } from "db/seeds/orders/data"
+import { connect } from "http2"
 import { converter } from "src/core/converter"
 
 export const createOrders = async () => {
@@ -75,6 +76,8 @@ export const createOrders = async () => {
                   })),
                 },
               },
+
+              log: { create: { userId: user.id, status: OrderStatusEnum.PENDING } },
               invoice: {
                 create: {
                   amount: 12300,
@@ -84,9 +87,6 @@ export const createOrders = async () => {
               shippingFee: 100,
               subtotal: 12100,
               total: 12300,
-              log: {
-                create: { comment: element.status },
-              },
               user: { connect: { id: user.id } },
               status: element.status,
               // shippingMethod: {

@@ -55,6 +55,37 @@ export const DeleteOrderSchema = OrderModel.pick({
   id: true,
 })
 
+export type OrderShort = Order & {
+  user: {
+    email: string
+    id: number
+    username: string
+    firstName: string | null
+    lastName: string | null
+    phone: string | null
+    avatarUrl: string | null
+  }
+  invoice: Invoice | null
+  log: OrderLog[]
+
+  shippingAddress:
+    | (ShippingAddress & {
+        country: Country
+      })
+    | null
+  items: (PurchasedItem & {
+    category: Category | null
+    item: Item & {
+      user: {
+        email: string
+        id: number
+        username: string
+      } | null
+    }
+    coverImage: Image
+  })[]
+}
+
 export type OrderFull = Order & {
   user: {
     email: string
@@ -63,9 +94,20 @@ export type OrderFull = Order & {
     firstName: string | null
     lastName: string | null
     phone: string | null
+    avatarUrl: string | null
   }
   invoice: Invoice | null
-  log: OrderLog
+  log: (OrderLog & {
+    user: {
+      email: string
+      id: number
+      username: string
+      firstName: string | null
+      lastName: string | null
+      phone: string | null
+      avatarUrl: string | null
+    } | null
+  })[]
   shippingAddress:
     | (ShippingAddress & {
         country: Country

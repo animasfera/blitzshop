@@ -9,6 +9,7 @@ import { AdminOrderSummery } from "src/orders/components/admin/AdminOrderSummery
 import { OrderStatusesArray, OrderStatusesEnum } from "src/core/enums/OrderStatusEnum"
 import { OrderFull } from "src/orders/schemas"
 import { DutyPaymentEnum, ShippingCompanyEnum } from "@prisma/client"
+import AdminOrderLog from "./AdminOrderLog"
 
 export type EditableFieldButton = {
   id: string
@@ -25,8 +26,8 @@ export type EditableField = {
 interface AdminOrderProps {
   order: OrderFull
   isLoading: boolean
-
   handleUpdateOrder: (values: any) => Promise<void>
+  deleteOrderLog: (id) => void
 }
 
 const handleFullname = ({
@@ -46,7 +47,7 @@ const handleFullname = ({
 }
 
 export const AdminOrder = (props: AdminOrderProps) => {
-  const { order, isLoading, handleUpdateOrder } = props
+  const { order, isLoading, handleUpdateOrder, deleteOrderLog } = props
 
   const { t, i18n } = useTranslation(["pages.admin.orderId", "translation"])
 
@@ -75,7 +76,7 @@ export const AdminOrder = (props: AdminOrderProps) => {
     },
     {
       label: t("order.data.comment.label"),
-      value: order.log.comment,
+      value: order.notes,
       button: { id: "comment" },
     },
   ]
@@ -225,14 +226,17 @@ export const AdminOrder = (props: AdminOrderProps) => {
         />
       </div>
 
-      <div className="flex flex-col gap-x-6 gap-y-2 xl:flex-row">
+      <div className="flex flex-col gap-x-6 gap-y-2 xl:flex-row  ">
         <AdminOrderSectionsList
           sections={sections}
           order={order}
           isLoading={isLoading}
           handleUpdateOrder={handleUpdateOrder}
         />
-        <AdminOrderSummery order={order} />
+        <div className="basis-1/4">
+          <AdminOrderSummery order={order} />
+          <AdminOrderLog order={order} trashButtonClick={(id) => deleteOrderLog(id)} />
+        </div>
       </div>
     </div>
   )

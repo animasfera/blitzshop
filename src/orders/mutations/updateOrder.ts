@@ -31,6 +31,7 @@ export const updateOrderDbQuery = async (
     data.log = {
       create: {
         status: input.status,
+        userId: ctx.session.user ? ctx.session.user.id : null,
       },
     }
   }
