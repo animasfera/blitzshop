@@ -13,11 +13,13 @@ interface CategoryFilterProps<S> extends FormPropsWithOnChange<any> {
 const CategoryFilter = <S extends z.ZodType<any, any>>(props: CategoryFilterProps<S>) => {
   const { categories, title } = props
   const { t, i18n } = useTranslation()
-  let viewCategories = [{ label: i18n.language === "ru" ? "Все" : "All", value: 0 }] as any
+  let viewCategories = [
+    { label: i18n.resolvedLanguage?.toLowerCase() === "ru" ? "Все" : "All", value: 0 },
+  ] as any
 
   categories.forEach((category) =>
     viewCategories.push({
-      label: i18n.language === "ru" ? category.titleRu : category.titleEn,
+      label: i18n.resolvedLanguage?.toLowerCase() === "ru" ? category.titleRu : category.titleEn,
       value: category.id,
     })
   )
