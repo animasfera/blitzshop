@@ -44,6 +44,10 @@ export const CreateUserSchema = UserModel.pick({
 
 export const UpdateUserSchema = z.object({
   id: z.number(),
+  email: email.optional(),
+  firstName: firstName.nullable().optional(),
+  lastName: lastName.nullable().optional(),
+
   // template: __fieldName__: z.__zodType__(),
 })
 
