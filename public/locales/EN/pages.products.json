@@ -3,5 +3,6 @@
   "buttons": {
     "add": "Add to cart",
     "remove": "Remove from cart"
-  }
+  },
+  "category": "Category"
 }

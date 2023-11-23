@@ -13,7 +13,7 @@ export interface OptionRadioButtonField {
 
 export interface RadioButtonsFieldProps {
   name: string
-  label: string
+  label?: string
   required?: boolean
   disabled?: boolean
   helperText?: string
@@ -66,7 +66,7 @@ export const RadioButtonsField = forwardRef<HTMLInputElement, RadioButtonsFieldP
     const showError = touched && normalizedError
 
     return (
-      <div className="relative mb-7" {...outerProps}>
+      <div className="relative flex items-start justify-between mb-7" {...outerProps}>
         <RadioGroup
           {...input}
           ref={ref}

@@ -102,7 +102,7 @@ export const SelectSubmitLight = React.forwardRef<HTMLSelectElement, SelectSubmi
                       {options.map((option) => {
                         return (
                           <Listbox.Option
-                            key={option.value}
+                            key={option.label}
                             className={() =>
                               classNames(
                                 selected?.value === option.value

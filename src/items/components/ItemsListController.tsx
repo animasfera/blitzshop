@@ -9,15 +9,24 @@ import addItemToCart from "../../cart-to-items/mutations/addItemToCart"
 
 import getItems from "src/items/queries/getItems"
 import getCart from "src/carts/queries/getCart"
+import CategoryFilter from "src/categories/components/CategoryFilter"
+import getCategories from "src/categories/queries/getCategories"
+import { useTranslation } from "react-i18next"
 
 const ITEMS_PER_PAGE = 48
 
 export const ItemsListController = () => {
+  const [filter, setFilter] = useState({})
+
+  const { t } = useTranslation(["pages.products"])
   const [isLoading, setLoading] = useState(false)
   const [addProductToCartMutation] = useMutation(addItemToCart)
   const pagination = usePagination()
-
+  const [{ categories }] = usePaginatedQuery(getCategories, {
+    orderBy: { id: "asc" },
+  })
   const [{ items, hasMore, count }] = usePaginatedQuery(getItems, {
+    where: { ...filter },
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * pagination.page,
     take: ITEMS_PER_PAGE,
@@ -37,14 +46,24 @@ export const ItemsListController = () => {
 
   // TODO: add sorts and filters
   return (
-    <ListOrNotFoundMessage
-      countObjects={count}
-      itemsPerPage={ITEMS_PER_PAGE}
-      pagination={pagination}
-      hasMore={hasMore}
-    >
-      <ItemsList items={items} isLoading={isLoading} handleClick={handleClick} />
-    </ListOrNotFoundMessage>
+    <>
+      <CategoryFilter
+        initialValues={{ categoryId: 0 }}
+        categories={categories}
+        _onChange={(data) => {
+          setFilter(data)
+        }}
+        onSubmit={() => {}}
+      />
+      <ListOrNotFoundMessage
+        countObjects={count}
+        itemsPerPage={ITEMS_PER_PAGE}
+        pagination={pagination}
+        hasMore={hasMore}
+      >
+        <ItemsList items={items} isLoading={isLoading} handleClick={handleClick} />
+      </ListOrNotFoundMessage>
+    </>
   )
 }
 
