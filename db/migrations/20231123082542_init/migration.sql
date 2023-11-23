@@ -188,6 +188,7 @@ CREATE TABLE "Image" (
     "title" TEXT,
     "description" TEXT,
     "url" TEXT NOT NULL,
+    "uploaded" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Image_pkey" PRIMARY KEY ("id")
 );
@@ -222,6 +223,10 @@ CREATE TABLE "Item" (
     "userId" INTEGER,
     "locationId" INTEGER,
     "chatRoomId" INTEGER,
+    "width" INTEGER,
+    "height" INTEGER,
+    "length" INTEGER,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Item_pkey" PRIMARY KEY ("id")
 );
@@ -258,6 +263,8 @@ CREATE TABLE "OrderLog" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "status" "OrderStatusEnum",
     "comment" TEXT,
+    "orderId" INTEGER NOT NULL,
+    "userId" INTEGER,
 
     CONSTRAINT "OrderLog_pkey" PRIMARY KEY ("id")
 );
@@ -274,7 +281,6 @@ CREATE TABLE "Order" (
     "total" INTEGER NOT NULL,
     "net" INTEGER NOT NULL,
     "currency" "CurrencyEnum" NOT NULL DEFAULT 'EUR',
-    "logId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
     "invoiceId" INTEGER,
     "shippingFee" INTEGER NOT NULL,
@@ -600,7 +606,7 @@ ALTER TABLE "Review" ADD CONSTRAINT "Review_senderId_fkey" FOREIGN KEY ("senderI
 ALTER TABLE "Review" ADD CONSTRAINT "Review_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ImageToItem" ADD CONSTRAINT "ImageToItem_imageId_fkey" FOREIGN KEY ("imageId") REFERENCES "Image"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ImageToItem" ADD CONSTRAINT "ImageToItem_imageId_fkey" FOREIGN KEY ("imageId") REFERENCES "Image"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ImageToItem" ADD CONSTRAINT "ImageToItem_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -627,7 +633,10 @@ ALTER TABLE "CartToItem" ADD CONSTRAINT "CartToItem_cartId_fkey" FOREIGN KEY ("c
 ALTER TABLE "Cart" ADD CONSTRAINT "Cart_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_logId_fkey" FOREIGN KEY ("logId") REFERENCES "OrderLog"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "OrderLog" ADD CONSTRAINT "OrderLog_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderLog" ADD CONSTRAINT "OrderLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
