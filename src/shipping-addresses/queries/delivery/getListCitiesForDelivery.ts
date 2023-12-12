@@ -1,9 +1,12 @@
 import { Ctx, NotFoundError } from "blitz"
 import { resolver } from "@blitzjs/rpc"
 import { z } from "zod"
+import { DeliveryMethodEnum } from "db"
 
 import getCdekListCities from "src/cdek/queries/getCdekListCities"
 import getBoxberryListCities from "src/boxberry/queries/getBoxberryListCities"
+
+const deliveryMethods = Object.values(DeliveryMethodEnum)
 
 const GetListCitiesForDelivery = z.object({
   deliveryMethod: z.number().optional(),
