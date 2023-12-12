@@ -44,7 +44,6 @@ export const ShippingAddressChoiceController = (props: ShippingAddressChoiceCont
             initialValues={shippingAddress}
             schema={CreateShippingAddressSchema}
             onSubmit={async (shippingAddress) => {
-              console.log("ShippingAddressForm handleSubmit", shippingAddress)
               // handleSubmit(shippingAddress)
             }}
             handleSetOrder={handleSetOrder}
