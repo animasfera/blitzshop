@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { useMutation } from "@blitzjs/rpc"
 import { Invoice, ShippingAddress } from "@prisma/client"
 import { useTranslation } from "react-i18next"
-import { z } from "zod"
 
 import { PreOrderItem } from "src/../types"
 import { CheckoutOrder } from "src/checkout/components/CheckoutOrder"
@@ -61,6 +60,10 @@ export const Checkout = (props: CheckoutProps) => {
     "address"
   )
 
+  const handleSetOrder = (value?: number) => {
+    setOrder({ ...order, shippingFee: value })
+  }
+
   return (
     <div className="bg-white relative">
       <div className="absolute left-0 hidden h-full w-1/2 bg-white xl:block" aria-hidden="true" />
@@ -99,6 +102,7 @@ export const Checkout = (props: CheckoutProps) => {
                   //   shippingFee: shippingWithPrice.price,
                   // })
                 }}
+                handleSetOrder={handleSetOrder}
               />
             </>
           </CheckoutPaymentFormInputsBlock>

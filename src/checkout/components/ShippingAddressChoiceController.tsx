@@ -6,7 +6,7 @@ import {
 import React, { useState } from "react"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 import { useTranslation } from "react-i18next"
-import { ShippingAddress } from "@prisma/client"
+import { DeliveryCity, DeliveryMethodEnum, ShippingAddress } from "@prisma/client"
 import { useSession } from "@blitzjs/auth"
 import getCurrentUserShippingAddresses from "../../shipping-addresses/queries/getCurrentUserShippingAddresses"
 import Link from "next/link"
@@ -14,16 +14,19 @@ import updateShippingAddress from "../../shipping-addresses/mutations/updateShip
 import createShippingAddress from "../../shipping-addresses/mutations/createShippingAddress"
 
 type ShippingAddressChoiceControllerProps = {
-  onSelect: (address: ShippingAddress) => void
   shippingAddress?: ShippingAddress
+  onSelect: (address: ShippingAddress) => void
+  handleSetOrder: (value?: number) => void
 }
 
 export const ShippingAddressChoiceController = (props: ShippingAddressChoiceControllerProps) => {
-  const { onSelect, shippingAddress } = props
+  const { shippingAddress, onSelect, handleSetOrder } = props
 
   const [isEditing, setIsEditing] = useState(true)
   const { t } = useTranslation(["pages.checkout", "translation"])
+
   // TODO get shipping addresses
+
   // TODO create shipping address
   // TODO edit shipping address
 
@@ -41,8 +44,10 @@ export const ShippingAddressChoiceController = (props: ShippingAddressChoiceCont
             initialValues={shippingAddress}
             schema={CreateShippingAddressSchema}
             onSubmit={async (shippingAddress) => {
-              handleSubmit(shippingAddress)
+              console.log("ShippingAddressForm handleSubmit", shippingAddress)
+              // handleSubmit(shippingAddress)
             }}
+            handleSetOrder={handleSetOrder}
           />
         </>
       ) : (

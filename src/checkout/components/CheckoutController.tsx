@@ -2,15 +2,15 @@
 import React, { useState } from "react"
 import { useQuery, invalidateQuery } from "@blitzjs/rpc"
 import { useTranslation } from "react-i18next"
-import { useCart } from "../../core/hooks/useCart"
+import { CurrencyEnum } from "db"
 
+import { useCart } from "src/core/hooks/useCart"
 import { Checkout } from "src/checkout/components/Checkout"
-import getListCountriesForDelivery from "src/shipping-addresses/queries/getListCountriesForDelivery"
-import getListRegionsForDelivery from "src/shipping-addresses/queries/getListRegionsForDelivery"
-import getListCitiesForDelivery from "src/shipping-addresses/queries/getListCitiesForDelivery"
-import getListPostalCodesForDelivery from "src/shipping-addresses/queries/getListPostalCodesForDelivery"
+import getListCountriesForDelivery from "src/shipping-addresses/queries/delivery/getListCountriesForDelivery"
+import getListRegionsForDelivery from "src/shipping-addresses/queries/delivery/getListRegionsForDelivery"
+import getListCitiesForDelivery from "src/shipping-addresses/queries/delivery/getListCitiesForDelivery"
+import getListPostalCodesForDelivery from "src/shipping-addresses/queries/delivery/getListPostalCodesForDelivery"
 import getShippingCost from "src/shipping-addresses/queries/getShippingCost"
-
 import getCdekListDeliveryPoints from "src/cdek/queries/getCdekListDeliveryPoints"
 
 export const CheckoutController = () => {
