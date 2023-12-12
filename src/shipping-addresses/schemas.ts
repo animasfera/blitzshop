@@ -2,14 +2,17 @@ import { z } from "zod"
 import { ShippingAddressModel } from "db/zod"
 
 export const CreateShippingAddressSchema = ShippingAddressModel.pick({
+  /*
   firstName: true,
   lastName: true,
   phone: true,
   address: true,
   city: true,
   postalCode: true,
+  */
   countryId: true,
-  province: true,
+  deliveryMethod: true,
+  // province: true,
 })
 
 export const UpdateShippingAddressSchema = ShippingAddressModel.pick({
