@@ -3,6 +3,7 @@ import { resolver } from "@blitzjs/rpc"
 import { Cdek, ApiError, HttpError } from "cdek"
 import { z } from "zod"
 import { LocaleEnum } from "db"
+import { GetCities } from "cdek/src/types/api/response"
 
 const GetCdekLocationCities = z.object({
   country_code: z.string().optional(),
@@ -37,12 +38,17 @@ export default resolver.pipe(
         ? { region_code: region_code }
         : { country_codes: country_code ? [country_code] : [] }
 
-      const res = await cdek.getCities({
+      const res: GetCities[] = await cdek.getCities({
         ...params,
         lang: ctx.session.user?.locale === LocaleEnum.ru ? "rus" : "eng",
       })
 
       if (!res) throw new NotFoundError()
+
+      console.log(
+        "getCdekListCitiesgetCdekListgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesgetCdekListCitiesCitiesgetCdekListCitiesgetCdekListCities",
+        res
+      )
 
       const cities = res.map((el) => ({
         value: el.code ?? el.region_code,

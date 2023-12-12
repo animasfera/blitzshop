@@ -141,7 +141,7 @@ export const Countries = [
   { name: "Mayotte", code: "YT" },
   { name: "Mexico", code: "MX" },
   { name: "Micronesia, Federated States of", code: "FM" },
-  { name: "Moldova, Republic of", code: "MD" },
+  { name: "Moldova", code: "MD" },
   { name: "Monaco", code: "MC" },
   { name: "Mongolia", code: "MN" },
   { name: "Montenegro", code: "ME" },
@@ -234,7 +234,7 @@ export const Countries = [
   { name: "Uzbekistan", code: "UZ" },
   { name: "Vanuatu", code: "VU" },
   { name: "Venezuela", code: "VE" },
-  { name: "Viet Nam", code: "VN" },
+  { name: "Vietnam", code: "VN" },
   { name: "Virgin Islands, British", code: "VG" },
   { name: "Virgin Islands, U.S.", code: "VI" },
   { name: "Wallis and Futuna", code: "WF" },
@@ -242,6 +242,9 @@ export const Countries = [
   { name: "Yemen", code: "YE" },
   { name: "Zambia", code: "ZM" },
   { name: "Zimbabwe", code: "ZW" },
+  { name: "Bonaire, Sint Eustatius and Saba", code: "BQ" },
+  { name: "Curaçao", code: "CW" },
+  { name: "Kosovo", code: "XK" },
 ]
 
 export const CountriesOptions = [

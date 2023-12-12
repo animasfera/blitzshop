@@ -3,6 +3,7 @@ import { resolver } from "@blitzjs/rpc"
 import { Cdek, ApiError, HttpError } from "cdek"
 import { z } from "zod"
 import { LocaleEnum } from "db"
+import { GetPickupPoints } from "cdek/src/types/api/response"
 
 const GetCdekListDeliverypoints = z.object({
   country_code: z.string().optional(),
@@ -32,7 +33,7 @@ export default resolver.pipe(
     if (!cdek) throw new AuthenticationError()
 
     try {
-      const res = await cdek.getPickupPoints({
+      const res: GetPickupPoints[] = await cdek.getPickupPoints({
         country_code,
         city_code,
         lang: ctx.session.user?.locale === LocaleEnum.ru ? "rus" : "eng",
