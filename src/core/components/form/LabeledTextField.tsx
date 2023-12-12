@@ -18,6 +18,8 @@ export interface LabeledTextFieldProps {
   fieldProps?: UseFieldConfig<string>
   labelProps?: ComponentPropsWithoutRef<"label">
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
+
+  handleChange?: (values: any) => void
 }
 
 export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(

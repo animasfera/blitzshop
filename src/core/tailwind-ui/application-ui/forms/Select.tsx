@@ -11,7 +11,7 @@ export interface OptionSelectField {
   label: string
   value: string | number | null | boolean
   description?: string | number
-  img?: string
+  img?: string | null
 }
 export interface SelectProps {
   name: string
@@ -111,7 +111,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                                 height={200}
                                 src={el?.img}
                                 alt={el?.label ?? ""}
-                                className="h-4 w-4 mr-1 flex-shrink-0 rounded-full overflow-hidden"
+                                className="h-4 w-4 mr-1 flex-shrink-0 rounded-full overflow-hidden object-cover"
                               />
                             )}
                             <span className="block truncate">{el?.label}</span>
@@ -129,7 +129,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                             height={200}
                             src={selected?.img}
                             alt={selected?.label ?? ""}
-                            className="h-5 w-5 mr-3 flex-shrink-0 rounded-full overflow-hidden"
+                            className="h-5 w-5 mr-3 flex-shrink-0 rounded-full overflow-hidden object-cover"
                           />
                         )}
                         <span className="block truncate">{selected?.label}</span>
@@ -197,7 +197,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, r
                                   height={200}
                                   src={option.img}
                                   alt={option.label ?? ""}
-                                  className="h-5 w-5 mr-3 flex-shrink-0 rounded-full overflow-hidden"
+                                  className="h-5 w-5 mr-3 flex-shrink-0 rounded-full overflow-hidden object-cover"
                                 />
                               )}
                               <span

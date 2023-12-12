@@ -5,12 +5,16 @@ import { classNames } from "src/core/helpers/classNames"
 import { OptionRadioSelectedCard } from "./RadioSelectedCardsField"
 
 interface RadioSelectedCardProps {
+  defaultValue?: OptionRadioSelectedCard
+  selected?: OptionRadioSelectedCard
   option: OptionRadioSelectedCard
   disabled?: boolean
 }
 
 export const RadioSelectedCard = (props: RadioSelectedCardProps) => {
-  const { option, disabled } = props
+  const { defaultValue, selected, option, disabled } = props
+
+  const checkedOption = selected ?? defaultValue
 
   return (
     <RadioGroup.Option
@@ -30,19 +34,29 @@ export const RadioSelectedCard = (props: RadioSelectedCardProps) => {
               <RadioGroup.Label as="span" className="block text-sm font-medium text-gray-900">
                 {option.label}
               </RadioGroup.Label>
-              <RadioGroup.Description
-                as="span"
-                className="mt-1 flex items-center text-sm text-gray-500"
-              >
-                {option.description}
-              </RadioGroup.Description>
-              <RadioGroup.Description as="span" className="mt-6 text-sm font-medium text-gray-900">
-                {option.footerText}
-              </RadioGroup.Description>
+              {option?.description && (
+                <RadioGroup.Description
+                  as="span"
+                  className="mt-1 flex items-center text-sm text-gray-500"
+                >
+                  {option?.description}
+                </RadioGroup.Description>
+              )}
+              {option?.footerText && (
+                <RadioGroup.Description
+                  as="span"
+                  className="mt-6 text-sm font-medium text-gray-900"
+                >
+                  {option.footerText}
+                </RadioGroup.Description>
+              )}
             </span>
           </span>
           <CheckCircleIcon
-            className={classNames(!checked ? "invisible" : "", "h-5 w-5 text-indigo-600")}
+            className={classNames(
+              !checked || checkedOption?.value !== option.value ? "invisible" : "",
+              "h-5 w-5 text-indigo-600"
+            )}
             aria-hidden="true"
           />
           <span

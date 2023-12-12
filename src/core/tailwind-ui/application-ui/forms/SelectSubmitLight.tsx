@@ -99,10 +99,14 @@ export const SelectSubmitLight = React.forwardRef<HTMLSelectElement, SelectSubmi
                       // ring-1 ring-black ring-opacity-5
                       className="min-w-full absolute right-0 z-10 mt-2 origin-top-right divide-y divide-gray-200 overflow-hidden rounded-md bg-white shadow-lg focus:outline-none "
                     >
-                      {options.map((option) => {
+                      {options.map((option, index) => {
                         return (
                           <Listbox.Option
-                            key={option.value}
+                            key={
+                              !option.value || typeof option.value === "boolean"
+                                ? index
+                                : option.value
+                            }
                             className={() =>
                               classNames(
                                 selected?.value === option.value
