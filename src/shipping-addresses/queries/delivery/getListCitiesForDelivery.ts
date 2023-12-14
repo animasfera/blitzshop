@@ -11,7 +11,7 @@ const deliveryMethods = Object.values(DeliveryMethodEnum)
 const GetListCitiesForDelivery = z.object({
   deliveryMethod: z.number().optional(),
   country_code: z.string().optional(),
-  regionId: z.number().optional(),
+  regionId: z.number().optional(), //.or(z.string()),
   regionLabel: z.string().optional(),
 })
 
@@ -24,7 +24,10 @@ export default resolver.pipe(
     if (!country_code || !regionId || !deliveryMethod || deliveryMethod > 2) return []
 
     if (country_code === "KZ" || country_code === "RU" || country_code === "BY") {
-      regions = await getCdekListCities({ country_code, region_code: regionId }, ctx)
+      regions = await getCdekListCities(
+        { deliveryMethod, country_code, region_code: regionId },
+        ctx
+      )
     } else {
       regions = await getBoxberryListCities(
         { deliveryMethod, country_code, region: regionLabel },

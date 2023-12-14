@@ -1,3 +1,4 @@
+import countriesJson from "layout/countries.json"
 import ShippingAddressForm from "./ShippingAddressForm"
 import {
   CreateShippingAddressSchema,
@@ -44,7 +45,20 @@ export const ShippingAddressChoiceController = (props: ShippingAddressChoiceCont
             initialValues={shippingAddress}
             schema={CreateShippingAddressSchema}
             onSubmit={async (shippingAddress) => {
-              // handleSubmit(shippingAddress)
+              let data = shippingAddress
+
+              const isCdek =
+                shippingAddress.countryId !== "BY" &&
+                shippingAddress.countryId !== "KZ" &&
+                shippingAddress.countryId !== "RU"
+
+              if (isCdek) {
+                const countries = countriesJson.countries
+                const country = countries.find((el) => shippingAddress.countryId === el.code)
+                data = { ...data, countryId: country?.id }
+              }
+
+              handleSubmit(shippingAddress)
             }}
             handleSetOrder={handleSetOrder}
           />
@@ -60,7 +74,14 @@ export const ShippingAddressChoiceController = (props: ShippingAddressChoiceCont
               <div>
                 {shippingAddress.city} {shippingAddress.postalCode}
               </div>
-              <div>{shippingAddress.countryId}</div>
+              <div>
+                {
+                  countriesJson.countries.find(
+                    (el) =>
+                      el.id === shippingAddress.countryId || el.code === shippingAddress.countryId
+                  )?.titleRu
+                }
+              </div>
               <div>{shippingAddress.phone}</div>
               <div>
                 <Link

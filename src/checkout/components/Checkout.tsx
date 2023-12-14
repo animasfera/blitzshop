@@ -78,7 +78,7 @@ export const Checkout = (props: CheckoutProps) => {
           items={order.items}
           subtotal={order.subtotal}
           shipping={order.shippingFee}
-          total={order.total}
+          total={order.total + (order.shippingFee ?? 0)}
         />
         <CheckoutPayment>
           <CheckoutPaymentFormInputsBlock title={t("shippingAddress:title")}>
@@ -90,10 +90,13 @@ export const Checkout = (props: CheckoutProps) => {
                     ...order,
                     shippingAddress: address,
                   }
-                  const orderCreated = await createOrderMutation(newOrderData as CreateOrderType)
-                  router.push(Routes.OrderPage({ orderId: orderCreated.id }))
 
-                  // setShippingAddress(address)
+                  const orderCreated = await createOrderMutation(newOrderData as CreateOrderType)
+                  // router.push(Routes.OrderPage({ orderId: orderCreated.id }))
+
+                  console.log("orderCreated", orderCreated)
+
+                  setShippingAddress(address)
                   // const shippingWithPrice = await getShippingMethodWithPriceMutation({
                   //   address,
                   // })
@@ -101,6 +104,9 @@ export const Checkout = (props: CheckoutProps) => {
                   //   ...order,
                   //   shippingFee: shippingWithPrice.price,
                   // })
+
+                  console.log("ShippingAddressChoiceController newOrderData", newOrderData)
+                  console.log("ShippingAddressChoiceController address", address)
                 }}
                 handleSetOrder={handleSetOrder}
               />

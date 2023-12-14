@@ -13,9 +13,11 @@ type CountryFieldControllerProps = {
 export const CountryField = ({ onChange, countries }: CountryFieldControllerProps) => {
   const { t } = useTranslation(["shippingAddress"])
   const { input: province } = useField("province")
+  const { input: provinceId } = useField("provinceId")
   const { input: city } = useField("city")
+  const { input: cityId } = useField("cityId")
   const { input: deliveryMethod } = useField("deliveryMethod")
-  const { input: address } = useField("addresses")
+  const { input: address } = useField("address")
 
   return (
     <LabeledSelectFieldAutocomlete
@@ -32,7 +34,9 @@ export const CountryField = ({ onChange, countries }: CountryFieldControllerProp
       }}
       handleChange={(value) => {
         city.onChange(undefined)
+        cityId.onChange(undefined)
         province.onChange(undefined)
+        provinceId.onChange(undefined)
         address.onChange(undefined)
         deliveryMethod.onChange(
           value === "BY" || value === "KZ" || value === "RU"

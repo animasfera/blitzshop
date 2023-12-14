@@ -10,8 +10,11 @@ import { LabeledTextField } from "src/core/components/form/LabeledTextField"
 export const PickProvinceOptions = () => {
   const { t } = useTranslation(["shippingAddress"])
   const { input: country } = useField("countryId")
+  const { input: province } = useField("province")
+  const { input: provinceId } = useField("provinceId")
   const { input: city } = useField("city")
-  const { input: address } = useField("addresses")
+  const { input: cityId } = useField("cityId")
+  const { input: address } = useField("address")
 
   const [regions] = useQuery(
     getListRegionsForDelivery,
@@ -34,7 +37,10 @@ export const PickProvinceOptions = () => {
         autoComplete={"province"}
         outerProps={{ className }}
         handleChange={() => {
+          provinceId.onChange(undefined)
           city.onChange(undefined)
+          cityId.onChange(undefined)
+          address.onChange(undefined)
         }}
         required
         disabled={!country || !country?.value.length}
@@ -44,12 +50,17 @@ export const PickProvinceOptions = () => {
 
   return (
     <LabeledSelectFieldAutocomlete
-      name={"province"}
+      name={"provinceId"}
       label={t("shippingAddress:fields.province.label")}
       options={regions ?? []}
       outerProps={{ className }}
-      handleChange={() => {
+      handleChange={(val) => {
+        const res = regions.find((el) => val === el.value)
+
+        province.onChange(res?.label)
+        provinceId.onChange(res?.value)
         city.onChange(undefined)
+        cityId.onChange(undefined)
         address.onChange(undefined)
       }}
       required

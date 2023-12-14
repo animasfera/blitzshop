@@ -18,6 +18,7 @@ export interface LabeledSelectFieldProps {
   // TODO: add multiple
   // multiple,
   helperText?: string
+  errorText?: string
 
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
@@ -40,6 +41,7 @@ export const LabeledSelectFieldAutocomlete = React.forwardRef<
     disabled,
     options,
     helperText,
+    errorText,
 
     outerProps,
     labelProps,
@@ -59,8 +61,10 @@ export const LabeledSelectFieldAutocomlete = React.forwardRef<
     ...fieldProps,
   })
 
-  const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
-  const showError = touched && normalizedError
+  const normalizedError = Array.isArray(error)
+    ? error.join(", ")
+    : error || submitError || errorText
+  const showError = (touched && normalizedError) || !!errorText
 
   return (
     <SelectCombobox

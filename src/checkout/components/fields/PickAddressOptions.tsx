@@ -21,20 +21,27 @@ export const PickAddressOptions = (props: PickAddressOptionsProps) => {
   const { t } = useTranslation(["shippingAddress"])
   const { input: country } = useField("countryId")
   const { input: city } = useField("city")
+  const { input: cityId } = useField("cityId")
   const { input: deliveryMethod } = useField("deliveryMethod")
   const { input: address } = useField("address")
+
   const cartClient = useCart()
 
   const [deliveryPoints] = useQuery(
     getListDeliveryPoints,
-    { country_code: country.value, city_code: city.value },
+    { country_code: country.value, city_code: cityId.value },
     {
-      queryKey: ["addresses", deliveryMethod.value, country.value, city.value],
+      queryKey: ["address", deliveryMethod.value, country.value, city.value, cityId.value],
       staleTime: Infinity,
       enabled:
-        !!country.value && !!city.value && deliveryMethod.value === DeliveryMethodEnum.PICKUP,
+        !!country.value &&
+        (!!city.value || !!cityId.value) &&
+        deliveryMethod.value === DeliveryMethodEnum.PICKUP,
     }
   )
+
+  const isDeliveryPoints =
+    deliveryMethod.value === DeliveryMethodEnum.PICKUP ? !!deliveryPoints : true
 
   const [shippingCost] = useQuery(
     getShippingCost,
@@ -43,14 +50,15 @@ export const PickAddressOptions = (props: PickAddressOptionsProps) => {
         deliveryMethod.value === DeliveryMethodEnum.DOOR || deliveryPoints?.length === 0 ? 2 : 1,
       shippingAddress: {
         country_code: country.value,
-        city_code: city.value,
+        city_code: cityId.value,
+        city: city.value,
       },
       packages: cartClient.getItems().map((el) => ({
         weight: el.item.weight,
       })),
     },
     {
-      enabled: !!country.value && !!city.value && !!deliveryPoints,
+      enabled: !!country.value && (!!cityId.value || !!city.value) && isDeliveryPoints, // !!deliveryPoints,
     }
   )
 
@@ -68,11 +76,7 @@ export const PickAddressOptions = (props: PickAddressOptionsProps) => {
 
   const className = "sm:col-span-4 md:col-span-3 lg:col-span-5 xl:col-span-4 xxl:col-span-5"
 
-  if (
-    !deliveryPoints ||
-    deliveryPoints.length === 0 ||
-    deliveryMethod.value === DeliveryMethodEnum.DOOR
-  ) {
+  if (!deliveryPoints || deliveryPoints.length === 0) {
     return (
       <LabeledTextField
         key={"address"}
@@ -82,14 +86,13 @@ export const PickAddressOptions = (props: PickAddressOptionsProps) => {
         autoComplete={"street-address"}
         outerProps={{ className }}
         required
-        disabled={!country.value || !city.value}
+        // disabled={!country.value || !(!city.value || !cityId.value)}
         helperText={
-          error
-            ? error
-            : deliveryMethod.value === DeliveryMethodEnum.PICKUP
+          deliveryMethod.value === DeliveryMethodEnum.PICKUP && !!country.value && !!cityId.value
             ? t("shippingAddress:fields.address.helperText")
             : undefined
         }
+        errorText={error}
       />
     )
   }
@@ -102,7 +105,19 @@ export const PickAddressOptions = (props: PickAddressOptionsProps) => {
       options={deliveryPoints ?? []}
       outerProps={{ className }}
       required
-      disabled={!country.value || !city.value || !deliveryPoints || deliveryPoints.length === 0}
+      // disabled={!country.value || !city.value || !deliveryPoints || deliveryPoints.length === 0}
+      helperText={
+        deliveryMethod.value === DeliveryMethodEnum.PICKUP &&
+        (!deliveryPoints || deliveryPoints.length === 0)
+          ? t("shippingAddress:fields.address.helperText")
+          : undefined
+      }
+      errorText={error}
+      handleChange={(val) => {
+        const pvz = deliveryPoints.find((el) => val === el.value)
+
+        address.onChange(pvz?.label)
+      }}
     />
   )
 }

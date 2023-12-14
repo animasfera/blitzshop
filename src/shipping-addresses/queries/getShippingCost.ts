@@ -42,7 +42,6 @@ export default resolver.pipe(
     let result: ShippingCost | null = null
 
     if (country_code === "KZ" || country_code === "RU" || country_code === "BY") {
-      // return await getCdekShippingCost({ deliveryMethod, shippingAddress, packages }, ctx)
       const cdekShippingCost = await getCdekShippingCost(
         { deliveryMethod, shippingAddress, packages },
         ctx
@@ -53,18 +52,9 @@ export default resolver.pipe(
       const { currency, delivery_sum, total_sum, services, errors } = cdekShippingCost
 
       if (errors && errors.length > 0) {
-        // return errors.map(({ message }) => message).join(". ")
-
         return {
           error: errors.map(({ message }) => message).join(". "),
         }
-
-        /*
-        delivery_cost: delivery_sum * 100,
-            service_cost: service_cost * 100,
-            currency,
-            total_sum: total_sum * 100,
-        */
       }
 
       let service_cost = 0

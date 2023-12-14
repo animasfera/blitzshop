@@ -64,6 +64,9 @@ export default resolver.pipe(
     // TODO: add text err + translate
     if (!id || !secret) throw new AuthenticationError()
 
+    console.log("getCdekShippingCost deliveryMethod", deliveryMethod)
+    console.log("getCdekShippingCost shippingAddress", shippingAddress)
+
     if (deliveryMethod === 1) {
       try {
         const credentials = await fetch(
@@ -130,20 +133,6 @@ export default resolver.pipe(
             packages,
           }),
         })
-
-        /*
-        if (!res.ok) {
-          const err = await res.json()
-          console.error("err", err)
-
-          // throw new NotFoundError()
-          // если в выбранном населенном пункте
-          // нет пвз то выдает ошибку
-          // TODO: обработать ошибку
-
-          return null
-        }
-        */
 
         const cdekShippingCost: CdekShippingCost = await res.json()
         return cdekShippingCost
@@ -228,20 +217,6 @@ export default resolver.pipe(
             packages,
           }),
         })
-
-        /*
-        if (!res.ok) {
-          const err = await res.json()
-          console.error("err", err)
-
-          // throw new NotFoundError()
-          // если в выбранном населенном пункте
-          // нет пвз то выдает ошибку
-          // TODO: обработать ошибку
-
-          return null
-        }
-        */
 
         const cdekShippingCost: CdekShippingCost = await res.json()
         return cdekShippingCost

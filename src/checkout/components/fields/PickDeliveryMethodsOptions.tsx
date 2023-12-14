@@ -11,8 +11,10 @@ export const PickDeliveryMethodsOptions = ({}: PickDeliveryMethodsOptionsProps) 
   const { t } = useTranslation(["shippingAddress"])
   const { input: deliveryMethod } = useField("deliveryMethod")
   const { input: province } = useField("province")
+  const { input: provinceId } = useField("provinceId")
   const { input: city } = useField("city")
-  const { input: address } = useField("addresses")
+  const { input: cityId } = useField("cityId")
+  const { input: address } = useField("address")
 
   const options = [
     { label: t("shippingMethod:methods.door.title"), value: DeliveryMethodEnum.DOOR },
@@ -30,7 +32,9 @@ export const PickDeliveryMethodsOptions = ({}: PickDeliveryMethodsOptionsProps) 
       }}
       handleChange={() => {
         province.onChange(undefined)
+        provinceId.onChange(undefined)
         city.onChange(undefined)
+        cityId.onChange(undefined)
         address.onChange(undefined)
       }}
     />

@@ -51,6 +51,7 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
             type={"text"}
             autoComplete={"first-name"}
             outerProps={{ className: "mt-6 mb-2" }}
+            required
           />
           <LabeledTextField
             name={"lastName"}
@@ -58,6 +59,7 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
             type={"text"}
             autoComplete={"last-name"}
             outerProps={{ className: "mb-2" }}
+            required
           />
 
           <div className="mt-6 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-4 xxl:grid-cols-5">
@@ -93,6 +95,7 @@ export const ShippingAddressForm = <S extends z.ZodType<any, any>>(
             type={"text"}
             autoComplete={"phone"}
             outerProps={{ className: "mt-6 mb-2" }}
+            required
           />
         </div>
       </Form>
