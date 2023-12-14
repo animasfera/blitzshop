@@ -1,7 +1,10 @@
+import * as mailers from "./merge"
+export * from "./merge"
 import Queue from "bull"
 
 export type MailerOptions = {
-  lang: string
+  locale?: string
+  timezone?: string
 }
 
 export const mailSenderWithQueue = (
@@ -13,7 +16,7 @@ export const mailSenderWithQueue = (
   return {
     queue: () => {
       const mailQ = new Queue("mails")
-      mailQ.add({
+      mailQ.add("sendMail", {
         mailer: methodName,
         params,
         options,

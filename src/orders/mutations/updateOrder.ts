@@ -6,6 +6,10 @@ import { AuthorizationError, Ctx, NotFoundError } from "blitz"
 import { PrismaDbType } from "../../../types"
 import { NotificationsTransactionType } from "../../core/notifications/NotificationsTransaction"
 import { startTransaction } from "../../../db/transaction"
+import { orderShippedMailer } from "mailers/orderShippedMailer"
+import { orderProcessingMailer } from "mailers/orderProcessingMailer"
+import { orderPendingMailer } from "mailers/orderPendingMailer"
+import { orderAwaitingPaymentMailer } from "mailers/orderAwaitingPaymentMailer"
 
 export const updateOrderDbQuery = async (
   input: UpdateOrderSchemaType,
@@ -36,11 +40,35 @@ export const updateOrderDbQuery = async (
     }
   }
   const orderUpdated = await db.order.update({ where: { id }, data })
-  if (input.status && input.status !== orderUpdated.status) {
+  if (input.status && order.status !== orderUpdated.status) {
     switch (orderUpdated.status) {
       case OrderStatusEnum.SHIPPED:
+        notifications.add({
+          channels: ["email"],
+          userId: order.userId,
+          data: orderShippedMailer({ order: orderUpdated }),
+        })
         break
       case OrderStatusEnum.PROCESSING:
+        notifications.add({
+          channels: ["email"],
+          userId: order.userId,
+          data: orderProcessingMailer({ order: orderUpdated }),
+        })
+        break
+      case OrderStatusEnum.PENDING:
+        notifications.add({
+          channels: ["email"],
+          userId: order.userId,
+          data: orderPendingMailer({ order: orderUpdated }),
+        })
+        break
+      case OrderStatusEnum.PAYMENT:
+        notifications.add({
+          channels: ["email"],
+          userId: order.userId,
+          data: orderAwaitingPaymentMailer({ order: orderUpdated }),
+        })
         break
     }
   }

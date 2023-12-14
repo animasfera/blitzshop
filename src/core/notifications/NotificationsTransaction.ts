@@ -1,5 +1,6 @@
 import { CreateNotificationWithReceiver } from "./types"
 import { notification } from "../../notifications/methods/add"
+export { notification }
 export type NotificationsTransactionType = {
   queue: CreateNotificationWithReceiver[]
   add: (params: CreateNotificationWithReceiver) => void

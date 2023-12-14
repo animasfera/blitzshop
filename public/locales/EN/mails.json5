@@ -257,4 +257,20 @@
          \
     Please <a href="{{slotUrl}}">do it now</a>, otherwise your event participants won\'t be able to join it.',
   },
+  orderPendingMailer: {
+    subject: "orderPendingMailer",
+    html: "text",
+  },
+  orderProcessingMailer: {
+    subject: "orderProcessingMailer",
+    html: "text",
+  },
+  orderAwaitingPaymentMailer: {
+    subject: "orderAwaitingPaymentMailer",
+    html: "text",
+  },
+  orderShippedMailer: {
+    subject: "orderShippedMailer",
+    html: "text",
+  },
 }

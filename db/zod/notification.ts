@@ -18,7 +18,7 @@ export const NotificationModel = z.object({
   message: z.string(),
   isHtml: z.boolean(),
   jsonData: jsonSchema,
-  res: z.string().nullish(),
+  ref: z.string().nullish(),
   type: z.nativeEnum(NotificationTypeEnum),
   userId: z.number().int(),
 })

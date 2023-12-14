@@ -18,6 +18,7 @@ import { LocaleEnum } from "@prisma/client"
 
 interface SignupFormProps {
   onSuccess?: (user: PromiseReturnType<typeof signup>) => void
+  onNavigate?: (link: string) => void
 }
 
 export const SignupForm = (props: SignupFormProps) => {

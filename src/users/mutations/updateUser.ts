@@ -5,7 +5,6 @@ import { LocaleEnum, TokenTypeEnum, UserRoleEnum } from "@prisma/client"
 import { UpdateUserSchema } from "../schemas"
 import getUser from "../queries/getUser"
 import i18n from "src/core/i18n"
-import { confirmEmailLeelaCertMailer } from "mailers/confirmEmailLeelaCertMailer"
 
 export default resolver.pipe(
   resolver.zod(UpdateUserSchema),
@@ -66,27 +65,6 @@ export default resolver.pipe(
     }
 
     const user = await db.user.update({ where: { id }, data: _data, include: { location: true } })
-
-    if (
-      _data.emailLeelaCertificate
-      // && userOld.emailLeelaCertificate !== data.emailLeelaCertificate
-    ) {
-      const emailToken = Math.floor(Math.random() * 1000000) + ""
-      const hashedToken = hash256(emailToken)
-      const token = await db.token.create({
-        data: {
-          type: TokenTypeEnum.CONFIRM_EMAIL_LEELA_CERT,
-          hashedToken: hashedToken,
-          sentTo: _data.emailLeelaCertificate,
-          expiresAt: new Date(),
-          userId: userOld.id,
-        },
-      })
-      confirmEmailLeelaCertMailer(
-        { user: userOld, token: emailToken },
-        { lang: userOld.locale }
-      ).send()
-    }
 
     if (user.locale) {
       i18n.changeLanguage(user.locale)

@@ -49,6 +49,10 @@ const config = {
     ],
   },
   distDir: process.env.BUILD_DIR || ".next",
+  experimental: {
+    mdxRs: true,
+    instrumentationHook: true,
+  },
   // pageExtensions: ["ts", "tsx", "md", "mdx"],
   /*
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

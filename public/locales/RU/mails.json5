@@ -253,4 +253,20 @@
     <hr></hr>{{comment}}<hr></hr> \
     <a href="{{myEventsLink}}">Просмотр забронированных событий</a>.',
   },
+  orderPendingMailer: {
+    subject: "orderPendingMailer",
+    html: "text",
+  },
+  orderProcessingMailer: {
+    subject: "orderProcessingMailer",
+    html: "text",
+  },
+  orderAwaitingPaymentMailer: {
+    subject: "orderAwaitingPaymentMailer",
+    html: "text",
+  },
+  orderShippedMailer: {
+    subject: "orderShippedMailer",
+    html: "text",
+  },
 }

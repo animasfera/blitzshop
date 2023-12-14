@@ -154,10 +154,12 @@ model Notification {
   message   String
   isHtml    Boolean              @default(false)
   jsonData  Json?
-  res       String?
+  ref       String?
   type      NotificationTypeEnum @default(INFO)
   user      User                 @relation(fields: [userId], references: [id])
   userId    Int
+
+  @@unique([userId, ref])
 }
 
 enum NotificationTypeEnum {
