@@ -721,3 +721,10 @@ ALTER TABLE "_ConfigToUser" ADD CONSTRAINT "_ConfigToUser_A_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "_ConfigToUser" ADD CONSTRAINT "_ConfigToUser_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AlterTable
+ALTER TABLE "Notification" DROP COLUMN "res",
+ADD COLUMN     "ref" TEXT;
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Notification_userId_ref_key" ON "Notification"("userId", "ref");
