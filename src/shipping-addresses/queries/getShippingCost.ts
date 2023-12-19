@@ -28,6 +28,7 @@ const GetShippingCost = z.object({
 interface ShippingCost {
   delivery_cost?: number
   service_cost?: number
+  duty_cost?: number
   currency?: CurrencyEnum
   total_sum?: number
   error?: string
@@ -70,6 +71,7 @@ export default resolver.pipe(
         : {
             delivery_cost: delivery_sum * 100,
             service_cost: service_cost * 100,
+            duty_cost: 0,
             currency,
             total_sum: total_sum * 100,
           }
@@ -82,13 +84,15 @@ export default resolver.pipe(
 
       if (!boxberryShippingCost) return null
 
-      const { DelCost, Currency, ServiceCost, DutyAmount, Total } = boxberryShippingCost
+      const { DelCost, Currency, ServiceCost, DutyAmount, includeInsurance, Total } =
+        boxberryShippingCost
 
       result = !boxberryShippingCost
         ? null
         : {
             delivery_cost: DelCost * 100,
-            service_cost: ServiceCost + (DutyAmount ?? 0) * 100,
+            service_cost: ServiceCost * 100,
+            duty_cost: (DutyAmount ?? 0) * 100,
             currency: Currency,
             total_sum: Total * 100,
           }

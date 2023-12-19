@@ -58,21 +58,22 @@ export const PickAddressOptions = (props: PickAddressOptionsProps) => {
       })),
     },
     {
+      queryKey: [deliveryMethod.value, country.value, cityId.value, city.value, address.value], // {`${deliveryMethod.value}-${}-${}-${}-${}`}
       enabled: !!country.value && (!!cityId.value || !!city.value) && isDeliveryPoints, // !!deliveryPoints,
+      onSuccess(data) {
+        if (!!data?.error) {
+          setError(data.error)
+          handleSetOrder(0)
+        } else {
+          setError(undefined)
+          handleSetOrder(data?.total_sum ?? 0)
+        }
+      },
+      onError(err) {
+        setError(JSON.stringify(err))
+      },
     }
   )
-
-  useEffect(() => {
-    if (!!shippingCost?.total_sum) {
-      handleSetOrder(shippingCost.total_sum)
-    }
-
-    if (shippingCost?.error) {
-      setError(shippingCost.error)
-    } else {
-      setError(undefined)
-    }
-  }, [shippingCost])
 
   const className = "sm:col-span-4 md:col-span-3 lg:col-span-5 xl:col-span-4 xxl:col-span-5"
 

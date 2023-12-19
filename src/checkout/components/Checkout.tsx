@@ -1,21 +1,23 @@
 import React, { useState } from "react"
-import { useMutation } from "@blitzjs/rpc"
-import { Invoice, ShippingAddress } from "@prisma/client"
-import { useTranslation } from "react-i18next"
-
-import { PreOrderItem } from "src/../types"
-import { CheckoutOrder } from "src/checkout/components/CheckoutOrder"
-import { CheckoutPayment } from "src/checkout/components/CheckoutPayment"
-import { cartClient } from "src/core/hooks/useCart"
-import createOrder from "src/orders/mutations/createOrder"
-import CheckoutPaymentFormInputsBlock from "./CheckoutPaymentFormInputsBlock"
-import { ShippingAddressChoiceController } from "./ShippingAddressChoiceController"
-import { CreateOrderType } from "src/orders/schemas"
-import PaymentCurrencyForm from "./PaymentCurrencyForm"
-import { usePayment } from "../../core/hooks/usePayment"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
-import createInvoiceForOrder from "../../invoices/mutations/createInvoiceForOrder"
+import { useMutation } from "@blitzjs/rpc"
+import { useTranslation } from "react-i18next"
+import { Invoice, ShippingAddress } from "db"
+import { PreOrderItem } from "types"
+
+import { CreateOrderType } from "src/orders/schemas"
+import { usePayment } from "src/core/hooks/usePayment"
+import { cartClient } from "src/core/hooks/useCart"
+import { CheckoutOrder } from "src/checkout/components/CheckoutOrder"
+import { CheckoutPayment } from "src/checkout/components/CheckoutPayment"
+import { CheckoutPaymentFormInputsBlock } from "./CheckoutPaymentFormInputsBlock"
+import { ShippingAddressChoiceController } from "./ShippingAddressChoiceController"
+import { PaymentCurrencyForm } from "./PaymentCurrencyForm"
+import { PaymentController } from "src/checkout/components/PaymentController"
+
+import createOrder from "src/orders/mutations/createOrder"
+import createInvoiceForOrder from "src/invoices/mutations/createInvoiceForOrder"
 
 interface CheckoutProps {
   items: any[]
@@ -29,6 +31,8 @@ export const Checkout = (props: CheckoutProps) => {
   // const { pay, stripePaymentIntent } = usePayment()
   const router = useRouter()
 
+  const [orderId, setOrderId] = useState<number | undefined>(undefined)
+  const [showPayment, setShowPayment] = useState(false)
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress | undefined>()
   const [order, setOrder] = useState<{
     id?: number
@@ -61,7 +65,11 @@ export const Checkout = (props: CheckoutProps) => {
   )
 
   const handleSetOrder = (value?: number) => {
-    setOrder({ ...order, shippingFee: value })
+    setOrder({
+      ...order,
+      shippingFee: value,
+      total: order.total + (value ?? 0),
+    })
   }
 
   return (
@@ -76,9 +84,9 @@ export const Checkout = (props: CheckoutProps) => {
         <h1 className="sr-only">{t("index.title")}</h1>
         <CheckoutOrder
           items={order.items}
-          subtotal={order.subtotal}
           shipping={order.shippingFee}
-          total={order.total + (order.shippingFee ?? 0)}
+          subtotal={order.subtotal}
+          total={order.total}
         />
         <CheckoutPayment>
           <CheckoutPaymentFormInputsBlock title={t("shippingAddress:title")}>
@@ -91,27 +99,38 @@ export const Checkout = (props: CheckoutProps) => {
                     shippingAddress: address,
                   }
 
-                  const orderCreated = await createOrderMutation(newOrderData as CreateOrderType)
-                  // router.push(Routes.OrderPage({ orderId: orderCreated.id }))
+                  const isCdek =
+                    address.countryId === "RU" ||
+                    address.countryId === "BY" ||
+                    address.countryId === "KZ"
 
-                  console.log("orderCreated", orderCreated)
+                  const orderCreated = await createOrderMutation(newOrderData as CreateOrderType)
 
                   setShippingAddress(address)
-                  // const shippingWithPrice = await getShippingMethodWithPriceMutation({
-                  //   address,
-                  // })
-                  // setOrder({
-                  //   ...order,
-                  //   shippingFee: shippingWithPrice.price,
-                  // })
+                  setOrderId(orderCreated.id)
 
-                  console.log("ShippingAddressChoiceController newOrderData", newOrderData)
-                  console.log("ShippingAddressChoiceController address", address)
+                  if (isCdek) {
+                    setShowPayment(true)
+                  } else {
+                    setShowPayment(false)
+
+                    // const shippingWithPrice = await getShippingMethodWithPriceMutation({
+                    //   address,
+                    // })
+                    // setOrder({
+                    //   ...order,
+                    //   shippingFee: shippingWithPrice.price,
+                    // })
+
+                    router.push(Routes.OrderPage({ orderId: orderCreated.id }))
+                  }
                 }}
                 handleSetOrder={handleSetOrder}
               />
             </>
           </CheckoutPaymentFormInputsBlock>
+
+          {showPayment && <PaymentController orderId={orderId} />}
 
           {shippingAddress && order.id && (
             <>

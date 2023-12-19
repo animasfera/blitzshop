@@ -27,6 +27,7 @@ export const OrderHead = (props: OrderHeadProps) => {
   const [invoice, setInvoice] = useState<Invoice>()
   const [createInvoiceMutation] = useMutation(createInvoiceForOrder)
   const [fxRate] = useQuery(getFxRate, { from: "EUR", to: "RUB" })
+
   return (
     <section className="max-w-xl">
       <h1 className="text-base font-medium text-indigo-600">{t("head.title")}</h1>
@@ -34,9 +35,9 @@ export const OrderHead = (props: OrderHeadProps) => {
         {t("head.subtitle") + " " + t("head.status." + order.status)}
       </p>
       <p className="mt-2 text-base text-gray-500">{t("head.message", { orderId: order.id })}</p>
-
       <div className={"mt-6"}>
-        {!showPayment && order.status === OrderStatusEnum.PAYMENT && (
+        {!showPayment && (
+          // && order.status === OrderStatusEnum.PAYMENT
           <Button
             buttonText={t("translation:pay")}
             onClick={async () => {
@@ -46,7 +47,8 @@ export const OrderHead = (props: OrderHeadProps) => {
             }}
           />
         )}
-        {showPayment && !stripePaymentIntent && (
+        {showPayment && (
+          //  && !stripePaymentIntent
           <>
             <PaymentCurrencyForm
               schema={z.object({
@@ -68,7 +70,9 @@ export const OrderHead = (props: OrderHeadProps) => {
 
                 if (typeof newInvoiceData.currency !== "undefined") {
                   const invoiceCreated = await createInvoiceMutation(newInvoiceData)
+                  // @ts-ignore
                   setInvoice(invoiceCreated)
+                  // @ts-ignore
                   await pay(invoiceCreated, order)
                 }
               }}
@@ -90,7 +94,6 @@ export const OrderHead = (props: OrderHeadProps) => {
           </>
         )}
       </div>
-
       {order.shippingTrackingId && (
         <dl className="mt-12 text-sm font-medium">
           <dt className="text-gray-900">{t("head.info.title")}</dt>
