@@ -1,15 +1,8 @@
 import { Ctx } from "blitz"
 import { hash256 } from "@blitzjs/auth"
-import { Routes } from "@blitzjs/next"
 import { resolver } from "@blitzjs/rpc"
 import { SecurePassword } from "@blitzjs/auth/secure-password"
-import {
-  LocaleEnum,
-  NotificationTypeEnum,
-  Prisma,
-  TokenTypeEnum,
-  UserRoleEnum,
-} from "@prisma/client"
+import { LocaleEnum, Prisma, TokenTypeEnum, UserRoleEnum } from "@prisma/client"
 import db from "db"
 
 import i18n from "src/core/i18n"
@@ -17,11 +10,10 @@ import { Signup } from "src/auth/schemas"
 import { ConflictError } from "src/core/errors/Errors"
 import getCart from "../../carts/queries/getCart"
 import mergeCarts from "src/carts/mutations/mergeCarts"
-import createCart from "../../carts/mutations/createCart"
 
 export default resolver.pipe(
   resolver.zod(Signup),
-  async ({ username, email, password, countryIsoCode, locale, timezone }, ctx: Ctx) => {
+  async ({ username, email, password, locale, timezone }, ctx: Ctx) => {
     const hashedPassword = await SecurePassword.hash(password.trim())
     const emailToken = Math.floor(Math.random() * 1000000) + ""
     const hashedToken = hash256(emailToken)
@@ -33,7 +25,6 @@ export default resolver.pipe(
         username: username.toLowerCase().trim(),
         email: emailTrimmed,
         hashedPassword,
-        countryIsoCode,
         timezone: timezone || null,
         role: UserRoleEnum.USER,
         locale: locale || LocaleEnum.en,

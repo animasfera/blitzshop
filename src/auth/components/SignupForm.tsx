@@ -51,17 +51,17 @@ export const SignupForm = (props: SignupFormProps) => {
       placeholder: "Qwerty123",
       required: true,
     },
-    {
-      name: "countryIsoCode",
-      label: t("signupForm.fields.countryIsoCode.label"),
-      options: Countries.map(({ code, name }) => ({
-        value: code.toLowerCase(),
-        label: name,
-        img: getUrlСountryFlag({ country: code }),
-      })),
-      placeholder: t("signupForm.fields.countryIsoCode.placeholder"),
-      required: true,
-    },
+    // {
+    //   name: "countryIsoCode",
+    //   label: t("signupForm.fields.countryIsoCode.label"),
+    //   options: Countries.map(({ code, name }) => ({
+    //     value: code.toLowerCase(),
+    //     label: name,
+    //     img: getUrlСountryFlag({ country: code }),
+    //   })),
+    //   placeholder: t("signupForm.fields.countryIsoCode.placeholder"),
+    //   required: true,
+    // },
   ]
 
   useEffect(() => {
@@ -78,7 +78,6 @@ export const SignupForm = (props: SignupFormProps) => {
         password: "",
         timezone,
         locale: i18n.resolvedLanguage?.toUpperCase() as LocaleEnum,
-        countryIsoCode: country ?? "ru",
       }}
       onSubmit={async (values) => {
         try {
@@ -109,22 +108,22 @@ export const SignupForm = (props: SignupFormProps) => {
       }}
       fullBtn
     >
-      {signupLabeleds.map(({ name, label, type, placeholder, required, options }) => {
-        if (name === "countryIsoCode") {
-          return (
-            <LabeledSelectField
-              key={name}
-              name={name}
-              label={label}
-              // selected={country}
-              placeholder={placeholder}
-              options={options ?? []}
-              handleChange={(value: string) => {
-                setCountry(value)
-              }}
-            />
-          )
-        }
+      {signupLabeleds.map(({ name, label, type, placeholder, required }) => {
+        // if (name === "countryIsoCode") {
+        //   return (
+        //     <LabeledSelectField
+        //       key={name}
+        //       name={name}
+        //       label={label}
+        //       // selected={country}
+        //       placeholder={placeholder}
+        //       options={options ?? []}
+        //       handleChange={(value: string) => {
+        //         setCountry(value)
+        //       }}
+        //     />
+        //   )
+        // }
 
         return (
           <LabeledTextField

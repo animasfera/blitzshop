@@ -16,7 +16,7 @@ export const Signup = z.object({
   email,
   password,
   timezone: z.string().optional(),
-  countryIsoCode: z.string(),
+  // countryIsoCode: z.string(),
   locale: z.string(),
 })
 
