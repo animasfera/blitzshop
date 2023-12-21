@@ -3,9 +3,9 @@ import db from "db"
 import { UpdateOrderSchema, UpdateOrderSchemaType } from "../schemas"
 import { OrderStatusEnum, Prisma, UserRoleEnum } from "@prisma/client"
 import { AuthorizationError, Ctx, NotFoundError } from "blitz"
-import { PrismaDbType } from "../../../types"
-import { NotificationsTransactionType } from "../../core/notifications/NotificationsTransaction"
-import { startTransaction } from "../../../db/transaction"
+import { PrismaDbType } from "types"
+import { NotificationsTransactionType } from "src/core/notifications/NotificationsTransaction"
+import { startTransaction } from "db/transaction"
 
 export const updateOrderDbQuery = async (
   input: UpdateOrderSchemaType,

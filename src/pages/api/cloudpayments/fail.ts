@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { api } from "src/blitz-server"
+
 import { ResponseCodes } from "src/core/cloudpayments/ResponseCodes"
-import releaseInvoiceItems from "../../../invoices/mutations/releaseInvoiceItems"
+import releaseInvoiceItems from "src/invoices/mutations/releaseInvoiceItems"
 
 export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
   let responseData = {} as any
