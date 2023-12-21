@@ -184,12 +184,26 @@ export const createCountriesForDelivery = async () => {
     // TODO: add Boxberry
     const boxberryCountries = await getBoxberryCountries()
 
+    let countries: DeliveryCountry[] = []
+    const arr = [...cdekCountries, ...boxberryCountries]
+
+    for (let index = 0; index < arr.length; index++) {
+      const element = arr[index]
+
+      const exist = countries.some((el) => el.id === element?.id)
+      const findCountry = await db.deliveryCountry.findUnique({ where: { id: element?.id } })
+
+      if (!!element && !exist && !findCountry) {
+        countries.push(element)
+      }
+    }
+
+    await db.deliveryCountry.createMany({ data: countries })
+
+    const data = await db.deliveryCountry.findMany({})
     const path = "layout/countries.json"
-    let obj = { countries: [...cdekCountries, ...boxberryCountries] }
-
+    let obj = { countries: data }
     await saveJson({ path, data: obj })
-
-    await db.deliveryCountry.createMany({ data: [...cdekCountries, ...boxberryCountries] })
   } catch (err: unknown) {
     console.error("Unknown Error", err)
     throw new Error(JSON.stringify(err))

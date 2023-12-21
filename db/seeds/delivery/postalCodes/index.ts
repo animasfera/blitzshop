@@ -3,7 +3,7 @@ import { Cdek, ApiError, HttpError } from "cdek"
 import db from "db"
 
 import { saveJson } from "db/seeds/helpers/saveJson"
-import citiesJson from "layout/cities.json"
+// import citiesJson from "layout/cities.json"
 /*
   async ({ country_code, city_code }, ctx: Ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
@@ -59,7 +59,7 @@ const getCdekostalCodes = async () => {
       lng: number | undefined
       regionId: number
       // @ts-ignore
-    }[] = citiesJson.cities
+    }[] = [] // citiesJson.cities
 
     await saveJson({ path, data: {} })
 

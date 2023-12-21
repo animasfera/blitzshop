@@ -3,13 +3,14 @@ import { ApiError, HttpError } from "cdek"
 import { GetCities } from "cdek/src/types/api/response"
 
 import { saveJson } from "db/seeds/helpers/saveJson"
-import regionsJson from "layout/regions.json"
+// import regionsJson from "layout/regions.json"
 
 const getCdekCities = async (page = 0) => {
   const url = process.env.CDEK_URL_PROD
   const id = process.env.CDEK_CLIENT_ID
   const secret = process.env.CDEK_CLIENT_SECRET
 
+  /*
   if (!url || !id || !secret) {
     // TODO: add translate text err
     throw new NotFoundError()
@@ -37,7 +38,7 @@ const getCdekCities = async (page = 0) => {
 
     await saveJson({ path, data: {} })
 
-    const regions = regionsJson.regions
+    const regions = [] // regionsJson.regions
 
     let arr: {
       code: number
@@ -119,6 +120,7 @@ const getCdekCities = async (page = 0) => {
       throw new Error(JSON.stringify(err))
     }
   }
+  */
 }
 
 export const createCitiesForDelivery = async () => {
