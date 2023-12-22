@@ -20,22 +20,17 @@ import getFxRate from "src/fx-rates/queries/getFxRate"
 import getOrder from "src/orders/queries/getOrder"
 
 interface PaymentControllerProps {
-  // order: OrderFull
   orderId?: number
 }
 
 export const PaymentController = (props: PaymentControllerProps) => {
-  const {
-    // order
-    orderId,
-  } = props
+  const { orderId } = props
 
   const [invoice, setInvoice] = useState<Invoice | null>(null)
   const [order] = useQuery(getOrder, { id: orderId })
   const [fxRate] = useQuery(getFxRate, { from: "EUR", to: "RUB" })
   const [createInvoiceMutation] = useMutation(createInvoiceForOrder)
-
-  if (invoice) console.log("PaymentController invoiceCreated", invoice)
+  const { pay, stripePaymentIntent } = usePayment()
 
   return (
     <Loading>
@@ -60,15 +55,14 @@ export const PaymentController = (props: PaymentControllerProps) => {
 
             if (typeof newInvoiceData.currency !== "undefined") {
               const invoiceCreated = await createInvoiceMutation(newInvoiceData)
-              // setInvoice(invoiceCreated)
-              // @ts-ignore
-              // await pay(invoiceCreated, order)
+
+              setInvoice(invoiceCreated)
+              await pay(invoiceCreated, order)
             }
           }}
         />
 
-        {/* stripePaymentIntent &&  */}
-        {order.id && invoice && invoice.currency === CurrencyEnum.EUR && (
+        {stripePaymentIntent && order.id && invoice && invoice.currency === CurrencyEnum.EUR && (
           <>
             <h2 className="my-5 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
               <Money amount={invoice.amount} currency={invoice.currency} />
@@ -76,8 +70,7 @@ export const PaymentController = (props: PaymentControllerProps) => {
 
             <StripeCheckoutFormWithElements
               orderId={order.id}
-              // paymentIntentInstance={stripePaymentIntent}
-              paymentIntentInstance={null}
+              paymentIntentInstance={stripePaymentIntent}
             />
           </>
         )}

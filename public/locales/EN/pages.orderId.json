@@ -3,6 +3,25 @@
   "head": {
     "title": "Thank you!",
     "subtitle": "It's on the way!",
+    "description": {
+      "success": "Within a few days we will send a tracking number to your email to track your parcel.",
+      "main": "Our operator will calculate the shipping cost to your country and then contact you to complete payment for your order."
+    },
+    "status": {
+      "PENDING": "in progress",
+      "PAYMENT": "awaiting payment",
+      "PROCESSING": "preparing to be sent",
+      "SHIPPED": "on the way!",
+      "COMPLETED": "delivered",
+      "CANCELLED": "cancelled",
+      "ON_HOLD": "suspended",
+      "DELIVERED": "delivered",
+      "REFUND_REQUESTED": ": refund requested",
+      "REFUND_REJECTED": ": return rejected",
+      "REFUND_APPROVED": ": return approved",
+      "REFUNDED": ": returned",
+      "PARTIALLY_COMPLETED": ": partially completed"
+    },
     "message": "Your order #{{orderId}} has shipped and will be with you soon.",
     "info": {
       "title": "Tracking number"

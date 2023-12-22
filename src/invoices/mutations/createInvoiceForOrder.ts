@@ -1,14 +1,12 @@
+import { AuthorizationError, NotFoundError } from "blitz"
 import { Ctx } from "@blitzjs/next"
 import { resolver } from "@blitzjs/rpc"
 import { z } from "zod"
-import db from "db"
+import db, { Invoice, InvoiceStatusEnum, Prisma, UserRoleEnum } from "db"
 import { PrismaDbType } from "types"
 
-import { CreateInvoiceForOrderSchema, CreateInvoiceSchema } from "../schemas"
-import { Invoice, InvoiceStatusEnum, Prisma, UserRoleEnum } from "@prisma/client"
-import { AuthorizationError, NotFoundError } from "blitz"
-import getFxRate from "../../fx-rates/queries/getFxRate"
-import CreateInvoice from "./createInvoice"
+import { CreateInvoiceForOrderSchema } from "../schemas"
+import getFxRate from "src/fx-rates/queries/getFxRate"
 
 type CreateInvoiceForOrderType = z.infer<typeof CreateInvoiceForOrderSchema>
 
@@ -16,12 +14,10 @@ export const createInvoiceForOrderDbQuery = async (
   data: CreateInvoiceForOrderType,
   ctx: Ctx,
   $db: PrismaDbType
-) => {
+): Promise<Invoice> => {
   const { orderId, ...restInvoice } = data
-  const order = await db.order.findUnique({
-    where: {
-      id: orderId,
-    },
+  const order = await $db.order.findUnique({
+    where: { id: orderId },
   })
   if (!order) {
     throw new NotFoundError()
@@ -36,21 +32,18 @@ export const createInvoiceForOrderDbQuery = async (
     amount: Math.round(order.total * fxRate),
     status: InvoiceStatusEnum.PENDING,
     currency: restInvoice.currency,
-    order: {
-      connect: {
-        id: order.id,
-      },
-    },
+    order: { connect: { id: order.id } },
   } as Prisma.InvoiceCreateInput
 
-  return $db.invoice.create({ data: invoiceData })
+  const invoice = await $db.invoice.create({ data: invoiceData })
+
+  return invoice
 }
 
 export default resolver.pipe(
   resolver.zod(CreateInvoiceForOrderSchema),
   resolver.authorize(),
   async (input, ctx) => {
-    // @ts-ignore
     return await db.$transaction(async ($db) => {
       return await createInvoiceForOrderDbQuery(input, ctx, $db)
     })

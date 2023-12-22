@@ -28,7 +28,6 @@ export const Checkout = (props: CheckoutProps) => {
   const { cartClient } = props
 
   const { t } = useTranslation(["pages.checkout", "shippingAddress"])
-  // const { pay, stripePaymentIntent } = usePayment()
   const router = useRouter()
 
   const [orderId, setOrderId] = useState<number | undefined>(undefined)
@@ -130,45 +129,12 @@ export const Checkout = (props: CheckoutProps) => {
             </>
           </CheckoutPaymentFormInputsBlock>
 
-          {showPayment && <PaymentController orderId={orderId} />}
+          {showPayment && orderId && <PaymentController orderId={orderId} />}
 
-          {shippingAddress && order.id && (
-            <>
-              <CheckoutPaymentFormInputsBlock title={t("pages.checkout:paymentCurrency.title")}>
-                {/*<PaymentCurrencyForm*/}
-                {/*  schema={z.object({*/}
-                {/*    currency: z.enum(["RUB", "EUR"]),*/}
-                {/*  })}*/}
-                {/*  submitText={t("translation:next")}*/}
-                {/*  onSubmit={async (values) => {*/}
-                {/*    if (!order.id) {*/}
-                {/*      return*/}
-                {/*    }*/}
-                {/*    let newInvoiceData = {*/}
-                {/*      orderId: order.id,*/}
-                {/*      currency: values.currency,*/}
-                {/*    }*/}
-
-                {/*    if (typeof newInvoiceData.currency !== "undefined") {*/}
-                {/*      const invoiceCreated = await createInvoiceMutation(newInvoiceData)*/}
-                {/*      // router.push(Routes.OrderPage({ orderId: orderCreated.id }))*/}
-                {/*      // setOrder(orderCreated)*/}
-                {/*      // TODO платежи тут пока не делаем, оплата будет на странице заказа*/}
-                {/*      // await pay(orderCreated)*/}
-                {/*    }*/}
-                {/*  }}*/}
-                {/*/>*/}
-              </CheckoutPaymentFormInputsBlock>
-              {/*{stripePaymentIntent &&*/}
-              {/*  order.id &&*/}
-              {/*  order.invoice &&*/}
-              {/*  order.invoice.currency === CurrencyEnum.EUR && (*/}
-              {/*    <StripeCheckoutFormWithElements*/}
-              {/*      orderId={order.id}*/}
-              {/*      paymentIntentInstance={stripePaymentIntent}*/}
-              {/*    />*/}
-              {/*  )}*/}
-            </>
+          {shippingAddress && order.id && orderId && (
+            <CheckoutPaymentFormInputsBlock title={t("pages.checkout:paymentCurrency.title")}>
+              <PaymentController orderId={orderId} />
+            </CheckoutPaymentFormInputsBlock>
           )}
         </CheckoutPayment>
       </div>
