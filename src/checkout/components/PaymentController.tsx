@@ -65,7 +65,10 @@ export const PaymentController = (props: PaymentControllerProps) => {
         {stripePaymentIntent && order.id && invoice && invoice.currency === CurrencyEnum.EUR && (
           <>
             <h2 className="my-5 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-              <Money amount={invoice.amount} currency={invoice.currency} />
+              {currencyFormat({
+                num: invoice.amount,
+                currency: invoice.currency,
+              })}
             </h2>
 
             <StripeCheckoutFormWithElements
