@@ -43,7 +43,7 @@ export default resolver.pipe(
 
       const deliverypoints = res.map((el) => ({
         value: el.code,
-        label: el.location.address, // el.location.address_full,
+        label: el.location.address ?? el.location.address_full,
       }))
 
       return deliverypoints

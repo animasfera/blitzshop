@@ -58,7 +58,7 @@ export const PickAddressOptions = (props: PickAddressOptionsProps) => {
       })),
     },
     {
-      queryKey: [deliveryMethod.value, country.value, cityId.value, city.value, address.value], // {`${deliveryMethod.value}-${}-${}-${}-${}`}
+      queryKey: [deliveryMethod.value, country.value, cityId.value, city.value], // address.value // {`${deliveryMethod.value}-${}-${}-${}-${}`}
       enabled: !!country.value && (!!cityId.value || !!city.value) && isDeliveryPoints, // !!deliveryPoints,
       onSuccess(data) {
         if (!!data?.error) {
