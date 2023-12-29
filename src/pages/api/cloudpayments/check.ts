@@ -2,11 +2,21 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { api } from "src/blitz-server"
 import { ResponseCodes } from "src/core/cloudpayments/ResponseCodes"
 import blockInvoiceItems from "../../../invoices/mutations/blockInvoiceItems"
+import { UserRoleEnum } from "@prisma/client"
 
 export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
   let responseData = {} as any
 
-  // 1. Check if request method is POST
+  // 1. Check isAdmin
+  if (!ctx.session.$isAuthorized(UserRoleEnum.ADMIN)) {
+    res.statusCode = 401
+    responseData.success = false
+    responseData.message = "Unauthorized"
+    res.end(JSON.stringify(responseData))
+    return
+  }
+
+  // 2. Check if request method is POST
   if (req.method !== "POST") {
     res.statusCode = 400
     responseData.success = false
