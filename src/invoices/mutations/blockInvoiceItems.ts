@@ -16,8 +16,23 @@ export const blockInvoiceItemsDbQuery = async (
 
   if (!order) throw new NotFoundError(`Order with ID: ${invoiceId} not found`)
 
-  const result =
-    await $db.$queryRaw`UPDATE "Item" AS i SET qty = qty - "PurchasedItem"."qty" FROM "PurchasedItem" WHERE "Item"."id" = "PurchasedItem"."itemId" AND "PurchasedItem"."orderId"=${order.id} RETURNING i.qty`
+  const result = await $db.$queryRaw`
+    UPDATE "Item" AS i
+    SET qty = i.qty - p."qty"
+    FROM "PurchasedItem" AS p
+    WHERE
+      i."id" = p."itemId" AND
+      p."orderId" = ${order.id}
+    RETURNING i.qty;
+  `
+  /*
+    await $db.$queryRaw`
+    UPDATE "Item" AS i
+    SET qty = qty - "PurchasedItem"."qty"
+    FROM "PurchasedItem"
+    WHERE "Item"."id" = "PurchasedItem"."itemId" AND "PurchasedItem"."orderId"=${order.id}
+    RETURNING i.qty`
+    */
 
   // Check for negative qty and throw error
   if (result && Array.isArray(result) && result.find((item) => item.qty < 0)) {
