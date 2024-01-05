@@ -8,27 +8,48 @@ import { BoxberryCountry } from "src/boxberry/queries/getBoxberryListCountries"
 import { getUrlСountryFlag } from "src/core/helpers/getUrlСountryFlag"
 
 const getCdekCountries = async () => {
-  const cdek = new Cdek({
-    account: process.env.CDEK_CLIENT_ID ?? "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
-    password: process.env.CDEK_CLIENT_SECRET ?? "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG",
-    url_base: "https://api.cdek.ru/v2",
-  })
+  const url = process.env.CDEK_URL_PROD
+  const id = process.env.CDEK_CLIENT_ID
+  const secret = process.env.CDEK_CLIENT_SECRET
 
-  // TODO: add text err + translate
-  if (!cdek) throw new AuthenticationError()
+  if (!url || !id || !secret) {
+    // TODO: add translate text err
+    throw new NotFoundError()
+  }
 
   try {
-    // @ts-ignore
+    const auth = await fetch(
+      `${url}/oauth/token?client_id=${id}&client_secret=${secret}&grant_type=client_credentials`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    )
+
+    if (!auth.ok) {
+      // TODO: add translate text err
+      throw new AuthenticationError()
+    }
+
+    const token = await auth.json()
+
+    const res = await fetch(`${url}/location/regions?lang=rus`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token.access_token}`,
+      },
+    })
+
+    if (!res.ok) throw new NotFoundError()
+
     const regions: {
       country_code: string
       country: string
       region: string
       region_code: number
-    }[] = await cdek.getRegions({
-      lang: "rus",
-    })
-
-    if (!regions) throw new NotFoundError()
+    }[] = await res.json()
 
     let countries: DeliveryCountry[] = []
 
