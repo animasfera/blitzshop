@@ -9,8 +9,6 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
 
   // 1. Check isAdmin
   if (!ctx.session.$isAuthorized(UserRoleEnum.ADMIN)) {
-    console.error("req.headers.authorization", req.headers.authorization)
-
     res.statusCode = 401
     responseData.success = false
     responseData.message = "Unauthorized"
