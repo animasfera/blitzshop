@@ -5,7 +5,7 @@ import { createCountriesForDelivery } from "db/seeds/delivery/countries"
 // import { createPickupPointsForDelivery } from "db/seeds/delivery/pickupPoints"
 
 export const createDeliveryParams = async () => {
-  await createCountriesForDelivery()
+  // await createCountriesForDelivery()
   // await createRegionsForDelivery()
   // await createCitiesForDelivery()
   // await createPostalCodesForDelivery()
