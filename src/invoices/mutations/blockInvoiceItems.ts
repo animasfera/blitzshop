@@ -12,10 +12,10 @@ export const blockInvoiceItemsDbQuery = async (
   notifications: NotificationsTransactionType
 ) => {
   const { invoiceId } = input
-  const order = await $db.order.findFirst({ where: { id: invoiceId } })
-  if (!order) {
-    throw new NotFoundError()
-  }
+  const order = await $db.order.findFirst({ where: { invoiceId: invoiceId } })
+
+  if (!order) throw new NotFoundError(`Order with ID: ${invoiceId} not found`)
+
   const result =
     await $db.$queryRaw`UPDATE "Item" SET qty = qty - (SELECT qty FROM "PurchasedItem" WHERE "itemId"="Item"."id" AND "orderId"=${order.id}) RETURNING qty`
 

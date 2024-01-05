@@ -45,9 +45,8 @@ export const PaymentController = (props: PaymentControllerProps) => {
           }}
           // submitText={t("translation:next")}
           onSubmit={async (values) => {
-            if (!order.id) {
-              return
-            }
+            if (!order.id) return
+
             let newInvoiceData = {
               orderId: order.id,
               currency: values.currency,

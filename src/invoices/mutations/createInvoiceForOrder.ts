@@ -16,12 +16,17 @@ export const createInvoiceForOrderDbQuery = async (
   $db: PrismaDbType
 ): Promise<Invoice> => {
   const { orderId, ...restInvoice } = data
-  const order = await $db.order.findUnique({
-    where: { id: orderId },
+  const order = await $db.order.findUnique({ where: { id: orderId } })
+
+  /*
+  await db.cartToItem.deleteMany({ where: { cartId } })
+  await db.cart.update({
+    where: { id: cartId },
+    data: { numItems: 0 },
   })
-  if (!order) {
-    throw new NotFoundError()
-  }
+  */
+
+  if (!order) throw new NotFoundError(`Order with ID: ${order} not found`)
 
   if (order.userId !== ctx.session.userId && !ctx.session.$isAuthorized(UserRoleEnum.ADMIN)) {
     throw new AuthorizationError()

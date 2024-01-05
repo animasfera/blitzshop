@@ -1,6 +1,9 @@
 import { useState } from "react"
+import { useMutation } from "@blitzjs/rpc"
+import { Invoice, Order, User, PurchasedItem, PaymentMethod } from "db"
+
+import cleanCart from "src/carts/mutations/cleanCart"
 import useScript from "./useScript"
-import { Invoice, Order, User, PurchasedItem, PaymentMethod } from "@prisma/client"
 
 export type OrderWithItemsAndUserAndInvoice = Order & {
   user: Pick<User, "email" | "firstName" | "lastName" | "id">
@@ -17,6 +20,7 @@ export const useCloudpayments = () => {
       }
     | undefined
   >()
+  const [cleanCartMutation] = useMutation(cleanCart)
 
   useScript("https://widget.cloudpayments.ru/bundles/cloudpayments.js", () => {
     setCpScriptLoaded(true)
@@ -88,11 +92,17 @@ export const useCloudpayments = () => {
         },
       },
       {
-        onSuccess: (options) => {
-          //действие при успешной оплате
+        onSuccess: async (options) => {
+          // действия при успешной оплате
+          // очищаем корзину при успешной оплате
+          await cleanCartMutation({})
+          // перенаправляем на страницу успешной оплаты
           window.location.href = "/orders/" + order.id + "?success=1"
         },
-        onFail: () => {},
+        onFail: (reason, options) => {
+          console.log("onFail reason", reason)
+          console.log("onFail options", options)
+        },
       }
     )
   }

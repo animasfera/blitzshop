@@ -1,11 +1,14 @@
-import { StripeCheckoutForm } from "src/core/stripe/components/StripeCheckoutForm"
-import { loadStripe, PaymentIntent } from "@stripe/stripe-js"
 import React, { useMemo, useState } from "react"
-import { Elements } from "@stripe/react-stripe-js"
-import createStripePaymentIntent from "../stripe/mutations/createStripePaymentIntent"
 import { useMutation } from "@blitzjs/rpc"
+import { loadStripe, PaymentIntent } from "@stripe/stripe-js"
+import { Elements } from "@stripe/react-stripe-js"
+import { CurrencyEnum, Invoice } from "db"
+
+import { StripeCheckoutForm } from "src/core/stripe/components/StripeCheckoutForm"
+import createStripePaymentIntent from "src/core/stripe/mutations/createStripePaymentIntent"
+import cleanCart from "src/carts/mutations/cleanCart"
 import { OrderWithItemsAndUserAndInvoice } from "./useCloudpayments"
-import { CurrencyEnum, Invoice } from "@prisma/client"
+
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || "")
 
 export const StripeCheckoutFormWithElements = ({ orderId, paymentIntentInstance }) => {
@@ -31,6 +34,7 @@ export const StripeCheckoutFormWithElements = ({ orderId, paymentIntentInstance 
 export const useStripe = () => {
   const [paymentIntentInstance, setPaymentIntentInstance] = useState<PaymentIntent | null>(null)
   const [createPaymentIntentMutation] = useMutation(createStripePaymentIntent)
+  const [cleanCartMutation] = useMutation(cleanCart)
 
   let options
   useMemo(() => {
@@ -56,8 +60,12 @@ export const useStripe = () => {
           invoiceId: invoice.id,
         },
       })
-      return paymentIntent
+
+      // очищаем корзину при успешной оплате
+      await cleanCartMutation({})
+
       // setPaymentIntentInstance(paymentIntent)
+      return paymentIntent
     },
     paymentIntent: paymentIntentInstance,
   }

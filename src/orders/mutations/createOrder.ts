@@ -145,11 +145,14 @@ export default resolver.pipe(
       },
     })
 
+    // !!!
+    /*
     await db.cartToItem.deleteMany({ where: { cartId } })
     await db.cart.update({
       where: { id: cartId },
       data: { numItems: 0 },
     })
+    */
 
     return order
   }

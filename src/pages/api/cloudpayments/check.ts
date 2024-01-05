@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { api } from "src/blitz-server"
 import { ResponseCodes } from "src/core/cloudpayments/ResponseCodes"
-import blockInvoiceItems from "../../../invoices/mutations/blockInvoiceItems"
+import blockInvoiceItems from "src/invoices/mutations/blockInvoiceItems"
 import { UserRoleEnum } from "@prisma/client"
 
 export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
@@ -9,6 +9,8 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
 
   // 1. Check isAdmin
   if (!ctx.session.$isAuthorized(UserRoleEnum.ADMIN)) {
+    console.error("req.headers.authorization", req.headers.authorization)
+
     res.statusCode = 401
     responseData.success = false
     responseData.message = "Unauthorized"
