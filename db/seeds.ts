@@ -15,7 +15,13 @@ import { createDeliveryParams } from "db/seeds/delivery"
  * to easily generate realistic data.
  */
 const seed = async () => {
+  /*
   if (process.env.NODE_ENV === "test") {
+    await db.$reset()
+  }
+  */
+
+  if (process.env.NODE_ENV !== "production") {
     await db.$reset()
   }
 
@@ -29,8 +35,6 @@ const seed = async () => {
   await createDeliveryParams()
 
   if (process.env.NODE_ENV !== "production") {
-    await db.$reset()
-
     await createItems()
     await createOrders()
   }
