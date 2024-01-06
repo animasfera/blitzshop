@@ -29,6 +29,8 @@ const seed = async () => {
   await createDeliveryParams()
 
   if (process.env.NODE_ENV !== "production") {
+    await db.$reset()
+
     await createItems()
     await createOrders()
   }
