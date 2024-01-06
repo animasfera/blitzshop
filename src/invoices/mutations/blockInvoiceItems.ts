@@ -23,13 +23,13 @@ export const blockInvoiceItemsDbQuery = async (
     WHERE
       i."id" = p."itemId" AND
       p."orderId" = ${order.id}
-    RETURNING i;
+    RETURNING i.qty;
   `
   console.log("result", result)
 
   // Check for negative qty and throw error
   if (result && Array.isArray(result) && result.find((item) => item.qty < 0)) {
-    console.error(result.toString())
+    console.log(result.toString())
     throw new Error("Some items are out of stock")
   }
 
