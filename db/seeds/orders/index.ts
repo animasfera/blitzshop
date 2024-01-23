@@ -77,7 +77,13 @@ export const createOrders = async () => {
                 },
               },
 
-              log: { create: { userId: user.id, status: OrderStatusEnum.PENDING } },
+              log: {
+                connectOrCreate: {
+                  where: { id: user.id },
+                  create: { status: OrderStatusEnum.PENDING },
+                },
+                // create: { id: user.id, status: OrderStatusEnum.PENDING }
+              },
               invoice: {
                 create: {
                   amount: 12300,
