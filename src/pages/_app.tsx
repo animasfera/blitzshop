@@ -154,36 +154,41 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Loading fallback={<></>}>
             <TimezoneWatch />
           </Loading>
+          <div className="flex flex-col h-screen justify-between">
+            <div>
+              <ErrorBoundary
+                FallbackComponent={RootErrorFallback}
+                onReset={useQueryErrorResetBoundary().reset}
+              >
+                <Suspense>
+                  <HeaderController path={router.pathname} />
+                </Suspense>
+              </ErrorBoundary>
 
-          <ErrorBoundary
-            FallbackComponent={RootErrorFallback}
-            onReset={useQueryErrorResetBoundary().reset}
-          >
-            <Suspense>
-              <HeaderController path={router.pathname} />
-            </Suspense>
-          </ErrorBoundary>
-
-          <LoadingBar
-            color={"rgba(85,60,154,.8)"}
-            // progress={progress}
-            // onLoaderFinished={() => setProgress(0)}
-            height={3}
-            ref={ref}
-          />
-
-          <ErrorBoundary FallbackComponent={RootErrorFallback}>
-            {getLayout(<Component {...pageProps} />)}
-          </ErrorBoundary>
-
-          <ErrorBoundary
-            FallbackComponent={RootErrorFallback}
-            onReset={useQueryErrorResetBoundary().reset}
-          >
-            <Suspense>
-              <Footer path={router.pathname} />
-            </Suspense>
-          </ErrorBoundary>
+              <LoadingBar
+                color={"rgba(85,60,154,.8)"}
+                // progress={progress}
+                // onLoaderFinished={() => setProgress(0)}
+                height={3}
+                ref={ref}
+              />
+            </div>
+            <div className="flex-grow">
+              <ErrorBoundary FallbackComponent={RootErrorFallback}>
+                {getLayout(<Component {...pageProps} />)}
+              </ErrorBoundary>
+            </div>
+            <div>
+              <ErrorBoundary
+                FallbackComponent={RootErrorFallback}
+                onReset={useQueryErrorResetBoundary().reset}
+              >
+                <Suspense>
+                  <Footer path={router.pathname} />
+                </Suspense>
+              </ErrorBoundary>
+            </div>
+          </div>
         </TimezoneContext.Provider>
       </CurrencyContext.Provider>
       {/* </ChakraProvider> */}
