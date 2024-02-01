@@ -1,5 +1,5 @@
 import mailgun from "mailgun-js"
-import { MailgunMessageData } from "mailgun.js/types/Messages"
+import { MailgunMessageData } from "mailgun.js"
 import previewEmail from "preview-email"
 import { renderToStaticMarkup } from "react-dom/server"
 import { Box, Image, Table, Tbody, Tr, Td, Heading, Link } from "@chakra-ui/react"
