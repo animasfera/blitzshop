@@ -1,13 +1,13 @@
 // import { initSlotsCron } from "./slots"
 // import { initTransactionsCron } from "./transactions"
 // import { initReportsCron } from "./reports"
-import { initInvoicesCron } from "./invoices"
-import { initMailsQueue } from "./mails"
-// import { initMailsNewsletterCron } from "./mailsNewsletter"
+// import { initInvoicesCron } from "./invoices"
+// import { initMailsQueue } from "./mails"
+import { initMailsCron } from "./mails"
 export { NotificationsQueue } from "./notifications"
-import { initNotificationsCron } from "./notifications"
+// import { initNotificationsCron } from "./notifications"
 export { MailsQueue } from "./mails"
-export { InvoicesQueue } from "./invoices"
+// export { InvoicesQueue } from "./invoices"
 // export { SlotsQueue } from "./slots"
 // export { TransactionsQueue } from "./transactions"
 // export { ReportsQueue } from "./reports"
@@ -23,8 +23,8 @@ export const initCron = () => {
   // initSlotsCron()
   // initTransactionsCron()
   // initReportsCron()
-  initMailsQueue()
+  // initMailsQueue()
   // initInvoicesCron()
-  // initMailsNewsletterCron()
-  initNotificationsCron()
+  initMailsCron()
+  // initNotificationsCron()
 }

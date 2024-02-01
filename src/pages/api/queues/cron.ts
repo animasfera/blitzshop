@@ -4,7 +4,7 @@ import * as Queues from "src/core/queues"
 
 import { UserRoleEnum } from "@prisma/client"
 import { AuthorizationError } from "blitz"
-import { initCron } from "src/core/queues"
+
 
 export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
   let {

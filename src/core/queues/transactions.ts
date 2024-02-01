@@ -66,11 +66,11 @@ export const initTransactionsQueue = () => {
   const transactionsQueue = new Queue("transactions")
 
   void transactionsQueue.process("syncHangingTransactionsCronJob", syncHangingTransactionsCronJob)
-  void transactionsQueue.process("startPaymentsOnTransactionJob", startPaymentsOnTransactionJob)
-  void transactionsQueue.process(
-    "startPaymentsOnTransactionsCronJob",
-    startPaymentsOnTransactionsCronJob
-  )
+  // void transactionsQueue.process("startPaymentsOnTransactionJob", startPaymentsOnTransactionJob)
+  // void transactionsQueue.process(
+  //   "startPaymentsOnTransactionsCronJob",
+  //   startPaymentsOnTransactionsCronJob
+  // )
 
   void transactionsQueue.process("syncTransaction", syncTransactionJob)
 
@@ -83,11 +83,11 @@ if (!queueRef.value) {
 export const TransactionsQueue = queueRef.value
 
 export const initTransactionsCron = () => {
-  void TransactionsQueue.add(
-    "startPaymentsOnTransactionsCronJob",
-    {},
-    { repeat: { cron: "0 * * * *" } }
-  )
+  // void TransactionsQueue.add(
+  //   "startPaymentsOnTransactionsCronJob",
+  //   {},
+  //   { repeat: { cron: "0 * * * *" } }
+  // )
   void TransactionsQueue.add(
     "syncHangingTransactionsCronJob",
     {},

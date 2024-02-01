@@ -16,7 +16,7 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
   }
 
   Queues.initCron()
-  initMailsQueue()
+  // initMailsQueue()
   res.statusCode = 200
   res.setHeader("Content-Type", "application/json")
   res.end(JSON.stringify({ status: "OK" }))

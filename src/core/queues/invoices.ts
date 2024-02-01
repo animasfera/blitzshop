@@ -65,7 +65,7 @@ export const initInvoicesQueue = () => {
 
   const invoicesQueue = new Queue("invoices")
 
-  void invoicesQueue.process("cronFindInvoicesToStart", processInvoicesCronJob)
+  // void invoicesQueue.process("cronFindInvoicesToStart", processInvoicesCronJob)
 
   return invoicesQueue
 }
@@ -77,5 +77,5 @@ if (!queueRef.value) {
 export const InvoicesQueue = queueRef.value
 
 export const initInvoicesCron = () => {
-  void InvoicesQueue.add("cronFindInvoicesToStart", {}, { repeat: { cron: "0 * * * *" } })
+  // void InvoicesQueue.add("cronFindInvoicesToStart", {}, { repeat: { cron: "0 * * * *" } })
 }
