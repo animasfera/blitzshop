@@ -32,7 +32,7 @@ export const ProductHorizontalScroll = (props: ProductProps) => {
           <h3 className="font-semibold text-gray-900">
             <Link
               // TODO: Router
-              href={`/product/${id}`}
+              href={`/products/${id}`}
             >
               <span className="absolute inset-0" />
               {title}
