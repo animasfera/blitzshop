@@ -11,6 +11,16 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
 
   res.setHeader("Content-Type", "application/json")
 
+  // 1. Check isAdmin
+  if (!ctx.session.$isAuthorized(UserRoleEnum.ADMIN)) {
+    res.statusCode = 401
+    responseData.success = false
+    responseData.message = "Unauthorized"
+    res.end(JSON.stringify(responseData))
+    return
+  }
+
+  // 2. Check if request method is POST
   if (req.method !== "POST") {
     res.statusCode = 400
     responseData.success = false

@@ -19,7 +19,8 @@
     },
     "address": {
       "label": "Address",
-      "placeholder": "Street, apartment, suite, etc."
+      "placeholder": "Street, apartment, suite, etc.",
+      "helperText": "There are no pick-up points, delivery will be made to your home."
     },
     "city": {
       "label": "City"

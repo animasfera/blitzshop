@@ -6,13 +6,16 @@ import { z } from "zod"
 import { CurrencyEnum } from "db"
 
 interface CdekShippingCost {
-  period_min: number
-  currency: CurrencyEnum
   delivery_sum: number
-  weight_calc: number
-  services: { code: string; sum: number }[]
+  period_min: number
   period_max: number
+  weight_calc: number
+  calendar_min: number
+  calendar_max: number
+  services: { code: string; sum: number }[]
   total_sum: number
+  currency: CurrencyEnum
+  errors?: { code: string; message: string }[]
 }
 
 const GetCdekShippingCost = z.object({
@@ -61,6 +64,9 @@ export default resolver.pipe(
     // TODO: add text err + translate
     if (!id || !secret) throw new AuthenticationError()
 
+    console.log("getCdekShippingCost deliveryMethod", deliveryMethod)
+    console.log("getCdekShippingCost shippingAddress", shippingAddress)
+
     if (deliveryMethod === 1) {
       try {
         const credentials = await fetch(
@@ -93,9 +99,16 @@ export default resolver.pipe(
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            type: 2, // 1 - "интернет-магазин" (По умолчанию) 2 - "доставка"
+            //
+            type: 1, // 1 - "интернет-магазин" (По умолчанию) 2 - "доставка"
             currency: currencyParam[CurrencyEnum.EUR],
             tariff_code: 62, // склад-склад
+            services: [
+              {
+                code: "INSURANCE",
+                parameter: "2",
+              },
+            ],
             from_location: {
               code: 137,
               postal_code: "196084",
@@ -120,8 +133,6 @@ export default resolver.pipe(
             packages,
           }),
         })
-
-        if (!res.ok) throw new NotFoundError()
 
         const cdekShippingCost: CdekShippingCost = await res.json()
         return cdekShippingCost
@@ -176,6 +187,12 @@ export default resolver.pipe(
             type: 2, // 1 - "интернет-магазин" (По умолчанию) 2 - "доставка"
             currency: currencyParam[CurrencyEnum.EUR],
             tariff_code: 122, // склад-склад
+            services: [
+              {
+                code: "INSURANCE",
+                parameter: "2",
+              },
+            ],
             from_location: {
               code: 137,
               postal_code: "196084",
@@ -200,8 +217,6 @@ export default resolver.pipe(
             packages,
           }),
         })
-
-        if (!res.ok) throw new NotFoundError()
 
         const cdekShippingCost: CdekShippingCost = await res.json()
         return cdekShippingCost

@@ -21,19 +21,26 @@ export const CreateOrderSchema = OrderModel.pick({
 }).merge(
   z.object({
     shippingAddress: ShippingAddressModel.pick({
-      // deliveryMethod: true,
-      // company: z.nativeEnum(ShippingCompanyEnum),
       firstName: true,
       lastName: true,
-      phone: true,
-      // instructions: z.string().nullish(),
-      address: true,
-      city: true,
-      // cityId: z.number().int().nullish(),
-      province: true,
-      // provinceId: z.number().int().nullish(),
-      postalCode: true,
+
       countryId: true,
+      deliveryMethod: true,
+      provinceId: true,
+      province: true,
+      cityId: true,
+      city: true,
+      postalCode: true,
+      address: true,
+
+      phone: true,
+    }).extend({
+      countryId: z.string(), // .or(z.number()),
+      province: z.string().nullish(),
+      provinceId: z.number().int().nullish(),
+      city: z.string().nullish(),
+      cityId: z.number().int().nullish(),
+      postalCode: z.string().nullish(),
     }),
     items: z.array(
       PurchasedItemModel.pick({

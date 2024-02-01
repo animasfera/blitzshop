@@ -20,7 +20,7 @@ export interface InputProps {
   labelProps?: ComponentPropsWithoutRef<"label">
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
 
-  // onChange?: (values: any) => void
+  onChange?: (values: any) => void
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
@@ -41,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     labelProps,
     outerProps,
 
-    // onChange,
+    onChange,
   } = props
 
   const [isShowPass, setShowPass] = useState(false)
@@ -92,11 +92,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           aria-invalid="true"
           aria-describedby={`${name}-error`}
           required={required}
-          /*
           onChange={(v) => {
             onChange ? onChange(v) : input?.onChange(v)
           }}
-          */
         />
         {showError && (
           <div

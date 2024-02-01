@@ -29,6 +29,7 @@ const createDataItems = async (obj: ItemSeed) => {
           },
         },
       },
+      qty: 10,
       price: obj.price,
       currency: CurrencyEnum.EUR,
       categoryId: category.id,

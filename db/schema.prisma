@@ -644,3 +644,33 @@ model Mail {
   receiverType    MailReceiver?  @relation(fields: [receiverTypeId], references: [id])
   receiverTypeId  String?
 }
+
+model DeliveryCountry {
+  id      String           @unique @db.Char(2)
+  code    String?
+  titleRu String
+  titleEn String
+  flag    String?
+  regions DeliveryRegion[]
+}
+
+model DeliveryRegion {
+  id        Int             @id @default(autoincrement())
+  code      Int?
+  titleRu   String
+  titleEn   String
+  country   DeliveryCountry @relation(fields: [countryId], references: [id])
+  countryId String          @db.Char(2)
+  cities    DeliveryCity[]
+}
+
+model DeliveryCity {
+  id       Int            @id @default(autoincrement())
+  code     Int?
+  titleRu  String
+  titleEn  String
+  lat      Float?
+  lng      Float?
+  region   DeliveryRegion @relation(fields: [regionId], references: [id])
+  regionId Int
+}

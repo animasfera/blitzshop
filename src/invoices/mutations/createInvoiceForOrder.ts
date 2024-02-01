@@ -1,30 +1,32 @@
+import { AuthorizationError, NotFoundError } from "blitz"
+import { Ctx } from "@blitzjs/next"
 import { resolver } from "@blitzjs/rpc"
 import { z } from "zod"
-import db from "db"
+import db, { Invoice, InvoiceStatusEnum, Prisma, UserRoleEnum } from "db"
 import { PrismaDbType } from "types"
 
-import { CreateInvoiceForOrderSchema, CreateInvoiceSchema } from "../schemas"
-import { InvoiceStatusEnum, Prisma, UserRoleEnum } from "@prisma/client"
-import { AuthorizationError, NotFoundError } from "blitz"
-import getFxRate from "../../fx-rates/queries/getFxRate"
-import CreateInvoice from "./createInvoice"
+import { CreateInvoiceForOrderSchema } from "../schemas"
+import getFxRate from "src/fx-rates/queries/getFxRate"
 
 type CreateInvoiceForOrderType = z.infer<typeof CreateInvoiceForOrderSchema>
 
 export const createInvoiceForOrderDbQuery = async (
   data: CreateInvoiceForOrderType,
-  ctx,
+  ctx: Ctx,
   $db: PrismaDbType
-) => {
+): Promise<Invoice> => {
   const { orderId, ...restInvoice } = data
-  const order = await db.order.findUnique({
-    where: {
-      id: orderId,
-    },
+  const order = await $db.order.findUnique({ where: { id: orderId } })
+
+  /*
+  await db.cartToItem.deleteMany({ where: { cartId } })
+  await db.cart.update({
+    where: { id: cartId },
+    data: { numItems: 0 },
   })
-  if (!order) {
-    throw new NotFoundError()
-  }
+  */
+
+  if (!order) throw new NotFoundError(`Order with ID: ${order} not found`)
 
   if (order.userId !== ctx.session.userId && !ctx.session.$isAuthorized(UserRoleEnum.ADMIN)) {
     throw new AuthorizationError()
@@ -35,23 +37,20 @@ export const createInvoiceForOrderDbQuery = async (
     amount: Math.round(order.total * fxRate),
     status: InvoiceStatusEnum.PENDING,
     currency: restInvoice.currency,
-    order: {
-      connect: {
-        id: order.id,
-      },
-    },
+    order: { connect: { id: order.id } },
   } as Prisma.InvoiceCreateInput
 
-  return $db.invoice.create({ data: invoiceData })
+  const invoice = await $db.invoice.create({ data: invoiceData })
+
+  return invoice
 }
 
 export default resolver.pipe(
   resolver.zod(CreateInvoiceForOrderSchema),
   resolver.authorize(),
   async (input, ctx) => {
-    // @ts-ignore
     return await db.$transaction(async ($db) => {
-      return createInvoiceForOrderDbQuery(input, ctx, $db)
+      return await createInvoiceForOrderDbQuery(input, ctx, $db)
     })
   }
 )

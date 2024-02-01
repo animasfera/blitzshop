@@ -44,7 +44,9 @@ export default resolver.pipe(
         lang: ctx.session.user?.locale === LocaleEnum.ru ? "rus" : "eng",
       })
 
-      if (!regions) throw new NotFoundError()
+      if (!regions) {
+        throw new NotFoundError()
+      }
 
       const result = regions.map((el) => ({ value: el.region_code ?? el.region, label: el.region }))
 

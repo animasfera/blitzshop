@@ -11,6 +11,8 @@ export default resolver.pipe(
       userId: ctx.session.userId,
       ...input,
     }
+
+    // @ts-ignore
     const shippingAddress = await db.shippingAddress.create({ data })
 
     return shippingAddress

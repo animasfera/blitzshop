@@ -1,8 +1,9 @@
-import LabeledSelectField from "../../../core/components/form/LabeledSelectField"
-import React, { useState } from "react"
+import React from "react"
 import { useTranslation } from "react-i18next"
-import { PickProvinceOptions } from "./PickProvinceOptions"
 import { useField } from "react-final-form"
+
+import { LabeledSelectFieldAutocomlete } from "src/core/components/form/LabeledSelectFieldAutocomlete"
+import { DeliveryMethodEnum } from "@prisma/client"
 
 type CountryFieldControllerProps = {
   countries: { label: string; value: string; img?: string }[]
@@ -11,23 +12,40 @@ type CountryFieldControllerProps = {
 
 export const CountryField = ({ onChange, countries }: CountryFieldControllerProps) => {
   const { t } = useTranslation(["shippingAddress"])
-  const { input: region } = useField("region")
+  const { input: province } = useField("province")
+  const { input: provinceId } = useField("provinceId")
   const { input: city } = useField("city")
+  const { input: cityId } = useField("cityId")
+  const { input: deliveryMethod } = useField("deliveryMethod")
+  const { input: address } = useField("address")
 
   return (
-    <>
-      <LabeledSelectField
-        name={"countryId"}
-        label={t("shippingAddress:fields.country.label")}
-        options={countries}
-        handleChange={() => {
-          region.onChange(undefined)
-          city.onChange(undefined)
-        }}
-        outerProps={{
-          className: "sm:col-span-4 md:col-span-3 lg:col-span-5 xl:col-span-4 xxl:col-span-5",
-        }}
-      />
-    </>
+    <LabeledSelectFieldAutocomlete
+      name={"countryId"}
+      label={t("shippingAddress:fields.country.label")}
+      options={countries.sort((a, b) => {
+        if (a.label < b.label) return -1
+        if (a.label > b.label) return 1
+
+        return 0
+      })}
+      outerProps={{
+        className: "sm:col-span-4 md:col-span-3 lg:col-span-5 xl:col-span-4 xxl:col-span-5",
+      }}
+      handleChange={(value) => {
+        city.onChange(undefined)
+        cityId.onChange(undefined)
+        province.onChange(undefined)
+        provinceId.onChange(undefined)
+        address.onChange(undefined)
+        deliveryMethod.onChange(
+          value === "BY" || value === "KZ" || value === "RU"
+            ? DeliveryMethodEnum.PICKUP
+            : DeliveryMethodEnum.DOOR
+        )
+      }}
+      required
+      disabled={!countries || countries.length === 0}
+    />
   )
 }

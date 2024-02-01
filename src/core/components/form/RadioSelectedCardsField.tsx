@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  forwardRef,
-  ComponentPropsWithoutRef,
-  PropsWithoutRef,
-  ReactElement,
-} from "react"
+import React, { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef, ReactElement } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
 import { RadioGroup } from "@headlessui/react"
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid"
@@ -30,6 +24,8 @@ export interface RadioSelectedCardsFieldProps {
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
   fieldProps?: UseFieldConfig<string>
+
+  handleChange?: (value: OptionRadioSelectedCard) => void
 }
 
 export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelectedCardsFieldProps>(
@@ -46,11 +42,9 @@ export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelecte
       outerProps,
       fieldProps,
       labelProps,
-    } = props
 
-    const [selected, setSelected] = useState<OptionRadioSelectedCard | undefined>(
-      defaultValue || undefined
-    )
+      handleChange,
+    } = props
 
     const {
       input,
@@ -64,14 +58,19 @@ export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelecte
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
     const showError = touched && normalizedError
 
+    const selected = options.find((o) => {
+      return o.value === input.value
+    })
+
     return (
       <div className="relative mb-7" {...outerProps}>
         <RadioGroup
           ref={ref}
-          value={options.find((o) => o.value === input.value)}
+          defaultValue={defaultValue}
+          value={selected}
           onChange={(v) => {
-            // setSelected(options.find((o) => o.value === v.value))
             input?.onChange(v.value)
+            handleChange && handleChange(v)
           }}
           disabled={disabled || submitting}
         >
@@ -93,13 +92,22 @@ export const RadioSelectedCardsField = forwardRef<HTMLInputElement, RadioSelecte
             )}
           </div>
 
-          <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4">
+          <div
+            className={`
+              mt-4 grid grid-cols-1 gap-y-6 sm:gap-x-4
+              ${options.length % 2 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}
+          >
             {options.map((option) => (
-              <RadioSelectedCard key={option.value} option={option} disabled={disabled} />
+              <RadioSelectedCard
+                key={option.value}
+                defaultValue={defaultValue}
+                selected={selected}
+                option={option}
+                disabled={disabled}
+              />
             ))}
           </div>
         </RadioGroup>
-
         {helperText && (
           <p className="m-0 mt-1 text-sm text-gray-500" id={`${name}-description`}>
             {helperText}

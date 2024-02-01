@@ -3,8 +3,11 @@ import { resolver } from "@blitzjs/rpc"
 import { Cdek, ApiError, HttpError } from "cdek"
 import { z } from "zod"
 import { LocaleEnum } from "db"
+import { GetCities, GetPickupPoints } from "cdek/src/types/api/response"
+import { Phone } from "cdek/src/types/api/base"
 
 const GetCdekLocationCities = z.object({
+  deliveryMethod: z.number(),
   country_code: z.string().optional(),
   region_code: z.number().optional(),
 })
@@ -12,10 +15,10 @@ const GetCdekLocationCities = z.object({
 export default resolver.pipe(
   resolver.zod(GetCdekLocationCities),
   resolver.authorize(),
-  async ({ country_code, region_code }, ctx: Ctx) => {
+  async ({ deliveryMethod, country_code, region_code }, ctx: Ctx) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
 
-    if (!country_code || !region_code) return []
+    if (!country_code || !region_code || deliveryMethod > 2) return []
 
     const cdek = new Cdek({
       account: process.env.CDEK_CLIENT_ID ?? "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
@@ -37,7 +40,42 @@ export default resolver.pipe(
         ? { region_code: region_code }
         : { country_codes: country_code ? [country_code] : [] }
 
-      const res = await cdek.getCities({
+      if (deliveryMethod === 1) {
+        const res: GetPickupPoints[] = await cdek.getPickupPoints({
+          ...params,
+          region_code,
+          country_code,
+          lang: ctx.session.user?.locale === LocaleEnum.ru ? "rus" : "eng",
+        })
+
+        if (!res) throw new NotFoundError()
+
+        console.log("cities res", res)
+
+        let cities: {
+          value: string | number
+          label: string
+        }[] = []
+
+        for (let index = 0; index < res.length; index++) {
+          const element = res[index]
+
+          const exist = cities.some((el) => el.value === element?.location.city_code)
+
+          if (!exist && !!element) {
+            cities.push({
+              value: element.location?.city_code ?? element.code,
+              label: `${element.location.city}${
+                element.location?.sub_region ? ` (${element.location.sub_region})` : ""
+              }`,
+            })
+          }
+        }
+
+        return cities
+      }
+
+      const res: GetCities[] = await cdek.getCities({
         ...params,
         lang: ctx.session.user?.locale === LocaleEnum.ru ? "rus" : "eng",
       })

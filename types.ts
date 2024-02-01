@@ -17,8 +17,11 @@ import {
   User,
   UserRoleEnum,
   UserToChatRoom,
+  CurrencyEnum,
+  DeliveryCity,
+  DeliveryCountry,
+  DeliveryRegion,
 } from "db"
-import { CurrencyEnum } from "@prisma/client"
 
 declare module "@blitzjs/auth" {
   export interface Session {
@@ -90,3 +93,12 @@ export type PreOrderItem = Pick<PurchasedItem, "title" | "itemId" | "qty" | "pri
 export type CartWithCartToItem = Cart & { cartToItems: CartItemWithItem[] }
 
 export type SelectFieldOption = { label: string; value: number | string }
+
+export type DeliveryCountryFull = DeliveryCountry & {
+  regions: (DeliveryRegion & {
+    country: DeliveryCountry
+    cities: (DeliveryCity & {
+      region: DeliveryRegion
+    })[]
+  })[]
+}
