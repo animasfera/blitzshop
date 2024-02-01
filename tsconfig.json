@@ -42,7 +42,7 @@
     "blitz-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/core/cron/cron-compiled.ts",
-    ".next/types/**/*.ts"
+    // "src/core/cron/cron-compiled.ts",
+    // ".next/types/**/*.ts"
   ]
 }
