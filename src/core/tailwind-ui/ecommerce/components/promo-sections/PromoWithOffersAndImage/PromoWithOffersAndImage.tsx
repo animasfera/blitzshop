@@ -3,7 +3,7 @@ import React from "react"
 import {
   StatsSimple,
   DataStats,
-} from "src/core/tailwind-ui/marketing/page-sections/stats/StatsSimple"
+} from "src/core/tailwind-ui/marketing/page-sections/Stats/StatsSimple"
 import { HeroSplitWithImage } from "src/core/tailwind-ui/marketing/page-sections/hero-sections/HeroSplitWithImage"
 
 interface PromoWithOffersAndImageProps {

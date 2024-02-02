@@ -2,7 +2,7 @@ import React from "react"
 import { useTranslation } from "react-i18next"
 
 import { HomeProductListController } from "src/home/components/HomeProductListController"
-import { DataStats } from "src/core/tailwind-ui/marketing/page-sections/stats/StatsSimple"
+import { DataStats } from "src/core/tailwind-ui/marketing/page-sections/Stats/StatsSimple"
 import { PromoWithOffersAndImage } from "src/core/tailwind-ui/ecommerce/components/promo-sections/PromoWithOffersAndImage/PromoWithOffersAndImage"
 import { PromoBgImageAndTestimonials } from "src/core/tailwind-ui/ecommerce/components/promo-sections/PromoBgImageAndTestimonials/PromoBgImageAndTestimonials"
 
