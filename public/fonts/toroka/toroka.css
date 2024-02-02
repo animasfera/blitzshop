@@ -1,6 +1,6 @@
-@tailwind base;
+/* @tailwind base; */
 
-@layer base {
+/* @layer base { */
     @font-face {
         font-family: "toroka";
         src: url("/fonts/toroka/toroka-bold-webfont.woff2") format("woff2"),
@@ -24,4 +24,4 @@
         font-weight: normal;
         font-style: normal;
       }    
-}
+/* } */
