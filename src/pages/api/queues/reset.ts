@@ -13,7 +13,7 @@ export default api(async (req: NextApiRequest, res: NextApiResponse, ctx) => {
   }
 
   await Queues.MailsQueue.obliterate({ force: true })
-  await Queues.InvoicesQueue.obliterate({ force: true })
+  // await Queues.InvoicesQueue.obliterate({ force: true })
   await Queues.ImagesQueue.obliterate({ force: true })
   // await Queues.SlotsQueue.obliterate({ force: true })
   // await Queues.ReportsQueue.obliterate({ force: true })
