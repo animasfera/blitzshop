@@ -20,9 +20,9 @@ export const PromoWithOffersAndImage = (props: PromoWithOffersAndImageProps) => 
   return (
     <section>
       <div className="flex flex-col">
-        <div className="order-last lg:order-first">
+        {/* <div className="order-last lg:order-first">
           <StatsSimple data={offers} />
-        </div>
+        </div> */}
 
         <HeroSplitWithImage title={title} subtitle={subtitle} button={button} image={image} />
       </div>
