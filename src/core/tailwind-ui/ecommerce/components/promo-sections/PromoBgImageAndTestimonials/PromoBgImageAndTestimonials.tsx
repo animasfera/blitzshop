@@ -27,11 +27,11 @@ export const PromoBgImageAndTestimonials = (
 
   return (
     <div className="relative overflow-hidden bg-white">
-      <PromoBackgroundImage bgImage={bgImage} />
+      {/* <PromoBackgroundImage bgImage={bgImage} /> */}
 
-      <PromoBgImageAndTestimonialsHead title={title} subtitle={subtitle} button={button} />
+      {/* <PromoBgImageAndTestimonialsHead title={title} subtitle={subtitle} button={button} /> */}
 
-      <PromoTestimonials title={titleReviews} reviews={reviews} />
+      {/* <PromoTestimonials title={titleReviews} reviews={reviews} /> */}
     </div>
   )
 }

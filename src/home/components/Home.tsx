@@ -36,9 +36,9 @@ export const Home = (props: HomeProps) => {
         scroll
       />
 
-      <HomeProductListController categoryTitle={"Cubes"} classSection={"bg-gray-100"} />
+      {/* <HomeProductListController categoryTitle={"Cubes"} classSection={"bg-gray-100"} /> */}
 
-      <PromoBgImageAndTestimonials
+      {/* <PromoBgImageAndTestimonials
         title={t("sales.title")}
         subtitle={t("sales.subtitle")}
         button={{ text: t("sales.button"), href: "/products" }}
@@ -47,7 +47,7 @@ export const Home = (props: HomeProps) => {
         }}
         titleReviews={t("reviews.title")}
         reviews={reviews}
-      />
+      /> */}
     </>
   )
 }
