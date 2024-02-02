@@ -26,7 +26,7 @@ export const Home = (props: HomeProps) => {
         title={t("hero.title")}
         subtitle={t("hero.subtitle")}
         button={{ text: t("hero.button"), href: "/products" }}
-        image={"https://tailwindui.com/img/ecommerce-images/home-page-02-hero-half-width.jpg"}
+        image={"/images/home.jpg"}
         offers={offers}
       />
 
