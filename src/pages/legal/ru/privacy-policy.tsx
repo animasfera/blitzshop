@@ -2,7 +2,7 @@ import Head from "next/head"
 
 import Layout from "src/core/layouts/Layout"
 import React from "react"
-import Agreement from "src/legal/ru/privacy-policy.mdx"
+import Agreement from "src/legal/ru/privacy/privacy-policy.mdx"
 
 export const PrivacyPolicyRuPage = () => {
   return (
