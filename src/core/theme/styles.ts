@@ -1,5 +1,5 @@
 export const styles = {
-  global: {
+  global: {    
     html: { minHeight: "-webkit-fill-available" },
     body: {
       fontSize: "16px",

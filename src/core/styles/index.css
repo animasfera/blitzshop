@@ -345,6 +345,14 @@ button[role="tab"]:focus {
 /*  font-family: Montserrat !important;*/
 /*}*/
 
+h1,h2,h3 {
+  font-family: toroka;
+}
+
+h1 {
+  line-height: 110% !important;
+}
+
 #landing a.readmore {
   color: #169ba4;
   text-transform: uppercase;
