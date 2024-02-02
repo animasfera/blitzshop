@@ -93,7 +93,9 @@
     "contacts": "Contacts",
     "shipping": "Shipping and payment",
     "signup": "Sign up",
-    "login": "Sign in"
+    "login": "Sign in",
+    "offer": "Offer",
+    "privacy": "Privacy policy"
   },
   "userMenu": {
     "orders": "Orders",

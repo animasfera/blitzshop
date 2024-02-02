@@ -12,6 +12,8 @@ export default function Footer(props) {
     { name: t("translation:menu.products"), href: "/products" },
     { name: t("translation:menu.shipping"), href: "/shipping" },
     { name: t("translation:menu.contacts"), href: "/contacts" },
+    { name: t("translation:menu.offer"), href: "/legal/ru/contract-offer" },
+    { name: t("translation:menu.privacy"), href: "/legal/ru/privacy-policy" },
   ]
   const [mainNavigation, setMainNavigation] = useState<any>([{}])
   const [navigationSocial, setNavigationSocial] = useState<any>(navigation.social)
