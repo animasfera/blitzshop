@@ -1,34 +1,34 @@
 {
-  "title": "Shopping Cart",
+  "title": "Корзина",
   "errors": {
     "401": {
       "header": {
-        "title": "You must be logged into the application",
-        "message": "Please login to the app to make purchases."
+        "title": "Необходимо войти в приложение",
+        "message": "Чтобы совершать покупки, пожалуйста, войдите в приложение."
       },
-      "link": "Sign in"
+      "link": "Войти"
     },
     "404": {
       "header": {
-        "title": "Cart is empty",
-        "message": "There are no products available. Select the items you want to add to your cart for further purchase."
+        "title": "Корзина пуста",
+        "message": "Нет доступных товаров. Выберите товары, которые хотите добавить в корзину для дальнейшей покупки."
       }
     }
   },
   "order": {
-    "title": "Order summary",
+    "title": "Итого по заказу",
     "summary": {
-      "subtotal": "Subtotal",
+      "subtotal": "Промежуточный итог",
       "shipping": {
-        "title": "Shipping estimate",
-        "description": "Learn more about how shipping is calculated"
+        "title": "Оценка доставки",
+        "description": "Узнайте больше о том, как рассчитывается доставка."
       },
       "tax": {
-        "title": "Tax estimate",
-        "description": "Learn more about how tax is calculated"
+        "title": "Налоговая оценка",
+        "description": "Узнайте больше о том, как рассчитывается налог"
       },
-      "total": "Order total"
+      "total": "Общая сумма заказа"
     },
-    "button": "Checkout"
+    "button": "Оформить заказ"
   }
 }
