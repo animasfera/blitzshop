@@ -61,6 +61,8 @@ model User {
   orderLog              OrderLog[]
   // config             Config?           @relation(fields: [configKey], references: [key])
   // configKey          String?
+  sendEmailAds          Boolean?
+  sendEmailSystem       Boolean           @default(true)
 }
 
 model Session {
