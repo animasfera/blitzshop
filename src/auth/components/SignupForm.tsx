@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { AuthenticationError, PromiseReturnType } from "blitz"
 import { useMutation } from "@blitzjs/rpc"
-import { useTranslation } from "react-i18next"
+import { Trans, useTranslation } from "react-i18next"
 import { z } from "zod"
 import { makeZodI18nMap } from "zod-i18n-map"
 
@@ -15,6 +15,9 @@ import { Signup } from "src/auth/schemas"
 import { Countries } from "src/auth/components/Countries"
 import { getUrlСountryFlag } from "src/core/helpers/getUrlСountryFlag"
 import { LocaleEnum } from "@prisma/client"
+import { LabeledCheckboxField } from "src/core/components/form/LabeledCheckboxField"
+import Link from "next/link"
+import { Routes } from "@blitzjs/next"
 
 interface SignupFormProps {
   onSuccess?: (user: PromiseReturnType<typeof signup>) => void
@@ -29,7 +32,36 @@ export const SignupForm = (props: SignupFormProps) => {
   const [country, setCountry] = useState<string>("ru")
   const { t, i18n } = useTranslation(["pages.signup", "zod"])
   z.setErrorMap(makeZodI18nMap({ t }))
-
+  const signupCheckboxes = [
+    {
+      name: "agreeDogovor",
+      label: (
+        <Trans i18nKey={"pages.signup:signupForm.fields.agreeDogovor.label"}>
+          Я прочитал(а) и принимаю условия{" "}
+          <Link href={Routes.OfferRuPage().href} target="_blank">
+            Агентского Договора
+          </Link>
+        </Trans>
+      ),
+      required: true,
+    },
+    {
+      name: "agreeAgreement",
+      label: (
+        <Trans i18nKey={"pages.signup:signupForm.fields.agreeAgreement.label"}>
+          Я прочитал(а) и принимаю условия{" "}
+          <Link href={Routes.PrivacyPolicyRuPage().href} target="_blank">
+            Пользовательского Соглашения
+          </Link>
+        </Trans>
+      ),
+      required: true,
+    },
+    {
+      name: "sendEmailAds",
+      label: t("signupForm.fields.sendEmailAds.label"),
+    },
+  ]
   const signupLabeleds = [
     {
       name: "username",
@@ -77,12 +109,11 @@ export const SignupForm = (props: SignupFormProps) => {
         email: "",
         password: "",
         timezone,
-        locale: i18n.resolvedLanguage?.toUpperCase() as LocaleEnum,
+        locale: i18n.resolvedLanguage as LocaleEnum,
       }}
       onSubmit={async (values) => {
         try {
           const user = await signupMutation(values)
-
           onSuccess?.(user)
         } catch (error: any) {
           console.error("error")
@@ -139,6 +170,25 @@ export const SignupForm = (props: SignupFormProps) => {
             required={required}
           />
         )
+      })}
+      {signupCheckboxes.map(({ name, label, required }) => {
+        // if (name === "countryIsoCode") {
+        //   return (
+        //     <LabeledSelectField
+        //       key={name}
+        //       name={name}
+        //       label={label}
+        //       // selected={country}
+        //       placeholder={placeholder}
+        //       options={options ?? []}
+        //       handleChange={(value: string) => {
+        //         setCountry(value)
+        //       }}
+        //     />
+        //   )
+        // }
+
+        return <LabeledCheckboxField key={name} name={name} label={label} required={required} />
       })}
     </Form>
   )

@@ -16,6 +16,9 @@ export const Signup = z.object({
   email,
   password,
   timezone: z.string().optional(),
+  agreeDogovor: z.boolean(),
+  agreeAgreement: z.boolean(),
+  sendEmailAds: z.boolean().optional(),
   // countryIsoCode: z.string(),
   locale: z.string(),
 })

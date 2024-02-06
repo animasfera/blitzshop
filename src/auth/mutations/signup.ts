@@ -13,7 +13,16 @@ import mergeCarts from "src/carts/mutations/mergeCarts"
 
 export default resolver.pipe(
   resolver.zod(Signup),
-  async ({ username, email, password, locale, timezone }, ctx: Ctx) => {
+  async (
+    { username, email, password, locale, timezone, agreeAgreement, agreeDogovor, sendEmailAds },
+    ctx: Ctx
+  ) => {
+    if (!agreeAgreement) {
+      throw new Error("Для продолжения необходимо принять условия Пользовательского Соглашения")
+    }
+    if (!agreeDogovor) {
+      throw new Error("Для продолжения необходимо принять условия Агентского Договора")
+    }
     const hashedPassword = await SecurePassword.hash(password.trim())
     const emailToken = Math.floor(Math.random() * 1000000) + ""
     const hashedToken = hash256(emailToken)
@@ -28,6 +37,7 @@ export default resolver.pipe(
         timezone: timezone || null,
         role: UserRoleEnum.USER,
         locale: locale || LocaleEnum.en,
+        sendEmailAds: sendEmailAds || false,
         tokens: {
           create: {
             type: TokenTypeEnum.CONFIRM_EMAIL,

@@ -29,10 +29,13 @@
       },
 
       "agreeAgreement": {
-        "label": "I've read and accept the <2>User agreement</2>"
+        "label": "I've read and accept the <0>User agreement</0>"
       },
       "agreeDogovor": {
         "label": "I've read and accept the <2>Merchant agreement</2>"
+      },
+      "sendEmailAds": {
+        "label": "I want to receive promotional mailings from the store by e-mail"
       }
     },
     "links": {
