@@ -4,7 +4,7 @@ import Layout from "src/core/layouts/Layout"
 import React from "react"
 import Agreement from "src/legal/ru/dogovor/contract-offer.mdx"
 
-export const PrivacyPolicyRuPage = () => {
+export const OfferRuPage = () => {
   return (
     <>
       <Head>
@@ -14,5 +14,5 @@ export const PrivacyPolicyRuPage = () => {
     </>
   )
 }
-PrivacyPolicyRuPage.getLayout = (page) => <Layout>{page}</Layout>
-export default PrivacyPolicyRuPage
+OfferRuPage.getLayout = (page) => <Layout>{page}</Layout>
+export default OfferRuPage
