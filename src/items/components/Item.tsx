@@ -59,12 +59,11 @@ export const Item = (props: ItemProps) => {
                 size={"xl"}
                 buttonText={t("buttons.add")}
                 disabled={isLoading}
-                styles={"w-full justify-center"}
                 onClick={onAddProductToCart}
               />
               <ItemDetails item={item} />
 
-              <ItemPolicies />
+              {/* <ItemPolicies /> */}
             </div>
           </div>
         </div>

@@ -1,13 +1,15 @@
 // const withTM = require("next-transpile-modules")(["three"])
 
 // @ts-check
-const { withBlitz } = require("@blitzjs/next")
 
-/*
 const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
 })
-*/
+const {withBlitz} = require("@blitzjs/next")
+
+
+
+
 
 /**
  * @type {import('@blitzjs/next').BlitzConfig}
@@ -49,11 +51,12 @@ const config = {
     ],
   },
   distDir: process.env.BUILD_DIR || ".next",
+  pageExtensions: ["ts", "tsx", "md", "mdx"],
   experimental: {
     mdxRs: true,
     instrumentationHook: true,
   },
-  // pageExtensions: ["ts", "tsx", "md", "mdx"],
+
   /*
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Note: we provide webpack above so you should not `require` it
@@ -65,7 +68,7 @@ const config = {
   */
 }
 
-module.exports = withBlitz(config)
+module.exports = withBlitz(withMDX(config))
 
 /*
 module.exports = (phase) => {
