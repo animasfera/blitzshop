@@ -37,7 +37,7 @@ export default function Footer(props) {
                 <div key={i} className="pb-6">
                   <a
                     href={item.href}
-                    className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                    className="text-sm leading-6 text-gray-600 hover:text-gray-400"
                   >
                     {item.name}
                   </a>

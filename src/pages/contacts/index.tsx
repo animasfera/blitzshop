@@ -30,10 +30,10 @@ export const ContactsPage: BlitzPage = () => {
 
           <HeadingSection title={t("index.headers.businessDetails")} />
 
-          <div>
+          {/* <div>
             <HeadingBlock title={t("index.headers.netherlands")} />
             <div>{nl2br(t("index.texts.businessDetailsEu"), false)}</div>
-          </div>
+          </div> */}
 
           <div>
             <HeadingBlock title={t("index.headers.russia")} />
