@@ -64,9 +64,6 @@ export default resolver.pipe(
     // TODO: add text err + translate
     if (!id || !secret) throw new AuthenticationError()
 
-    console.log("getCdekShippingCost deliveryMethod", deliveryMethod)
-    console.log("getCdekShippingCost shippingAddress", shippingAddress)
-
     if (deliveryMethod === 1) {
       try {
         const credentials = await fetch(
@@ -102,7 +99,10 @@ export default resolver.pipe(
             //
             type: 1, // 1 - "интернет-магазин" (По умолчанию) 2 - "доставка"
             currency: currencyParam[CurrencyEnum.EUR],
-            tariff_code: 62, // склад-склад
+            tariff_code: 483, // склад-склад
+            // 62 - 609.89 ₽
+            // 483 - 255.12 ₽
+            // 136 - 153.47 ₽
             services: [
               {
                 code: "INSURANCE",
@@ -176,7 +176,6 @@ export default resolver.pipe(
           scope: string
           jti: string
         } = await credentials.json()
-
         const res = await fetch(`https://api.cdek.ru/v2/calculator/tariff`, {
           method: "POST",
           headers: {
@@ -186,7 +185,10 @@ export default resolver.pipe(
           body: JSON.stringify({
             type: 2, // 1 - "интернет-магазин" (По умолчанию) 2 - "доставка"
             currency: currencyParam[CurrencyEnum.EUR],
-            tariff_code: 122, // склад-склад
+            tariff_code: 482, // склад-дверь
+            // 122 - 1 166.96 ₽
+            // 482 - 427.52 ₽
+            // 137 - неверный тип заказа
             services: [
               {
                 code: "INSURANCE",
