@@ -99,10 +99,7 @@ export default resolver.pipe(
             //
             type: 1, // 1 - "интернет-магазин" (По умолчанию) 2 - "доставка"
             currency: currencyParam[CurrencyEnum.EUR],
-            tariff_code: 483, // склад-склад
-            // 62 - 609.89 ₽
-            // 483 - 255.12 ₽
-            // 136 - 153.47 ₽
+            tariff_code: 136, // склад-склад
             services: [
               {
                 code: "INSURANCE",
@@ -183,12 +180,9 @@ export default resolver.pipe(
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            type: 2, // 1 - "интернет-магазин" (По умолчанию) 2 - "доставка"
+            type: 1, // 1 - "интернет-магазин" (По умолчанию) 2 - "доставка"
             currency: currencyParam[CurrencyEnum.EUR],
-            tariff_code: 482, // склад-дверь
-            // 122 - 1 166.96 ₽
-            // 482 - 427.52 ₽
-            // 137 - неверный тип заказа
+            tariff_code: 137, // склад-дверь
             services: [
               {
                 code: "INSURANCE",
